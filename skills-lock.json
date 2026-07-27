@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "unity-cli": {
+      "source": "Unity-Technologies/skills",
+      "sourceType": "github",
+      "skillPath": "skills/unity-cli/SKILL.md",
+      "computedHash": "c9b658aab84f5d2d8dcd15231571f5098f071be19331461d9b64b011157e902e"
+    },
+    "unity-package-management": {
+      "source": "Unity-Technologies/skills",
+      "sourceType": "github",
+      "skillPath": "skills/unity-package-management/SKILL.md",
+      "computedHash": "87c793d4624aa8b6f878c86de2364b8566464ad40f504e276dc6b5f93bc708d9"
+    }
+  }
+}
