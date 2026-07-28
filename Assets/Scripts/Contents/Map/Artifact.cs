@@ -8,7 +8,7 @@ public class Artifact : MonoBehaviour
 	string _pointName;
 
 	[SerializeField]
-	LayerMask _playerMask;
+	SpriteRenderer _renderer;
 
 	[SerializeField]
 	float _collectNoiseRadius = 12.0f;
@@ -51,9 +51,19 @@ public class Artifact : MonoBehaviour
 		return true;
 	}
 
+	public void SetSprite(Sprite sprite)
+	{
+		if (_renderer == null)
+			_renderer = GetComponent<SpriteRenderer>();
+
+		if (_renderer != null && sprite != null)
+			_renderer.sprite = sprite;
+	}
+
 	bool IsPlayer(Collider2D other)
 	{
-		return (_playerMask.value & (1 << other.gameObject.layer)) != 0;
+		BaseController controller = other.GetComponentInParent<BaseController>();
+		return controller != null && controller.WorldObjectType == Define.WorldObject.Player;
 	}
 
 	void OnTriggerEnter2D(Collider2D other)

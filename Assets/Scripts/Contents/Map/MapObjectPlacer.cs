@@ -13,6 +13,9 @@ public class MapObjectPlacer : MonoBehaviour
 	Transform _root;
 
 	[SerializeField]
+	Sprite[] _artifactSprites;
+
+	[SerializeField]
 	string _artifactPath = "Map/Artifact";
 
 	[SerializeField]
@@ -87,6 +90,11 @@ public class MapObjectPlacer : MonoBehaviour
 		}
 
 		artifact.Init(_progress, point.name);
+
+		int index = _artifacts.Count;
+		if (_artifactSprites != null && index < _artifactSprites.Length)
+			artifact.SetSprite(_artifactSprites[index]);
+
 		_artifacts.Add(artifact);
 	}
 

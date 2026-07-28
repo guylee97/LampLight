@@ -11,9 +11,6 @@ public class ExitDoor : MonoBehaviour
 	[SerializeField]
 	Sprite _openSprite;
 
-	[SerializeField]
-	LayerMask _playerMask;
-
 	SpriteRenderer _renderer;
 	StageProgress _progress;
 	bool _isOpen;
@@ -69,7 +66,8 @@ public class ExitDoor : MonoBehaviour
 
 	bool IsPlayer(Collider2D other)
 	{
-		return (_playerMask.value & (1 << other.gameObject.layer)) != 0;
+		BaseController controller = other.GetComponentInParent<BaseController>();
+		return controller != null && controller.WorldObjectType == Define.WorldObject.Player;
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
