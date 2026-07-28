@@ -59,7 +59,7 @@ public static class MapPrefabBuilder
 
 		SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
 		renderer.sprite = locked;
-		renderer.sortingOrder = 5;
+		renderer.sortingOrder = 10;
 
 		BoxCollider2D collider = go.AddComponent<BoxCollider2D>();
 		collider.isTrigger = true;
