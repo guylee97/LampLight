@@ -13,11 +13,20 @@ public class DataManager
 
 	public void Init()
 	{
+		MapPoints = new Dictionary<string, MapPoint>();
 		Map = LoadJson<MapData, string, MapPoint>("MapData");
 
 		if (Map == null)
 		{
 			Debug.LogError("Failed to load Resources/Data/MapData.json");
+			return;
+		}
+
+		string error;
+		if (Map.Validate(out error) == false)
+		{
+			Debug.LogError($"Resources/Data/MapData.json is malformed : {error}");
+			Map = null;
 			return;
 		}
 

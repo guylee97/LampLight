@@ -42,13 +42,62 @@ public class MapData : ILoader<string, MapPoint>
 	{
 		Dictionary<string, MapPoint> dict = new Dictionary<string, MapPoint>();
 
-		foreach (MapPoint point in objects)
-			dict[point.name] = point;
+		if (objects != null)
+		{
+			foreach (MapPoint point in objects)
+				dict[point.name] = point;
+		}
 
-		foreach (MapPoint point in spawns)
-			dict[point.name] = point;
+		if (spawns != null)
+		{
+			foreach (MapPoint point in spawns)
+				dict[point.name] = point;
+		}
 
 		return dict;
+	}
+
+	public bool Validate(out string error)
+	{
+		error = null;
+
+		if (width <= 0 || height <= 0)
+		{
+			error = $"invalid size {width}x{height}";
+			return false;
+		}
+
+		if (tileSize <= 0)
+		{
+			error = $"invalid tileSize {tileSize}";
+			return false;
+		}
+
+		int expected = width * height;
+		if (LayerLength(floor) != expected || LayerLength(walls) != expected || LayerLength(deco) != expected)
+		{
+			error = $"layer length mismatch: expected {expected}, got floor={LayerLength(floor)} walls={LayerLength(walls)} deco={LayerLength(deco)}";
+			return false;
+		}
+
+		if (spawns == null || spawns.Length == 0)
+		{
+			error = "no spawn anchors";
+			return false;
+		}
+
+		if (objects == null || objects.Length == 0)
+		{
+			error = "no map objects";
+			return false;
+		}
+
+		return true;
+	}
+
+	static int LayerLength(int[] layer)
+	{
+		return layer == null ? -1 : layer.Length;
 	}
 
 	public bool Contains(int col, int row)
