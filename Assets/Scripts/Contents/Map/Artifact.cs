@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class Artifact : MonoBehaviour
+public class Artifact : MonoBehaviour, IInteractable
 {
 	[SerializeField]
 	string _pointName;
@@ -13,33 +13,44 @@ public class Artifact : MonoBehaviour
 	[SerializeField]
 	float _collectNoiseRadius = 12.0f;
 
+	[SerializeField]
+	float _collectNoiseDuration = 1.5f;
+
 	StageProgress _progress;
 	bool _collected;
-	bool _playerInRange;
 
 	public Action<Artifact> OnCollected;
 
 	public string PointName { get { return _pointName; } }
 	public bool IsCollected { get { return _collected; } }
-	public bool PlayerInRange { get { return _playerInRange; } }
-	public bool CanCollect { get { return _collected == false && _playerInRange; } }
 	public float CollectNoiseRadius { get { return _collectNoiseRadius; } }
+
+	public bool CanInteract { get { return _collected == false; } }
+	public string Prompt { get { return "[E] 유물 수집"; } }
+	public Vector3 Position { get { return transform.position; } }
 
 	public void Init(StageProgress progress, string pointName)
 	{
 		_progress = progress;
 		_pointName = pointName;
 		_collected = false;
-		_playerInRange = false;
+	}
+
+	public void Interact(PlayerController player)
+	{
+		if (TryCollect() == false)
+			return;
+
+		if (player != null)
+			player.EmitNoise(_collectNoiseRadius, _collectNoiseDuration);
 	}
 
 	public bool TryCollect()
 	{
-		if (CanCollect == false)
+		if (_collected)
 			return false;
 
 		_collected = true;
-		_playerInRange = false;
 
 		if (_progress != null)
 			_progress.ReportCollected();
@@ -58,23 +69,5 @@ public class Artifact : MonoBehaviour
 
 		if (_renderer != null && sprite != null)
 			_renderer.sprite = sprite;
-	}
-
-	bool IsPlayer(Collider2D other)
-	{
-		BaseController controller = other.GetComponentInParent<BaseController>();
-		return controller != null && controller.WorldObjectType == Define.WorldObject.Player;
-	}
-
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if (_collected == false && IsPlayer(other))
-			_playerInRange = true;
-	}
-
-	void OnTriggerExit2D(Collider2D other)
-	{
-		if (IsPlayer(other))
-			_playerInRange = false;
 	}
 }

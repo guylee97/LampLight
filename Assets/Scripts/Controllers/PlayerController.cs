@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : BaseController
+public class PlayerController : BaseController, IFacingSource
 {
 	[SerializeField]
 	float _walkSpeed = 4.0f;
@@ -14,7 +14,13 @@ public class PlayerController : BaseController
 	float _sneakSpeed = 2.0f;
 
 	[SerializeField]
-	float _rotationSpeed = 15.0f;
+	DirectionalSprite _directionalSprite;
+
+	[SerializeField]
+	Define.Direction8 _startDirection = Define.Direction8.S;
+
+	[SerializeField]
+	Lamp _lamp;
 
 	[SerializeField]
 	float _walkFootstepInterval = 0.45f;
@@ -35,6 +41,15 @@ public class PlayerController : BaseController
 	float _sneakNoiseRadius = 1.5f;
 
 	[SerializeField]
+	float _noisyFloorNoiseScale = 1.8f;
+
+	[SerializeField]
+	float _lampVisibilityBonus = 0.65f;
+
+	[SerializeField]
+	float _sneakVisibilityScale = 0.7f;
+
+	[SerializeField]
 	AudioClip[] _footstepClips;
 
 	Rigidbody2D _rigidbody;
@@ -42,9 +57,43 @@ public class PlayerController : BaseController
 	float _nextFootstepTime;
 	float _moveSpeed;
 	Vector2 _moveDir;
+	Define.Direction8 _direction;
 	bool _initialized;
+	bool _sneaking;
+	bool _onNoisyFloor;
+	bool _lampKeyWasPressed;
+	float _noisePulseRadius;
+	float _noisePulseUntil;
 
 	public float CurrentNoiseRadius { get; private set; }
+
+	public Lamp Lamp { get { return _lamp; } }
+
+	public bool IsSneaking { get { return _sneaking; } }
+
+	public bool IsOnNoisyFloor { get { return _onNoisyFloor; } }
+
+	public PlayerStatus Status { get { return _status; } }
+
+	public float VisibilityScale
+	{
+		get
+		{
+			float scale = 1.0f;
+
+			if (_lamp != null && _lamp.IsOn)
+				scale += _lampVisibilityBonus;
+
+			if (_sneaking)
+				scale *= _sneakVisibilityScale;
+
+			return scale;
+		}
+	}
+
+	public Define.Direction8 Direction { get { return _direction; } }
+
+	public Vector2 Facing { get { return DirectionUtil.ToVector(_direction); } }
 
 	public override Define.State State
 	{
@@ -67,17 +116,42 @@ public class PlayerController : BaseController
 		_status = GetComponent<PlayerStatus>();
 		_rigidbody = GetComponent<Rigidbody2D>();
 
+		if (_directionalSprite == null)
+			_directionalSprite = GetComponentInChildren<DirectionalSprite>();
+
+		if (_lamp == null)
+			_lamp = GetComponentInChildren<Lamp>();
+
 		if (_rigidbody == null)
 			_rigidbody = gameObject.AddComponent<Rigidbody2D>();
 
 		_rigidbody.interpolation = RigidbodyInterpolation2D.Interpolate;
 		_rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+		_rigidbody.rotation = 0;
+		transform.rotation = Quaternion.identity;
+
+		SetDirection(_startDirection);
 	}
 
 	void FixedUpdate()
 	{
 		Move();
-		Rotate();
+	}
+
+	protected override void Update()
+	{
+		if (Managers.Game.IsPlaying == false)
+		{
+			_moveDir = Vector2.zero;
+			_moveSpeed = 0;
+			CurrentNoiseRadius = 0;
+			State = Define.State.Idle;
+			return;
+		}
+
+		base.Update();
+		UpdateLampInput();
 	}
 
 	protected override void UpdateIdle()
@@ -88,6 +162,28 @@ public class PlayerController : BaseController
 	protected override void UpdateMoving()
 	{
 		UpdateMovement();
+	}
+
+	void UpdateLampInput()
+	{
+		Keyboard keyboard = Keyboard.current;
+		if (keyboard == null || _lamp == null)
+			return;
+
+		bool pressed = keyboard.fKey.isPressed;
+		if (pressed && _lampKeyWasPressed == false)
+			_lamp.Toggle();
+
+		_lampKeyWasPressed = pressed;
+	}
+
+	public void EmitNoise(float radius, float duration)
+	{
+		if (radius <= _noisePulseRadius && Time.time < _noisePulseUntil)
+			return;
+
+		_noisePulseRadius = radius;
+		_noisePulseUntil = Time.time + duration;
 	}
 
 	void UpdateMovement()
@@ -101,18 +197,24 @@ public class PlayerController : BaseController
 
 		_moveDir = new Vector2(horizontal, vertical).normalized;
 		bool isMoving = _moveDir.sqrMagnitude > 0.01f;
+
+		if (isMoving)
+			SetDirection(DirectionUtil.FromVector(_moveDir, _direction));
+
 		bool wantsToRun = keyboard.leftShiftKey.isPressed && (_status == null || _status.CanRun);
 		bool wantsToSneak = keyboard.leftCtrlKey.isPressed || keyboard.cKey.isPressed;
 
+		_sneaking = wantsToSneak;
+
 		_moveSpeed = _walkSpeed;
 		float footstepInterval = _walkFootstepInterval;
-		CurrentNoiseRadius = _walkNoiseRadius;
+		float noiseRadius = _walkNoiseRadius;
 
 		if (isMoving && wantsToRun && !wantsToSneak)
 		{
 			_moveSpeed = _runSpeed;
 			footstepInterval = _runFootstepInterval;
-			CurrentNoiseRadius = _runNoiseRadius;
+			noiseRadius = _runNoiseRadius;
 
 			if (_status != null)
 				_status.ConsumeRunStamina(Time.deltaTime);
@@ -123,24 +225,33 @@ public class PlayerController : BaseController
 			{
 				_moveSpeed = _sneakSpeed;
 				footstepInterval = _sneakFootstepInterval;
-				CurrentNoiseRadius = _sneakNoiseRadius;
+				noiseRadius = _sneakNoiseRadius;
 			}
 
 			if (_status != null)
 				_status.RecoverStamina(Time.deltaTime);
 		}
 
-		if (!isMoving)
+		_onNoisyFloor = MapCoord.IsNoisy(transform.position);
+
+		if (isMoving)
+		{
+			if (_onNoisyFloor)
+				noiseRadius *= _noisyFloorNoiseScale;
+
+			PlayFootstep(footstepInterval);
+			State = Define.State.Moving;
+		}
+		else
 		{
 			_moveSpeed = 0;
-			CurrentNoiseRadius = 0;
+			noiseRadius = 0;
 			State = Define.State.Idle;
-			return;
 		}
 
-		PlayFootstep(footstepInterval);
-
-		State = Define.State.Moving;
+		CurrentNoiseRadius = Time.time < _noisePulseUntil
+			? Mathf.Max(noiseRadius, _noisePulseRadius)
+			: noiseRadius;
 	}
 
 	void Move()
@@ -182,19 +293,12 @@ public class PlayerController : BaseController
 		return value;
 	}
 
-	void Rotate()
+	public void SetDirection(Define.Direction8 direction)
 	{
-		if (_moveDir.sqrMagnitude <= 0.01f || _rigidbody == null)
-			return;
+		_direction = direction;
 
-		float targetAngle = Mathf.Atan2(_moveDir.y, _moveDir.x) * Mathf.Rad2Deg - 90.0f;
-		float nextAngle = Mathf.LerpAngle(
-			_rigidbody.rotation,
-			targetAngle,
-			_rotationSpeed * Time.fixedDeltaTime
-		);
-
-		_rigidbody.MoveRotation(nextAngle);
+		if (_directionalSprite != null)
+			_directionalSprite.Apply(direction);
 	}
 
 	void PlayFootstep(float interval)

@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Collider2D))]
-public class ExitDoor : MonoBehaviour
+public class ExitDoor : MonoBehaviour, IInteractable
 {
 	[SerializeField]
 	Sprite _lockedSprite;
@@ -14,11 +14,28 @@ public class ExitDoor : MonoBehaviour
 	SpriteRenderer _renderer;
 	StageProgress _progress;
 	bool _isOpen;
+	bool _escaped;
 
 	public Action OnOpened;
 	public Action OnEscaped;
 
 	public bool IsOpen { get { return _isOpen; } }
+
+	public bool CanInteract { get { return _escaped == false; } }
+
+	public string Prompt
+	{
+		get
+		{
+			if (_isOpen)
+				return "[E] 탈출";
+
+			int remaining = _progress == null ? 0 : _progress.Required - _progress.Collected;
+			return $"유물 {remaining}개 더 필요";
+		}
+	}
+
+	public Vector3 Position { get { return transform.position; } }
 
 	public void Init(StageProgress progress)
 	{
@@ -33,7 +50,16 @@ public class ExitDoor : MonoBehaviour
 		if (_progress != null)
 			_progress.OnAllArtifactsCollected += Open;
 
+		_escaped = false;
 		Close();
+	}
+
+	public void Interact(PlayerController player)
+	{
+		if (_isOpen == false)
+			return;
+
+		Escape();
 	}
 
 	public void Open()
@@ -54,6 +80,19 @@ public class ExitDoor : MonoBehaviour
 		ApplySprite();
 	}
 
+	void Escape()
+	{
+		if (_escaped)
+			return;
+
+		_escaped = true;
+
+		if (OnEscaped != null)
+			OnEscaped.Invoke();
+
+		Managers.Game.ReportEscaped();
+	}
+
 	void ApplySprite()
 	{
 		if (_renderer == null)
@@ -72,11 +111,8 @@ public class ExitDoor : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (_isOpen == false || IsPlayer(other) == false)
-			return;
-
-		if (OnEscaped != null)
-			OnEscaped.Invoke();
+		if (_isOpen && IsPlayer(other))
+			Escape();
 	}
 
 	void OnDestroy()

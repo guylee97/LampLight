@@ -7,6 +7,7 @@ public static class MapSceneSetup
 {
 	const string ScenePath = "Assets/Scenes/InGame.unity";
 	const string MapRootName = "@Map";
+	const string ManagersObjectName = "@Managers";
 	const string ObjectArtDir = "Assets/Art/Objects";
 
 	[MenuItem("LampLight/Set Up Map Scene")]
@@ -16,6 +17,7 @@ public static class MapSceneSetup
 
 		FixGrid();
 		FixCamera();
+		FixManagersName();
 		BuildMapRoot();
 
 		EditorSceneManager.MarkSceneDirty(scene);
@@ -56,6 +58,20 @@ public static class MapSceneSetup
 		camera.orthographicSize = 8.4375f;
 		EditorUtility.SetDirty(camera);
 		Debug.Log($"MapSceneSetup: camera orthographicSize -> {camera.orthographicSize}");
+	}
+
+	static void FixManagersName()
+	{
+		Managers managers = FindInScene<Managers>();
+		if (managers == null)
+			return;
+
+		if (managers.name == ManagersObjectName)
+			return;
+
+		Debug.LogWarning($"MapSceneSetup: renaming '{managers.name}' -> '{ManagersObjectName}' so the singleton is found");
+		managers.name = ManagersObjectName;
+		EditorUtility.SetDirty(managers.gameObject);
 	}
 
 	static void BuildMapRoot()

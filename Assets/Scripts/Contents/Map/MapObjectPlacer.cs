@@ -27,11 +27,6 @@ public class MapObjectPlacer : MonoBehaviour
 	public IReadOnlyList<Artifact> Artifacts { get { return _artifacts; } }
 	public ExitDoor ExitDoor { get { return _exitDoor; } }
 
-	void Start()
-	{
-		Place();
-	}
-
 	public void Place()
 	{
 		MapData map = Managers.Data.Map;
