@@ -19,6 +19,16 @@ public class Define
 		Skill,
 	}
 
+	public enum EnemyState
+	{
+		Idle,
+		Patrol,
+		Chasing,
+		Stunned,
+		Caught,
+		Die,
+	}
+
     public enum Layer
     {
         Enemy = 8,

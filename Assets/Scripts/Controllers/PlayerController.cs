@@ -14,9 +14,6 @@ public class PlayerController : BaseController
 	float _sneakSpeed = 2.0f;
 
 	[SerializeField]
-	float _rotationSpeed = 15.0f;
-
-	[SerializeField]
 	float _walkFootstepInterval = 0.45f;
 
 	[SerializeField]
@@ -35,16 +32,24 @@ public class PlayerController : BaseController
 	float _sneakNoiseRadius = 1.5f;
 
 	[SerializeField]
-	AudioClip[] _footstepClips;
+	AudioClip[] _walkFootstepClips;
+
+	[SerializeField]
+	AudioClip[] _runFootstepClips;
+
+	[SerializeField]
+	AudioClip[] _sneakFootstepClips;
 
 	Rigidbody2D _rigidbody;
 	PlayerStatus _status;
+	Animator _animator;
 	float _nextFootstepTime;
 	float _moveSpeed;
 	Vector2 _moveDir;
 	bool _initialized;
 
 	public float CurrentNoiseRadius { get; private set; }
+	public Vector2 FacingDirection { get; private set; } = Vector2.down;
 
 	public override Define.State State
 	{
@@ -66,6 +71,7 @@ public class PlayerController : BaseController
 		WorldObjectType = Define.WorldObject.Player;
 		_status = GetComponent<PlayerStatus>();
 		_rigidbody = GetComponent<Rigidbody2D>();
+		_animator = GetComponent<Animator>();
 
 		if (_rigidbody == null)
 			_rigidbody = gameObject.AddComponent<Rigidbody2D>();
@@ -77,7 +83,6 @@ public class PlayerController : BaseController
 	void FixedUpdate()
 	{
 		Move();
-		Rotate();
 	}
 
 	protected override void UpdateIdle()
@@ -106,12 +111,14 @@ public class PlayerController : BaseController
 
 		_moveSpeed = _walkSpeed;
 		float footstepInterval = _walkFootstepInterval;
+		AudioClip[] footstepClips = _walkFootstepClips;
 		CurrentNoiseRadius = _walkNoiseRadius;
 
 		if (isMoving && wantsToRun && !wantsToSneak)
 		{
 			_moveSpeed = _runSpeed;
 			footstepInterval = _runFootstepInterval;
+			footstepClips = _runFootstepClips;
 			CurrentNoiseRadius = _runNoiseRadius;
 
 			if (_status != null)
@@ -123,6 +130,7 @@ public class PlayerController : BaseController
 			{
 				_moveSpeed = _sneakSpeed;
 				footstepInterval = _sneakFootstepInterval;
+				footstepClips = _sneakFootstepClips;
 				CurrentNoiseRadius = _sneakNoiseRadius;
 			}
 
@@ -138,7 +146,9 @@ public class PlayerController : BaseController
 			return;
 		}
 
-		PlayFootstep(footstepInterval);
+		FacingDirection = _moveDir;
+		UpdateAnimatorDirection();
+		PlayFootstep(footstepInterval, footstepClips);
 
 		State = Define.State.Moving;
 	}
@@ -154,6 +164,15 @@ public class PlayerController : BaseController
 			_rigidbody.MovePosition(_rigidbody.position + movement);
 		else
 			transform.position += (Vector3)movement;
+	}
+
+	void UpdateAnimatorDirection()
+	{
+		if (_animator == null)
+			return;
+
+		_animator.SetFloat("MoveX", FacingDirection.x);
+		_animator.SetFloat("MoveY", FacingDirection.y);
 	}
 
 	float GetHorizontalInput(Keyboard keyboard)
@@ -182,30 +201,15 @@ public class PlayerController : BaseController
 		return value;
 	}
 
-	void Rotate()
+	void PlayFootstep(float interval, AudioClip[] footstepClips)
 	{
-		if (_moveDir.sqrMagnitude <= 0.01f || _rigidbody == null)
-			return;
-
-		float targetAngle = Mathf.Atan2(_moveDir.y, _moveDir.x) * Mathf.Rad2Deg - 90.0f;
-		float nextAngle = Mathf.LerpAngle(
-			_rigidbody.rotation,
-			targetAngle,
-			_rotationSpeed * Time.fixedDeltaTime
-		);
-
-		_rigidbody.MoveRotation(nextAngle);
-	}
-
-	void PlayFootstep(float interval)
-	{
-		if (_footstepClips == null || _footstepClips.Length == 0)
+		if (footstepClips == null || footstepClips.Length == 0)
 			return;
 
 		if (Time.time < _nextFootstepTime)
 			return;
 
-		AudioClip clip = _footstepClips[Random.Range(0, _footstepClips.Length)];
+		AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
 		Managers.Sound.PlayAtPoint(clip, transform.position);
 		_nextFootstepTime = Time.time + interval;
 	}

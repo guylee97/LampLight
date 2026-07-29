@@ -10,8 +10,26 @@ public class GameManagerEx
     HashSet<GameObject> _monsters = new HashSet<GameObject>();
 
     public Action<int> OnSpawnEvent;
+    public bool IsGameOver { get; private set; }
 
     public GameObject GetPlayer() { return _player; }
+
+    public void GameOver()
+    {
+        if (IsGameOver)
+            return;
+
+        IsGameOver = true;
+        Managers.UI.ShowPopupUI<UI_GameOver>();
+    }
+
+    public void Clear()
+    {
+        IsGameOver = false;
+        _player = null;
+        _monsters.Clear();
+        Time.timeScale = 1.0f;
+    }
 
     public GameObject Spawn(Define.WorldObject type, string path, Transform parent = null)
     {
@@ -35,10 +53,14 @@ public class GameManagerEx
     public Define.WorldObject GetWorldObjectType(GameObject go)
     {
         BaseController bc = go.GetComponent<BaseController>();
-        if (bc == null)
-            return Define.WorldObject.Unknown;
+        if (bc != null)
+            return bc.WorldObjectType;
 
-        return bc.WorldObjectType;
+        EnemyBase enemy = go.GetComponent<EnemyBase>();
+        if (enemy != null)
+            return enemy.WorldObjectType;
+
+        return Define.WorldObject.Unknown;
     }
 
     public void Despawn(GameObject go)

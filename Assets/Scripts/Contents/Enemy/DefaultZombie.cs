@@ -1,8 +1,10 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class DefaultEnemy : BaseController, ILampReactive
+public class DefaultZombie : EnemyBase
 {
+	const float LampStunDuration = 0.5f;
+
 	[SerializeField]
 	float _moveSpeed = 2.5f;
 
@@ -12,12 +14,6 @@ public class DefaultEnemy : BaseController, ILampReactive
 	Rigidbody2D _rigidbody;
 	PlayerController _player;
 	Vector2 _moveDir;
-
-	public override Define.State State
-	{
-		get { return _state; }
-		set { _state = value; }
-	}
 
 	public override void Init()
 	{
@@ -49,17 +45,18 @@ public class DefaultEnemy : BaseController, ILampReactive
 
 		float distance = Vector2.Distance(transform.position, _player.transform.position);
 		if (_player.CurrentNoiseRadius > 0 && distance <= _player.CurrentNoiseRadius)
-			State = Define.State.Moving;
+			State = Define.EnemyState.Chasing;
 	}
 
-	protected override void UpdateMoving()
+	protected override void UpdateChasing()
 	{
 		if (_player == null)
 			_player = FindPlayer();
 
 		if (_player == null)
 		{
-			State = Define.State.Idle;
+			_moveDir = Vector2.zero;
+			State = Define.EnemyState.Idle;
 			return;
 		}
 
@@ -69,17 +66,41 @@ public class DefaultEnemy : BaseController, ILampReactive
 		if (distance <= _catchRange)
 		{
 			_moveDir = Vector2.zero;
-			State = Define.State.Skill;
+			State = Define.EnemyState.Caught;
+			return;
+		}
+
+		if (_player.CurrentNoiseRadius <= 0 || distance > _player.CurrentNoiseRadius)
+		{
+			_moveDir = Vector2.zero;
+			State = Define.EnemyState.Idle;
 			return;
 		}
 
 		_moveDir = toPlayer.normalized;
+		UpdateAnimatorDirection(_moveDir);
 	}
 
-	protected override void UpdateSkill()
+	protected override void UpdateCaught()
 	{
 		_moveDir = Vector2.zero;
-		Debug.Log("Game Over: Enemy caught the player.");
+		Managers.Game.GameOver();
+	}
+
+	public override void OnLampEnter()
+	{
+		base.OnLampEnter();
+		ApplyStun(LampStunDuration);
+	}
+
+	protected override void OnStunStarted()
+	{
+		_moveDir = Vector2.zero;
+	}
+
+	protected override void OnStunFinished()
+	{
+		State = Define.EnemyState.Idle;
 	}
 
 	void Move()
@@ -87,7 +108,7 @@ public class DefaultEnemy : BaseController, ILampReactive
 		if (_moveDir.sqrMagnitude <= 0.01f)
 			return;
 
-		Vector2 movement = _moveDir * _moveSpeed * Time.fixedDeltaTime;
+		Vector2 movement = _moveDir * _moveSpeed * SpeedMultiplier * Time.fixedDeltaTime;
 		_rigidbody.MovePosition(_rigidbody.position + movement);
 	}
 
@@ -100,17 +121,4 @@ public class DefaultEnemy : BaseController, ILampReactive
 		return Object.FindFirstObjectByType<PlayerController>();
 	}
 
-	public void OnLampEnter()
-	{
-		Debug.Log($"{name}: Lamp entered.");
-	}
-
-	public void OnLampStay()
-	{
-	}
-
-	public void OnLampExit()
-	{
-		Debug.Log($"{name}: Lamp exited.");
-	}
 }

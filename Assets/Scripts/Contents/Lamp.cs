@@ -77,7 +77,13 @@ public class Lamp : MonoBehaviour
 		if (transform.parent == null)
 			return;
 
-		transform.rotation = transform.parent.rotation;
+		PlayerController player = transform.parent.GetComponent<PlayerController>();
+		if (player == null || player.FacingDirection.sqrMagnitude <= 0.01f)
+			return;
+
+		Vector2 direction = player.FacingDirection;
+		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90.0f;
+		transform.rotation = Quaternion.Euler(0, 0, angle);
 	}
 
 	void UpdateDuration()
