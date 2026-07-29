@@ -8,9 +8,9 @@ using UnityEngine.SceneManagement;
 public static class SceneDresser
 {
 	const string ScenePath = "Assets/Scenes/InGame.unity";
-	const string EnemyArtDir = "Assets/Art/Enemy";
 	const string PropArtDir = "Assets/Art/Props";
-	const string EnemyPrefabDir = "Assets/Resources/Prefabs/Enemy";
+	const string DefaultZombiePath = "Assets/Resources/Prefabs/DefaultZombie.prefab";
+	const string ActiveZombiePath = "Assets/Resources/Prefabs/ActiveZombie.prefab";
 	const string PropPrefabDir = "Assets/Resources/Prefabs/Props";
 
 	const string DressedRootName = "@Dressing";
@@ -24,8 +24,6 @@ public static class SceneDresser
 
 	const float ZombieKeepAway = 9.0f;
 
-	static readonly string[] ZombieDirs = { "e", "ne", "n", "nw", "w", "sw", "s", "se" };
-
 	static readonly string[] PropNames =
 	{
 		"prop_oil_lamp", "prop_broken_cup", "prop_bone", "prop_seal_stone",
@@ -34,13 +32,12 @@ public static class SceneDresser
 	[MenuItem("LampLight/Dress Scene With Assets")]
 	public static void Run()
 	{
-		Directory.CreateDirectory(EnemyPrefabDir);
 		Directory.CreateDirectory(PropPrefabDir);
 
-		GameObject zombie = BuildZombiePrefab();
+		List<GameObject> zombies = LoadZombiePrefabs();
 		List<GameObject> props = BuildPropPrefabs();
 
-		if (zombie == null || props.Count == 0)
+		if (zombies.Count == 0 || props.Count == 0)
 			return;
 
 		Scene scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
@@ -57,7 +54,7 @@ public static class SceneDresser
 		RemoveLegacyEnemies();
 
 		PlaceProps(map, root, props, floor, rng);
-		PlaceZombies(map, root, zombie, floor, rng);
+		PlaceZombies(map, root, zombies, floor, rng);
 
 		EditorSceneManager.MarkSceneDirty(scene);
 		EditorSceneManager.SaveScene(scene);
@@ -65,60 +62,23 @@ public static class SceneDresser
 	}
 
 
-	static GameObject BuildZombiePrefab()
+	static List<GameObject> LoadZombiePrefabs()
 	{
-		Sprite[] sprites = new Sprite[ZombieDirs.Length];
-		for (int i = 0; i < ZombieDirs.Length; i++)
+		List<GameObject> loaded = new List<GameObject>();
+
+		foreach (string path in new[] { DefaultZombiePath, ActiveZombiePath })
 		{
-			string path = $"{EnemyArtDir}/zombie_{ZombieDirs[i]}.png";
-			sprites[i] = AssetDatabase.LoadAssetAtPath<Sprite>(path);
-			if (sprites[i] == null)
+			GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+			if (prefab == null)
 			{
-				Debug.LogError($"SceneDresser: sprite not found at {path}");
-				return null;
+				Debug.LogError($"SceneDresser: prefab not found at {path}");
+				continue;
 			}
+
+			loaded.Add(prefab);
 		}
 
-		GameObject go = new GameObject("Zombie");
-
-		GameObject visual = new GameObject("Visual");
-		visual.transform.SetParent(go.transform, false);
-
-		SpriteRenderer renderer = visual.AddComponent<SpriteRenderer>();
-		renderer.sprite = sprites[(int)Define.Direction8.S];
-		renderer.sortingOrder = CharacterSortingOrder;
-
-		Rigidbody2D body = go.AddComponent<Rigidbody2D>();
-		body.gravityScale = 0;
-		body.interpolation = RigidbodyInterpolation2D.Interpolate;
-		body.constraints = RigidbodyConstraints2D.FreezeRotation;
-
-		CapsuleCollider2D collider = go.AddComponent<CapsuleCollider2D>();
-		collider.direction = CapsuleDirection2D.Horizontal;
-		collider.size = new Vector2(0.7f, 0.4f);
-		collider.offset = new Vector2(0, 0.2f);
-
-		DirectionalSprite directional = visual.AddComponent<DirectionalSprite>();
-		SerializedObject dso = new SerializedObject(directional);
-		dso.FindProperty("_renderer").objectReferenceValue = renderer;
-		dso.FindProperty("_direction").enumValueIndex = (int)Define.Direction8.S;
-		SerializedProperty array = dso.FindProperty("_sprites");
-		array.arraySize = sprites.Length;
-		for (int i = 0; i < sprites.Length; i++)
-			array.GetArrayElementAtIndex(i).objectReferenceValue = sprites[i];
-		dso.ApplyModifiedPropertiesWithoutUndo();
-
-		DefaultEnemy enemy = go.AddComponent<DefaultEnemy>();
-		SerializedObject eso = new SerializedObject(enemy);
-		eso.FindProperty("_directionalSprite").objectReferenceValue = directional;
-		eso.FindProperty("_startDirection").enumValueIndex = (int)Define.Direction8.S;
-		eso.ApplyModifiedPropertiesWithoutUndo();
-
-		string prefabPath = $"{EnemyPrefabDir}/Zombie.prefab";
-		GameObject saved = PrefabUtility.SaveAsPrefabAsset(go, prefabPath);
-		Object.DestroyImmediate(go);
-		Debug.Log($"SceneDresser: {prefabPath}");
-		return saved;
+		return loaded;
 	}
 
 	static List<GameObject> BuildPropPrefabs()
@@ -244,7 +204,7 @@ public static class SceneDresser
 	static void RemoveLegacyEnemies()
 	{
 		int removed = 0;
-		foreach (DefaultEnemy enemy in Object.FindObjectsByType<DefaultEnemy>(
+		foreach (EnemyBase enemy in Object.FindObjectsByType<EnemyBase>(
 			FindObjectsInactive.Include, FindObjectsSortMode.None))
 		{
 			if (enemy == null)
@@ -293,7 +253,7 @@ public static class SceneDresser
 		Debug.Log($"SceneDresser: 소품 {placed}개 배치 (벽 접한 칸 {nearWall.Count}곳 중)");
 	}
 
-	static void PlaceZombies(MapData map, Transform root, GameObject prefab,
+	static void PlaceZombies(MapData map, Transform root, List<GameObject> prefabs,
 		List<Vector2Int> floor, System.Random rng)
 	{
 		PlayerController player = Object.FindFirstObjectByType<PlayerController>();
@@ -323,6 +283,7 @@ public static class SceneDresser
 				continue;
 
 			chosen.Add(world);
+			GameObject prefab = prefabs[chosen.Count % prefabs.Count];
 			GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, root);
 			instance.transform.position = world;
 		}

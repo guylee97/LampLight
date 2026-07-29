@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : BaseController, IFacingSource
+public class PlayerController : BaseController
 {
 	[SerializeField]
 	float _walkSpeed = 4.0f;
@@ -12,12 +12,6 @@ public class PlayerController : BaseController, IFacingSource
 
 	[SerializeField]
 	float _sneakSpeed = 2.0f;
-
-	[SerializeField]
-	DirectionalSprite _directionalSprite;
-
-	[SerializeField]
-	Define.Direction8 _startDirection = Define.Direction8.S;
 
 	[SerializeField]
 	Lamp _lamp;
@@ -50,14 +44,20 @@ public class PlayerController : BaseController, IFacingSource
 	float _sneakVisibilityScale = 0.7f;
 
 	[SerializeField]
-	AudioClip[] _footstepClips;
+	AudioClip[] _walkFootstepClips;
+
+	[SerializeField]
+	AudioClip[] _runFootstepClips;
+
+	[SerializeField]
+	AudioClip[] _sneakFootstepClips;
 
 	Rigidbody2D _rigidbody;
 	PlayerStatus _status;
+	Animator _animator;
 	float _nextFootstepTime;
 	float _moveSpeed;
 	Vector2 _moveDir;
-	Define.Direction8 _direction;
 	bool _initialized;
 	bool _sneaking;
 	bool _onNoisyFloor;
@@ -66,6 +66,7 @@ public class PlayerController : BaseController, IFacingSource
 	float _noisePulseUntil;
 
 	public float CurrentNoiseRadius { get; private set; }
+	public Vector2 FacingDirection { get; private set; } = Vector2.down;
 
 	public Lamp Lamp { get { return _lamp; } }
 
@@ -91,10 +92,6 @@ public class PlayerController : BaseController, IFacingSource
 		}
 	}
 
-	public Define.Direction8 Direction { get { return _direction; } }
-
-	public Vector2 Facing { get { return DirectionUtil.ToVector(_direction); } }
-
 	public override Define.State State
 	{
 		get { return _state; }
@@ -115,9 +112,7 @@ public class PlayerController : BaseController, IFacingSource
 		WorldObjectType = Define.WorldObject.Player;
 		_status = GetComponent<PlayerStatus>();
 		_rigidbody = GetComponent<Rigidbody2D>();
-
-		if (_directionalSprite == null)
-			_directionalSprite = GetComponentInChildren<DirectionalSprite>();
+		_animator = GetComponent<Animator>();
 
 		if (_lamp == null)
 			_lamp = GetComponentInChildren<Lamp>();
@@ -127,11 +122,6 @@ public class PlayerController : BaseController, IFacingSource
 
 		_rigidbody.interpolation = RigidbodyInterpolation2D.Interpolate;
 		_rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-
-		_rigidbody.rotation = 0;
-		transform.rotation = Quaternion.identity;
-
-		SetDirection(_startDirection);
 	}
 
 	void FixedUpdate()
@@ -198,9 +188,6 @@ public class PlayerController : BaseController, IFacingSource
 		_moveDir = new Vector2(horizontal, vertical).normalized;
 		bool isMoving = _moveDir.sqrMagnitude > 0.01f;
 
-		if (isMoving)
-			SetDirection(DirectionUtil.FromVector(_moveDir, _direction));
-
 		bool wantsToRun = keyboard.leftShiftKey.isPressed && (_status == null || _status.CanRun);
 		bool wantsToSneak = keyboard.leftCtrlKey.isPressed || keyboard.cKey.isPressed;
 
@@ -208,12 +195,14 @@ public class PlayerController : BaseController, IFacingSource
 
 		_moveSpeed = _walkSpeed;
 		float footstepInterval = _walkFootstepInterval;
+		AudioClip[] footstepClips = _walkFootstepClips;
 		float noiseRadius = _walkNoiseRadius;
 
 		if (isMoving && wantsToRun && !wantsToSneak)
 		{
 			_moveSpeed = _runSpeed;
 			footstepInterval = _runFootstepInterval;
+			footstepClips = _runFootstepClips;
 			noiseRadius = _runNoiseRadius;
 
 			if (_status != null)
@@ -225,6 +214,7 @@ public class PlayerController : BaseController, IFacingSource
 			{
 				_moveSpeed = _sneakSpeed;
 				footstepInterval = _sneakFootstepInterval;
+				footstepClips = _sneakFootstepClips;
 				noiseRadius = _sneakNoiseRadius;
 			}
 
@@ -239,7 +229,9 @@ public class PlayerController : BaseController, IFacingSource
 			if (_onNoisyFloor)
 				noiseRadius *= _noisyFloorNoiseScale;
 
-			PlayFootstep(footstepInterval);
+			FacingDirection = _moveDir;
+			UpdateAnimatorDirection();
+			PlayFootstep(footstepInterval, footstepClips);
 			State = Define.State.Moving;
 		}
 		else
@@ -265,6 +257,15 @@ public class PlayerController : BaseController, IFacingSource
 			_rigidbody.MovePosition(_rigidbody.position + movement);
 		else
 			transform.position += (Vector3)movement;
+	}
+
+	void UpdateAnimatorDirection()
+	{
+		if (_animator == null)
+			return;
+
+		_animator.SetFloat("MoveX", FacingDirection.x);
+		_animator.SetFloat("MoveY", FacingDirection.y);
 	}
 
 	float GetHorizontalInput(Keyboard keyboard)
@@ -293,23 +294,15 @@ public class PlayerController : BaseController, IFacingSource
 		return value;
 	}
 
-	public void SetDirection(Define.Direction8 direction)
+	void PlayFootstep(float interval, AudioClip[] footstepClips)
 	{
-		_direction = direction;
-
-		if (_directionalSprite != null)
-			_directionalSprite.Apply(direction);
-	}
-
-	void PlayFootstep(float interval)
-	{
-		if (_footstepClips == null || _footstepClips.Length == 0)
+		if (footstepClips == null || footstepClips.Length == 0)
 			return;
 
 		if (Time.time < _nextFootstepTime)
 			return;
 
-		AudioClip clip = _footstepClips[Random.Range(0, _footstepClips.Length)];
+		AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
 		Managers.Sound.PlayAtPoint(clip, transform.position);
 		_nextFootstepTime = Time.time + interval;
 	}

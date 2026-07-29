@@ -39,24 +39,7 @@ public class Lamp : MonoBehaviour
 	[SerializeField]
 	LayerMask _obstacleMask;
 
-	[SerializeField]
-	bool _followLanternInSprite = true;
-
-	static readonly Vector2[] LanternOffsets =
-	{
-		new Vector2(+0.059f, 0.608f),
-		new Vector2(-0.043f, 0.492f),
-		new Vector2(-0.107f, 0.431f),
-		new Vector2(-0.110f, 0.410f),
-		new Vector2(+0.008f, 0.495f),
-		new Vector2(+0.061f, 0.505f),
-		new Vector2(+0.139f, 0.437f),
-		new Vector2(+0.078f, 0.591f),
-	};
-
 	float _remainingDuration;
-	IFacingSource _facingSource;
-	Component _directionOwner;
 	readonly HashSet<ILampReactive> _illuminatedTargets = new HashSet<ILampReactive>();
 	readonly HashSet<ILampReactive> _currentTargets = new HashSet<ILampReactive>();
 	readonly Collider2D[] _hits = new Collider2D[32];
@@ -78,8 +61,6 @@ public class Lamp : MonoBehaviour
 	void Awake()
 	{
 		_remainingDuration = _maxDuration;
-		_facingSource = GetComponentInParent<IFacingSource>();
-		_directionOwner = _facingSource as Component;
 
 		if (_light == null)
 			_light = GetComponent<Light2D>();
@@ -97,29 +78,9 @@ public class Lamp : MonoBehaviour
 
 	void Update()
 	{
-		UpdateDirection();
-		UpdateLanternOffset();
+		UpdateDirectionToParent();
 		UpdateDuration();
 		ApplyLightSettings();
-	}
-
-	void UpdateLanternOffset()
-	{
-		if (!_followLanternInSprite)
-			return;
-
-		PlayerController player = _directionOwner as PlayerController;
-		DefaultEnemy enemy = _directionOwner as DefaultEnemy;
-
-		int index = player != null ? (int)player.Direction
-			: enemy != null ? (int)enemy.Direction
-			: -1;
-
-		if (index < 0 || index >= LanternOffsets.Length)
-			return;
-
-		Vector2 offset = LanternOffsets[index];
-		transform.localPosition = new Vector3(offset.x, offset.y, transform.localPosition.z);
 	}
 
 	void FixedUpdate()
@@ -127,19 +88,18 @@ public class Lamp : MonoBehaviour
 		UpdateReactiveTargets();
 	}
 
-	void UpdateDirection()
+	void UpdateDirectionToParent()
 	{
-		if (_facingSource != null)
-		{
-			Vector2 facing = _facingSource.Facing;
-			if (facing.sqrMagnitude > Mathf.Epsilon)
-				transform.up = facing;
-
+		if (transform.parent == null)
 			return;
-		}
 
-		if (transform.parent != null)
-			transform.rotation = transform.parent.rotation;
+		PlayerController player = transform.parent.GetComponent<PlayerController>();
+		if (player == null || player.FacingDirection.sqrMagnitude <= 0.01f)
+			return;
+
+		Vector2 direction = player.FacingDirection;
+		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90.0f;
+		transform.rotation = Quaternion.Euler(0, 0, angle);
 	}
 
 	void UpdateDuration()

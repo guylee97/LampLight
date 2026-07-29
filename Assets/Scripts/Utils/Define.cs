@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,16 +19,14 @@ public class Define
 		Skill,
 	}
 
-	public enum Direction8
+	public enum EnemyState
 	{
-		E,
-		NE,
-		N,
-		NW,
-		W,
-		SW,
-		S,
-		SE,
+		Idle,
+		Patrol,
+		Chasing,
+		Stunned,
+		Caught,
+		Die,
 	}
 
     public enum Layer
@@ -37,16 +35,6 @@ public class Define
         Player = 9,
         Block = 10,
     }
-
-	public enum Alert
-	{
-		Patrol,
-		Suspicious,
-		Chase,
-		Search,
-		Blinded,
-		Caught,
-	}
 
 	public enum StageResult
 	{

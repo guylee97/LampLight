@@ -12,6 +12,7 @@ public class GameManagerEx
     public Action<Define.StageResult> OnStageEnded;
     public Action<bool> OnPauseChanged;
 
+    public bool IsGameOver { get; private set; }
     public Define.StageResult Result { get; private set; }
     public bool IsPaused { get; private set; }
     public bool IsPlaying { get { return Result == Define.StageResult.None && IsPaused == false; } }
@@ -22,12 +23,18 @@ public class GameManagerEx
 
     public void BeginStage()
     {
+        IsGameOver = false;
         Result = Define.StageResult.None;
         SetPaused(false);
     }
 
-    public void ReportPlayerCaught()
+    public void GameOver()
     {
+        if (IsGameOver)
+            return;
+
+        IsGameOver = true;
+        Managers.UI.ShowPopupUI<UI_GameOver>();
         EndStage(Define.StageResult.Caught);
     }
 
@@ -89,10 +96,14 @@ public class GameManagerEx
     public Define.WorldObject GetWorldObjectType(GameObject go)
     {
         BaseController bc = go.GetComponent<BaseController>();
-        if (bc == null)
-            return Define.WorldObject.Unknown;
+        if (bc != null)
+            return bc.WorldObjectType;
 
-        return bc.WorldObjectType;
+        EnemyBase enemy = go.GetComponent<EnemyBase>();
+        if (enemy != null)
+            return enemy.WorldObjectType;
+
+        return Define.WorldObject.Unknown;
     }
 
     public void Despawn(GameObject go)
@@ -124,11 +135,12 @@ public class GameManagerEx
 
     public void Clear()
     {
-        _monsters.Clear();
-        _player = null;
+        IsGameOver = false;
         Result = Define.StageResult.None;
         IsPaused = false;
-        Time.timeScale = 1;
+        _player = null;
+        _monsters.Clear();
+        Time.timeScale = 1.0f;
         OnStageEnded = null;
         OnPauseChanged = null;
         OnSpawnEvent = null;

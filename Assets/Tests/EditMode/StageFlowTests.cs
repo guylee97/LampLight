@@ -71,12 +71,12 @@ public class StageFlowTests
 			seen = result;
 		};
 
-		Managers.Game.ReportPlayerCaught();
+		Managers.Game.ReportEscaped();
 		Managers.Game.ReportEscaped();
 
 		Assert.AreEqual(1, endCount);
-		Assert.AreEqual(Define.StageResult.Caught, seen);
-		Assert.AreEqual(Define.StageResult.Caught, Managers.Game.Result);
+		Assert.AreEqual(Define.StageResult.Cleared, seen);
+		Assert.AreEqual(Define.StageResult.Cleared, Managers.Game.Result);
 	}
 
 	[Test]

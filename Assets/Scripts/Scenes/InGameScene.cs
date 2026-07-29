@@ -119,7 +119,7 @@ public class InGameScene : MonoBehaviour
 
 		System.Random rng = _seed < 0 ? new System.Random() : new System.Random(_seed + 1);
 
-		foreach (DefaultEnemy enemy in FindObjectsByType<DefaultEnemy>(FindObjectsSortMode.None))
+		foreach (EnemyBase enemy in FindObjectsByType<EnemyBase>(FindObjectsSortMode.None))
 		{
 			Vector2Int tile = MapCoord.WorldToTile(enemy.transform.position);
 			int distance = MapPathfinder.Sample(field, tile.x, tile.y);
@@ -128,7 +128,7 @@ public class InGameScene : MonoBehaviour
 				continue;
 
 			Vector2Int moved = candidates[rng.Next(candidates.Count)];
-			enemy.Relocate(MapCoord.TileToWorld(moved.x, moved.y));
+			enemy.transform.position = MapCoord.TileToWorld(moved.x, moved.y);
 		}
 	}
 
@@ -160,6 +160,9 @@ public class InGameScene : MonoBehaviour
 
 	void OnStageEnded(Define.StageResult result)
 	{
+		if (result != Define.StageResult.Cleared)
+			return;
+
 		UI_Result popup = Managers.UI.ShowPopupUI<UI_Result>();
 		popup.Setup(result, _progress.Collected, _progress.Required);
 	}

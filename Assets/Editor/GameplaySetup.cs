@@ -12,10 +12,10 @@ public static class GameplaySetup
 	const string ScenePath = "Assets/Scenes/InGame.unity";
 	const string SceneUIDir = "Assets/Resources/Prefabs/UI/Scene";
 	const string PopupUIDir = "Assets/Resources/Prefabs/UI/Popup";
-	const string ZombiePrefabPath = "Assets/Resources/Prefabs/Enemy/Zombie.prefab";
 	const string MapRootName = "@Map";
 	const string GameRootName = "@Game";
 	const string DressedRootName = "@Dressing";
+	const string PlayerPrefabPath = "Assets/Resources/Prefabs/Player.prefab";
 
 	const int EnemyLayer = 8;
 	const int PlayerLayer = 9;
@@ -38,7 +38,6 @@ public static class GameplaySetup
 	public static void Run()
 	{
 		ConfigurePhysics();
-		WireEnemyPrefab();
 		BuildUIPrefabs();
 		WireScene();
 
@@ -51,31 +50,6 @@ public static class GameplaySetup
 		Physics2D.IgnoreLayerCollision(EnemyLayer, EnemyLayer, true);
 		Physics2D.queriesHitTriggers = true;
 		Debug.Log("GameplaySetup: enemy-enemy collisions disabled");
-	}
-
-	static void WireEnemyPrefab()
-	{
-		if (AssetDatabase.LoadAssetAtPath<GameObject>(ZombiePrefabPath) == null)
-		{
-			Debug.LogWarning($"GameplaySetup: {ZombiePrefabPath} is missing");
-			return;
-		}
-
-		GameObject instance = PrefabUtility.LoadPrefabContents(ZombiePrefabPath);
-		instance.layer = EnemyLayer;
-
-		DefaultEnemy enemy = instance.GetComponent<DefaultEnemy>();
-		if (enemy != null)
-		{
-			SerializedObject so = new SerializedObject(enemy);
-			so.FindProperty("_sightObstacleMask").intValue = 1 << BlockLayer;
-			so.FindProperty("_separationMask").intValue = 1 << EnemyLayer;
-			so.ApplyModifiedPropertiesWithoutUndo();
-		}
-
-		PrefabUtility.SaveAsPrefabAsset(instance, ZombiePrefabPath);
-		PrefabUtility.UnloadPrefabContents(instance);
-		Debug.Log($"GameplaySetup: {ZombiePrefabPath} wired");
 	}
 
 	static void BuildUIPrefabs()
@@ -286,7 +260,7 @@ public static class GameplaySetup
 			return;
 		}
 
-		PlayerController player = Object.FindFirstObjectByType<PlayerController>();
+		PlayerController player = EnsurePlayerFromPrefab();
 		if (player == null)
 		{
 			Debug.LogError("GameplaySetup: no PlayerController in the scene");
@@ -346,6 +320,33 @@ public static class GameplaySetup
 		return null;
 	}
 
+	static PlayerController EnsurePlayerFromPrefab()
+	{
+		GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PlayerPrefabPath);
+		PlayerController existing = Object.FindFirstObjectByType<PlayerController>();
+
+		if (prefab == null)
+		{
+			Debug.LogWarning($"GameplaySetup: {PlayerPrefabPath} is missing");
+			return existing;
+		}
+
+		if (existing != null && PrefabUtility.GetCorrespondingObjectFromSource(existing.gameObject) == prefab)
+			return existing;
+
+		Vector3 position = existing != null ? existing.transform.position : Vector3.zero;
+
+		if (existing != null)
+		{
+			Debug.Log($"GameplaySetup: replacing scene player '{existing.name}' with {PlayerPrefabPath}");
+			Object.DestroyImmediate(existing.gameObject);
+		}
+
+		GameObject spawned = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+		spawned.transform.position = position;
+		return spawned.GetComponent<PlayerController>();
+	}
+
 	static void WirePlayer(PlayerController player)
 	{
 		player.gameObject.layer = PlayerLayer;
@@ -377,15 +378,9 @@ public static class GameplaySetup
 	{
 		int count = 0;
 
-		foreach (DefaultEnemy enemy in Object.FindObjectsByType<DefaultEnemy>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+		foreach (EnemyBase enemy in Object.FindObjectsByType<EnemyBase>(FindObjectsInactive.Include, FindObjectsSortMode.None))
 		{
 			enemy.gameObject.layer = EnemyLayer;
-
-			SerializedObject so = new SerializedObject(enemy);
-			so.FindProperty("_sightObstacleMask").intValue = 1 << BlockLayer;
-			so.FindProperty("_separationMask").intValue = 1 << EnemyLayer;
-			so.ApplyModifiedPropertiesWithoutUndo();
-
 			EditorUtility.SetDirty(enemy.gameObject);
 			count++;
 		}
