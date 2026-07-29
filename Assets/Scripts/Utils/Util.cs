@@ -17,7 +17,7 @@ public class Util
         Transform transform = FindChild<Transform>(go, name, recursive);
         if (transform == null)
             return null;
-        
+
         return transform.gameObject;
     }
 
