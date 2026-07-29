@@ -10,6 +10,19 @@ public class MapTileProp
 }
 
 [Serializable]
+public class MapTileset
+{
+	public int firstGid;
+	public int count;
+	public string name;
+
+	public bool Owns(int gid)
+	{
+		return gid >= firstGid && gid < firstGid + count;
+	}
+}
+
+[Serializable]
 public class MapPoint
 {
 	public string name;
@@ -33,6 +46,7 @@ public class MapData : ILoader<string, MapPoint>
 	public int[] deco;
 
 	public MapTileProp[] tileProps;
+	public MapTileset[] tilesets;
 	public MapPoint[] objects;
 	public MapPoint[] spawns;
 
@@ -111,6 +125,20 @@ public class MapData : ILoader<string, MapPoint>
 			return 0;
 
 		return layer[row * width + col];
+	}
+
+	public string GetTilesetName(int gid)
+	{
+		if (gid == 0 || tilesets == null)
+			return null;
+
+		foreach (MapTileset tileset in tilesets)
+		{
+			if (tileset.Owns(gid))
+				return tileset.name;
+		}
+
+		return null;
 	}
 
 	public MapTileProp GetProp(int gid)

@@ -14,6 +14,7 @@ public class DataManager
 	public void Init()
 	{
 		MapPoints = new Dictionary<string, MapPoint>();
+		MapPathfinder.InvalidateCache();
 		Map = LoadJson<MapData, string, MapPoint>("MapData");
 
 		if (Map == null)
@@ -31,6 +32,13 @@ public class DataManager
 		}
 
 		MapPoints = Map.MakeDict();
+	}
+
+	public void UseMap(MapData map)
+	{
+		MapPathfinder.InvalidateCache();
+		Map = map;
+		MapPoints = map == null ? new Dictionary<string, MapPoint>() : map.MakeDict();
 	}
 
 	public MapPoint GetPoint(string name)
