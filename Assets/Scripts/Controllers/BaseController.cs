@@ -9,6 +9,23 @@ public abstract class BaseController : MonoBehaviour
 
 	public Define.WorldObject WorldObjectType { get; protected set; } = Define.WorldObject.Unknown;
 
+	Animator _animator;
+	bool _animatorSearched;
+
+	protected Animator Animator
+	{
+		get
+		{
+			if (_animatorSearched == false)
+			{
+				_animator = GetComponent<Animator>();
+				_animatorSearched = true;
+			}
+
+			return _animator;
+		}
+	}
+
 	public virtual Define.State State
 	{
 		get { return _state; }
@@ -16,7 +33,10 @@ public abstract class BaseController : MonoBehaviour
 		{
 			_state = value;
 
-			Animator anim = GetComponent<Animator>();
+			Animator anim = Animator;
+			if (anim == null || anim.runtimeAnimatorController == null)
+				return;
+
 			switch (_state)
 			{
 				case Define.State.Die:
@@ -34,12 +54,12 @@ public abstract class BaseController : MonoBehaviour
 		}
 	}
 
-	private void Start()
+	protected virtual void Start()
 	{
 		Init();
 	}
 
-	void Update()
+	protected virtual void Update()
 	{
 		switch (State)
 		{

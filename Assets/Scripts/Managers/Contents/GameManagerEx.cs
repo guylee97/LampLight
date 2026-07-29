@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +6,66 @@ using UnityEngine;
 public class GameManagerEx
 {
     GameObject _player;
-    //Dictionary<int, GameObject> _players = new Dictionary<int, GameObject>();
     HashSet<GameObject> _monsters = new HashSet<GameObject>();
 
     public Action<int> OnSpawnEvent;
+    public Action<Define.StageResult> OnStageEnded;
+    public Action<bool> OnPauseChanged;
+
+    public Define.StageResult Result { get; private set; }
+    public bool IsPaused { get; private set; }
+    public bool IsPlaying { get { return Result == Define.StageResult.None && IsPaused == false; } }
 
     public GameObject GetPlayer() { return _player; }
+
+    public void SetPlayer(GameObject go) { _player = go; }
+
+    public void BeginStage()
+    {
+        Result = Define.StageResult.None;
+        SetPaused(false);
+    }
+
+    public void ReportPlayerCaught()
+    {
+        EndStage(Define.StageResult.Caught);
+    }
+
+    public void ReportEscaped()
+    {
+        EndStage(Define.StageResult.Cleared);
+    }
+
+    void EndStage(Define.StageResult result)
+    {
+        if (Result != Define.StageResult.None)
+            return;
+
+        Result = result;
+
+        if (OnStageEnded != null)
+            OnStageEnded.Invoke(result);
+    }
+
+    public void SetPaused(bool paused)
+    {
+        if (IsPaused == paused)
+            return;
+
+        IsPaused = paused;
+        Time.timeScale = paused ? 0 : 1;
+
+        if (OnPauseChanged != null)
+            OnPauseChanged.Invoke(paused);
+    }
+
+    public void TogglePause()
+    {
+        if (Result != Define.StageResult.None)
+            return;
+
+        SetPaused(IsPaused == false);
+    }
 
     public GameObject Spawn(Define.WorldObject type, string path, Transform parent = null)
     {
@@ -54,7 +108,7 @@ public class GameManagerEx
                         _monsters.Remove(go);
                         if (OnSpawnEvent != null)
 							OnSpawnEvent.Invoke(-1);
-					}   
+					}
                 }
                 break;
             case Define.WorldObject.Player:
@@ -66,5 +120,17 @@ public class GameManagerEx
         }
 
         Managers.Resource.Destroy(go);
+    }
+
+    public void Clear()
+    {
+        _monsters.Clear();
+        _player = null;
+        Result = Define.StageResult.None;
+        IsPaused = false;
+        Time.timeScale = 1;
+        OnStageEnded = null;
+        OnPauseChanged = null;
+        OnSpawnEvent = null;
     }
 }

@@ -19,12 +19,41 @@ public class Define
 		Skill,
 	}
 
+	public enum Direction8
+	{
+		E,
+		NE,
+		N,
+		NW,
+		W,
+		SW,
+		S,
+		SE,
+	}
+
     public enum Layer
     {
         Enemy = 8,
-        Ground = 9,
+        Player = 9,
         Block = 10,
     }
+
+	public enum Alert
+	{
+		Patrol,
+		Suspicious,
+		Chase,
+		Search,
+		Blinded,
+		Caught,
+	}
+
+	public enum StageResult
+	{
+		None,
+		Cleared,
+		Caught,
+	}
 
     public enum Scene
     {

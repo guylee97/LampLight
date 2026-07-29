@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Managers : MonoBehaviour
 {
-    static Managers s_instance; // 유일성이 보장된다
-    static Managers Instance { get { Init(); return s_instance; } } // 유일한 매니저를 갖고온다
+    static Managers s_instance;
+    static Managers Instance { get { Init(); return s_instance; } }
 
 	#region Contents
 	GameManagerEx _game = new GameManagerEx();
@@ -52,17 +52,22 @@ public class Managers : MonoBehaviour
                 go.AddComponent<Managers>();
             }
 
-            DontDestroyOnLoad(go);
+            if (Application.isPlaying)
+                DontDestroyOnLoad(go);
+            else
+                go.hideFlags = HideFlags.HideAndDontSave;
+
             s_instance = go.GetComponent<Managers>();
 
             s_instance._data.Init();
             s_instance._pool.Init();
             s_instance._sound.Init();
-        }		
+        }
 	}
 
     public static void Clear()
     {
+        Game.Clear();
         Input.Clear();
         Sound.Clear();
         Scene.Clear();

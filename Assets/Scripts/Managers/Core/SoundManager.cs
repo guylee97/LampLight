@@ -7,9 +7,6 @@ public class SoundManager
     AudioSource[] _audioSources = new AudioSource[(int)Define.Sound.MaxCount];
     Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
 
-    // MP3 Player   -> AudioSource
-    // MP3 음원     -> AudioClip
-    // 관객(귀)     -> AudioListener
 
     public void Init()
     {
@@ -17,24 +14,35 @@ public class SoundManager
         if (root == null)
         {
             root = new GameObject { name = "@Sound" };
-            Object.DontDestroyOnLoad(root);
 
-            string[] soundNames = System.Enum.GetNames(typeof(Define.Sound));
-            for (int i = 0; i < soundNames.Length - 1; i++)
-            {
-                GameObject go = new GameObject { name = soundNames[i] };
-                _audioSources[i] = go.AddComponent<AudioSource>();
-                go.transform.parent = root.transform;
-            }
-
-            _audioSources[(int)Define.Sound.Bgm].loop = true;
+            if (Application.isPlaying)
+                Object.DontDestroyOnLoad(root);
+            else
+                root.hideFlags = HideFlags.HideAndDontSave;
         }
+
+        string[] soundNames = System.Enum.GetNames(typeof(Define.Sound));
+        for (int i = 0; i < soundNames.Length - 1; i++)
+        {
+            if (_audioSources[i] != null)
+                continue;
+
+            Transform child = root.transform.Find(soundNames[i]);
+            GameObject go = child != null ? child.gameObject : new GameObject { name = soundNames[i] };
+            go.transform.parent = root.transform;
+            _audioSources[i] = Util.GetOrAddComponent<AudioSource>(go);
+        }
+
+        _audioSources[(int)Define.Sound.Bgm].loop = true;
     }
 
     public void Clear()
     {
         foreach (AudioSource audioSource in _audioSources)
         {
+            if (audioSource == null)
+                continue;
+
             audioSource.clip = null;
             audioSource.Stop();
         }
