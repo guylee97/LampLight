@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9050270144966444498}
   - component: {fileID: 7088018719376157915}
   - component: {fileID: 3288792583453608578}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DefaultZombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}

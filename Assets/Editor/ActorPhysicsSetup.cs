@@ -7,11 +7,11 @@ public static class ActorPhysicsSetup
 	const string MaterialDir = "Assets/Resources/Physics";
 	const string MaterialPath = MaterialDir + "/Frictionless.physicsMaterial2D";
 
-	static readonly string[] ActorPrefabs =
+	static readonly (string Path, Define.Layer Layer)[] ActorPrefabs =
 	{
-		"Assets/Resources/Prefabs/Player.prefab",
-		"Assets/Resources/Prefabs/DefaultZombie.prefab",
-		"Assets/Resources/Prefabs/ActiveZombie.prefab",
+		("Assets/Resources/Prefabs/Player.prefab", Define.Layer.Player),
+		("Assets/Resources/Prefabs/DefaultZombie.prefab", Define.Layer.Enemy),
+		("Assets/Resources/Prefabs/ActiveZombie.prefab", Define.Layer.Enemy),
 	};
 
 	static readonly Vector2 BodySize = new Vector2(0.58f, 0.4f);
@@ -22,8 +22,10 @@ public static class ActorPhysicsSetup
 	{
 		PhysicsMaterial2D material = LoadOrCreateMaterial();
 
-		foreach (string path in ActorPrefabs)
-			Apply(path, material);
+		Physics2D.IgnoreLayerCollision((int)Define.Layer.Enemy, (int)Define.Layer.Enemy, true);
+
+		foreach ((string path, Define.Layer layer) in ActorPrefabs)
+			Apply(path, layer, material);
 
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
@@ -47,7 +49,7 @@ public static class ActorPhysicsSetup
 		return material;
 	}
 
-	static void Apply(string path, PhysicsMaterial2D material)
+	static void Apply(string path, Define.Layer layer, PhysicsMaterial2D material)
 	{
 		GameObject prefab = PrefabUtility.LoadPrefabContents(path);
 		if (prefab == null)
@@ -55,6 +57,8 @@ public static class ActorPhysicsSetup
 			Debug.LogError($"ActorPhysicsSetup: {path} not found");
 			return;
 		}
+
+		prefab.layer = (int)layer;
 
 		CapsuleCollider2D capsule = prefab.GetComponent<CapsuleCollider2D>();
 		if (capsule == null)
@@ -84,6 +88,6 @@ public static class ActorPhysicsSetup
 
 		PrefabUtility.SaveAsPrefabAsset(prefab, path);
 		PrefabUtility.UnloadPrefabContents(prefab);
-		Debug.Log($"ActorPhysicsSetup: {path}");
+		Debug.Log($"ActorPhysicsSetup: {path} (layer {(int)layer})");
 	}
 }
