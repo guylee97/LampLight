@@ -39,7 +39,7 @@ public static class MapPrefabBuilder
 
 		CircleCollider2D collider = go.AddComponent<CircleCollider2D>();
 		collider.isTrigger = true;
-		collider.radius = 0.6f;
+		collider.radius = 0.32f;
 
 		Artifact artifact = go.AddComponent<Artifact>();
 		SerializedObject so = new SerializedObject(artifact);
