@@ -19,13 +19,24 @@ jobs:
       fail-fast: false
       matrix:
         testMode: [editmode, playmode]
+    env:
+      HAS_LICENSE: ${{ secrets.UNITY_LICENSE != '' }}
 
     steps:
+      - name: report missing licence
+        if: env.HAS_LICENSE != 'true'
+        run: |
+          echo "### Unity licence not configured" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Tests are skipped until UNITY_LICENSE, UNITY_EMAIL and UNITY_PASSWORD exist as repository secrets. See .github/workflows/README.md." >> $GITHUB_STEP_SUMMARY
+
       - uses: actions/checkout@v4
+        if: env.HAS_LICENSE == 'true'
         with:
           lfs: true
 
       - uses: actions/cache@v4
+        if: env.HAS_LICENSE == 'true'
         with:
           path: Library
           key: Library-${{ matrix.testMode }}-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
@@ -35,6 +46,7 @@ jobs:
 
       - uses: game-ci/unity-test-runner@v4
         id: tests
+        if: env.HAS_LICENSE == 'true'
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
@@ -61,7 +73,7 @@ jobs:
           if-no-files-found: warn
 
       - uses: actions/upload-artifact@v4
-        if: always() && matrix.testMode == 'playmode'
+        if: always() && matrix.testMode == 'playmode' && env.HAS_LICENSE == 'true'
         with:
           name: qa-reports
           path: QAReports
