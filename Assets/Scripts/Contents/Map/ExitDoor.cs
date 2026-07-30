@@ -103,18 +103,6 @@ public class ExitDoor : MonoBehaviour, IInteractable
 			_renderer.sprite = target;
 	}
 
-	bool IsPlayer(Collider2D other)
-	{
-		BaseController controller = other.GetComponentInParent<BaseController>();
-		return controller != null && controller.WorldObjectType == Define.WorldObject.Player;
-	}
-
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if (_isOpen && IsPlayer(other))
-			Escape();
-	}
-
 	void OnDestroy()
 	{
 		if (_progress != null)
