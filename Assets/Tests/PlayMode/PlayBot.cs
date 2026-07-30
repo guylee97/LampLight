@@ -18,14 +18,30 @@ public class PlayBot
 	readonly RaycastHit2D[] _casts = new RaycastHit2D[8];
 
 	public bool Arrived { get; private set; }
-	public string Failure { get; private set; }
+	public string Failure { get; set; }
 	public Vector2 StoppedAt { get; private set; }
+	public bool AxisLocked { get; set; }
 
 	public PlayBot(Transform actor)
 	{
 		_actor = actor;
 		_body = actor.GetComponent<Collider2D>();
 		_keyboard = InputSystem.AddDevice<Keyboard>("QaKeyboard");
+	}
+
+	public string DescribeState()
+	{
+		Rigidbody2D body = _actor.GetComponent<Rigidbody2D>();
+		Keyboard keyboard = Keyboard.current;
+
+		string keys = keyboard == null
+			? "키보드 없음"
+			: $"W{(keyboard.wKey.isPressed ? 1 : 0)}A{(keyboard.aKey.isPressed ? 1 : 0)}" +
+				$"S{(keyboard.sKey.isPressed ? 1 : 0)}D{(keyboard.dKey.isPressed ? 1 : 0)}";
+
+		return $"playing={Managers.Game.IsPlaying} result={Managers.Game.Result} " +
+			$"paused={Managers.Game.IsPaused} timeScale={Time.timeScale} " +
+			$"velocity={(body != null ? body.linearVelocity.ToString() : "?")} keys={keys}";
 	}
 
 	public string DescribeBlockers(Vector2 direction)
@@ -122,7 +138,7 @@ public class PlayBot
 
 			Release();
 			Failure = $"{position}에서 {stuckFor:0.0}초 동안 움직이지 못했다 " +
-				$"(목표 {target}, 남은 거리 {delta.magnitude:0.00}, 막은 것: {DescribeBlockers(delta)})";
+				$"(목표 {target}, 남은 거리 {delta.magnitude:0.00}, 막은 것: {DescribeBlockers(delta)}, {DescribeState()})";
 			yield break;
 		}
 
@@ -133,6 +149,14 @@ public class PlayBot
 	void Steer(Vector2 delta)
 	{
 		_keys.Clear();
+
+		if (AxisLocked)
+		{
+			if (Mathf.Abs(delta.x) >= Mathf.Abs(delta.y))
+				delta.y = 0;
+			else
+				delta.x = 0;
+		}
 
 		if (delta.x > AxisThreshold)
 			_keys.Add(Key.D);

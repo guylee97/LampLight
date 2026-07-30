@@ -7,10 +7,11 @@ using UnityEngine.TestTools;
 
 public class StageCompletionTests
 {
-	const float WaypointRadius = 0.45f;
+	const float WaypointRadius = 0.2f;
 	const float TargetRadius = 0.7f;
 	const float SecondsPerTile = 0.9f;
 	const float LegSlack = 4.0f;
+	const float TravelBudget = 120.0f;
 
 	[UnityTest]
 	public IEnumerator BotCollectsEveryArtifactAndEscapes()
@@ -49,8 +50,11 @@ public class StageCompletionTests
 		yield return Travel(bot, player, placer.ExitDoor.transform.position, TargetRadius);
 		Assert.IsNull(bot.Failure, $"출구로 가는 길: {bot.Failure}");
 
-		yield return bot.Tap(Key.E);
-		yield return null;
+		if (Managers.Game.Result == Define.StageResult.None)
+		{
+			yield return bot.Tap(Key.E);
+			yield return null;
+		}
 
 		bot.Dispose();
 
@@ -59,24 +63,51 @@ public class StageCompletionTests
 
 	IEnumerator Travel(PlayBot bot, PlayerController player, Vector3 target, float arriveRadius)
 	{
-		Vector2Int from = MapCoord.WorldToTile(player.transform.position);
-		Vector2Int to = MapCoord.WorldToTile(target);
-
 		List<Vector2Int> path = new List<Vector2Int>();
-		bool routed = MapPathfinder.TryFindPath(from, to, path);
-		Assert.IsTrue(routed, $"({from.x},{from.y})에서 ({to.x},{to.y})로 가는 경로가 없다");
+		float deadline = Time.time + TravelBudget;
 
-		for (int i = 1; i < path.Count; i++)
+		while (Time.time < deadline)
 		{
-			Vector2 step = MapCoord.TileToWorld(path[i].x, path[i].y);
+			if (Managers.Game.Result != Define.StageResult.None)
+			{
+				bot.AxisLocked = false;
+				yield break;
+			}
 
-			yield return bot.WalkTo(step, WaypointRadius, SecondsPerTile * 4 + LegSlack);
+			Vector2 here = player.transform.position;
+
+			if (Vector2.Distance(here, target) <= arriveRadius)
+			{
+				bot.AxisLocked = false;
+				yield break;
+			}
+
+			Vector2Int from = MapCoord.WorldToTile(here);
+			Vector2Int to = MapCoord.WorldToTile(target);
+
+			if (from == to)
+			{
+				bot.AxisLocked = false;
+				yield return bot.WalkTo(target, arriveRadius, SecondsPerTile * 4 + LegSlack);
+				yield break;
+			}
+
+			path.Clear();
+			bool routed = MapPathfinder.TryFindPath(from, to, path);
+			Assert.IsTrue(routed, $"({from.x},{from.y})에서 ({to.x},{to.y})로 가는 경로가 없다");
+
+			Vector2Int next = path.Count > 1 ? path[1] : to;
+
+			bot.AxisLocked = true;
+			yield return bot.WalkTo(MapCoord.TileToWorld(next.x, next.y), WaypointRadius,
+				SecondsPerTile * 4 + LegSlack);
+			bot.AxisLocked = false;
 
 			if (bot.Failure != null)
 				yield break;
 		}
 
-		yield return bot.WalkTo(target, arriveRadius, SecondsPerTile * 4 + LegSlack);
+		bot.Failure = $"{TravelBudget:0}초 안에 {target}에 도달하지 못했다 (마지막 위치 {player.transform.position})";
 	}
 
 	static void DisableEnemies()
