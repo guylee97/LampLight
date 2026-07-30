@@ -322,6 +322,50 @@ public static class MapTilemapPainter
 		EditorUtility.SetDirty(renderer);
 	}
 
+	[MenuItem("LampLight/Merge Wall Colliders")]
+	public static void MergeWallColliders()
+	{
+		Scene scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+
+		Tilemap wall = FindTilemap(WallTilemapName);
+		if (wall == null)
+		{
+			Debug.LogError($"MapTilemapPainter: {WallTilemapName} 타일맵 없음");
+			return;
+		}
+
+		ApplyWallComposite(wall);
+
+		EditorSceneManager.MarkSceneDirty(scene);
+		EditorSceneManager.SaveScene(scene);
+		Debug.Log("MapTilemapPainter: wall composite collider 적용");
+	}
+
+	static void ApplyWallComposite(Tilemap wall)
+	{
+		TilemapCollider2D collider = wall.GetComponent<TilemapCollider2D>();
+		if (collider == null)
+			collider = wall.gameObject.AddComponent<TilemapCollider2D>();
+
+		Rigidbody2D body = wall.GetComponent<Rigidbody2D>();
+		if (body == null)
+			body = wall.gameObject.AddComponent<Rigidbody2D>();
+
+		body.bodyType = RigidbodyType2D.Static;
+		EditorUtility.SetDirty(body);
+
+		CompositeCollider2D composite = wall.GetComponent<CompositeCollider2D>();
+		if (composite == null)
+			composite = wall.gameObject.AddComponent<CompositeCollider2D>();
+
+		composite.geometryType = CompositeCollider2D.GeometryType.Polygons;
+		composite.generationType = CompositeCollider2D.GenerationType.Synchronous;
+		EditorUtility.SetDirty(composite);
+
+		collider.compositeOperation = Collider2D.CompositeOperation.Merge;
+		EditorUtility.SetDirty(collider);
+	}
+
 	static void ApplyWallDepth(Tilemap wall, bool enabled)
 	{
 		TilemapCollider2D collider = wall.GetComponent<TilemapCollider2D>();
@@ -330,6 +374,9 @@ public static class MapTilemapPainter
 
 		collider.enabled = enabled;
 		EditorUtility.SetDirty(collider);
+
+		if (enabled)
+			ApplyWallComposite(wall);
 
 		ShadowCaster2D existing = wall.GetComponent<ShadowCaster2D>();
 		if (existing != null)

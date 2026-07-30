@@ -122,6 +122,15 @@ public class PlayerController : BaseController
 
 		_rigidbody.interpolation = RigidbodyInterpolation2D.Interpolate;
 		_rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+		_rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+
+		if (_rigidbody.sharedMaterial == null)
+		{
+			PhysicsMaterial2D material = new PhysicsMaterial2D("PlayerFrictionless");
+			material.friction = 0;
+			material.bounciness = 0;
+			_rigidbody.sharedMaterial = material;
+		}
 	}
 
 	void FixedUpdate()
