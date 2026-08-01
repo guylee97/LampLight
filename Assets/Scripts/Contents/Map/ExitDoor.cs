@@ -69,6 +69,12 @@ public class ExitDoor : MonoBehaviour, IInteractable
 
 		_isOpen = true;
 		ApplySprite();
+		Managers.Sound.PlayAtPointOptional(
+			"exit_unlock",
+			"Open the door (1)",
+			transform.position,
+			Define.Sound.Guide
+		);
 
 		if (OnOpened != null)
 			OnOpened.Invoke();

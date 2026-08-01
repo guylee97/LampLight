@@ -24,7 +24,6 @@ public class Define
 		Idle,
 		Patrol,
 		Chasing,
-		Stunned,
 		Caught,
 		Die,
 	}
@@ -52,8 +51,11 @@ public class Define
 
     public enum Sound
     {
-        Bgm,
-        Effect,
+        Guide,
+        Threat,
+        Self,
+        Ambient,
+        UI,
         MaxCount,
     }
 

@@ -34,6 +34,12 @@ public class OilCanister : MonoBehaviour, IInteractable
 			return;
 
 		_used = true;
+		Managers.Sound.PlayAtPointOptional(
+			"container_open",
+			"Open the door (2)",
+			transform.position,
+			Define.Sound.Self
+		);
 
 		if (_renderer == null)
 			_renderer = GetComponent<SpriteRenderer>();

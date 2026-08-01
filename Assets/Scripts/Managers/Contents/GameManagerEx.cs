@@ -34,6 +34,16 @@ public class GameManagerEx
             return;
 
         IsGameOver = true;
+        GameObject player = GetPlayer();
+        if (player != null)
+        {
+            Managers.Sound.PlayAtPointOptional(
+                "death_contact",
+                "moster growl (4)",
+                player.transform.position,
+                Define.Sound.Threat
+            );
+        }
         Managers.UI.ShowPopupUI<UI_GameOver>();
         EndStage(Define.StageResult.Caught);
     }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Managers : MonoBehaviour
 {
     static Managers s_instance;
+    static bool s_isShuttingDown;
     static Managers Instance { get { Init(); return s_instance; } }
 
 	#region Contents
@@ -31,6 +32,37 @@ public class Managers : MonoBehaviour
     public static UIManager UI { get { return Instance._ui; } }
 	#endregion
 
+    public static bool TryGetGame(out GameManagerEx game)
+    {
+        if (s_instance == null || s_isShuttingDown)
+        {
+            game = null;
+            return false;
+        }
+
+        game = s_instance._game;
+        return true;
+    }
+
+    public static bool TryGetSound(out SoundManager sound)
+    {
+        if (s_instance == null || s_isShuttingDown)
+        {
+            sound = null;
+            return false;
+        }
+
+        sound = s_instance._sound;
+        return true;
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatics()
+    {
+        s_instance = null;
+        s_isShuttingDown = false;
+    }
+
 	void Start()
     {
         Init();
@@ -39,10 +71,14 @@ public class Managers : MonoBehaviour
     void Update()
     {
         _input.OnUpdate();
+        _sound.OnUpdate();
     }
 
     static void Init()
     {
+        if (s_isShuttingDown)
+            return;
+
         if (s_instance == null)
         {
 			GameObject go = GameObject.Find("@Managers");
@@ -64,6 +100,20 @@ public class Managers : MonoBehaviour
             s_instance._sound.Init();
         }
 	}
+
+    void OnApplicationQuit()
+    {
+        s_isShuttingDown = true;
+    }
+
+    void OnDestroy()
+    {
+        if (s_instance != this)
+            return;
+
+        s_isShuttingDown = true;
+        s_instance = null;
+    }
 
     public static void Clear()
     {

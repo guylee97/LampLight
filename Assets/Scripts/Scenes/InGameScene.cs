@@ -35,6 +35,12 @@ public class InGameScene : MonoBehaviour
 
 		Managers.Game.BeginStage();
 		Managers.Game.SetPlayer(_player.gameObject);
+		Managers.Sound.PlayOptional(
+			"ambient_temple",
+			"Background horror laughter sound",
+			Define.Sound.Ambient,
+			loop: true
+		);
 
 		_placer.Place();
 
@@ -49,7 +55,8 @@ public class InGameScene : MonoBehaviour
 
 	void OnDestroy()
 	{
-		Managers.Game.OnStageEnded -= OnStageEnded;
+		if (Managers.TryGetGame(out GameManagerEx game))
+			game.OnStageEnded -= OnStageEnded;
 	}
 
 	bool ResolveReferences()

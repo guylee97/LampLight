@@ -74,7 +74,17 @@ public class UIManager
 		T sceneUI = Util.GetOrAddComponent<T>(go);
         _sceneUI = sceneUI;
 
-		go.transform.SetParent(Root.transform);
+		go.transform.SetParent(Root.transform, false);
+
+		RectTransform rect = go.GetComponent<RectTransform>();
+		if (rect != null)
+		{
+			rect.anchorMin = Vector2.zero;
+			rect.anchorMax = Vector2.one;
+			rect.offsetMin = Vector2.zero;
+			rect.offsetMax = Vector2.zero;
+			rect.localScale = Vector3.one;
+		}
 
 		return sceneUI;
 	}

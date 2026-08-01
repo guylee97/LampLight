@@ -9,8 +9,8 @@ public static class SceneDresser
 {
 	const string ScenePath = "Assets/Scenes/InGame.unity";
 	const string PropArtDir = "Assets/Art/Props";
-	const string DefaultZombiePath = "Assets/Resources/Prefabs/DefaultZombie.prefab";
-	const string ActiveZombiePath = "Assets/Resources/Prefabs/ActiveZombie.prefab";
+	const string WalkerZombiePath = "Assets/Resources/Prefabs/WalkerZombie.prefab";
+	const string WandererZombiePath = "Assets/Resources/Prefabs/WandererZombie.prefab";
 	const string PropPrefabDir = "Assets/Resources/Prefabs/Props";
 
 	const string DressedRootName = "@Dressing";
@@ -66,7 +66,7 @@ public static class SceneDresser
 	{
 		List<GameObject> loaded = new List<GameObject>();
 
-		foreach (string path in new[] { DefaultZombiePath, ActiveZombiePath })
+		foreach (string path in new[] { WalkerZombiePath, WandererZombiePath })
 		{
 			GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
 			if (prefab == null)

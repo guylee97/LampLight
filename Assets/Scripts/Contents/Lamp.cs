@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Light2D))]
@@ -78,7 +79,7 @@ public class Lamp : MonoBehaviour
 
 	void Update()
 	{
-		UpdateDirectionToParent();
+		UpdateDirection();
 		UpdateDuration();
 		ApplyLightSettings();
 	}
@@ -88,16 +89,28 @@ public class Lamp : MonoBehaviour
 		UpdateReactiveTargets();
 	}
 
-	void UpdateDirectionToParent()
+	void UpdateDirection()
 	{
-		if (transform.parent == null)
+		Vector2 direction = Vector2.zero;
+		Mouse mouse = Mouse.current;
+		Camera mainCamera = Camera.main;
+
+		if (mouse != null && mainCamera != null)
+		{
+			Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(mouse.position.ReadValue());
+			direction = mouseWorldPosition - transform.position;
+		}
+
+		if (direction.sqrMagnitude <= 0.01f && transform.parent != null)
+		{
+			PlayerController player = transform.parent.GetComponent<PlayerController>();
+			if (player != null)
+				direction = player.FacingDirection;
+		}
+
+		if (direction.sqrMagnitude <= 0.01f)
 			return;
 
-		PlayerController player = transform.parent.GetComponent<PlayerController>();
-		if (player == null || player.FacingDirection.sqrMagnitude <= 0.01f)
-			return;
-
-		Vector2 direction = player.FacingDirection;
 		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90.0f;
 		transform.rotation = Quaternion.Euler(0, 0, angle);
 	}
@@ -233,6 +246,11 @@ public class Lamp : MonoBehaviour
 			return;
 
 		_isOn = true;
+		Managers.Sound.PlayAtPointOptional(
+			"lantern_ignite",
+			transform.position,
+			Define.Sound.Ambient
+		);
 
 		if (OnToggled != null)
 			OnToggled.Invoke(true);
@@ -244,6 +262,11 @@ public class Lamp : MonoBehaviour
 			return;
 
 		_isOn = false;
+		Managers.Sound.PlayAtPointOptional(
+			"lantern_out",
+			transform.position,
+			Define.Sound.Ambient
+		);
 
 		if (OnToggled != null)
 			OnToggled.Invoke(false);
