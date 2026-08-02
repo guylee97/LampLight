@@ -123,15 +123,27 @@ public class UIManager
             return;
 
         UI_Popup popup = _popupStack.Pop();
-        Managers.Resource.Destroy(popup.gameObject);
-        popup = null;
         _order--;
+
+        if (popup == null)
+            return;
+
+        Managers.Resource.Destroy(popup.gameObject);
     }
 
     public void CloseAllPopupUI()
     {
         while (_popupStack.Count > 0)
             ClosePopupUI();
+    }
+
+    void DropDestroyedPopups()
+    {
+        while (_popupStack.Count > 0 && _popupStack.Peek() == null)
+        {
+            _popupStack.Pop();
+            _order--;
+        }
     }
 
     public void Clear()

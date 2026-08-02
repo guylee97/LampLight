@@ -109,6 +109,21 @@ public class PlayerController : BaseController
 		Init();
 	}
 
+	public void Teleport(Vector3 position)
+	{
+		Init();
+
+		transform.position = position;
+
+		if (_rigidbody == null)
+			return;
+
+		_rigidbody.position = position;
+		_rigidbody.linearVelocity = Vector2.zero;
+		_rigidbody.angularVelocity = 0.0f;
+		Physics2D.SyncTransforms();
+	}
+
 	public override void Init()
 	{
 		if (_initialized)

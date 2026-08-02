@@ -17,14 +17,60 @@ public class GameManagerEx
     public bool IsPaused { get; private set; }
     public bool IsPlaying { get { return Result == Define.StageResult.None && IsPaused == false; } }
 
+    public int CurrentLevel { get; private set; } = LevelTable.MinLevel;
+    public int MaxUnlockedLevel { get; private set; } = LevelTable.MinLevel;
+    public LevelConfig Level { get { return LevelTable.Get(CurrentLevel); } }
+
+    public bool UsedRun { get; private set; }
+    public int RunnerEvasions { get; private set; }
+    public int LastScore { get; private set; }
+    public int LastArtifacts { get; private set; }
+    public string LastGrade { get; private set; } = "C";
+    public int ConsecutiveFailures { get; private set; }
+
+    public Action<int> OnLevelChanged;
+
     public GameObject GetPlayer() { return _player; }
 
     public void SetPlayer(GameObject go) { _player = go; }
+
+    public void SetLevel(int level)
+    {
+        CurrentLevel = LevelTable.Clamp(level);
+
+        if (CurrentLevel > MaxUnlockedLevel)
+            MaxUnlockedLevel = CurrentLevel;
+
+        if (OnLevelChanged != null)
+            OnLevelChanged.Invoke(CurrentLevel);
+    }
+
+    public bool HasNextLevel { get { return CurrentLevel < LevelTable.MaxLevel; } }
+
+    public void AdvanceLevel()
+    {
+        if (HasNextLevel)
+            SetLevel(CurrentLevel + 1);
+    }
+
+    public void ReportRunUsed()
+    {
+        UsedRun = true;
+    }
+
+    public void ReportRunnerEvaded()
+    {
+        RunnerEvasions++;
+    }
 
     public void BeginStage()
     {
         IsGameOver = false;
         Result = Define.StageResult.None;
+        UsedRun = false;
+        RunnerEvasions = 0;
+        LastScore = 0;
+        LastGrade = "C";
         SetPaused(false);
     }
 
@@ -33,7 +79,12 @@ public class GameManagerEx
         if (IsGameOver)
             return;
 
+        if (DebugOverlay.Invulnerable)
+            return;
+
         IsGameOver = true;
+        ConsecutiveFailures++;
+
         GameObject player = GetPlayer();
         if (player != null)
         {
@@ -50,6 +101,16 @@ public class GameManagerEx
 
     public void ReportEscaped()
     {
+        ReportEscaped(0, 0.0f, 0.0f);
+    }
+
+    public void ReportEscaped(int artifacts, float weightedArtifacts, float lampRemaining)
+    {
+        LastArtifacts = artifacts;
+        LastScore = ScoreRules.Total(CurrentLevel, weightedArtifacts, lampRemaining, UsedRun, RunnerEvasions);
+        LastGrade = LevelTable.Grade(CurrentLevel, LastScore);
+        ConsecutiveFailures = 0;
+
         EndStage(Define.StageResult.Cleared);
     }
 

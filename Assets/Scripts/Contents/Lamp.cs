@@ -34,17 +34,31 @@ public class Lamp : MonoBehaviour
 	[SerializeField]
 	Light2D _light;
 
-	[SerializeField]
-	LayerMask _reactiveMask = ~0;
 
 	[SerializeField]
 	LayerMask _obstacleMask;
 
+	[SerializeField]
+	float _listenRangeRatio = 0.5f;
+
+	[SerializeField]
+	float _listenAngle = 45.0f;
+
+	[SerializeField]
+	float _listenFuelScale = 0.6f;
+
+	[SerializeField]
+	float _listenHearingScale = 1.3f;
+
 	float _remainingDuration;
-	readonly HashSet<ILampReactive> _illuminatedTargets = new HashSet<ILampReactive>();
-	readonly HashSet<ILampReactive> _currentTargets = new HashSet<ILampReactive>();
-	readonly Collider2D[] _hits = new Collider2D[32];
-	ContactFilter2D _reactiveFilter;
+	float _fuelScale = 1.0f;
+	bool _listening;
+
+	public const string LowFuelClip = "lantern_low";
+	public const string BurnedOutClip = "lantern_out";
+	public const float LowFuelRatio = 0.25f;
+
+	bool _lowFuelWarned;
 
 	public Action<float> OnFuelChanged;
 	public Action OnBurnedOut;
@@ -69,10 +83,6 @@ public class Lamp : MonoBehaviour
 		if (_light == null)
 			_light = gameObject.AddComponent<Light2D>();
 
-		_reactiveFilter = new ContactFilter2D();
-		_reactiveFilter.useLayerMask = true;
-		_reactiveFilter.layerMask = _reactiveMask;
-		_reactiveFilter.useTriggers = true;
 
 		ApplyLightSettings();
 	}
@@ -86,7 +96,6 @@ public class Lamp : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		UpdateReactiveTargets();
 	}
 
 	void UpdateDirection()
@@ -121,7 +130,7 @@ public class Lamp : MonoBehaviour
 			return;
 
 		float before = _remainingDuration;
-		_remainingDuration = Mathf.Max(0, _remainingDuration - Time.deltaTime);
+		_remainingDuration = Mathf.Max(0, _remainingDuration - Time.deltaTime * _fuelScale);
 
 		if (Mathf.Approximately(before, _remainingDuration))
 			return;
@@ -129,8 +138,36 @@ public class Lamp : MonoBehaviour
 		if (OnFuelChanged != null)
 			OnFuelChanged.Invoke(RemainingRatio);
 
-		if (_remainingDuration <= 0 && OnBurnedOut != null)
-			OnBurnedOut.Invoke();
+		if (_lowFuelWarned == false && RemainingRatio <= LowFuelRatio && _remainingDuration > 0)
+		{
+			_lowFuelWarned = true;
+			Managers.Sound.PlayOptional(LowFuelClip, Define.Sound.Self);
+		}
+
+		if (_remainingDuration <= 0)
+		{
+			if (_lowFuelWarned)
+			{
+				_lowFuelWarned = false;
+				Managers.Sound.PlayOptional(BurnedOutClip, Define.Sound.Self);
+			}
+
+			if (OnBurnedOut != null)
+				OnBurnedOut.Invoke();
+		}
+	}
+
+	public void SetMaxDuration(float seconds, bool refill = true)
+	{
+		_maxDuration = Mathf.Max(1.0f, seconds);
+
+		if (refill)
+			_remainingDuration = _maxDuration;
+		else
+			_remainingDuration = Mathf.Min(_remainingDuration, _maxDuration);
+
+		if (OnFuelChanged != null)
+			OnFuelChanged.Invoke(RemainingRatio);
 	}
 
 	public bool Refill(float seconds)
@@ -154,20 +191,38 @@ public class Lamp : MonoBehaviour
 			TurnOn();
 	}
 
+	public bool IsListening { get { return _listening; } }
+	public float EffectiveRange { get { return _listening ? _range * _listenRangeRatio : _range; } }
+	public float EffectiveAngle { get { return _listening ? _listenAngle : _angle; } }
+	public float HearingScale { get { return _listening ? _listenHearingScale : 1.0f; } }
+
+	public void SetListening(bool listening)
+	{
+		if (_listening == listening)
+			return;
+
+		_listening = listening;
+		_fuelScale = _listening ? _listenFuelScale : 1.0f;
+		ApplyLightSettings();
+	}
+
 	void ApplyLightSettings()
 	{
 		if (_light == null)
 			return;
+
+		float range = EffectiveRange;
+		float angle = EffectiveAngle;
 
 		_light.enabled = IsOn;
 		_light.lightType = Light2D.LightType.Point;
 		_light.intensity = _intensity;
 		_light.shadowsEnabled = true;
 		_light.shadowIntensity = _shadowIntensity;
-		_light.pointLightOuterRadius = _range;
-		_light.pointLightInnerRadius = _range * _innerRangeRatio;
-		_light.pointLightOuterAngle = _angle;
-		_light.pointLightInnerAngle = _angle * _innerAngleRatio;
+		_light.pointLightOuterRadius = range;
+		_light.pointLightInnerRadius = range * _innerRangeRatio;
+		_light.pointLightOuterAngle = angle;
+		_light.pointLightInnerAngle = angle * _innerAngleRatio;
 	}
 
 	public bool IsInLightCone(Vector3 position)
@@ -177,58 +232,11 @@ public class Lamp : MonoBehaviour
 
 		Vector2 toTarget = position - transform.position;
 
-		if (toTarget.magnitude > _range)
+		if (toTarget.magnitude > EffectiveRange)
 			return false;
 
 		float angleToTarget = Vector2.Angle(transform.up, toTarget.normalized);
-		return angleToTarget <= _angle * 0.5f;
-	}
-
-	void UpdateReactiveTargets()
-	{
-		_currentTargets.Clear();
-
-		if (IsOn && Managers.Game.IsPlaying)
-		{
-			int count = Physics2D.OverlapCircle(transform.position, _range, _reactiveFilter, _hits);
-			for (int i = 0; i < count; i++)
-			{
-				Collider2D hit = _hits[i];
-				if (hit == null)
-					continue;
-
-				ILampReactive target = FindReactiveTarget(hit);
-				if (target == null || _currentTargets.Contains(target))
-					continue;
-
-				Vector3 targetPosition = hit.bounds.center;
-				if (!IsInLightCone(targetPosition) || IsBlocked(targetPosition))
-					continue;
-
-				_currentTargets.Add(target);
-			}
-		}
-
-		foreach (ILampReactive target in _currentTargets)
-		{
-			if (_illuminatedTargets.Add(target))
-				target.OnLampEnter();
-
-			target.OnLampStay();
-		}
-
-		foreach (ILampReactive target in _illuminatedTargets)
-		{
-			if (!_currentTargets.Contains(target))
-				target.OnLampExit();
-		}
-
-		_illuminatedTargets.RemoveWhere(target => !_currentTargets.Contains(target));
-	}
-
-	ILampReactive FindReactiveTarget(Collider2D hit)
-	{
-		return hit.GetComponentInParent<ILampReactive>();
+		return angleToTarget <= EffectiveAngle * 0.5f;
 	}
 
 	bool IsBlocked(Vector3 targetPosition)

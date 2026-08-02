@@ -144,8 +144,13 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 		TryCatchPlayer(other.gameObject);
 	}
 
+	protected static bool CanCatchPlayer { get { return DebugOverlay.Invulnerable == false; } }
+
 	void TryCatchPlayer(GameObject target)
 	{
+		if (CanCatchPlayer == false)
+			return;
+
 		if (State == Define.EnemyState.Die || State == Define.EnemyState.Caught)
 			return;
 

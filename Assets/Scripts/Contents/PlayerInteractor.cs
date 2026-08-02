@@ -18,10 +18,23 @@ public class PlayerInteractor : MonoBehaviour
 	ContactFilter2D _filter;
 	IInteractable _current;
 	bool _wasPressed;
+	float _hold;
+	AudioSource _holdSource;
 
 	public Action<IInteractable> OnTargetChanged;
 
 	public IInteractable Current { get { return _current; } }
+
+	public float HoldProgress
+	{
+		get
+		{
+			if (_current == null || _current.HoldSeconds <= 0.0f)
+				return 0.0f;
+
+			return Mathf.Clamp01(_hold / _current.HoldSeconds);
+		}
+	}
 
 	void Awake()
 	{
@@ -49,10 +62,63 @@ public class PlayerInteractor : MonoBehaviour
 			return;
 
 		bool pressed = keyboard.eKey.isPressed;
-		if (pressed && _wasPressed == false && _current != null && _current.CanInteract)
-			_current.Interact(_player);
-
+		UpdateHold(pressed);
 		_wasPressed = pressed;
+	}
+
+	void UpdateHold(bool pressed)
+	{
+		if (_current == null || _current.CanInteract == false || pressed == false)
+		{
+			StopHold();
+			return;
+		}
+
+		if (_current.HoldSeconds <= 0.0f)
+		{
+			if (_wasPressed == false)
+				_current.Interact(_player);
+
+			return;
+		}
+
+		if (_hold <= 0.0f)
+			StartHold();
+
+		_hold += Time.deltaTime;
+
+		if (_hold < _current.HoldSeconds)
+			return;
+
+		IInteractable target = _current;
+		StopHold();
+		target.Interact(_player);
+	}
+
+	void StartHold()
+	{
+		if (_holdSource == null)
+		{
+			_holdSource = Util.GetOrAddComponent<AudioSource>(gameObject);
+			_holdSource.clip = Managers.Resource.Load<AudioClip>("Sounds/container_hold");
+			_holdSource.loop = true;
+			_holdSource.playOnAwake = false;
+			_holdSource.spatialBlend = 0.0f;
+		}
+
+		if (_holdSource.clip != null && _holdSource.isPlaying == false)
+		{
+			_holdSource.volume = 1.0f;
+			_holdSource.Play();
+		}
+	}
+
+	void StopHold()
+	{
+		_hold = 0.0f;
+
+		if (_holdSource != null && _holdSource.isPlaying)
+			_holdSource.Stop();
 	}
 
 	IInteractable FindNearest()
@@ -89,6 +155,7 @@ public class PlayerInteractor : MonoBehaviour
 			return;
 
 		_current = target;
+		StopHold();
 
 		if (OnTargetChanged != null)
 			OnTargetChanged.Invoke(target);
