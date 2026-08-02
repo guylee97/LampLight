@@ -29,6 +29,16 @@ public class MapObjectPlacer : MonoBehaviour
 
 	public void Place()
 	{
+		Place(int.MaxValue, 0.0f);
+	}
+
+	public void Place(int maxArtifacts, float artifactRadiusTiles)
+	{
+		Place(maxArtifacts, artifactRadiusTiles, LevelTable.MinLevel);
+	}
+
+	public void Place(int maxArtifacts, float artifactRadiusTiles, int level)
+	{
 		MapData map = Managers.Data.Map;
 		if (map == null)
 		{
@@ -46,9 +56,69 @@ public class MapObjectPlacer : MonoBehaviour
 		foreach (MapPoint point in map.objects)
 		{
 			if (point.name.StartsWith(ArtifactPrefix))
+			{
+				if (_artifacts.Count >= maxArtifacts)
+					continue;
+
 				PlaceArtifact(point, parent);
+			}
 			else if (point.name == ExitDoorPoint)
+			{
 				PlaceExitDoor(point, parent);
+			}
+		}
+
+		ApplyConcealment(level);
+
+		if (artifactRadiusTiles > 0.0f)
+			ApplyArtifactRadius(artifactRadiusTiles);
+	}
+
+	void ApplyConcealment(int level)
+	{
+		for (int i = 0; i < _artifacts.Count; i++)
+		{
+			if (_artifacts[i] == null)
+				continue;
+
+			int concealment = ConcealmentRules.ForLevel(level, i);
+			_artifacts[i].SetConcealment(concealment);
+
+			Sprite sprite = LoadObjectSprite(DecoSpec.ArtifactKey(i, concealment));
+			if (sprite == null && _artifactSprites != null && i < _artifactSprites.Length)
+				sprite = _artifactSprites[i];
+
+			if (sprite != null)
+				_artifacts[i].SetSprite(sprite);
+		}
+	}
+
+	public static Sprite LoadObjectSprite(string key)
+	{
+		if (string.IsNullOrEmpty(key) || TempleManifest.IsReady == false)
+			return null;
+
+		TempleObject entry = TempleManifest.Catalog.Object(key);
+		return entry == null ? null : Resources.Load<Sprite>(entry.resource);
+	}
+
+	void ApplyArtifactRadius(float radiusTiles)
+	{
+		foreach (Artifact artifact in _artifacts)
+		{
+			if (artifact == null)
+				continue;
+
+			PingScheduler ping = artifact.GetComponent<PingScheduler>();
+			if (ping != null)
+				ping.RadiusTiles = radiusTiles * artifact.RadiusScale;
+		}
+
+		if (_exitDoor != null)
+		{
+			PingScheduler ping = _exitDoor.GetComponent<PingScheduler>();
+			if (ping != null)
+				ping.RadiusTiles = radiusTiles;
 		}
 	}
 
@@ -85,11 +155,6 @@ public class MapObjectPlacer : MonoBehaviour
 		}
 
 		artifact.Init(_progress, point.name);
-
-		int index = _artifacts.Count;
-		if (_artifactSprites != null && index < _artifactSprites.Length)
-			artifact.SetSprite(_artifactSprites[index]);
-
 		_artifacts.Add(artifact);
 	}
 
@@ -109,7 +174,10 @@ public class MapObjectPlacer : MonoBehaviour
 		}
 
 		_exitDoor.Init(_progress);
+		_exitDoor.UseCatalogSprites(point);
 	}
+
+
 
 	public void MoveExitDoor(MapPoint point)
 	{

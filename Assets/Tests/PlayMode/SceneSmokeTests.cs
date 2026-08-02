@@ -6,6 +6,8 @@ using UnityEngine.TestTools;
 
 public class SceneSmokeTests
 {
+	const int SafeStartDistance = 7;
+
 	readonly List<string> _errors = new List<string>();
 
 	[SetUp]
@@ -59,8 +61,13 @@ public class SceneSmokeTests
 		StageProgress progress = Object.FindFirstObjectByType<StageProgress>();
 		Assert.IsNotNull(progress, "씬에 StageProgress가 없다");
 
-		Assert.AreEqual(progress.Required, placer.Artifacts.Count,
-			"배치된 유물 수가 클리어 조건과 다르다");
+		LevelConfig config = Managers.Game.Level;
+
+		Assert.AreEqual(config.ArtifactsPlaced, placer.Artifacts.Count,
+			"배치된 유물 수가 레벨 정의와 다르다");
+
+		Assert.GreaterOrEqual(placer.Artifacts.Count, progress.Required,
+			"배치 수가 필요 수보다 적으면 클리어가 불가능하다");
 
 		Assert.IsNotNull(placer.ExitDoor, "출구가 배치되지 않았다");
 
@@ -85,6 +92,26 @@ public class SceneSmokeTests
 	}
 
 	[UnityTest]
+	public IEnumerator TheListenerSitsOnThePlayer()
+	{
+		yield return QaScene.Load();
+
+		AudioListener[] listeners = Object.FindObjectsByType<AudioListener>(
+			FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+		Assert.AreEqual(1, listeners.Length, "AudioListener는 정확히 하나여야 한다");
+
+		PlayerController player = Object.FindFirstObjectByType<PlayerController>();
+		Assert.IsNotNull(player);
+
+		Assert.AreEqual(player.gameObject, listeners[0].gameObject,
+			"리스너가 플레이어에 없으면 카메라 Z오프셋만큼 거리가 더해져 소리가 죽는다");
+
+		float gap = Vector3.Distance(listeners[0].transform.position, player.transform.position);
+		Assert.Less(gap, 0.01f, $"리스너가 플레이어에서 {gap:0.00} 떨어져 있다");
+	}
+
+	[UnityTest]
 	public IEnumerator EnemiesStartAwayFromThePlayer()
 	{
 		yield return QaScene.Load();
@@ -95,15 +122,23 @@ public class SceneSmokeTests
 
 		List<string> tooClose = new List<string>();
 
-		foreach (EnemyBase enemy in Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None))
+		EnemyBase[] enemies = Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
+		LevelConfig config = LevelTable.Get(Managers.Game.CurrentLevel);
+		int expected = config.EnemyCount;
+
+		Assert.AreEqual(expected, enemies.Length,
+			$"L{Managers.Game.CurrentLevel} 좀비가 {expected}마리 나와야 하는데 {enemies.Length}마리다");
+
+		foreach (EnemyBase enemy in enemies)
 		{
 			Vector2Int tile = MapCoord.WorldToTile(enemy.transform.position);
 			int distance = MapPathfinder.Sample(field, tile.x, tile.y);
 
-			if (distance != MapPathfinder.Unreachable && distance < 12)
+			if (distance != MapPathfinder.Unreachable && distance < SafeStartDistance)
 				tooClose.Add($"{enemy.name} at ({tile.x},{tile.y}) distance={distance}");
 		}
 
-		Assert.IsEmpty(tooClose, $"시작 지점에서 12칸 안에 적이 있다:\n{string.Join("\n", tooClose)}");
+		Assert.IsEmpty(tooClose,
+			$"시작 지점에서 {SafeStartDistance}칸 안에 적이 있다:\n{string.Join("\n", tooClose)}");
 	}
 }

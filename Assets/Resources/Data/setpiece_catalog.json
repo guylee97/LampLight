@@ -1,0 +1,207 @@
+{
+ "pieces": [
+  {
+   "name": "altar_3x3",
+   "tag": "altar",
+   "cols": 3,
+   "rows": 3,
+   "objects": [
+    {
+     "key": "large_altar_low",
+     "tileX": 1.5,
+     "tileY": 0.5
+    },
+    {
+     "key": "prop_tablet_a",
+     "tileX": 0.5,
+     "tileY": 1.5
+    },
+    {
+     "key": "prop_tablet_b",
+     "tileX": 2.5,
+     "tileY": 1.5
+    },
+    {
+     "key": "prop_bowl",
+     "tileX": 0.5,
+     "tileY": 2.5
+    },
+    {
+     "key": "prop_bowl",
+     "tileX": 2.5,
+     "tileY": 2.5
+    }
+   ]
+  },
+  {
+   "name": "altar_5x5",
+   "tag": "altar",
+   "cols": 5,
+   "rows": 5,
+   "objects": [
+    {
+     "key": "large_offering_table",
+     "tileX": 2.5,
+     "tileY": 1.0
+    },
+    {
+     "key": "prop_pillar_intact",
+     "tileX": 0.5,
+     "tileY": 0.5
+    },
+    {
+     "key": "prop_pillar_intact",
+     "tileX": 4.5,
+     "tileY": 0.5
+    },
+    {
+     "key": "prop_pillar_intact",
+     "tileX": 0.5,
+     "tileY": 4.5
+    },
+    {
+     "key": "prop_pillar_intact",
+     "tileX": 4.5,
+     "tileY": 4.5
+    },
+    {
+     "key": "prop_bowl",
+     "tileX": 1.5,
+     "tileY": 3.5
+    },
+    {
+     "key": "prop_basin",
+     "tileX": 3.5,
+     "tileY": 3.5
+    },
+    {
+     "key": "prop_tablet_c",
+     "tileX": 2.5,
+     "tileY": 4.5
+    }
+   ]
+  },
+  {
+   "name": "collapse_3x3",
+   "tag": "generic",
+   "cols": 3,
+   "rows": 3,
+   "objects": [
+    {
+     "key": "large_rubble_heap",
+     "tileX": 1.5,
+     "tileY": 0.5
+    },
+    {
+     "key": "debris_masonry",
+     "tileX": 0.5,
+     "tileY": 0.5
+    },
+    {
+     "key": "debris_gravel_a",
+     "tileX": 2.5,
+     "tileY": 2.5
+    },
+    {
+     "key": "debris_stone",
+     "tileX": 0.5,
+     "tileY": 2.5
+    }
+   ]
+  },
+  {
+   "name": "exit_shrine_3x3",
+   "tag": "exit",
+   "cols": 3,
+   "rows": 3,
+   "objects": [
+    {
+     "key": "large_steps",
+     "tileX": 1.5,
+     "tileY": 0.5
+    },
+    {
+     "key": "prop_floor_seal",
+     "tileX": 0.5,
+     "tileY": 2.5
+    },
+    {
+     "key": "prop_tablet_a",
+     "tileX": 2.5,
+     "tileY": 2.5
+    },
+    {
+     "key": "cobweb_corner",
+     "tileX": 0.5,
+     "tileY": 0.5
+    }
+   ]
+  },
+  {
+   "name": "ossuary_3x3",
+   "tag": "generic",
+   "cols": 3,
+   "rows": 3,
+   "objects": [
+    {
+     "key": "container_sarcophagus_closed",
+     "tileX": 1.5,
+     "tileY": 0.5
+    },
+    {
+     "key": "debris_pile",
+     "tileX": 0.5,
+     "tileY": 2.5
+    },
+    {
+     "key": "debris_fragments",
+     "tileX": 2.5,
+     "tileY": 0.5
+    },
+    {
+     "key": "cobweb_torn",
+     "tileX": 2.5,
+     "tileY": 2.5
+    }
+   ]
+  },
+  {
+   "name": "pillars_5x5",
+   "tag": "generic",
+   "cols": 5,
+   "rows": 5,
+   "objects": [
+    {
+     "key": "large_pillar_broken_pair",
+     "tileX": 2.5,
+     "tileY": 1.0
+    },
+    {
+     "key": "prop_pillar_column",
+     "tileX": 0.5,
+     "tileY": 1.5
+    },
+    {
+     "key": "prop_pillar_column",
+     "tileX": 4.5,
+     "tileY": 1.5
+    },
+    {
+     "key": "prop_pillar_stump",
+     "tileX": 0.5,
+     "tileY": 3.5
+    },
+    {
+     "key": "prop_pillar_stump",
+     "tileX": 4.5,
+     "tileY": 3.5
+    },
+    {
+     "key": "debris_capital",
+     "tileX": 2.5,
+     "tileY": 4.5
+    }
+   ]
+  }
+ ]
+}

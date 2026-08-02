@@ -1,23 +1,33 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler
+public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler, IPointerEnterHandler
 {
-    public Action<PointerEventData> OnClickHandler = null;
-    public Action<PointerEventData> OnDragHandler = null;
+	public const string ClickClip = "ui_click";
+	public const string HoverClip = "ui_hover";
+
+	public Action<PointerEventData> OnClickHandler = null;
+	public Action<PointerEventData> OnDragHandler = null;
 
 	public void OnPointerClick(PointerEventData eventData)
 	{
+		if (OnClickHandler == null)
+			return;
+
+		Managers.Sound.PlayOptional(ClickClip, Define.Sound.UI);
+		OnClickHandler.Invoke(eventData);
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
 		if (OnClickHandler != null)
-			OnClickHandler.Invoke(eventData);
+			Managers.Sound.PlayOptional(HoverClip, Define.Sound.UI);
 	}
 
 	public void OnDrag(PointerEventData eventData)
-    {
+	{
 		if (OnDragHandler != null)
-            OnDragHandler.Invoke(eventData);
+			OnDragHandler.Invoke(eventData);
 	}
 }

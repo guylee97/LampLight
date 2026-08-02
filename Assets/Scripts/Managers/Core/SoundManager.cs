@@ -198,7 +198,10 @@ public class SoundManager
 		source.Play();
 		EmitSoundSignal(position, bus, volume);
 
-		Object.Destroy(go, clip.length / Mathf.Abs(source.pitch) + 0.1f);
+		if (Application.isPlaying)
+			Object.Destroy(go, clip.length / Mathf.Abs(source.pitch) + 0.1f);
+		else
+			Object.DestroyImmediate(go);
 	}
 
 	public void EmitSoundSignal(Vector3 position, Define.Sound bus, float intensity = 1.0f)

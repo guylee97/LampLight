@@ -1,0 +1,236 @@
+{
+ "characters": [
+  {
+   "key": "player",
+   "frameWidth": 84,
+   "frameHeight": 84,
+   "footBaselineY": 62,
+   "pivotX": 0.5,
+   "pivotY": 0.2619047619047619,
+   "colliderW": 40.0,
+   "colliderH": 40.0,
+   "speedMultiplier": 1.0,
+   "noiseDetectRadiusTiles": 0.0,
+   "searchDurationSec": 0.0,
+   "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+   ],
+   "states": [
+    {
+     "name": "idle",
+     "resource": "Art/Characters/player/player_idle_sheet",
+     "cols": 8,
+     "rows": 1,
+     "frames": 1,
+     "directionAxis": "col",
+     "fps": 0.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    },
+    {
+     "name": "walk",
+     "resource": "Art/Characters/player/player_walk_sheet",
+     "cols": 2,
+     "rows": 8,
+     "frames": 2,
+     "directionAxis": "row",
+     "fps": 0.0,
+     "fpsSneak": 3.5,
+     "fpsWalk": 6.0,
+     "fpsRun": 11.0
+    }
+   ]
+  },
+  {
+   "key": "zombie_runner",
+   "frameWidth": 124,
+   "frameHeight": 124,
+   "footBaselineY": 93,
+   "pivotX": 0.5,
+   "pivotY": 0.25,
+   "colliderW": 48.0,
+   "colliderH": 48.0,
+   "speedMultiplier": 1.9,
+   "noiseDetectRadiusTiles": 9.0,
+   "searchDurationSec": 5.0,
+   "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+   ],
+   "states": [
+    {
+     "name": "idle",
+     "resource": "Art/Characters/zombie_runner/zombie_runner_idle_sheet",
+     "cols": 1,
+     "rows": 8,
+     "frames": 1,
+     "directionAxis": "row",
+     "fps": 0.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    },
+    {
+     "name": "run",
+     "resource": "Art/Characters/zombie_runner/zombie_runner_run_sheet",
+     "cols": 1,
+     "rows": 8,
+     "frames": 1,
+     "directionAxis": "row",
+     "fps": 0.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    },
+    {
+     "name": "walk",
+     "resource": "Art/Characters/zombie_runner/zombie_runner_walk_sheet",
+     "cols": 2,
+     "rows": 8,
+     "frames": 2,
+     "directionAxis": "row",
+     "fps": 5.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    }
+   ]
+  },
+  {
+   "key": "zombie_walker",
+   "frameWidth": 92,
+   "frameHeight": 92,
+   "footBaselineY": 69,
+   "pivotX": 0.5,
+   "pivotY": 0.25,
+   "colliderW": 40.0,
+   "colliderH": 40.0,
+   "speedMultiplier": 0.85,
+   "noiseDetectRadiusTiles": 4.0,
+   "searchDurationSec": 8.0,
+   "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+   ],
+   "states": [
+    {
+     "name": "chase",
+     "resource": "Art/Characters/zombie_walker/zombie_walker_chase_sheet",
+     "cols": 1,
+     "rows": 8,
+     "frames": 1,
+     "directionAxis": "row",
+     "fps": 0.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    },
+    {
+     "name": "idle",
+     "resource": "Art/Characters/zombie_walker/zombie_walker_idle_sheet",
+     "cols": 1,
+     "rows": 8,
+     "frames": 1,
+     "directionAxis": "row",
+     "fps": 0.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    },
+    {
+     "name": "walk",
+     "resource": "Art/Characters/zombie_walker/zombie_walker_walk_sheet",
+     "cols": 2,
+     "rows": 8,
+     "frames": 2,
+     "directionAxis": "row",
+     "fps": 4.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    }
+   ]
+  },
+  {
+   "key": "zombie_wanderer",
+   "frameWidth": 92,
+   "frameHeight": 92,
+   "footBaselineY": 68,
+   "pivotX": 0.5,
+   "pivotY": 0.2608695652173913,
+   "colliderW": 40.0,
+   "colliderH": 40.0,
+   "speedMultiplier": 1.0,
+   "noiseDetectRadiusTiles": 6.0,
+   "searchDurationSec": 10.0,
+   "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+   ],
+   "states": [
+    {
+     "name": "chase",
+     "resource": "Art/Characters/zombie_wanderer/zombie_wanderer_chase_sheet",
+     "cols": 1,
+     "rows": 8,
+     "frames": 1,
+     "directionAxis": "row",
+     "fps": 0.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    },
+    {
+     "name": "idle",
+     "resource": "Art/Characters/zombie_wanderer/zombie_wanderer_idle_sheet",
+     "cols": 1,
+     "rows": 8,
+     "frames": 1,
+     "directionAxis": "row",
+     "fps": 0.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    },
+    {
+     "name": "walk",
+     "resource": "Art/Characters/zombie_wanderer/zombie_wanderer_walk_sheet",
+     "cols": 2,
+     "rows": 8,
+     "frames": 2,
+     "directionAxis": "row",
+     "fps": 5.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    }
+   ]
+  }
+ ]
+}

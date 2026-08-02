@@ -1,0 +1,73 @@
+{
+  "frameWidth": 84,
+  "frameHeight": 84,
+  "displayScale": 2,
+  "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+  ],
+  "directionIndex": {
+    "s": 0,
+    "se": 1,
+    "e": 2,
+    "ne": 3,
+    "n": 4,
+    "nw": 5,
+    "w": 6,
+    "sw": 7
+  },
+  "sheets": {
+    "walk": {
+      "file": "player_walk_sheet.png",
+      "cols": 2,
+      "rows": 8,
+      "layout": "row = direction index, col = frame"
+    },
+    "idle": {
+      "file": "player_idle_sheet.png",
+      "cols": 8,
+      "rows": 1,
+      "layout": "col = direction index"
+    }
+  },
+  "anims": {
+    "idle": {
+      "frames": 1
+    },
+    "walk": {
+      "frames": 2,
+      "fpsByState": {
+        "sneak": 3.5,
+        "walk": 6,
+        "run": 11
+      }
+    }
+  },
+  "anchor": "bottom-center",
+  "footBaselineY": 62,
+  "collisionBox": {
+    "w": 40,
+    "h": 40,
+    "anchor": "bottom-center"
+  },
+  "render": {
+    "imageSmoothing": false,
+    "integerScaleOnly": true
+  },
+  "palette": {
+    "colors": 37,
+    "note": "전 프레임 동일 팔레트로 통일 완료"
+  },
+  "notes": [
+    "walk_00 은 idle 포즈 복사본. 걷기는 00→01 교대 재생.",
+    "달리기 전용 스프라이트 없음. walk 프레임을 fps 11로 재생.",
+    "등불이 스프라이트에 포함됨 → 등불 방향 = 이동 방향.",
+    "광원 원점은 캐릭터 중심 사용."
+  ]
+}

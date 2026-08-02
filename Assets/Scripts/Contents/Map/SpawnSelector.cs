@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpawnSelector : MonoBehaviour
 {
+	public const string PlayerStartPoint = "player_start";
+
 	[SerializeField]
 	int _minPairDistance = 14;
 
@@ -74,25 +76,126 @@ public class SpawnSelector : MonoBehaviour
 
 	public bool Select(System.Random rng)
 	{
-		MapPoint start;
-		MapPoint exit;
+		MapData map = Managers.Data.Map;
+		MapPoint exit = map == null ? null : map.Find(MapObjectPlacer.ExitDoorPoint);
 
-		if (TryPickPair(Anchors, _minPairDistance, _maxAttempts, rng, out start, out exit) == false)
+		if (exit == null)
 		{
-			Debug.LogError("SpawnSelector: failed to pick a valid spawn pair");
+			Debug.LogError("SpawnSelector: 생성기가 만든 exit_door 가 없다");
+			return false;
+		}
+
+		MapPoint start = PickStartFor(exit, rng);
+		if (start == null)
+		{
+			Debug.LogError("SpawnSelector: 출구에서 충분히 떨어진 시작점을 못 찾았다");
 			return false;
 		}
 
 		_playerStart = start;
 		_exitDoor = exit;
 
-		if (_placer != null)
-			_placer.MoveExitDoor(_exitDoor);
+		SyncMapPoints(start, exit);
 
 		if (OnPairSelected != null)
 			OnPairSelected.Invoke(_playerStart, _exitDoor);
 
 		return true;
+	}
+
+	MapPoint PickStartFor(MapPoint exit, System.Random rng)
+	{
+		IReadOnlyList<MapPoint> anchors = Anchors;
+		if (anchors == null || anchors.Count == 0)
+			return null;
+
+		List<MapPoint> ordered = new List<MapPoint>(anchors);
+
+		for (int i = ordered.Count - 1; i > 0; i--)
+		{
+			int j = rng.Next(i + 1);
+			MapPoint tmp = ordered[i];
+			ordered[i] = ordered[j];
+			ordered[j] = tmp;
+		}
+
+		MapPoint farthest = null;
+		int best = -1;
+
+		foreach (MapPoint candidate in ordered)
+		{
+			int distance = MapPathfinder.Distance(candidate, exit);
+			if (distance == MapPathfinder.Unreachable)
+				continue;
+
+			if (distance >= _minPairDistance)
+				return candidate;
+
+			if (distance > best)
+			{
+				best = distance;
+				farthest = candidate;
+			}
+		}
+
+		if (farthest != null)
+			Debug.LogWarning($"SpawnSelector: 거리 {_minPairDistance} 이상인 시작점이 없어 "
+				+ $"가장 먼 {best} 타일로 대체했다");
+
+		return farthest;
+	}
+
+	public static bool TryPickFarthestPair(IReadOnlyList<MapPoint> anchors,
+		out MapPoint start, out MapPoint exit)
+	{
+		start = null;
+		exit = null;
+
+		if (anchors == null || anchors.Count < 2)
+			return false;
+
+		int best = -1;
+
+		for (int i = 0; i < anchors.Count; i++)
+		{
+			for (int j = i + 1; j < anchors.Count; j++)
+			{
+				int distance = MapPathfinder.Distance(anchors[i], anchors[j]);
+				if (distance == MapPathfinder.Unreachable || distance <= best)
+					continue;
+
+				best = distance;
+				start = anchors[i];
+				exit = anchors[j];
+			}
+		}
+
+		return best > 0;
+	}
+
+	static void SyncMapPoints(MapPoint start, MapPoint exit)
+	{
+		MapData map = Managers.Data.Map;
+		if (map == null || map.objects == null)
+			return;
+
+		foreach (MapPoint point in map.objects)
+		{
+			if (point.name == PlayerStartPoint)
+				Copy(start, point);
+			else if (point.name == MapObjectPlacer.ExitDoorPoint)
+				Copy(exit, point);
+		}
+
+		Managers.Data.UseMap(map);
+	}
+
+	static void Copy(MapPoint from, MapPoint to)
+	{
+		to.col = from.col;
+		to.row = from.row;
+		to.x = from.x;
+		to.y = from.y;
 	}
 
 	public Vector3 PlayerStartWorld()

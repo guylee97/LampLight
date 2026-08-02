@@ -38,13 +38,17 @@ public class StageCompletionTests
 			yield return Travel(bot, player, target, TargetRadius);
 			Assert.IsNull(bot.Failure, $"유물 {artifact.PointName}으로 가는 길: {bot.Failure}");
 
-			yield return bot.Tap(Key.E);
+			if (artifact.HoldSeconds > 0.0f)
+				yield return bot.HoldKey(Key.E, artifact.HoldSeconds);
+			else
+				yield return bot.Tap(Key.E);
+
 			yield return null;
 
 			Assert.IsTrue(artifact.IsCollected, $"유물 {artifact.PointName} 앞에서 수집에 실패했다");
 		}
 
-		Assert.AreEqual(progress.Required, progress.Collected, "유물을 다 모으지 못했다");
+		Assert.GreaterOrEqual(progress.Collected, progress.Required, "유물을 다 모으지 못했다");
 		Assert.IsTrue(placer.ExitDoor.IsOpen, "유물을 다 모았는데 출구가 열리지 않았다");
 
 		yield return Travel(bot, player, placer.ExitDoor.transform.position, TargetRadius);

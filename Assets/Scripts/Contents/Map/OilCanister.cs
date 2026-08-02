@@ -23,6 +23,7 @@ public class OilCanister : MonoBehaviour, IInteractable
 	public bool CanInteract { get { return _used == false; } }
 	public string Prompt { get { return "[E] 기름 보충"; } }
 	public Vector3 Position { get { return transform.position; } }
+	public float HoldSeconds { get { return 0.0f; } }
 
 	public void Interact(PlayerController player)
 	{

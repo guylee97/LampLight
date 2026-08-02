@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class MapTileProp
@@ -33,6 +34,29 @@ public class MapPoint
 }
 
 [Serializable]
+public class MapRoom
+{
+	public int col;
+	public int row;
+	public int width;
+	public int height;
+
+	public int Right { get { return col + width - 1; } }
+	public int Bottom { get { return row + height - 1; } }
+	public int Shorter { get { return Mathf.Min(width, height); } }
+
+	public bool Contains(int c, int r)
+	{
+		return c >= col && c <= Right && r >= row && r <= Bottom;
+	}
+
+	public bool Fits(int cols, int rows)
+	{
+		return width >= cols && height >= rows;
+	}
+}
+
+[Serializable]
 public class MapData : ILoader<string, MapPoint>
 {
 	public int width;
@@ -49,6 +73,10 @@ public class MapData : ILoader<string, MapPoint>
 	public MapTileset[] tilesets;
 	public MapPoint[] objects;
 	public MapPoint[] spawns;
+	public MapRoom[] rooms;
+
+	[NonSerialized]
+	public int[] blocked;
 
 	Dictionary<int, MapTileProp> _propByGid;
 
@@ -112,6 +140,53 @@ public class MapData : ILoader<string, MapPoint>
 	static int LayerLength(int[] layer)
 	{
 		return layer == null ? -1 : layer.Length;
+	}
+
+	public MapPoint Find(string pointName)
+	{
+		if (objects != null)
+		{
+			foreach (MapPoint point in objects)
+			{
+				if (point.name == pointName)
+					return point;
+			}
+		}
+
+		if (spawns == null)
+			return null;
+
+		foreach (MapPoint point in spawns)
+		{
+			if (point.name == pointName)
+				return point;
+		}
+
+		return null;
+	}
+
+	public void ClearBlocked()
+	{
+		blocked = null;
+	}
+
+	public void Block(int col, int row)
+	{
+		if (Contains(col, row) == false)
+			return;
+
+		if (blocked == null)
+			blocked = new int[width * height];
+
+		blocked[row * width + col] = 1;
+	}
+
+	public bool IsBlocked(int col, int row)
+	{
+		if (blocked == null || Contains(col, row) == false)
+			return false;
+
+		return blocked[row * width + col] != 0;
 	}
 
 	public bool Contains(int col, int row)

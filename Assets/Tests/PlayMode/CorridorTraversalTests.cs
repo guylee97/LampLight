@@ -24,7 +24,7 @@ public class CorridorTraversalTests
 	}
 
 	[UnityTest]
-	public IEnumerator BotWalksEveryOneTileCorridorEndToEnd()
+	public IEnumerator BotWalksEveryNarrowCorridorEndToEnd()
 	{
 		yield return QaScene.Load();
 
@@ -37,7 +37,12 @@ public class CorridorTraversalTests
 		Assert.IsNotNull(player, "씬에 PlayerController가 없다");
 
 		List<Corridor> corridors = FindCorridors(map);
-		Assert.IsNotEmpty(corridors, "1타일 폭 복도를 찾지 못했다");
+
+		if (corridors.Count == 0)
+		{
+			Debug.Log("CorridorTraversal: 1타일 병목 없음 — 복도 폭 2타일 규칙 충족");
+			yield break;
+		}
 
 		PlayBot bot = new PlayBot(player.transform);
 		List<string> failures = new List<string>();

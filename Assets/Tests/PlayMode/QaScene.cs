@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public static class QaScene
 {
 	public const string InGame = "InGame";
+	public const int DefaultSeed = 20260801;
 	public const int WallLayer = 10;
 
 	public static string ReportDir
@@ -24,7 +25,13 @@ public static class QaScene
 
 	public static IEnumerator Load()
 	{
+		return Load(DefaultSeed);
+	}
+
+	public static IEnumerator Load(int seed)
+	{
 		AllowHeadlessInput();
+		InGameScene.SeedOverride = seed;
 		SceneManager.LoadScene(InGame, LoadSceneMode.Single);
 
 		for (int i = 0; i < 5; i++)

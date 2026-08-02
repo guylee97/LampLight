@@ -41,6 +41,46 @@ public class DataManager
 		MapPoints = map == null ? new Dictionary<string, MapPoint>() : map.MakeDict();
 	}
 
+	public int LastSeed { get; private set; } = -1;
+	public bool LastUsedFallback { get; private set; }
+
+	public bool BuildLevelMap(int level, int seed)
+	{
+		int used;
+		MapData generated = MapGenerator.Generate(level, seed, out used);
+
+		string error;
+		if (generated != null && generated.Validate(out error))
+		{
+			LastSeed = used;
+			LastUsedFallback = false;
+			UseMap(generated);
+			return true;
+		}
+
+		Debug.LogWarning($"DataManager: generation failed for L{level}, falling back to the baked map");
+
+		LastSeed = -1;
+		LastUsedFallback = true;
+		return LoadLevelMap(level);
+	}
+
+	public bool LoadLevelMap(int level)
+	{
+		string path = $"map_l{LevelTable.Clamp(level)}";
+		MapData map = LoadJson<MapData, string, MapPoint>(path);
+
+		string error;
+		if (map == null || map.Validate(out error) == false)
+		{
+			Debug.LogError($"DataManager: {path} unusable, keeping current map");
+			return false;
+		}
+
+		UseMap(map);
+		return true;
+	}
+
 	public MapPoint GetPoint(string name)
 	{
 		MapPoint found;

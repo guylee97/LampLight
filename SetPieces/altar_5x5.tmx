@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="5" height="5" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="9">
+ <properties>
+  <property name="tag" value="altar"/>
+ </properties>
+ <objectgroup id="1" name="deco">
+  <object id="1" name="large_offering_table" x="80" y="32"/>
+  <object id="2" name="prop_pillar_intact" x="16" y="16"/>
+  <object id="3" name="prop_pillar_intact" x="144" y="16"/>
+  <object id="4" name="prop_pillar_intact" x="16" y="144"/>
+  <object id="5" name="prop_pillar_intact" x="144" y="144"/>
+  <object id="6" name="prop_bowl" x="48" y="112"/>
+  <object id="7" name="prop_basin" x="112" y="112"/>
+  <object id="8" name="prop_tablet_c" x="80" y="144"/>
+ </objectgroup>
+</map>

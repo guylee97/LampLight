@@ -10,13 +10,15 @@ public static class TopDownDepthSetup
 	const string ScenePath = "Assets/Scenes/InGame.unity";
 	const string GraphicsSettingsPath = "ProjectSettings/GraphicsSettings.asset";
 
-	const int FloorSortingOrder = -10;
+	const int FloorSortingOrder = -20;
+	const int WallSortingOrder = 10;
 	const int GroundLevelSortingOrder = 10;
 
 	[MenuItem("LampLight/Enable Top-Down Depth")]
 	public static void Run()
 	{
 		ApplyCustomAxisSorting();
+		ApplyRenderer2DSorting();
 
 		Scene scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
 
@@ -28,6 +30,32 @@ public static class TopDownDepthSetup
 		EditorSceneManager.SaveScene(scene);
 		AssetDatabase.SaveAssets();
 		Debug.Log("TopDownDepthSetup: done");
+	}
+
+	static void ApplyRenderer2DSorting()
+	{
+		foreach (string guid in AssetDatabase.FindAssets("t:ScriptableObject", new[] { "Assets/Settings" }))
+		{
+			string path = AssetDatabase.GUIDToAssetPath(guid);
+			Object asset = AssetDatabase.LoadAssetAtPath<Object>(path);
+			if (asset == null || asset.GetType().Name != "Renderer2DData")
+				continue;
+
+			SerializedObject so = new SerializedObject(asset);
+			SerializedProperty mode = so.FindProperty("m_TransparencySortMode");
+			SerializedProperty axis = so.FindProperty("m_TransparencySortAxis");
+
+			if (mode == null)
+				continue;
+
+			mode.intValue = (int)TransparencySortMode.CustomAxis;
+			if (axis != null)
+				axis.vector3Value = new Vector3(0, 1, 0);
+
+			so.ApplyModifiedPropertiesWithoutUndo();
+			EditorUtility.SetDirty(asset);
+			Debug.Log($"TopDownDepthSetup: {path} transparency sort = CustomAxis (0,1,0)");
+		}
 	}
 
 	static void ApplyCustomAxisSorting()
@@ -46,12 +74,53 @@ public static class TopDownDepthSetup
 		Debug.Log("TopDownDepthSetup: transparency sort = CustomAxis (0,1,0)");
 	}
 
+	static Material UnlitMaterial()
+	{
+		return AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");
+	}
+
+	static Material LitMaterial()
+	{
+		return AssetDatabase.LoadAssetAtPath<Material>("Assets/Resources/Image/M_SpriteLit.mat");
+	}
+
+	static readonly Color WallTint = new Color(0.25f, 0.26f, 0.28f, 1.0f);
+
 	static void ApplyTilemapSettings()
 	{
+		Material lit = LitMaterial();
+
 		foreach (TilemapRenderer renderer in Object.FindObjectsByType<TilemapRenderer>(FindObjectsInactive.Include, FindObjectsSortMode.None))
 		{
 			renderer.mode = TilemapRenderer.Mode.Individual;
-			renderer.sortingOrder = renderer.name == "Floor" ? FloorSortingOrder : GroundLevelSortingOrder;
+			if (renderer.name == "Floor")
+				renderer.sortingOrder = FloorSortingOrder;
+			else if (renderer.name == "Wall")
+				renderer.sortingOrder = WallSortingOrder;
+			else
+				renderer.sortingOrder = GroundLevelSortingOrder;
+			Tilemap tilemap = renderer.GetComponent<Tilemap>();
+			if (tilemap != null)
+			{
+				Color want = renderer.name == "Wall" ? WallTint : Color.white;
+				if (tilemap.color != want)
+				{
+					tilemap.color = want;
+					EditorUtility.SetDirty(tilemap);
+					Debug.Log($"TopDownDepthSetup: {renderer.name} 색 -> {want}");
+				}
+			}
+
+			if (renderer.name == "Wall")
+			{
+				renderer.sharedMaterial = UnlitMaterial();
+			}
+			else if (lit != null && renderer.sharedMaterial != lit)
+			{
+				renderer.sharedMaterial = lit;
+				Debug.Log($"TopDownDepthSetup: {renderer.name} 재질 -> {lit.name}");
+			}
+
 			EditorUtility.SetDirty(renderer);
 			Debug.Log($"TopDownDepthSetup: {renderer.name} mode=Individual order={renderer.sortingOrder}");
 		}
@@ -64,7 +133,9 @@ public static class TopDownDepthSetup
 			if (tilemap.name != "Wall")
 				continue;
 
-			Collider2D collider = tilemap.GetComponent<Collider2D>();
+			Collider2D collider = tilemap.GetComponent<CompositeCollider2D>();
+			if (collider == null)
+				collider = tilemap.GetComponent<Collider2D>();
 			if (collider == null)
 			{
 				Debug.LogError($"TopDownDepthSetup: {tilemap.name} has no Collider2D to derive shadows from");
