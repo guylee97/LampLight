@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="5" height="5" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="7">
+ <properties>
+  <property name="tag" value="generic"/>
+ </properties>
+ <objectgroup id="1" name="deco">
+  <object id="1" name="large_pillar_broken_pair" x="80" y="32"/>
+  <object id="2" name="prop_pillar_column" x="16" y="48"/>
+  <object id="3" name="prop_pillar_column" x="144" y="48"/>
+  <object id="4" name="prop_pillar_stump" x="16" y="112"/>
+  <object id="5" name="prop_pillar_stump" x="144" y="112"/>
+  <object id="6" name="debris_capital" x="80" y="144"/>
+ </objectgroup>
+</map>
