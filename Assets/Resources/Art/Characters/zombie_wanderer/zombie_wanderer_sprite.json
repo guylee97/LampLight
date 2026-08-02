@@ -1,0 +1,68 @@
+{
+  "character": "zombie_wanderer",
+  "label": "도는 것 (Wanderer)",
+  "frameWidth": 92,
+  "frameHeight": 92,
+  "displayScale": 2,
+  "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+  ],
+  "directionIndex": {
+    "s": 0,
+    "se": 1,
+    "e": 2,
+    "ne": 3,
+    "n": 4,
+    "nw": 5,
+    "w": 6,
+    "sw": 7
+  },
+  "footBaselineY": 68,
+  "anchor": "bottom-center",
+  "anims": {
+    "idle": {
+      "frames": 1,
+      "use": "정지"
+    },
+    "walk": {
+      "frames": 2,
+      "fps": 5,
+      "use": "순찰 이동 · 아직 감지 못 한 상태"
+    },
+    "chase": {
+      "frames": 1,
+      "use": "소음 감지 후 추격"
+    }
+  },
+  "behavior": {
+    "speedMultiplier": 1.0,
+    "noiseDetectRadiusTiles": 6,
+    "searchDurationSec": 10,
+    "patrol": true
+  },
+  "collisionBox": {
+    "w": 40,
+    "h": 40,
+    "anchor": "bottom-center"
+  },
+  "render": {
+    "imageSmoothing": false,
+    "integerScaleOnly": true
+  },
+  "palette": {
+    "colors": 32,
+    "note": "전 프레임 동일 팔레트 · 발밑 y=68 정렬 완료"
+  },
+  "notes": [
+    "walk_00 은 idle 포즈 복사본. 걷기는 00→01 교대 재생.",
+    "chase 자세가 보이면 = 플레이어를 감지한 상태 (시각 신호).",
+    "머리 전체가 거대한 눈. 한쪽 팔만 비대 — 실루엣 비대칭이 식별 단서."
+  ]
+}

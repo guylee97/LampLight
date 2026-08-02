@@ -1,0 +1,546 @@
+fileFormatVersion: 2
+guid: 3621e8659ed964645ac26df8c4d1ea36
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -9037529558769841253
+    second: zombie_runner_walk_sheet_0
+  - first:
+      213: -2499299304515166748
+    second: zombie_runner_walk_sheet_1
+  - first:
+      213: -1148866684900323230
+    second: zombie_runner_walk_sheet_2
+  - first:
+      213: 7905846475016470642
+    second: zombie_runner_walk_sheet_3
+  - first:
+      213: -6494751283116872672
+    second: zombie_runner_walk_sheet_4
+  - first:
+      213: -6460298910886866467
+    second: zombie_runner_walk_sheet_5
+  - first:
+      213: 2432477054178878290
+    second: zombie_runner_walk_sheet_6
+  - first:
+      213: -7074599564736113828
+    second: zombie_runner_walk_sheet_7
+  - first:
+      213: -3998560975911045339
+    second: zombie_runner_walk_sheet_8
+  - first:
+      213: 3410033619031750517
+    second: zombie_runner_walk_sheet_9
+  - first:
+      213: -8900061284401271625
+    second: zombie_runner_walk_sheet_10
+  - first:
+      213: 2864468734458998355
+    second: zombie_runner_walk_sheet_11
+  - first:
+      213: -7966455473640594414
+    second: zombie_runner_walk_sheet_12
+  - first:
+      213: 397385226406668956
+    second: zombie_runner_walk_sheet_13
+  - first:
+      213: 7348400179241925646
+    second: zombie_runner_walk_sheet_14
+  - first:
+      213: -4526322808678327248
+    second: zombie_runner_walk_sheet_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: zombie_runner_walk_s_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 868
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aede8d59afddb4eb48ec82a09ee1a2c6
+      internalID: -978466203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_s_01
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 868
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7857ba743a4924415bc77fa0f07982d4
+      internalID: -1018206010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_se_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 744
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d8ec5e2fb05045938ed5130ec435e0b
+      internalID: -1914762024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_se_01
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 744
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f18beb6b8fa1479a9b34d17fd100c11
+      internalID: -1743444806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_e_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 620
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91b1eead1e72e4c85bb229b531e0a47a
+      internalID: -987715970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_e_01
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 620
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7978c1db9417b4238bfbeaa6895457de
+      internalID: 658268098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_ne_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 496
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b13325d86aed43d2b972f8027ca147d
+      internalID: 1994957365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_ne_01
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 496
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 770878e03f5ec43938ba4537e0b71c4f
+      internalID: -1309306031
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_n_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 372
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d82b064d7f61d40cbb9763b98f2f96e6
+      internalID: -449574623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_n_01
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 372
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2bb316e1211648028aa96ef09e6e4b3
+      internalID: 126988882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_nw_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 248
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a143494b29d54da9a71b5d0242ed025
+      internalID: -1647524051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_nw_01
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 248
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e399a23ddeeaa44a1b9c6d5c8cbb404e
+      internalID: -78841682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_w_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 124
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f04f124081f44b26988e3507ab560b4
+      internalID: 2017950818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_w_01
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 124
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c085aef37052c4e838a48197b9c10ec4
+      internalID: -499775817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_sw_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8865c8228f0054bbd8a331bb722f136d
+      internalID: -326932450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: zombie_runner_walk_sw_01
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 0
+        width: 124
+        height: 124
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 28780152100c84596b846408755b1d8d
+      internalID: 528904194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: a2275650ac2194994892ad4ed1a5610f
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      zombie_runner_walk_e_00: -987715970
+      zombie_runner_walk_e_01: 658268098
+      zombie_runner_walk_n_00: -449574623
+      zombie_runner_walk_n_01: 126988882
+      zombie_runner_walk_ne_00: 1994957365
+      zombie_runner_walk_ne_01: -1309306031
+      zombie_runner_walk_nw_00: -1647524051
+      zombie_runner_walk_nw_01: -78841682
+      zombie_runner_walk_s_00: -978466203
+      zombie_runner_walk_s_01: -1018206010
+      zombie_runner_walk_se_00: -1914762024
+      zombie_runner_walk_se_01: -1743444806
+      zombie_runner_walk_sw_00: -326932450
+      zombie_runner_walk_sw_01: 528904194
+      zombie_runner_walk_w_00: 2017950818
+      zombie_runner_walk_w_01: -499775817
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
