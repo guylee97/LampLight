@@ -9,10 +9,10 @@ public static class DecoSpec
 	public const float NoisyFloorTiles = 5.0f;
 	public const float StoneNoiseTiles = 8.0f;
 
-	public const float DebrisRatio = 0.025f;
+	public const float DebrisRatio = 0.012f;
 	public const float DebrisWallWeight = 0.70f;
 
-	public const float MossRatio = 0.09f;
+	public const float MossRatio = 0.045f;
 	public const int MossCornerWeight = 3;
 
 	public const int PillarMinRoom = 6;
@@ -81,7 +81,18 @@ public static class DecoSpec
 	public static readonly string[] GlassKeys = { "noise_glass" };
 	public static readonly string[] PlankKeys = { "noise_planks" };
 
-	public static readonly string[] WallPatternKeys = new string[0];
+	public static readonly string[] WallPatternKeys =
+	{
+		"walldeco_arch", "walldeco_arch_mirror",
+		"walldeco_arcade", "walldeco_arcade_mirror",
+		"walldeco_hole", "walldeco_hole_mirror",
+		"walldeco_chains", "walldeco_chains_mirror",
+		"walldeco_sag", "walldeco_sag_mirror",
+		"walldeco_plain",
+	};
+
+	public const int WallPatternSpan = 3;
+	public const int WallPatternExitGap = 6;
 
 	public static readonly string[] ArtifactKeys =
 	{
@@ -110,11 +121,7 @@ public static class DecoSpec
 		"large_statue_kneeling",
 		"large_carpet_round_seal",
 		"large_carpet",
-		"walldeco_arch", "walldeco_arch_mirror",
-		"walldeco_arcade", "walldeco_arcade_mirror",
-		"walldeco_hole", "walldeco_hole_mirror",
-		"walldeco_plain", "walldeco_chains", "walldeco_chains_mirror",
-		"walldeco_sag", "walldeco_sag_mirror", "walldeco_brickband",
+		"walldeco_brickband",
 	};
 
 	public static bool IsBanned(string key)

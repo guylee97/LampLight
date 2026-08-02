@@ -316,24 +316,48 @@ public static class MapDecoPlan
 		if (pool.Count == 0)
 			return;
 
+		MapPoint exit = map.Find(MapObjectPlacer.ExitDoorPoint);
+		int span = DecoSpec.WallPatternSpan;
+
 		foreach (MapRoom room in map.rooms)
 		{
 			if (rng.NextDouble() >= 0.5)
 				continue;
 
-			int span = 3;
-			int col = room.col + rng.Next(0, Mathf.Max(1, room.width - span + 1));
-			if (HasWallBand(map, col, room.row, span) == false)
+			List<int> spots = new List<int>();
+			for (int col = room.col + 1; col < room.col + room.width - 1; col++)
+			{
+				if (WallFaceRules.BlockedBand(map, col, room.row, span, span) == false)
+					continue;
+
+				if (NearExit(exit, col, room.row))
+					continue;
+
+				spots.Add(col);
+			}
+
+			if (spots.Count == 0)
 				continue;
+
+			int chosen = spots[rng.Next(spots.Count)];
 
 			placed.Add(new DecoPlacement
 			{
 				Key = pool[rng.Next(pool.Count)],
-				TileX = col + span * 0.5f,
-				TileY = room.row - span * 0.5f,
+				TileX = chosen + 0.5f,
+				TileY = room.row - 0.5f,
 				SortRow = room.row - 1,
 			});
 		}
+	}
+
+	static bool NearExit(MapPoint exit, int col, int row)
+	{
+		if (exit == null)
+			return false;
+
+		return Mathf.Abs(exit.col - col) < DecoSpec.WallPatternExitGap
+			&& Mathf.Abs(exit.row - row) < DecoSpec.WallPatternExitGap;
 	}
 
 	static bool HasPillarBeside(List<DecoPlacement> placed, int col, int row)

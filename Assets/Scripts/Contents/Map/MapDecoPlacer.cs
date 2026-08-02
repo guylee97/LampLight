@@ -53,12 +53,25 @@ public class MapDecoPlacer : MonoBehaviour
 			GameObject go = new GameObject(placement.Key);
 			go.transform.SetParent(parent, false);
 
-			float halfHeight = sprite.bounds.size.y * 0.5f;
+			Bounds local = sprite.bounds;
 			float tileBottom = map.height - placement.TileY - 0.5f;
 			go.transform.position = new Vector3(
-				placement.TileX, tileBottom + halfHeight, 0.0f);
+				placement.TileX - (local.min.x + local.max.x) * 0.5f,
+				tileBottom - local.min.y, 0.0f);
 
 			SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+
+			if (placement.Key.StartsWith(MapDecoPlan.CategoryWallDeco))
+			{
+				renderer.color = WallTint;
+			}
+			else
+			{
+				Material lit = LitMaterial();
+				if (lit != null)
+					renderer.sharedMaterial = lit;
+			}
+
 			renderer.sprite = sprite;
 			renderer.sortingLayerName = _sortingLayer;
 			renderer.sortingOrder = DecoSortingOrder;
@@ -69,6 +82,18 @@ public class MapDecoPlacer : MonoBehaviour
 
 			_spawned.Add(go);
 		}
+	}
+
+	public static readonly Color WallTint = new Color(0.25f, 0.26f, 0.28f, 1.0f);
+
+	static Material _lit;
+
+	static Material LitMaterial()
+	{
+		if (_lit == null)
+			_lit = Resources.Load<Material>("Image/M_SpriteLit");
+
+		return _lit;
 	}
 
 	public void Clear()
