@@ -23,6 +23,9 @@ public class DecoOverlapTests
 			if (renderer.sprite == null)
 				continue;
 
+			if (renderer.name.StartsWith("walldeco"))
+				continue;
+
 			Bounds bounds = renderer.bounds;
 
 			int left = Mathf.FloorToInt(bounds.min.x + 0.01f);

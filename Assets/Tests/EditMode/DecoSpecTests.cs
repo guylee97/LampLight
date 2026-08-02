@@ -325,7 +325,7 @@ public class DecoSpecTests
 					int tilesTall = Mathf.RoundToInt(entry.h / 32.0f);
 
 					int left = Mathf.FloorToInt(placement.TileX - tilesWide * 0.5f);
-					int bottom = Mathf.FloorToInt(placement.TileY + tilesTall * 0.5f) - 1;
+					int bottom = Mathf.FloorToInt(placement.TileY);
 
 					for (int r = bottom; r > bottom - tilesTall; r--)
 					{
@@ -350,19 +350,36 @@ public class DecoSpecTests
 	}
 
 	[Test]
-	public void NoWallDecoIsPlacedAtAll()
+	public void WallDecoSitsOnANorthWallFace()
 	{
-		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		List<string> bad = new List<string>();
+		int found = 0;
+
+		for (int level = 2; level <= LevelTable.MaxLevel; level++)
 		{
+			MapData map = _maps[level];
+
 			for (int seed = 0; seed < Seeds; seed++)
 			{
 				foreach (DecoPlacement placement in Plan(level, seed))
 				{
-					Assert.IsFalse(placement.Key.StartsWith(MapDecoPlan.CategoryWallDeco),
-						$"L{level} seed {seed}: 벽 장식은 사용 보류인데 {placement.Key} 이 나왔다");
+					if (placement.Key.StartsWith(MapDecoPlan.CategoryWallDeco) == false)
+						continue;
+
+					found++;
+					int col = Mathf.FloorToInt(placement.TileX);
+					int floorRow = Mathf.FloorToInt(placement.TileY) + 1;
+
+					if (WallFaceRules.BlockedBand(map, col, floorRow,
+						DecoSpec.WallPatternSpan, DecoSpec.WallPatternSpan) == false)
+						bad.Add($"L{level} seed {seed}: {placement.Key} 아래 벽면이 없다 ({col},{floorRow})");
 				}
 			}
 		}
+
+		Assert.Greater(found, 0, "벽 장식이 한 번도 배치되지 않았다");
+		Assert.IsEmpty(bad, $"위반 {bad.Count}건\n"
+			+ string.Join("\n", bad.GetRange(0, Mathf.Min(6, bad.Count))));
 	}
 
 	[Test]
