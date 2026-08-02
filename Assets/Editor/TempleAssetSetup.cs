@@ -57,7 +57,7 @@ public static class TempleAssetSetup
 
 			TextureImporterSettings settings = new TextureImporterSettings();
 			importer.ReadTextureSettings(settings);
-			settings.spriteAlignment = path.Contains("/door/")
+			settings.spriteAlignment = path.Contains("/door/") || path.Contains("/walldeco/")
 				? (int)SpriteAlignment.BottomCenter
 				: (int)SpriteAlignment.Center;
 			importer.SetTextureSettings(settings);
