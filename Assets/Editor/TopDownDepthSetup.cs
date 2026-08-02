@@ -74,12 +74,17 @@ public static class TopDownDepthSetup
 		Debug.Log("TopDownDepthSetup: transparency sort = CustomAxis (0,1,0)");
 	}
 
+	static Material UnlitMaterial()
+	{
+		return AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");
+	}
+
 	static Material LitMaterial()
 	{
 		return AssetDatabase.LoadAssetAtPath<Material>("Assets/Resources/Image/M_SpriteLit.mat");
 	}
 
-	static readonly Color WallTint = Color.white;
+	static readonly Color WallTint = new Color(0.25f, 0.26f, 0.28f, 1.0f);
 
 	static void ApplyTilemapSettings()
 	{
@@ -106,7 +111,11 @@ public static class TopDownDepthSetup
 				}
 			}
 
-			if (lit != null && renderer.sharedMaterial != lit)
+			if (renderer.name == "Wall")
+			{
+				renderer.sharedMaterial = UnlitMaterial();
+			}
+			else if (lit != null && renderer.sharedMaterial != lit)
 			{
 				renderer.sharedMaterial = lit;
 				Debug.Log($"TopDownDepthSetup: {renderer.name} 재질 -> {lit.name}");
@@ -124,7 +133,9 @@ public static class TopDownDepthSetup
 			if (tilemap.name != "Wall")
 				continue;
 
-			Collider2D collider = tilemap.GetComponent<Collider2D>();
+			Collider2D collider = tilemap.GetComponent<CompositeCollider2D>();
+			if (collider == null)
+				collider = tilemap.GetComponent<Collider2D>();
 			if (collider == null)
 			{
 				Debug.LogError($"TopDownDepthSetup: {tilemap.name} has no Collider2D to derive shadows from");

@@ -493,7 +493,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -25624,7 +25624,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.25, g: 0.26, b: 0.28, a: 1}
   m_Origin: {x: 0, y: 0, z: 0}
   m_Size: {x: 60, y: 40, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -25712,7 +25712,7 @@ MonoBehaviour:
   - {x: 60, y: 0, z: 0}
   m_ShapePathHash: 0
   m_InstanceId: 0
-  m_ShadowShape2DComponent: {fileID: 1778846261}
+  m_ShadowShape2DComponent: {fileID: 1778846263}
   m_ShadowShape2DProvider:
     rid: 8074201616052387840
   m_ShadowCastingSource: 2
@@ -25722,13 +25722,13 @@ MonoBehaviour:
       m_Center: {x: 0, y: 0, z: 0}
       m_Extent: {x: 0, y: 0, z: 0}
     m_EdgeProcessing: 1
-    m_TrimEdge: -1
+    m_TrimEdge: 0.5
     m_FlipX: 0
     m_FlipY: 0
     m_InitialTrim: 0
   m_CastingOption: 1
   m_PreviousTrimEdge: 0
-  m_PreviousEdgeProcessing: -1
+  m_PreviousEdgeProcessing: 0
   m_PreviousShadowCastingSource: -1
   m_PreviousShadowShape2DSource: {fileID: 0}
   references:
