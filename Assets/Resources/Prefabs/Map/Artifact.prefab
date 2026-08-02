@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 303647501572900079}
   - component: {fileID: 2773083818348534860}
   - component: {fileID: 7468889833680512220}
+  - component: {fileID: 2987489313284009842}
+  - component: {fileID: 6205698396558979686}
   m_Layer: 0
   m_Name: Artifact
   m_TagString: Untagged
@@ -31,7 +33,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 5013082644193117814}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &303647501572900079
@@ -143,4 +146,105 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Artifact
   _pointName: 
   _renderer: {fileID: 303647501572900079}
+  _concealment: 0
   _collectNoiseRadius: 12
+  _collectNoiseDuration: 1.5
+--- !u!114 &2987489313284009842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6469448640682530653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a2f0e69b83846d89abca8970be18d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LampLight::OcclusionSource
+  _clearClip: {fileID: 8300000, guid: 176da1eba2550400b823459c962d2c70, type: 3}
+  _muffledClip: {fileID: 8300000, guid: 32023c337e08e48e1bb566c857e1ab9d, type: 3}
+  _bus: 1
+  _radiusTiles: 12
+  _listener: {fileID: 0}
+--- !u!114 &6205698396558979686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6469448640682530653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab92b2c3fc9c487bb4419219171b4ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LampLight::PingScheduler
+  _source: {fileID: 2987489313284009842}
+  _listener: {fileID: 0}
+  _radiusTiles: 12
+  _semitoneOffset: 0
+  _active: 1
+--- !u!1 &7480253743634085326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5013082644193117814}
+  - component: {fileID: 2487918637363526474}
+  - component: {fileID: 7460005834835268728}
+  m_Layer: 0
+  m_Name: Drone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5013082644193117814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7480253743634085326}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7282298367196906796}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2487918637363526474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7480253743634085326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a2f0e69b83846d89abca8970be18d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LampLight::OcclusionSource
+  _clearClip: {fileID: 0}
+  _muffledClip: {fileID: 0}
+  _bus: 1
+  _radiusTiles: 6
+  _listener: {fileID: 0}
+--- !u!114 &7460005834835268728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7480253743634085326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 584643d753bbd4ab087c895ba22ae77a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LampLight::ProximityDrone
+  _radiusTiles: 6
+  _maxGain: 0.55
+  _falloffPower: 2

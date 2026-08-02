@@ -20,7 +20,18 @@ public class InGameScene : MonoBehaviour
 	CameraController _camera;
 
 	[SerializeField]
+	EnemySpawner _spawner;
+
+	[SerializeField]
+	MapTilemapRenderer _tilemap;
+
+	[SerializeField]
+	MapDecoPlacer _deco;
+
+	[SerializeField]
 	int _seed = -1;
+
+	public static int SeedOverride = -1;
 
 	[SerializeField]
 	int _minEnemyDistanceFromStart = 12;
@@ -42,15 +53,63 @@ public class InGameScene : MonoBehaviour
 			loop: true
 		);
 
-		_placer.Place();
+		LevelConfig config = Managers.Game.Level;
 
-		if (_selector.Select(_seed < 0 ? new System.Random() : new System.Random(_seed)))
-			ApplySpawnPair();
+		int configured = SeedOverride >= 0 ? SeedOverride : _seed;
+		int mapSeed = configured >= 0
+			? configured
+			: UnityEngine.Random.Range(1, int.MaxValue - MapGenerator.MaxAttempts);
+		Managers.Data.BuildLevelMap(config.Level, mapSeed);
+
+		if (_tilemap == null)
+			_tilemap = FindFirstObjectByType<MapTilemapRenderer>();
+
+		if (_tilemap != null)
+			_tilemap.Repaint();
+
+		if (_deco == null)
+			_deco = FindFirstObjectByType<MapDecoPlacer>();
+
+		if (_deco != null)
+			_deco.Place(Managers.Data.LastSeed >= 0 ? Managers.Data.LastSeed : mapSeed);
+
+		ApplyLevelConfig(config);
+
+		_placer.Place(config.ArtifactsPlaced, config.ArtifactRadiusTiles, config.Level);
+
+		System.Random rng = configured < 0 ? new System.Random() : new System.Random(configured);
+
+		if (_selector.Select(rng))
+			ApplySpawnPair(config, rng);
 
 		_hud = Managers.UI.ShowSceneUI<UI_InGame>();
 		_hud.Setup(_progress, _player);
 
 		Managers.Game.OnStageEnded += OnStageEnded;
+	}
+
+	void ApplyLevelConfig(LevelConfig config)
+	{
+		_progress.SetRequired(config.ArtifactsRequired);
+		ApplyOilCanisters(config.OilCanisters);
+		NoiseLure.ClearAll();
+
+		if (_player != null)
+		{
+			StoneThrower thrower = _player.GetComponent<StoneThrower>();
+			if (thrower != null)
+				thrower.SetStones(config.Stones);
+		}
+
+		if (_player != null && _player.Lamp != null)
+		{
+			float seconds = config.LampSeconds;
+
+			if (Managers.Game.ConsecutiveFailures >= 3)
+				seconds *= 1.2f;
+
+			_player.Lamp.SetMaxDuration(seconds);
+		}
 	}
 
 	void OnDestroy()
@@ -76,6 +135,9 @@ public class InGameScene : MonoBehaviour
 		if (_camera == null)
 			_camera = FindFirstObjectByType<CameraController>();
 
+		if (_spawner == null)
+			_spawner = FindFirstObjectByType<EnemySpawner>();
+
 		if (_progress != null && _placer != null && _selector != null && _player != null)
 			return true;
 
@@ -83,10 +145,25 @@ public class InGameScene : MonoBehaviour
 		return false;
 	}
 
-	void ApplySpawnPair()
+	void ApplyOilCanisters(int allowed)
+	{
+		int kept = 0;
+
+		foreach (OilCanister canister in FindObjectsByType<OilCanister>(FindObjectsInactive.Include,
+			FindObjectsSortMode.InstanceID))
+		{
+			bool enable = kept < allowed;
+			canister.gameObject.SetActive(enable);
+
+			if (enable)
+				kept++;
+		}
+	}
+
+	void ApplySpawnPair(LevelConfig config, System.Random rng)
 	{
 		Vector3 start = _selector.PlayerStartWorld();
-		_player.transform.position = start;
+		_player.Teleport(start);
 
 		if (_camera != null)
 		{
@@ -96,7 +173,10 @@ public class InGameScene : MonoBehaviour
 			_camera.SnapToTarget();
 		}
 
-		PushEnemiesAwayFrom(_selector.PlayerStart);
+		if (_spawner != null)
+			_spawner.Spawn(config, _selector.PlayerStart, rng);
+		else
+			PushEnemiesAwayFrom(_selector.PlayerStart);
 	}
 
 	void PushEnemiesAwayFrom(MapPoint start)

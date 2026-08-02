@@ -1,5 +1,70 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1707395236013420761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7420437262791664115}
+  - component: {fileID: 1043427167348606612}
+  - component: {fileID: 5261488720933956535}
+  m_Layer: 0
+  m_Name: Drone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7420437262791664115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707395236013420761}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4932656713152673331}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1043427167348606612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707395236013420761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a2f0e69b83846d89abca8970be18d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LampLight::OcclusionSource
+  _clearClip: {fileID: 0}
+  _muffledClip: {fileID: 0}
+  _bus: 1
+  _radiusTiles: 7
+  _listener: {fileID: 0}
+--- !u!114 &5261488720933956535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707395236013420761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 584643d753bbd4ab087c895ba22ae77a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LampLight::ProximityDrone
+  _radiusTiles: 7
+  _maxGain: 0.55
+  _falloffPower: 2
 --- !u!1 &2470142063599842086
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,6 +77,8 @@ GameObject:
   - component: {fileID: 7861475314503306211}
   - component: {fileID: 7882248021725947361}
   - component: {fileID: 8586426798697604987}
+  - component: {fileID: 3628912922751119436}
+  - component: {fileID: 5197239828250217040}
   m_Layer: 0
   m_Name: ExitDoor
   m_TagString: Untagged
@@ -31,7 +98,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7420437262791664115}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7861475314503306211
@@ -153,3 +221,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ExitDoor
   _lockedSprite: {fileID: 21300000, guid: 88366e3c4b4bf9cd5d64373729349fb8, type: 3}
   _openSprite: {fileID: 21300000, guid: 407c6bf6f33c507cfa53c12003bb80c0, type: 3}
+  _ping: {fileID: 5197239828250217040}
+--- !u!114 &3628912922751119436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2470142063599842086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a2f0e69b83846d89abca8970be18d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LampLight::OcclusionSource
+  _clearClip: {fileID: 8300000, guid: fc0b67e4208d54248acdf57d4c25f10e, type: 3}
+  _muffledClip: {fileID: 8300000, guid: 30fec1eae24de40b19a871ad469dc2b0, type: 3}
+  _bus: 1
+  _radiusTiles: 12
+  _listener: {fileID: 0}
+--- !u!114 &5197239828250217040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2470142063599842086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab92b2c3fc9c487bb4419219171b4ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: LampLight::PingScheduler
+  _source: {fileID: 3628912922751119436}
+  _listener: {fileID: 0}
+  _radiusTiles: 12
+  _semitoneOffset: 0
+  _active: 0
