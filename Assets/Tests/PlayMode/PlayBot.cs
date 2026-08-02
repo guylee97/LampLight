@@ -99,6 +99,18 @@ public class PlayBot
 		yield return null;
 	}
 
+	public IEnumerator HoldKey(Key key, float seconds)
+	{
+		Press(key);
+
+		float deadline = Time.time + seconds + 0.25f;
+		while (Time.time < deadline)
+			yield return null;
+
+		Release();
+		yield return null;
+	}
+
 	public IEnumerator WalkTo(Vector2 target, float arriveRadius, float timeout)
 	{
 		Arrived = false;

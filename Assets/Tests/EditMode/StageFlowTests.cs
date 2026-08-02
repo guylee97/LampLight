@@ -39,12 +39,16 @@ public class StageFlowTests
 	}
 
 	[Test]
-	public void ExtraCollectsDoNotOvershoot()
+	public void ExtraCollectsKeepCountingForScore()
 	{
+		int completions = 0;
+		_progress.OnAllArtifactsCollected += () => completions++;
+
 		for (int i = 0; i < _progress.Required + 5; i++)
 			_progress.ReportCollected();
 
-		Assert.AreEqual(_progress.Required, _progress.Collected);
+		Assert.AreEqual(_progress.Required + 5, _progress.Collected);
+		Assert.AreEqual(1, completions);
 	}
 
 	[Test]
