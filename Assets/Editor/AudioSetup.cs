@@ -17,8 +17,8 @@ public static class AudioSetup
 	};
 
 	const string PlayerPrefab = "Assets/Resources/Prefabs/Player.prefab";
-	const string WalkerPrefab = "Assets/Resources/Prefabs/DefaultZombie.prefab";
-	const string WandererPrefab = "Assets/Resources/Prefabs/ActiveZombie.prefab";
+	const string WalkerPrefab = "Assets/Resources/Prefabs/WalkerZombie.prefab";
+	const string WandererPrefab = "Assets/Resources/Prefabs/WandererZombie.prefab";
 	const string RunnerPrefab = "Assets/Resources/Prefabs/RunnerZombie.prefab";
 	const string InGameScenePath = "Assets/Scenes/InGame.unity";
 
@@ -137,7 +137,7 @@ public static class AudioSetup
 			SetClipArray(so, "_walkFootstepClips", "step_walk");
 			SetClipArray(so, "_sneakFootstepClips", "step_sneak");
 			SetClipArray(so, "_runFootstepClips", "step_run");
-			SetClipArray(so, "_noisyFootstepClips", "step_noisy_floor");
+			SetClipArray(so, "_noisyFloorFootstepClips", "step_noisy_floor");
 			so.ApplyModifiedPropertiesWithoutUndo();
 
 			Util.GetOrAddComponent<StoneThrower>(root);
@@ -241,9 +241,6 @@ public static class AudioSetup
 			so.FindProperty("_idleSound").objectReferenceValue = LoadClip(idle);
 			so.FindProperty("_patrolSound").objectReferenceValue = LoadClip(patrol);
 			so.FindProperty("_chaseSound").objectReferenceValue = LoadClip(chase);
-			so.FindProperty("_idleSoundMuffled").objectReferenceValue = LoadClip(idle + "_muffled");
-			so.FindProperty("_patrolSoundMuffled").objectReferenceValue = LoadClip(patrol + "_muffled");
-			so.FindProperty("_chaseSoundMuffled").objectReferenceValue = LoadClip(chase + "_muffled");
 			so.ApplyModifiedPropertiesWithoutUndo();
 
 			PrefabUtility.SaveAsPrefabAsset(root, path);
