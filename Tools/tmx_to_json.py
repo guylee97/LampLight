@@ -31,6 +31,26 @@ TILESET_KEYWORDS = (
 NOISY_KEYWORDS = ("noisy", "노이즈", "자갈", "gravel", "debris", "rubble")
 
 
+CATALOG_PATH = os.path.join(ROOT, "Assets", "Resources", "Data", "temple_catalog.json")
+
+
+def load_catalog():
+    if not os.path.exists(CATALOG_PATH):
+        return None
+    with open(CATALOG_PATH, encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def catalog_props(catalog, first_gid, declared_gids):
+    added = []
+    for tile in catalog["tiles"]:
+        gid = first_gid + tile["id"]
+        if gid in declared_gids:
+            continue
+        added.append({"gid": gid, "walkable": tile["walkable"], "noisy": tile["noisy"]})
+    return added
+
+
 def canonical_layer_name(raw):
     key = (raw or "").strip().replace(" ", "").replace("_", "").lower()
     return LAYER_ALIASES.get(key)
@@ -282,6 +302,8 @@ def convert(src):
     if tile_size != int(root.get("tileheight")):
         raise ValueError("정사각 타일이 아니다")
 
+    catalog = load_catalog()
+
     tilesets = root.findall("tileset")
     tile_props = []
     tileset_targets = {}
@@ -292,10 +314,24 @@ def convert(src):
         props = parse_tile_props(ts)
         if not props:
             props = infer_tile_props(ts, target)
+
+        if catalog:
+            declared = {p["gid"] for p in props}
+            filled = catalog_props(catalog, first_gid, declared)
+            if filled:
+                notes.append(f"타일셋 '{ts.get('name')}': 미선언 타일 {len(filled)}개를 카탈로그에서 채웠다")
+            props.extend(filled)
+
         tile_props.extend(props)
 
         for offset in range(int(ts.get("tilecount") or 1)):
             tileset_targets[first_gid + offset] = target
+
+    if catalog:
+        walkable_by_gid = {p["gid"]: p["walkable"] for p in tile_props}
+        for gid, walkable in walkable_by_gid.items():
+            if gid in tileset_targets:
+                tileset_targets[gid] = "floor" if walkable else "walls"
 
     raw_layers = root.findall("layer")
     if not raw_layers:
