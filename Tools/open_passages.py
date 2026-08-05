@@ -180,12 +180,13 @@ def main():
             data = json.load(handle)
         found = regions_of(data)
         stranded = sum(len(r) for r in found[1:])
-        openable = sum(len(r) for r in found[1:] if len(r) >= MIN_ISLAND)
-        remaining += openable
-        print(f"L{level}: 영역 {len(found)}개, 최대 {len(found[0])}칸, 고립 {stranded}칸")
+        gates = gates_of(data)
+        remaining += len(gates)
+        print(f"L{level}: 영역 {len(found)}개, 최대 {len(found[0])}칸, "
+              f"고립 {stranded}칸, 장식이 막은 통로 {len(gates)}칸")
 
     if remaining:
-        print(f"이을 수 있는 고립 {remaining}칸이 남았다. 수렴하지 않았으니 손으로 확인하라.",
+        print(f"장식이 막은 통로 {remaining}칸이 남았다. 수렴하지 않았으니 손으로 확인하라.",
               file=sys.stderr)
         return 1
 

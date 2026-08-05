@@ -133,11 +133,14 @@ def bake(level, assets, block_t, noise_t, alpha_min, cache):
                 if RANK[verdict] > RANK[collision[index]]:
                     collision[index] = verdict
 
+    counts = {v: collision.count(v) for v in (WALK, BLOCK, NOISE, MUFFLED)}
+    if unknown:
+        return counts, unknown
+
     data["collision"] = collision
     with open(path, "w", encoding="utf-8") as handle:
         json.dump(data, handle, ensure_ascii=False, separators=(",", ":"))
 
-    counts = {v: collision.count(v) for v in (WALK, BLOCK, NOISE, MUFFLED)}
     return counts, unknown
 
 
@@ -156,6 +159,7 @@ def main():
         print(
             f"L{level}: 통과 {counts[WALK]}  차단 {counts[BLOCK]}"
             f"  큰소리 {counts[NOISE]}  카펫 {counts[MUFFLED]}"
+            + ("  (미확인 항목이 있어 저장하지 않았다)" if unknown else "")
         )
 
     if missing:
