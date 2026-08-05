@@ -1,0 +1,9 @@
+PlayMode DecoOverlapTests.NoDecoSpriteCoversAWallTile(1)
+PlayMode DecoOverlapTests.NoDecoSpriteCoversAWallTile(2)
+PlayMode DecoOverlapTests.NoDecoSpriteCoversAWallTile(3)
+PlayMode SceneSmokeTests.EveryArtifactAndTheExitAreReachable
+PlayMode SpawnPlacementTests.ExitDoorSitsOnAWalkableTile
+PlayMode StageCompletionTests.BotCollectsEveryArtifactAndEscapes
+PlayMode WallFaceOverlapTests.ExitDoorStandsOnReachableFloor(1)
+PlayMode WallFaceOverlapTests.ExitDoorStandsOnReachableFloor(2)
+PlayMode WallFaceOverlapTests.ExitDoorStandsOnReachableFloor(3)
