@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -266,13 +267,17 @@ public static class HeadlessShot
 	static int ParseInt(string value, int fallback)
 	{
 		int parsed;
-		return int.TryParse(value, out parsed) ? parsed : fallback;
+		return int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out parsed)
+			? parsed
+			: fallback;
 	}
 
 	static float ParseFloat(string value, float fallback)
 	{
 		float parsed;
-		return float.TryParse(value, out parsed) ? parsed : fallback;
+		return float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out parsed)
+			? parsed
+			: fallback;
 	}
 
 	static string Arg(string name, string fallback)
