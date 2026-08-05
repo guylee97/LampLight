@@ -17,7 +17,7 @@ def main():
 
     names = []
     for case in root.iter("test-case"):
-        if case.get("result") != "Passed":
+        if case.get("result") == "Failed":
             names.append(f"{mode} {case.get('fullname')}")
 
     if len(names) != int(failed):

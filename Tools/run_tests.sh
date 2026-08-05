@@ -21,6 +21,11 @@ for arg in "$@"; do
 	esac
 done
 
+if [ "$update" = "1" ] && [ "${#modes[@]}" -ne 2 ]; then
+	echo "--update 는 두 모드를 모두 돌려야 한다. 한쪽만 갱신하면 나머지 기준선이 지워진다." >&2
+	exit 2
+fi
+
 if [ -f "$SRC/Temp/UnityLockfile" ] && pgrep -f "Unity.*-projectpath.*$SRC" >/dev/null 2>&1; then
 	echo "에디터가 프로젝트를 잠그고 있다. 닫거나 Tools/ci_unity.sh 를 써라." >&2
 	exit 2
