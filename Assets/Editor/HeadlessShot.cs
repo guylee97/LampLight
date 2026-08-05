@@ -43,7 +43,9 @@ public static class HeadlessShot
 		SessionState.SetInt(KeyHeight, height);
 		SessionState.SetInt(KeyWait, wait);
 		SessionState.SetFloat(KeySeconds, ParseFloat(Arg("-shotSeconds", "0"), 0.0f));
-		SessionState.SetInt(KeySeed, ParseInt(Arg("-shotSeed", "-1"), -1));
+		int seed = ParseInt(Arg("-shotSeed", "-1"), -1);
+		SessionState.SetInt(KeySeed, seed);
+		InGameScene.SeedOverride = seed;
 		SessionState.SetBool(KeyDebug, Arg("-shotColliders", null) != null);
 		SessionState.SetFloat(KeyPose, ParseFloat(Arg("-shotPose", "0"), 0.0f));
 
