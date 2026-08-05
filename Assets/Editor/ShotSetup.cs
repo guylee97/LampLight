@@ -14,8 +14,6 @@ public static class ShotSetup
 	[MenuItem("LampLight/Prepare AS-IS Shot")]
 	public static void Prepare()
 	{
-		MapTilemapPainter.PaintLayered();
-
 		Scene scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
 
 		MapData map = LoadMap();

@@ -95,7 +95,8 @@ public class StoneThrower : MonoBehaviour
 		yield return new WaitForSeconds(_flightSeconds);
 
 		Managers.Sound.PlayAtPointOptional("stone_land", target, Define.Sound.Self, _landingNoiseRadius);
-		SoundRing.Emit(target - transform.position, SoundRing.SelfColor, _landingNoiseRadius);
+		// 소리 방향 HUD 기능 제거.
+		// SoundRing.Emit(target - transform.position, SoundRing.SelfColor, _landingNoiseRadius);
 
 		NoiseLure lure = NoiseLure.Spawn(target, _landingNoiseRadius, _landingNoiseDuration);
 		if (lure == null)

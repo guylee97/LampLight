@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 
 public static class TempleAssetSetup
 {
-	const string TileArtDir = "Assets/Art/Temple/Tiles";
+	const string TileArtDir = "Assets/Resources/Tileset/tiles_single";
 	const string ObjectArtDir = "Assets/Resources/Art/Objects";
 	const string TileAssetDir = "Assets/Resources/Palette/Temple";
 

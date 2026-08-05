@@ -19,15 +19,8 @@ public class Artifact : MonoBehaviour, IInteractable
 	[SerializeField]
 	float _collectNoiseDuration = 1.5f;
 
-	[SerializeField]
-	float _guideRadius = 12.0f;
-
-	[SerializeField]
-	float _guideSecondsPerUnit = 0.3f;
-
 	StageProgress _progress;
 	bool _collected;
-	float _nextGuideTime;
 
 	public Action<Artifact> OnCollected;
 
@@ -66,31 +59,6 @@ public class Artifact : MonoBehaviour, IInteractable
 		_progress = progress;
 		_pointName = pointName;
 		_collected = false;
-		_nextGuideTime = Time.time;
-	}
-
-	void Update()
-	{
-		if (_collected || Managers.TryGetGame(out GameManagerEx game) == false)
-			return;
-
-		GameObject player = game.GetPlayer();
-		if (player == null)
-			return;
-
-		float distance = Vector2.Distance(transform.position, player.transform.position);
-		if (distance > _guideRadius || Time.time < _nextGuideTime)
-			return;
-
-		float interval = Mathf.Max(0.25f, distance * _guideSecondsPerUnit);
-		float intensity = Mathf.Lerp(1.0f, 0.35f, distance / _guideRadius);
-		Managers.Sound.PlayAtPointOptional(
-			"artifact_ping",
-			transform.position,
-			Define.Sound.Guide,
-			intensity
-		);
-		_nextGuideTime = Time.time + interval;
 	}
 
 	public void Init(StageProgress progress, string pointName, int concealment)
@@ -138,6 +106,7 @@ public class Artifact : MonoBehaviour, IInteractable
 			OnCollected.Invoke(this);
 
 		Managers.Sound.PlayAtPointOptional(
+			"유물 획득 소리/👍litupsubway-key-collect-sfx-522219",
 			"artifact_pickup",
 			transform.position,
 			Define.Sound.Guide

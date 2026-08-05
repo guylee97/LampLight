@@ -5,7 +5,7 @@ using UnityEngine;
 public static class MapPrefabBuilder
 {
 	const string PrefabDir = "Assets/Resources/Prefabs/Map";
-	const string ObjectArtDir = "Assets/Art/Objects";
+	const string ObjectArtDir = "Assets/Resources/Art/Objects";
 
 	[MenuItem("LampLight/Build Map Prefabs")]
 	public static void Build()
@@ -34,7 +34,7 @@ public static class MapPrefabBuilder
 		GameObject go = new GameObject("Artifact");
 
 		SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-		renderer.sprite = LoadSprite("artifact_01");
+		renderer.sprite = LoadSprite("artifact/obj_artifact_bell");
 		renderer.sortingOrder = 10;
 
 		CircleCollider2D collider = go.AddComponent<CircleCollider2D>();
@@ -54,8 +54,8 @@ public static class MapPrefabBuilder
 	{
 		GameObject go = new GameObject("ExitDoor");
 
-		Sprite locked = LoadSprite("exit_door_locked");
-		Sprite open = LoadSprite("exit_door_open");
+		Sprite locked = LoadSprite("exit/obj_exit_locked");
+		Sprite open = LoadSprite("exit/obj_exit_open");
 
 		SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
 		renderer.sprite = locked;

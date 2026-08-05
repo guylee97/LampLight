@@ -72,6 +72,7 @@ public class TutorialController : MonoBehaviour
 		CanvasScaler scaler = canvasGo.AddComponent<CanvasScaler>();
 		scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
 		scaler.referenceResolution = new Vector2(1920, 1080);
+		scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
 
 		GameObject curtainGo = new GameObject("Curtain");
 		curtainGo.transform.SetParent(canvasGo.transform, false);

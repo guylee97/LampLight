@@ -166,7 +166,8 @@ public class SoundManager
 		Vector3 position,
 		Define.Sound bus,
 		float volume = 1.0f,
-		float pitch = 1.0f)
+		float pitch = 1.0f,
+		float maxDistance = -1.0f)
 	{
 		if (clip == null)
 			return;
@@ -188,7 +189,7 @@ public class SoundManager
 		source.dopplerLevel = 0;
 		source.rolloffMode = AudioRolloffMode.Logarithmic;
 		source.minDistance = ReferenceDistance;
-		source.maxDistance = MaximumDistance;
+		source.maxDistance = maxDistance > 0.0f ? maxDistance : MaximumDistance;
 		source.playOnAwake = false;
 
 		AudioLowPassFilter lowPass = go.AddComponent<AudioLowPassFilter>();
@@ -514,8 +515,8 @@ public class SoundManager
 			normalized = normalized.Substring(0, normalized.LastIndexOf('.'));
 
 		AudioClip clip = Resources.Load<AudioClip>(normalized);
-		if (clip == null && normalized.StartsWith("Sound/") == false)
-			clip = Resources.Load<AudioClip>("Sound/" + normalized);
+		if (clip == null && normalized.StartsWith("Audio/") == false)
+			clip = Resources.Load<AudioClip>("Audio/" + normalized);
 
 		_audioClips[path] = clip;
 		return clip;

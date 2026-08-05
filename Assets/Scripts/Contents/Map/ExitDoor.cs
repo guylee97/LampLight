@@ -33,7 +33,7 @@ public class ExitDoor : MonoBehaviour, IInteractable
 
 	public bool IsOpen { get { return _isOpen; } }
 
-	public bool CanInteract { get { return _escaped == false && PlayerIsInDoorway; } }
+	public bool CanInteract { get { return _escaped == false && _isOpen; } }
 
 	public bool PlayerIsInDoorway
 	{
@@ -59,10 +59,10 @@ public class ExitDoor : MonoBehaviour, IInteractable
 		get
 		{
 			if (_isOpen)
-				return "[E] 탈출";
+				return "[E] \uB2E4\uC74C \uAD6C\uC5ED\uC73C\uB85C \uC774\uB3D9";
 
 			int remaining = _progress == null ? 0 : _progress.Required - _progress.Collected;
-			return $"유물 {remaining}개 더 필요";
+			return $"\uC720\uBB3C {remaining}\uAC1C\uAC00 \uB354 \uD544\uC694\uD558\uB2E4";
 		}
 	}
 
@@ -85,7 +85,7 @@ public class ExitDoor : MonoBehaviour, IInteractable
 		_escaped = false;
 		Close();
 
-		if (_progress != null && _progress.Required <= 0)
+		if (_progress != null && _progress.IsComplete)
 			Open();
 	}
 
@@ -135,7 +135,12 @@ public class ExitDoor : MonoBehaviour, IInteractable
 			return;
 
 		_escaped = true;
-		Managers.Sound.PlayAtPointOptional(CreakClip, transform.position, Define.Sound.Guide);
+		Managers.Sound.PlayAtPointOptional(
+			"exit_stairs",
+			CreakClip,
+			transform.position,
+			Define.Sound.Guide
+		);
 
 		if (OnEscaped != null)
 			OnEscaped.Invoke();
@@ -172,6 +177,42 @@ public class ExitDoor : MonoBehaviour, IInteractable
 		ApplySprite();
 	}
 
+	public void UseStairSprite()
+	{
+		_renderer = GetComponent<SpriteRenderer>();
+		_art = _renderer;
+		Sprite stair = Resources.Load<Sprite>(
+			"Art/Objects/large/obj_large_stairwell_down");
+		if (stair != null)
+		{
+			_lockedSprite = stair;
+			_openSprite = stair;
+		}
+		_doorway = new Vector2Int(-1, -1);
+		ApplySprite();
+		ConfigureExitPing();
+	}
+
+	void ConfigureExitPing()
+	{
+		OcclusionSource source = GetComponent<OcclusionSource>();
+		if (source == null)
+			return;
+
+		AudioClip clear = Resources.Load<AudioClip>("Audio/artifact_ping_3");
+		if (clear == null)
+			clear = Resources.Load<AudioClip>("Audio/artifact_ping");
+
+		AudioClip muffled = Resources.Load<AudioClip>("Audio/artifact_ping_2");
+		if (muffled == null)
+			muffled = clear;
+
+		source.Configure(clear, muffled, Define.Sound.Guide, 9.0f);
+
+		if (_ping != null)
+			_ping.RadiusTiles = 9.0f;
+	}
+
 	void PlaceOnWallFace(MapPoint point)
 	{
 		MapData map = Managers.Data.Map;
@@ -189,7 +230,7 @@ public class ExitDoor : MonoBehaviour, IInteractable
 
 		if (WallFaceRules.BlockedBand(map, point.col, point.row, cols, rows) == false)
 		{
-			Debug.LogError($"ExitDoor: ({point.col},{point.row}) 위쪽에 {cols}x{rows} 벽면이 없다");
+			Debug.LogError($"ExitDoor: ({point.col},{point.row}) ?꾩そ??{cols}x{rows} 踰쎈㈃???녿떎");
 			return;
 		}
 

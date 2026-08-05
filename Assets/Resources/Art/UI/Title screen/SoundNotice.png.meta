@@ -1,0 +1,1677 @@
+fileFormatVersion: 2
+guid: b7fc17286e6e4ce49b1a6060413e8be1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7407925279466906211
+    second: SoundNotice_0
+  - first:
+      213: -7610211253772687405
+    second: SoundNotice_1
+  - first:
+      213: -5898272091277575650
+    second: SoundNotice_2
+  - first:
+      213: -7674680233350623472
+    second: SoundNotice_3
+  - first:
+      213: -2563471104432844557
+    second: SoundNotice_4
+  - first:
+      213: 5206955249084404033
+    second: SoundNotice_5
+  - first:
+      213: 5838967112056104089
+    second: SoundNotice_6
+  - first:
+      213: -6615742296653499463
+    second: SoundNotice_7
+  - first:
+      213: -2860250835750442008
+    second: SoundNotice_8
+  - first:
+      213: 5634100756940463217
+    second: SoundNotice_9
+  - first:
+      213: -1822856306668853984
+    second: SoundNotice_10
+  - first:
+      213: 5845325105883441372
+    second: SoundNotice_11
+  - first:
+      213: 640104069083475368
+    second: SoundNotice_12
+  - first:
+      213: 7191527221948986716
+    second: SoundNotice_13
+  - first:
+      213: 7514280620272355101
+    second: SoundNotice_14
+  - first:
+      213: -6647586413900205291
+    second: SoundNotice_15
+  - first:
+      213: -5734990218969588567
+    second: SoundNotice_16
+  - first:
+      213: 4720012661752097980
+    second: SoundNotice_17
+  - first:
+      213: 6995798154662376797
+    second: SoundNotice_18
+  - first:
+      213: 4708407002792873411
+    second: SoundNotice_19
+  - first:
+      213: 6421852362411753151
+    second: SoundNotice_20
+  - first:
+      213: -6819171655866931934
+    second: SoundNotice_21
+  - first:
+      213: -6200161303605240313
+    second: SoundNotice_22
+  - first:
+      213: 240605831268241150
+    second: SoundNotice_23
+  - first:
+      213: -3542120395245771100
+    second: SoundNotice_24
+  - first:
+      213: -9172083271016685135
+    second: SoundNotice_25
+  - first:
+      213: 1774265248632731581
+    second: SoundNotice_26
+  - first:
+      213: -8559605735585732210
+    second: SoundNotice_27
+  - first:
+      213: 7002901609290858716
+    second: SoundNotice_28
+  - first:
+      213: 191452994567881240
+    second: SoundNotice_29
+  - first:
+      213: 2132255057869685587
+    second: SoundNotice_30
+  - first:
+      213: 3525037170585218404
+    second: SoundNotice_31
+  - first:
+      213: -3877451785426991434
+    second: SoundNotice_32
+  - first:
+      213: -8930926936018027191
+    second: SoundNotice_33
+  - first:
+      213: 5058611419429608261
+    second: SoundNotice_34
+  - first:
+      213: 3451772062094388261
+    second: SoundNotice_35
+  - first:
+      213: 4541813183039582507
+    second: SoundNotice_36
+  - first:
+      213: -1260856956849167365
+    second: SoundNotice_37
+  - first:
+      213: 8285758684499738846
+    second: SoundNotice_38
+  - first:
+      213: 6476543404318421837
+    second: SoundNotice_39
+  - first:
+      213: -536259164119403075
+    second: SoundNotice_40
+  - first:
+      213: -5329837023847217451
+    second: SoundNotice_41
+  - first:
+      213: 5704788895763418348
+    second: SoundNotice_42
+  - first:
+      213: -2204317263678058769
+    second: SoundNotice_43
+  - first:
+      213: -5598689584890016378
+    second: SoundNotice_44
+  - first:
+      213: 6292577100396283141
+    second: SoundNotice_45
+  - first:
+      213: 2215980416346399393
+    second: SoundNotice_46
+  - first:
+      213: 1273059791510696599
+    second: SoundNotice_47
+  - first:
+      213: 275238186352157912
+    second: SoundNotice_48
+  - first:
+      213: -5798222258253282896
+    second: SoundNotice_49
+  - first:
+      213: 6871488857243350088
+    second: SoundNotice_50
+  - first:
+      213: -7527512750849176329
+    second: SoundNotice_51
+  - first:
+      213: 2411265075998496188
+    second: SoundNotice_52
+  - first:
+      213: -6140638394272503789
+    second: SoundNotice_53
+  - first:
+      213: 2992780273515627750
+    second: SoundNotice_54
+  - first:
+      213: -3021328987023493111
+    second: SoundNotice_55
+  - first:
+      213: -8412590338411634968
+    second: SoundNotice_56
+  - first:
+      213: -322550297482448189
+    second: SoundNotice_57
+  - first:
+      213: -1159340580673033345
+    second: SoundNotice_58
+  - first:
+      213: -7416913297503695719
+    second: SoundNotice_59
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SoundNotice_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 7
+        width: 20
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 362e245facc3ec660800000000000000
+      internalID: 7407925279466906211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_1
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 0
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d7e2317f29136690800000000000000
+      internalID: -7610211253772687405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_2
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 11
+        width: 23
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1abcca88c0252ea0800000000000000
+      internalID: -5898272091277575650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_3
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 9
+        width: 22
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01f8c6e6dfe0e7590800000000000000
+      internalID: -7674680233350623472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_4
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 0
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f05d44cc98bc6cd0800000000000000
+      internalID: -2563471104432844557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_5
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 11
+        width: 21
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 141180f1632d24840800000000000000
+      internalID: 5206955249084404033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_6
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 0
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 994ea49f6ad280150800000000000000
+      internalID: 5838967112056104089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_7
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 1
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b3f072de692034a0800000000000000
+      internalID: -6615742296653499463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_8
+      rect:
+        serializedVersion: 2
+        x: 218
+        y: 0
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8eba496e4095e48d0800000000000000
+      internalID: -2860250835750442008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_9
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 1
+        width: 46
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17c1236a9c8503e40800000000000000
+      internalID: 5634100756940463217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_10
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 9
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0252c64d8d9e3b6e0800000000000000
+      internalID: -1822856306668853984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_11
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 0
+        width: 23
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd8ead4c634ce1150800000000000000
+      internalID: 5845325105883441372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_12
+      rect:
+        serializedVersion: 2
+        x: 293
+        y: 15
+        width: 17
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ada009624b12e800800000000000000
+      internalID: 640104069083475368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_13
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 9
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5532d0f7ef6dc360800000000000000
+      internalID: 7191527221948986716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_14
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 9
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d178fe96966184860800000000000000
+      internalID: 7514280620272355101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_15
+      rect:
+        serializedVersion: 2
+        x: 347
+        y: 9
+        width: 22
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 513f3c180670fb3a0800000000000000
+      internalID: -6647586413900205291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_16
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 0
+        width: 25
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ac5af7f7c83960b0800000000000000
+      internalID: -5734990218969588567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_17
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 3
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbc6417128ad08140800000000000000
+      internalID: 4720012661752097980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_18
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 5
+        width: 21
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d55fbf83b51161160800000000000000
+      internalID: 6995798154662376797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_19
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 3
+        width: 14
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cd4e6b093f975140800000000000000
+      internalID: 4708407002792873411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_20
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 0
+        width: 12
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbe3e8df2b00f1950800000000000000
+      internalID: 6421852362411753151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_21
+      rect:
+        serializedVersion: 2
+        x: 455
+        y: 13
+        width: 17
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 225a3ad228f6d51a0800000000000000
+      internalID: -6819171655866931934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_22
+      rect:
+        serializedVersion: 2
+        x: 485
+        y: 11
+        width: 23
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70e9c7ce42a94f9a0800000000000000
+      internalID: -6200161303605240313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_23
+      rect:
+        serializedVersion: 2
+        x: 511
+        y: 9
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efe81af8abdc65300800000000000000
+      internalID: 240605831268241150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_24
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 0
+        width: 18
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a6a5b9744cd7dec0800000000000000
+      internalID: -3542120395245771100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_25
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 11
+        width: 13
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b16fbc5cd636b080800000000000000
+      internalID: -9172083271016685135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_26
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 11
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db7f21ad7d47f9810800000000000000
+      internalID: 1774265248632731581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_27
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 9
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8924092feb263980800000000000000
+      internalID: -8559605735585732210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_28
+      rect:
+        serializedVersion: 2
+        x: 570
+        y: 0
+        width: 42
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd00bc229ed4f2160800000000000000
+      internalID: 7002901609290858716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_29
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 13
+        width: 18
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8124764fb7d28a200800000000000000
+      internalID: 191452994567881240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_30
+      rect:
+        serializedVersion: 2
+        x: 625
+        y: 9
+        width: 21
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3534ade8daa479d10800000000000000
+      internalID: 2132255057869685587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_31
+      rect:
+        serializedVersion: 2
+        x: 647
+        y: 9
+        width: 23
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46da7c451a27be030800000000000000
+      internalID: 3525037170585218404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_32
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 0
+        width: 20
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b68bef0526803ac0800000000000000
+      internalID: -3877451785426991434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_33
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 11
+        width: 23
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94d7daf0549fe0480800000000000000
+      internalID: -8930926936018027191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_34
+      rect:
+        serializedVersion: 2
+        x: 742
+        y: 13
+        width: 17
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54b16d7c84cc33640800000000000000
+      internalID: 5058611419429608261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_35
+      rect:
+        serializedVersion: 2
+        x: 774
+        y: 9
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52ce0c6f66827ef20800000000000000
+      internalID: 3451772062094388261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_36
+      rect:
+        serializedVersion: 2
+        x: 776
+        y: 0
+        width: 20
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b21b243c603c70f30800000000000000
+      internalID: 4541813183039582507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_37
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 13
+        width: 17
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf3ec6e2749808ee0800000000000000
+      internalID: -1260856956849167365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_38
+      rect:
+        serializedVersion: 2
+        x: 821
+        y: 0
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed0073caf9decf270800000000000000
+      internalID: 8285758684499738846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_39
+      rect:
+        serializedVersion: 2
+        x: 845
+        y: 3
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d437cca79ed41e950800000000000000
+      internalID: 6476543404318421837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_40
+      rect:
+        serializedVersion: 2
+        x: 859
+        y: 0
+        width: 8
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db57d17a123de88f0800000000000000
+      internalID: -536259164119403075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_41
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 21
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d68cda277d9806b0800000000000000
+      internalID: -5329837023847217451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_42
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 19
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cec4292864b7b2f40800000000000000
+      internalID: 5704788895763418348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_43
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 0
+        width: 18
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fee453ea021b861e0800000000000000
+      internalID: -2204317263678058769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_44
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 0
+        width: 23
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68d83f45c757d42b0800000000000000
+      internalID: -5598689584890016378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_45
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 505c0e68889b35750800000000000000
+      internalID: 6292577100396283141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_46
+      rect:
+        serializedVersion: 2
+        x: 267
+        y: 0
+        width: 19
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a2ac89a27eb0ce10800000000000000
+      internalID: 2215980416346399393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_47
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 0
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 792f3daa221daa110800000000000000
+      internalID: 1273059791510696599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_48
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 0
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d4a4261ca7d1d300800000000000000
+      internalID: 275238186352157912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_49
+      rect:
+        serializedVersion: 2
+        x: 398
+        y: 0
+        width: 19
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b1cc009393988fa0800000000000000
+      internalID: -5798222258253282896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_50
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 0
+        width: 25
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8447b0e75be6c5f50800000000000000
+      internalID: 6871488857243350088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_51
+      rect:
+        serializedVersion: 2
+        x: 487
+        y: 0
+        width: 19
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fc496b1907e88790800000000000000
+      internalID: -7527512750849176329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_52
+      rect:
+        serializedVersion: 2
+        x: 536
+        y: 0
+        width: 17
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb5123aafc8867120800000000000000
+      internalID: 2411265075998496188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_53
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 0
+        width: 18
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31823473ae118caa0800000000000000
+      internalID: -6140638394272503789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_54
+      rect:
+        serializedVersion: 2
+        x: 629
+        y: 0
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e402b56dcd788920800000000000000
+      internalID: 2992780273515627750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_55
+      rect:
+        serializedVersion: 2
+        x: 651
+        y: 0
+        width: 19
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 908bfd24b451216d0800000000000000
+      internalID: -3021328987023493111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_56
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 0
+        width: 19
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ee5716b8a9704b80800000000000000
+      internalID: -8412590338411634968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_57
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 0
+        width: 23
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c2bc50a632168bf0800000000000000
+      internalID: -322550297482448189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_58
+      rect:
+        serializedVersion: 2
+        x: 795
+        y: 0
+        width: 23
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7be94362e139efe0800000000000000
+      internalID: -1159340580673033345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SoundNotice_59
+      rect:
+        serializedVersion: 2
+        x: 869
+        y: 0
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99ccb6407a4d11990800000000000000
+      internalID: -7416913297503695719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SoundNotice_0: 7407925279466906211
+      SoundNotice_1: -7610211253772687405
+      SoundNotice_10: -1822856306668853984
+      SoundNotice_11: 5845325105883441372
+      SoundNotice_12: 640104069083475368
+      SoundNotice_13: 7191527221948986716
+      SoundNotice_14: 7514280620272355101
+      SoundNotice_15: -6647586413900205291
+      SoundNotice_16: -5734990218969588567
+      SoundNotice_17: 4720012661752097980
+      SoundNotice_18: 6995798154662376797
+      SoundNotice_19: 4708407002792873411
+      SoundNotice_2: -5898272091277575650
+      SoundNotice_20: 6421852362411753151
+      SoundNotice_21: -6819171655866931934
+      SoundNotice_22: -6200161303605240313
+      SoundNotice_23: 240605831268241150
+      SoundNotice_24: -3542120395245771100
+      SoundNotice_25: -9172083271016685135
+      SoundNotice_26: 1774265248632731581
+      SoundNotice_27: -8559605735585732210
+      SoundNotice_28: 7002901609290858716
+      SoundNotice_29: 191452994567881240
+      SoundNotice_3: -7674680233350623472
+      SoundNotice_30: 2132255057869685587
+      SoundNotice_31: 3525037170585218404
+      SoundNotice_32: -3877451785426991434
+      SoundNotice_33: -8930926936018027191
+      SoundNotice_34: 5058611419429608261
+      SoundNotice_35: 3451772062094388261
+      SoundNotice_36: 4541813183039582507
+      SoundNotice_37: -1260856956849167365
+      SoundNotice_38: 8285758684499738846
+      SoundNotice_39: 6476543404318421837
+      SoundNotice_4: -2563471104432844557
+      SoundNotice_40: -536259164119403075
+      SoundNotice_41: -5329837023847217451
+      SoundNotice_42: 5704788895763418348
+      SoundNotice_43: -2204317263678058769
+      SoundNotice_44: -5598689584890016378
+      SoundNotice_45: 6292577100396283141
+      SoundNotice_46: 2215980416346399393
+      SoundNotice_47: 1273059791510696599
+      SoundNotice_48: 275238186352157912
+      SoundNotice_49: -5798222258253282896
+      SoundNotice_5: 5206955249084404033
+      SoundNotice_50: 6871488857243350088
+      SoundNotice_51: -7527512750849176329
+      SoundNotice_52: 2411265075998496188
+      SoundNotice_53: -6140638394272503789
+      SoundNotice_54: 2992780273515627750
+      SoundNotice_55: -3021328987023493111
+      SoundNotice_56: -8412590338411634968
+      SoundNotice_57: -322550297482448189
+      SoundNotice_58: -1159340580673033345
+      SoundNotice_59: -7416913297503695719
+      SoundNotice_6: 5838967112056104089
+      SoundNotice_7: -6615742296653499463
+      SoundNotice_8: -2860250835750442008
+      SoundNotice_9: 5634100756940463217
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

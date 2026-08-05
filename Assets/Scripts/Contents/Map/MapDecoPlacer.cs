@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MapDecoPlacer : MonoBehaviour
 {
-	public const int DecoSortingOrder = 10;
+	public const int DecoSortingOrder = 20;
 
 	[SerializeField]
 	Transform _root;
@@ -37,6 +37,12 @@ public class MapDecoPlacer : MonoBehaviour
 
 		if (map == null)
 			return;
+
+		if (map.decorations != null && map.decorations.Length > 0)
+		{
+			PlaceFixed(map);
+			return;
+		}
 
 		List<DecoPlacement> plan = MapDecoPlan.Build(map, seed);
 		if (plan.Count == 0)
@@ -74,7 +80,9 @@ public class MapDecoPlacer : MonoBehaviour
 
 			renderer.sprite = sprite;
 			renderer.sortingLayerName = _sortingLayer;
-			renderer.sortingOrder = DecoSortingOrder;
+			renderer.sortingOrder = IsGroundDecoration(placement.Key)
+				? -900
+				: WorldYSort.OrderFor(tileBottom);
 			renderer.spriteSortPoint = SpriteSortPoint.Pivot;
 
 			AttachNoiseTrigger(go, placement.Key);
@@ -82,6 +90,106 @@ public class MapDecoPlacer : MonoBehaviour
 
 			_spawned.Add(go);
 		}
+	}
+
+	void PlaceFixed(MapData map)
+	{
+		Transform parent = _root != null ? _root : transform;
+
+		foreach (MapDecoration placement in map.decorations)
+		{
+			Sprite sprite = Resources.Load<Sprite>(placement.resource);
+			if (sprite == null)
+			{
+				Debug.LogWarning($"MapDecoPlacer: Resources/{placement.resource} 로드 실패");
+				continue;
+			}
+
+			GameObject go = new GameObject(placement.key);
+			go.transform.SetParent(parent, false);
+
+			Bounds bounds = sprite.bounds;
+			float scaleX = bounds.size.x > 0.0f ? placement.width / bounds.size.x : 1.0f;
+			float scaleY = bounds.size.y > 0.0f ? placement.height / bounds.size.y : 1.0f;
+
+			go.transform.localScale = new Vector3(scaleX, scaleY, 1.0f);
+			go.transform.position = new Vector3(
+				placement.x + placement.width * 0.5f - bounds.center.x * scaleX,
+				map.height - placement.y + placement.height * 0.5f - bounds.center.y * scaleY,
+				0.0f);
+
+			SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+			renderer.sprite = sprite;
+			renderer.sortingLayerName = _sortingLayer;
+			float visualBottomY = map.height - placement.y;
+			renderer.sortingOrder = IsGroundDecoration(placement.key)
+				? -900 + placement.sortingOffset
+				: WorldYSort.OrderFor(visualBottomY) + placement.sortingOffset;
+			renderer.spriteSortPoint = SpriteSortPoint.Pivot;
+
+			if (placement.flipDiagonal)
+			{
+				go.transform.Rotate(0.0f, 0.0f, 90.0f);
+				renderer.flipX = placement.flipVertical;
+				renderer.flipY = placement.flipHorizontal;
+			}
+			else
+			{
+				renderer.flipX = placement.flipHorizontal;
+				renderer.flipY = placement.flipVertical;
+			}
+
+			Material lit = LitMaterial();
+			if (lit != null)
+				renderer.sharedMaterial = lit;
+
+			AttachFixedCollision(go, placement, scaleX, scaleY);
+			AttachNoiseTrigger(go, placement.key);
+			AttachContainer(go, placement.key, renderer);
+			_spawned.Add(go);
+		}
+	}
+
+	void AttachFixedCollision(GameObject go, MapDecoration placement, float scaleX, float scaleY)
+	{
+		if (placement.collisionEnabled == false
+			|| placement.colliderWidth <= 0.0f || placement.colliderHeight <= 0.0f)
+			return;
+
+		float absScaleX = Mathf.Max(0.0001f, Mathf.Abs(scaleX));
+		float absScaleY = Mathf.Max(0.0001f, Mathf.Abs(scaleY));
+		float visualBottomX = placement.x + placement.width * 0.5f;
+		float visualBottomY = Managers.Data.Map.height - placement.y;
+		Vector2 worldCenter = new Vector2(
+			visualBottomX + placement.colliderOffsetX,
+			visualBottomY + placement.colliderOffsetY);
+
+		BoxCollider2D collider = go.AddComponent<BoxCollider2D>();
+		collider.size = new Vector2(
+			placement.colliderWidth / absScaleX,
+			placement.colliderHeight / absScaleY);
+		collider.offset = new Vector2(
+			(worldCenter.x - go.transform.position.x) / scaleX,
+			(worldCenter.y - go.transform.position.y) / scaleY);
+	}
+
+	static bool IsGroundDecoration(string key)
+	{
+		return key.StartsWith("prop_floor_")
+			|| key.StartsWith("large_carpet_")
+			|| key.StartsWith("cobweb_")
+			|| key.StartsWith("extra_cobweb_")
+			|| key.StartsWith("debris_")
+			|| key.StartsWith("noise_")
+			|| key == "prop_grate"
+			|| key == "prop_pebbles"
+			|| key == "prop_roots"
+			|| key == "prop_roots_stone"
+			|| key == "prop_bones_long"
+			|| key == "prop_bones_pile"
+			|| key == "prop_skull"
+			|| key == "extra_prop_skull_b"
+			|| key.StartsWith("prop_candle_");
 	}
 
 	public static readonly Color WallTint = new Color(0.25f, 0.26f, 0.28f, 1.0f);

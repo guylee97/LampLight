@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="7" height="9" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="138">
+ <tileset firstgid="1" name="one_lantern_objects" tilewidth="96" tileheight="96" tilecount="111" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image source="objects/obj_artifact_bell.png" width="32" height="32"/>
+  </tile>
+  <tile id="1">
+   <image source="objects/obj_artifact_bell_buried.png" width="32" height="32"/>
+  </tile>
+  <tile id="2">
+   <image source="objects/obj_artifact_crest.png" width="32" height="32"/>
+  </tile>
+  <tile id="3">
+   <image source="objects/obj_artifact_crest_buried.png" width="32" height="32"/>
+  </tile>
+  <tile id="4">
+   <image source="objects/obj_artifact_mask.png" width="32" height="32"/>
+  </tile>
+  <tile id="5">
+   <image source="objects/obj_artifact_mask_buried.png" width="32" height="32"/>
+  </tile>
+  <tile id="6">
+   <image source="objects/obj_artifact_seal.png" width="32" height="32"/>
+  </tile>
+  <tile id="7">
+   <image source="objects/obj_artifact_seal_buried.png" width="32" height="32"/>
+  </tile>
+  <tile id="8">
+   <image source="objects/obj_cobweb_corner.png" width="32" height="32"/>
+  </tile>
+  <tile id="9">
+   <image source="objects/obj_cobweb_radial.png" width="32" height="32"/>
+  </tile>
+  <tile id="10">
+   <image source="objects/obj_cobweb_torn.png" width="32" height="32"/>
+  </tile>
+  <tile id="11">
+   <image source="objects/obj_container_chest.png" width="32" height="32"/>
+  </tile>
+  <tile id="12">
+   <image source="objects/obj_container_crate.png" width="32" height="32"/>
+  </tile>
+  <tile id="13">
+   <image source="objects/obj_container_drawer_closed.png" width="32" height="32"/>
+  </tile>
+  <tile id="14">
+   <image source="objects/obj_container_drawer_open.png" width="32" height="32"/>
+  </tile>
+  <tile id="15">
+   <image source="objects/obj_container_sarcophagus_closed.png" width="32" height="32"/>
+  </tile>
+  <tile id="16">
+   <image source="objects/obj_container_sarcophagus_open.png" width="32" height="32"/>
+  </tile>
+  <tile id="17">
+   <image source="objects/obj_debris_arch.png" width="32" height="32"/>
+  </tile>
+  <tile id="18">
+   <image source="objects/obj_debris_blocks.png" width="32" height="32"/>
+  </tile>
+  <tile id="19">
+   <image source="objects/obj_debris_blocks_b.png" width="32" height="32"/>
+  </tile>
+  <tile id="20">
+   <image source="objects/obj_debris_capital.png" width="32" height="32"/>
+  </tile>
+  <tile id="21">
+   <image source="objects/obj_debris_fragments.png" width="32" height="32"/>
+  </tile>
+  <tile id="22">
+   <image source="objects/obj_debris_frame.png" width="32" height="32"/>
+  </tile>
+  <tile id="23">
+   <image source="objects/obj_debris_frame_b.png" width="32" height="32"/>
+  </tile>
+  <tile id="24">
+   <image source="objects/obj_debris_gravel_a.png" width="32" height="32"/>
+  </tile>
+  <tile id="25">
+   <image source="objects/obj_debris_gravel_b.png" width="32" height="32"/>
+  </tile>
+  <tile id="26">
+   <image source="objects/obj_debris_masonry.png" width="32" height="32"/>
+  </tile>
+  <tile id="27">
+   <image source="objects/obj_debris_mossy.png" width="32" height="32"/>
+  </tile>
+  <tile id="28">
+   <image source="objects/obj_debris_pile.png" width="32" height="32"/>
+  </tile>
+  <tile id="29">
+   <image source="objects/obj_debris_planks.png" width="32" height="32"/>
+  </tile>
+  <tile id="30">
+   <image source="objects/obj_debris_shards.png" width="32" height="32"/>
+  </tile>
+  <tile id="31">
+   <image source="objects/obj_debris_shelf.png" width="32" height="32"/>
+  </tile>
+  <tile id="32">
+   <image source="objects/obj_debris_slabs.png" width="32" height="32"/>
+  </tile>
+  <tile id="33">
+   <image source="objects/obj_debris_stone.png" width="32" height="32"/>
+  </tile>
+  <tile id="34">
+   <image source="objects/obj_debris_stones.png" width="32" height="32"/>
+  </tile>
+  <tile id="35">
+   <image source="objects/obj_debris_structure.png" width="32" height="32"/>
+  </tile>
+  <tile id="36">
+   <image source="objects/obj_debris_timber.png" width="32" height="32"/>
+  </tile>
+  <tile id="37">
+   <image source="objects/obj_debris_wall.png" width="32" height="32"/>
+  </tile>
+  <tile id="38">
+   <image source="objects/obj_door_broken.png" width="96" height="96"/>
+  </tile>
+  <tile id="39">
+   <image source="objects/obj_door_open.png" width="96" height="96"/>
+  </tile>
+  <tile id="40">
+   <image source="objects/obj_exit_locked.png" width="32" height="32"/>
+  </tile>
+  <tile id="41">
+   <image source="objects/obj_exit_open.png" width="32" height="32"/>
+  </tile>
+  <tile id="42">
+   <image source="objects/obj_large_altar_low.png" width="64" height="64"/>
+  </tile>
+  <tile id="43">
+   <image source="objects/obj_large_arch_fallen.png" width="64" height="64"/>
+  </tile>
+  <tile id="44">
+   <image source="objects/obj_large_benches_pair.png" width="64" height="64"/>
+  </tile>
+  <tile id="45">
+   <image source="objects/obj_large_carpet.png" width="96" height="96"/>
+  </tile>
+  <tile id="46">
+   <image source="objects/obj_large_carpet_round_seal.png" width="96" height="96"/>
+  </tile>
+  <tile id="47">
+   <image source="objects/obj_large_carpet_runner.png" width="96" height="96"/>
+  </tile>
+  <tile id="48">
+   <image source="objects/obj_large_firepit.png" width="96" height="96"/>
+  </tile>
+  <tile id="49">
+   <image source="objects/obj_large_lid_pit.png" width="64" height="64"/>
+  </tile>
+  <tile id="50">
+   <image source="objects/obj_large_offering_table.png" width="64" height="64"/>
+  </tile>
+  <tile id="51">
+   <image source="objects/obj_large_pillar_broken_pair.png" width="64" height="64"/>
+  </tile>
+  <tile id="52">
+   <image source="objects/obj_large_pillar_fallen_long.png" width="64" height="64"/>
+  </tile>
+  <tile id="53">
+   <image source="objects/obj_large_pillar_fallen_short.png" width="64" height="64"/>
+  </tile>
+  <tile id="54">
+   <image source="objects/obj_large_pillar_pile.png" width="64" height="64"/>
+  </tile>
+  <tile id="55">
+   <image source="objects/obj_large_rubble_heap.png" width="64" height="64"/>
+  </tile>
+  <tile id="56">
+   <image source="objects/obj_large_rubble_mossy.png" width="64" height="64"/>
+  </tile>
+  <tile id="57">
+   <image source="objects/obj_large_sacrificial_slab.png" width="96" height="96"/>
+  </tile>
+  <tile id="58">
+   <image source="objects/obj_large_shelf_fallen.png" width="96" height="96"/>
+  </tile>
+  <tile id="59">
+   <image source="objects/obj_large_statue_fallen.png" width="96" height="96"/>
+  </tile>
+  <tile id="60">
+   <image source="objects/obj_large_statue_kneeling.png" width="96" height="96"/>
+  </tile>
+  <tile id="61">
+   <image source="objects/obj_large_steps.png" width="64" height="64"/>
+  </tile>
+  <tile id="62">
+   <image source="objects/obj_large_trough.png" width="64" height="64"/>
+  </tile>
+  <tile id="63">
+   <image source="objects/obj_large_wall_collapse.png" width="64" height="64"/>
+  </tile>
+  <tile id="64">
+   <image source="objects/obj_noise_glass.png" width="32" height="32"/>
+  </tile>
+  <tile id="65">
+   <image source="objects/obj_noise_planks.png" width="32" height="32"/>
+  </tile>
+  <tile id="66">
+   <image source="objects/obj_prop_basin.png" width="32" height="32"/>
+  </tile>
+  <tile id="67">
+   <image source="objects/obj_prop_bench.png" width="32" height="32"/>
+  </tile>
+  <tile id="68">
+   <image source="objects/obj_prop_bones_long.png" width="32" height="32"/>
+  </tile>
+  <tile id="69">
+   <image source="objects/obj_prop_bones_pile.png" width="32" height="32"/>
+  </tile>
+  <tile id="70">
+   <image source="objects/obj_prop_bowl.png" width="32" height="32"/>
+  </tile>
+  <tile id="71">
+   <image source="objects/obj_prop_candle_fallen.png" width="32" height="32"/>
+  </tile>
+  <tile id="72">
+   <image source="objects/obj_prop_candle_holder.png" width="32" height="32"/>
+  </tile>
+  <tile id="73">
+   <image source="objects/obj_prop_candle_leaning.png" width="32" height="32"/>
+  </tile>
+  <tile id="74">
+   <image source="objects/obj_prop_candle_melted.png" width="32" height="32"/>
+  </tile>
+  <tile id="75">
+   <image source="objects/obj_prop_candle_short.png" width="32" height="32"/>
+  </tile>
+  <tile id="76">
+   <image source="objects/obj_prop_candle_stub.png" width="32" height="32"/>
+  </tile>
+  <tile id="77">
+   <image source="objects/obj_prop_candle_tall.png" width="32" height="32"/>
+  </tile>
+  <tile id="78">
+   <image source="objects/obj_prop_floor_seal.png" width="32" height="32"/>
+  </tile>
+  <tile id="79">
+   <image source="objects/obj_prop_floor_seal_broken.png" width="32" height="32"/>
+  </tile>
+  <tile id="80">
+   <image source="objects/obj_prop_floor_tile.png" width="32" height="32"/>
+  </tile>
+  <tile id="81">
+   <image source="objects/obj_prop_grate.png" width="32" height="32"/>
+  </tile>
+  <tile id="82">
+   <image source="objects/obj_prop_gravestone.png" width="32" height="32"/>
+  </tile>
+  <tile id="83">
+   <image source="objects/obj_prop_ledge.png" width="32" height="32"/>
+  </tile>
+  <tile id="84">
+   <image source="objects/obj_prop_pebbles.png" width="32" height="32"/>
+  </tile>
+  <tile id="85">
+   <image source="objects/obj_prop_pillar_broken.png" width="32" height="32"/>
+  </tile>
+  <tile id="86">
+   <image source="objects/obj_prop_pillar_capital.png" width="32" height="32"/>
+  </tile>
+  <tile id="87">
+   <image source="objects/obj_prop_pillar_column.png" width="32" height="32"/>
+  </tile>
+  <tile id="88">
+   <image source="objects/obj_prop_pillar_drum.png" width="32" height="32"/>
+  </tile>
+  <tile id="89">
+   <image source="objects/obj_prop_pillar_intact.png" width="32" height="32"/>
+  </tile>
+  <tile id="90">
+   <image source="objects/obj_prop_pillar_stump.png" width="32" height="32"/>
+  </tile>
+  <tile id="91">
+   <image source="objects/obj_prop_railing.png" width="32" height="32"/>
+  </tile>
+  <tile id="92">
+   <image source="objects/obj_prop_roots.png" width="32" height="32"/>
+  </tile>
+  <tile id="93">
+   <image source="objects/obj_prop_roots_stone.png" width="32" height="32"/>
+  </tile>
+  <tile id="94">
+   <image source="objects/obj_prop_skull.png" width="32" height="32"/>
+  </tile>
+  <tile id="95">
+   <image source="objects/obj_prop_step.png" width="32" height="32"/>
+  </tile>
+  <tile id="96">
+   <image source="objects/obj_prop_tablet_a.png" width="32" height="32"/>
+  </tile>
+  <tile id="97">
+   <image source="objects/obj_prop_tablet_b.png" width="32" height="32"/>
+  </tile>
+  <tile id="98">
+   <image source="objects/obj_prop_tablet_c.png" width="32" height="32"/>
+  </tile>
+  <tile id="99">
+   <image source="objects/obj_walldeco_arcade.png" width="96" height="96"/>
+  </tile>
+  <tile id="100">
+   <image source="objects/obj_walldeco_arcade_mirror.png" width="96" height="96"/>
+  </tile>
+  <tile id="101">
+   <image source="objects/obj_walldeco_arch.png" width="96" height="96"/>
+  </tile>
+  <tile id="102">
+   <image source="objects/obj_walldeco_arch_mirror.png" width="96" height="96"/>
+  </tile>
+  <tile id="103">
+   <image source="objects/obj_walldeco_brickband.png" width="96" height="48"/>
+  </tile>
+  <tile id="104">
+   <image source="objects/obj_walldeco_chains.png" width="96" height="96"/>
+  </tile>
+  <tile id="105">
+   <image source="objects/obj_walldeco_chains_mirror.png" width="96" height="96"/>
+  </tile>
+  <tile id="106">
+   <image source="objects/obj_walldeco_hole.png" width="96" height="96"/>
+  </tile>
+  <tile id="107">
+   <image source="objects/obj_walldeco_hole_mirror.png" width="96" height="96"/>
+  </tile>
+  <tile id="108">
+   <image source="objects/obj_walldeco_plain.png" width="96" height="96"/>
+  </tile>
+  <tile id="109">
+   <image source="objects/obj_walldeco_sag.png" width="96" height="96"/>
+  </tile>
+  <tile id="110">
+   <image source="objects/obj_walldeco_sag_mirror.png" width="96" height="96"/>
+  </tile>
+ </tileset>
+ <objectgroup draworder="index" id="1" name="combo_1_altar_sanctum">
+  <object id="1" gid="3221225553" x="64" y="64" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="2" gid="1073741905" x="96" y="64" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="3" gid="2147483729" x="128" y="64" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="4" gid="2147483729" x="32" y="96" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="5" gid="81" x="64" y="96" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="6" gid="3221225553" x="96" y="96" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="7" gid="1073741905" x="128" y="96" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="8" gid="2147483729" x="160" y="96" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="9" gid="1073741905" x="32" y="128" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="10" gid="2147483729" x="64" y="128" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="11" gid="81" x="96" y="128" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="12" gid="3221225553" x="128" y="128" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="13" gid="1073741905" x="160" y="128" width="32" height="32">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="14" gid="58" x="64" y="128" width="96" height="96">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="15" gid="95" x="100.875" y="73.8834" width="32" height="32">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="16" gid="77" x="59.8043" y="62.9064" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="18" gid="76" x="50.6638" y="68.6186" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="20" gid="90" x="0.56255" y="68.8987" width="32" height="32">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="21" gid="2147483734" x="177.203" y="137.147" width="32" height="32">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="22" gid="79" x="96" y="255.124" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="23" gid="77" x="141.819" y="67.9164" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="25" gid="48" x="63.086" y="127.19" width="96" height="96" rotation="90">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="26" gid="92" x="0" y="278" width="32" height="32">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="27" gid="92" x="32" y="278" width="32" height="32">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="28" gid="92" x="64" y="278" width="32" height="32">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="29" gid="92" x="128" y="278" width="32" height="32">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="30" gid="92" x="160" y="278" width="32" height="32">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="31" gid="92" x="192" y="278" width="32" height="32">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="32" gid="75" x="48.7889" y="45.707" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="33" gid="2147483720" x="42.0415" y="76.261" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="34" gid="93" x="5" y="176" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="35" gid="2147483742" x="190.351" y="168.86" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="36" gid="35" x="6" y="243" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="37" gid="25" x="26" y="256" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="38" gid="85" x="2" y="259" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="39" gid="33" x="186" y="248" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="40" gid="34" x="170" y="259" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="41" gid="9" x="-0.43745" y="32.1719" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="42" gid="11" x="192" y="31.8672" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="44" gid="77" x="152.184" y="57.1235" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="17" gid="2147483726" x="134.328" y="47.977" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="24" gid="2147483724" x="131.961" y="65.0415" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="45" gid="76" x="136.341" y="72.6623" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="19" gid="2147483722" x="153.219" y="75.0169" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="46" gid="25" x="118.974" y="240.542" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="137" gid="10" x="176.559" y="47.6869" width="32" height="32"/>
+ </objectgroup>
+</map>

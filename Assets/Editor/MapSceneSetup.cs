@@ -8,7 +8,15 @@ public static class MapSceneSetup
 	const string ScenePath = "Assets/Scenes/InGame.unity";
 	const string MapRootName = "@Map";
 	const string ManagersObjectName = "@Managers";
-	const string ObjectArtDir = "Assets/Art/Objects";
+	const string ObjectArtDir = "Assets/Resources/Art/Objects/artifact";
+
+	static readonly string[] ArtifactSpriteNames =
+	{
+		"obj_artifact_bell",
+		"obj_artifact_crest",
+		"obj_artifact_mask",
+		"obj_artifact_seal"
+	};
 
 	[MenuItem("LampLight/Set Up Map Scene")]
 	public static void Run()
@@ -109,7 +117,7 @@ public static class MapSceneSetup
 		sprites.arraySize = 4;
 		for (int i = 0; i < 4; i++)
 		{
-			string path = $"{ObjectArtDir}/artifact_{i + 1:00}.png";
+			string path = $"{ObjectArtDir}/{ArtifactSpriteNames[i]}.png";
 			Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
 			if (sprite == null)
 				Debug.LogError($"MapSceneSetup: sprite not found at {path}");

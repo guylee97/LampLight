@@ -8,7 +8,7 @@ public static class LevelSetup
 	const string ScenePath = "Assets/Scenes/InGame.unity";
 	const string SourcePrefab = "Assets/Resources/Prefabs/WandererZombie.prefab";
 	const string RunnerPrefab = "Assets/Resources/Prefabs/RunnerZombie.prefab";
-	const string SoundDir = "Assets/Resources/Sounds";
+	const string SoundDir = "Assets/Resources/Audio";
 	const string SpawnerName = "@EnemySpawner";
 
 	[MenuItem("LampLight/Level/Setup All")]

@@ -135,10 +135,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WalkerZombie
   _state: 0
-  _idleSound: {fileID: 8300000, guid: 5110e72584daf6b47b0acfa40854ee2a, type: 3}
+  _idleSound: {fileID: 8300000, guid: 316b410eeb137b74ca466830a483e60b, type: 3}
   _patrolSound: {fileID: 0}
-  _chaseSound: {fileID: 8300000, guid: e2dbde6ee76a1094d8b2fd7a62c4f429, type: 3}
-  _moveSpeed: 2.5
+  _chaseSound: {fileID: 8300000, guid: 316b410eeb137b74ca466830a483e60b, type: 3}
+  _chaseSignalInterval: 0.65
+  _chaseSoundInterval: 4
+  _chaseSoundVolume: 0.8
+  _audibleDistance: 3
+  _presenceSoundInterval: 5
+  _moveSpeed: 1.7
+  _hearingScale: 0.518
   _catchRange: 0.4
   _destinationArrivalRange: 0.1
 --- !u!95 &7088018719376157915

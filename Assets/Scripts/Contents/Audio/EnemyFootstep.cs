@@ -81,7 +81,8 @@ public class EnemyFootstep : MonoBehaviour
 		_nextDsp += _pendingInterval;
 		_pendingInterval = NextInterval(_interval, _jitter, Random.Range(-1.0f, 1.0f));
 
-		SoundRing.Emit(transform.position - _listener.position, SoundRing.ThreatColor, distance);
+		// 소리 방향 HUD 기능 제거.
+		// SoundRing.Emit(transform.position - _listener.position, SoundRing.ThreatColor, distance);
 	}
 
 	bool IsMoving()

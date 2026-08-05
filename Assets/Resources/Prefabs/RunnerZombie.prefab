@@ -172,11 +172,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: LampLight::RunnerZombie
   _state: 0
   _idleSound: {fileID: 0}
-  _patrolSound: {fileID: 0}
-  _chaseSound: {fileID: 0}
+  _patrolSound: {fileID: 8300000, guid: 4ca09ae13903a16449d6bd30919d04b3, type: 3}
+  _chaseSound: {fileID: 8300000, guid: 4ca09ae13903a16449d6bd30919d04b3, type: 3}
+  _chaseSignalInterval: 0.65
+  _chaseSoundInterval: 3
+  _chaseSoundVolume: 1
+  _audibleDistance: 4
+  _presenceSoundInterval: 4
   _moveSpeed: 12.35
   _routeTurnInterval: 22
   _silentReleaseDuration: 3
+  _hearingScale: 0.499
 --- !u!95 &7032610908250629217
 Animator:
   serializedVersion: 7

@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="9" height="13" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="67">
+ <tileset firstgid="1" name="one_lantern_objects" tilewidth="96" tileheight="96" tilecount="33" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image source="../one_lantern_shrine/objects/obj_cobweb_corner.png" width="32" height="32"/>
+  </tile>
+  <tile id="1">
+   <image source="../one_lantern_shrine/objects/obj_cobweb_torn.png" width="32" height="32"/>
+  </tile>
+  <tile id="2">
+   <image source="../one_lantern_shrine/objects/obj_debris_blocks_b.png" width="32" height="32"/>
+  </tile>
+  <tile id="3">
+   <image source="../one_lantern_shrine/objects/obj_debris_frame_b.png" width="32" height="32"/>
+  </tile>
+  <tile id="4">
+   <image source="../one_lantern_shrine/objects/obj_debris_gravel_a.png" width="32" height="32"/>
+  </tile>
+  <tile id="5">
+   <image source="../one_lantern_shrine/objects/obj_debris_gravel_b.png" width="32" height="32"/>
+  </tile>
+  <tile id="6">
+   <image source="../one_lantern_shrine/objects/obj_debris_shards.png" width="32" height="32"/>
+  </tile>
+  <tile id="7">
+   <image source="../one_lantern_shrine/objects/obj_debris_slabs.png" width="32" height="32"/>
+  </tile>
+  <tile id="8">
+   <image source="../one_lantern_shrine/objects/obj_debris_stone.png" width="32" height="32"/>
+  </tile>
+  <tile id="9">
+   <image source="../one_lantern_shrine/objects/obj_debris_stones.png" width="32" height="32"/>
+  </tile>
+  <tile id="10">
+   <image source="../one_lantern_shrine/objects/obj_large_carpet_runner_v.png" width="96" height="96"/>
+  </tile>
+  <tile id="11">
+   <image source="../one_lantern_shrine/objects/obj_large_pillar_pile.png" width="64" height="64"/>
+  </tile>
+  <tile id="12">
+   <image source="../one_lantern_shrine/objects/obj_large_rubble_heap.png" width="64" height="64"/>
+  </tile>
+  <tile id="13">
+   <image source="../one_lantern_shrine/objects/obj_large_statue_fallen.png" width="96" height="96"/>
+  </tile>
+  <tile id="14">
+   <image source="../one_lantern_shrine/objects/obj_large_statue_kneeling.png" width="96" height="96"/>
+  </tile>
+  <tile id="15">
+   <image source="../one_lantern_shrine/objects/obj_prop_basin.png" width="32" height="32"/>
+  </tile>
+  <tile id="16">
+   <image source="../one_lantern_shrine/objects/obj_prop_bench.png" width="32" height="32"/>
+  </tile>
+  <tile id="17">
+   <image source="../one_lantern_shrine/objects/obj_prop_bowl.png" width="32" height="32"/>
+  </tile>
+  <tile id="18">
+   <image source="../one_lantern_shrine/objects/obj_prop_candle_fallen.png" width="32" height="32"/>
+  </tile>
+  <tile id="19">
+   <image source="../one_lantern_shrine/objects/obj_prop_candle_melted.png" width="32" height="32"/>
+  </tile>
+  <tile id="20">
+   <image source="../one_lantern_shrine/objects/obj_prop_candle_short.png" width="32" height="32"/>
+  </tile>
+  <tile id="21">
+   <image source="../one_lantern_shrine/objects/obj_prop_candle_stub.png" width="32" height="32"/>
+  </tile>
+  <tile id="22">
+   <image source="../one_lantern_shrine/objects/obj_prop_candle_tall.png" width="32" height="32"/>
+  </tile>
+  <tile id="23">
+   <image source="../one_lantern_shrine/objects/obj_prop_floor_seal.png" width="32" height="32"/>
+  </tile>
+  <tile id="24">
+   <image source="../one_lantern_shrine/objects/obj_prop_floor_seal_broken.png" width="32" height="32"/>
+  </tile>
+  <tile id="25">
+   <image source="../one_lantern_shrine/objects/obj_prop_floor_tile.png" width="32" height="32"/>
+  </tile>
+  <tile id="26">
+   <image source="../one_lantern_shrine/objects/obj_prop_pebbles.png" width="32" height="32"/>
+  </tile>
+  <tile id="27">
+   <image source="../one_lantern_shrine/objects/obj_prop_pillar_broken.png" width="32" height="32"/>
+  </tile>
+  <tile id="28">
+   <image source="../one_lantern_shrine/objects/obj_prop_pillar_column.png" width="32" height="32"/>
+  </tile>
+  <tile id="29">
+   <image source="../one_lantern_shrine/objects/obj_prop_pillar_drum.png" width="32" height="32"/>
+  </tile>
+  <tile id="30">
+   <image source="../one_lantern_shrine/objects/obj_prop_railing.png" width="32" height="32"/>
+  </tile>
+  <tile id="31">
+   <image source="../one_lantern_shrine/objects/obj_prop_roots.png" width="32" height="32"/>
+  </tile>
+  <tile id="32">
+   <image source="../one_lantern_shrine/objects/obj_prop_roots_stone.png" width="32" height="32"/>
+  </tile>
+ </tileset>
+ <objectgroup draworder="index" id="1" name="combo_6_goddess_shrine">
+  <object id="1" gid="3221225498" x="96" y="128" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="2" gid="1073741850" x="128" y="128" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="3" gid="2147483674" x="160" y="128" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="4" gid="2147483674" x="64" y="160" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="5" gid="26" x="96" y="160" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="6" gid="3221225498" x="128" y="160" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="7" gid="1073741850" x="160" y="160" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="8" gid="2147483674" x="192" y="160" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="9" gid="2147483674" x="96" y="192" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="10" gid="26" x="128" y="192" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="11" gid="3221225498" x="160" y="192" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="13" gid="29" x="37" y="74" width="32" height="32">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="14" gid="2147483677" x="219" y="74" width="32" height="32">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="15" gid="23" x="77" y="82" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="16" gid="2147483671" x="179" y="82" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="17" gid="24" x="128" y="162" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="18" gid="22" x="128" y="123" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="19" gid="30" x="172" y="113" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="20" gid="21" x="153.032" y="160.44" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="21" gid="30" x="171" y="182" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="22" gid="22" x="128" y="197" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="23" gid="30" x="83" y="182" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="24" gid="21" x="101.648" y="160" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="25" gid="30" x="84" y="113" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="26" gid="31" x="0" y="240" width="32" height="32">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="27" gid="31" x="32" y="240" width="32" height="32">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="32" gid="31" x="224" y="240" width="32" height="32">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="33" gid="31" x="256" y="240" width="32" height="32">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="34" gid="11" x="96" y="320" width="96" height="96">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="35" gid="11" x="96" y="416" width="96" height="96">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="36" gid="17" x="32" y="275" width="32" height="32">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="37" gid="2147483665" x="64" y="275" width="32" height="32">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="38" gid="17" x="192" y="275" width="32" height="32">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="39" gid="2147483665" x="224" y="275" width="32" height="32">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="40" gid="2147483665" x="32" y="326" width="32" height="32">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="41" gid="17" x="64" y="326" width="32" height="32">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="42" gid="2147483665" x="192" y="326" width="32" height="32">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="43" gid="17" x="224" y="326" width="32" height="32">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="44" gid="17" x="32" y="378" width="32" height="32">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="45" gid="2147483665" x="64" y="378" width="32" height="32">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="46" gid="17" x="192" y="378" width="32" height="32">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="47" gid="2147483665" x="224" y="378" width="32" height="32">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="48" gid="30" x="5" y="301" width="32" height="32">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="49" gid="2147483678" x="253" y="301" width="32" height="32">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="50" gid="16" x="103.479" y="226.323" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="51" gid="2147483664" x="152.44" y="226.122" width="32" height="32">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="52" gid="1" x="2" y="34" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="54" gid="6" x="6" y="205" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="55" gid="27" x="248" y="208" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="56" gid="9" x="10" y="419" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="57" gid="5" x="246" y="418" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="58" gid="1" x="256.419" y="110.747" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="59" gid="1" x="240.135" y="127.031" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="60" gid="5" x="110.307" y="264.781" width="32" height="32">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="61" gid="30" x="171.471" y="147.715" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="62" gid="30" x="83.471" y="147.715" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="63" gid="30" x="171.031" y="224.732" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="64" gid="30" x="83.0309" y="224.732" width="32" height="32">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="28" gid="31" x="64" y="240" width="32" height="32">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="29" gid="31" x="96" y="240" width="32" height="32">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="30" gid="31" x="160" y="240" width="32" height="32">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="31" gid="31" x="192" y="240" width="32" height="32">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="65" gid="13" x="80.2243" y="57.0854" width="64" height="64"/>
+  <object id="12" gid="15" x="96" y="101" width="96" height="96">
+   <properties>
+    <property name="rule" value="T"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

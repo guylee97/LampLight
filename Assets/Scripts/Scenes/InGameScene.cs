@@ -38,6 +38,7 @@ public class InGameScene : MonoBehaviour
 
 	UI_InGame _hud;
 	bool _escapeWasPressed;
+	float _remainingSeconds;
 
 	void Start()
 	{
@@ -75,22 +76,28 @@ public class InGameScene : MonoBehaviour
 
 		ApplyLevelConfig(config);
 
-		_placer.Place(config.ArtifactsPlaced, config.ArtifactRadiusTiles, config.Level);
-
 		System.Random rng = configured < 0 ? new System.Random() : new System.Random(configured);
+		int containedArtifacts = ConfigureArtifactContainers(config);
+		_placer.Place(
+			config.ArtifactsPlaced - containedArtifacts,
+			config.ArtifactRadiusTiles,
+			config.Level,
+			rng);
 
 		if (_selector.Select(rng))
 			ApplySpawnPair(config, rng);
 
 		_hud = Managers.UI.ShowSceneUI<UI_InGame>();
-		_hud.Setup(_progress, _player);
+		_hud.Setup(_progress, _player, config.DeadlineSeconds);
+		_remainingSeconds = config.DeadlineSeconds;
 
 		Managers.Game.OnStageEnded += OnStageEnded;
 	}
 
 	void ApplyLevelConfig(LevelConfig config)
 	{
-		_progress.SetRequired(config.ArtifactsRequired);
+		config.ArtifactsRequired = config.ArtifactsPlaced;
+		_progress.SetRequired(config.ArtifactsPlaced);
 		ApplyOilCanisters(config.OilCanisters);
 		NoiseLure.ClearAll();
 
@@ -221,6 +228,15 @@ public class InGameScene : MonoBehaviour
 
 	void Update()
 	{
+		if (Managers.Game.IsPlaying)
+		{
+			_remainingSeconds = Mathf.Max(0.0f, _remainingSeconds - Time.deltaTime);
+			if (_hud != null)
+				_hud.SetRemainingTime(_remainingSeconds);
+			if (_remainingSeconds <= 0.0f)
+				Managers.Game.GameOver();
+		}
+
 		Keyboard keyboard = Keyboard.current;
 		if (keyboard == null)
 			return;
@@ -230,6 +246,16 @@ public class InGameScene : MonoBehaviour
 			TogglePause();
 
 		_escapeWasPressed = pressed;
+	}
+
+	int ConfigureArtifactContainers(LevelConfig config)
+	{
+		Container[] containers = FindObjectsByType<Container>(FindObjectsSortMode.InstanceID);
+		if (containers.Length == 0 || config.ArtifactsPlaced <= 1)
+			return 0;
+
+		containers[UnityEngine.Random.Range(0, containers.Length)].SetArtifact(_progress);
+		return 1;
 	}
 
 	void TogglePause()
@@ -249,6 +275,13 @@ public class InGameScene : MonoBehaviour
 	{
 		if (result != Define.StageResult.Cleared)
 			return;
+
+		if (Managers.Game.HasNextLevel)
+		{
+			Managers.Game.AdvanceLevel();
+			Managers.Scene.LoadScene(Define.Scene.InGame);
+			return;
+		}
 
 		UI_Result popup = Managers.UI.ShowPopupUI<UI_Result>();
 		popup.Setup(result, _progress.Collected, _progress.Required);

@@ -7,7 +7,7 @@ using UnityEngine;
 
 public static class CharacterAnimationBuilder
 {
-	const string GeneratedRoot = "Assets/Resources/Animations/Generated";
+	const string GeneratedRoot = "Assets/Resources/Animations/Active";
 	const string ControllerRoot = GeneratedRoot + "/Controllers";
 	const string PlayerControllerPath = ControllerRoot + "/PlayerAnimator.controller";
 	const string WalkerControllerPath = ControllerRoot + "/WalkerZombieAnimator.controller";
@@ -55,7 +55,7 @@ public static class CharacterAnimationBuilder
 
 		CharacterSpec player = new CharacterSpec(
 			"Player",
-			"Assets/Resources/Sprite/Players",
+			"Assets/Resources/Art/CharacterFrames/Player",
 			"player",
 			PlayerControllerPath,
 			new StateSpec("Idle", "idle", 1, 1, false),
@@ -64,7 +64,7 @@ public static class CharacterAnimationBuilder
 
 		CharacterSpec walker = new CharacterSpec(
 			"WalkerZombie",
-			"Assets/Resources/Sprite/Zombies/zombie_walker_sprites/frames",
+			"Assets/Resources/Art/CharacterFrames/Enemies/zombie_walker_sprites/frames",
 			"zombie_walker",
 			WalkerControllerPath,
 			new StateSpec("Idle", "idle", 1, 1, false),
@@ -74,7 +74,7 @@ public static class CharacterAnimationBuilder
 
 		CharacterSpec wanderer = new CharacterSpec(
 			"WandererZombie",
-			"Assets/Resources/Sprite/Zombies/zombie_wanderer_sprites/frames",
+			"Assets/Resources/Art/CharacterFrames/Enemies/zombie_wanderer_sprites/frames",
 			"zombie_wanderer",
 			WandererControllerPath,
 			new StateSpec("Idle", "idle", 1, 1, false),
@@ -84,7 +84,7 @@ public static class CharacterAnimationBuilder
 
 		CharacterSpec runner = new CharacterSpec(
 			"RunnerZombie",
-			"Assets/Resources/Sprite/Zombies/zombie_runner_sprites/frames",
+			"Assets/Resources/Art/CharacterFrames/Enemies/zombie_runner_sprites/frames",
 			"zombie_runner",
 			RunnerControllerPath,
 			new StateSpec("Idle", "idle", 1, 1, false),

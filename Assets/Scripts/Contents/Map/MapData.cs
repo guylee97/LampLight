@@ -57,6 +57,26 @@ public class MapRoom
 }
 
 [Serializable]
+public class MapDecoration
+{
+	public string key;
+	public string resource;
+	public float x;
+	public float y;
+	public float width;
+	public float height;
+	public bool flipHorizontal;
+	public bool flipVertical;
+	public bool flipDiagonal;
+	public bool collisionEnabled;
+	public float colliderWidth;
+	public float colliderHeight;
+	public float colliderOffsetX;
+	public float colliderOffsetY;
+	public int sortingOffset;
+}
+
+[Serializable]
 public class MapData : ILoader<string, MapPoint>
 {
 	public int width;
@@ -74,6 +94,7 @@ public class MapData : ILoader<string, MapPoint>
 	public MapPoint[] objects;
 	public MapPoint[] spawns;
 	public MapRoom[] rooms;
+	public MapDecoration[] decorations;
 
 	[NonSerialized]
 	public int[] blocked;

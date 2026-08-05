@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Light2D))]
@@ -30,6 +29,12 @@ public class Lamp : MonoBehaviour
 
 	[SerializeField]
 	float _innerAngleRatio = 0.8f;
+
+	[SerializeField]
+	float _orbRadius = 1.4f;
+
+	[SerializeField]
+	float _forwardOffset = 1.2f;
 
 	[SerializeField]
 	Light2D _light;
@@ -90,7 +95,6 @@ public class Lamp : MonoBehaviour
 	void Update()
 	{
 		UpdateDirection();
-		UpdateDuration();
 		ApplyLightSettings();
 	}
 
@@ -100,28 +104,22 @@ public class Lamp : MonoBehaviour
 
 	void UpdateDirection()
 	{
-		Vector2 direction = Vector2.zero;
-		Mouse mouse = Mouse.current;
-		Camera mainCamera = Camera.main;
+		if (transform.parent == null)
+			return;
 
-		if (mouse != null && mainCamera != null)
-		{
-			Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(mouse.position.ReadValue());
-			direction = mouseWorldPosition - transform.position;
-		}
+		PlayerController player = transform.parent.GetComponent<PlayerController>();
+		if (player == null)
+			return;
 
-		if (direction.sqrMagnitude <= 0.01f && transform.parent != null)
-		{
-			PlayerController player = transform.parent.GetComponent<PlayerController>();
-			if (player != null)
-				direction = player.FacingDirection;
-		}
-
+		Vector2 direction = player.FacingDirection;
 		if (direction.sqrMagnitude <= 0.01f)
 			return;
 
+		direction.Normalize();
+		transform.localPosition = direction * _forwardOffset;
+
 		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90.0f;
-		transform.rotation = Quaternion.Euler(0, 0, angle);
+		transform.localRotation = Quaternion.Euler(0, 0, angle);
 	}
 
 	void UpdateDuration()
@@ -211,18 +209,27 @@ public class Lamp : MonoBehaviour
 		if (_light == null)
 			return;
 
-		float range = EffectiveRange;
-		float angle = EffectiveAngle;
+		float radius = _listening ? _orbRadius * _listenRangeRatio : _orbRadius;
 
 		_light.enabled = IsOn;
 		_light.lightType = Light2D.LightType.Point;
 		_light.intensity = _intensity;
 		_light.shadowsEnabled = true;
 		_light.shadowIntensity = _shadowIntensity;
+		_light.pointLightOuterRadius = radius;
+		_light.pointLightInnerRadius = radius * _innerRangeRatio;
+		_light.pointLightOuterAngle = 360.0f;
+		_light.pointLightInnerAngle = 360.0f;
+
+		/*
+		// 기존 원뿔형 등불 설정. 필요할 때 위의 원형 설정 대신 복구한다.
+		float range = EffectiveRange;
+		float angle = EffectiveAngle;
 		_light.pointLightOuterRadius = range;
 		_light.pointLightInnerRadius = range * _innerRangeRatio;
 		_light.pointLightOuterAngle = angle;
 		_light.pointLightInnerAngle = angle * _innerAngleRatio;
+		*/
 	}
 
 	public bool IsInLightCone(Vector3 position)
@@ -230,13 +237,8 @@ public class Lamp : MonoBehaviour
 		if (!IsOn)
 			return false;
 
-		Vector2 toTarget = position - transform.position;
-
-		if (toTarget.magnitude > EffectiveRange)
-			return false;
-
-		float angleToTarget = Vector2.Angle(transform.up, toTarget.normalized);
-		return angleToTarget <= EffectiveAngle * 0.5f;
+		float radius = _listening ? _orbRadius * _listenRangeRatio : _orbRadius;
+		return Vector2.Distance(transform.position, position) <= radius;
 	}
 
 	bool IsBlocked(Vector3 targetPosition)
