@@ -26,13 +26,13 @@ public class TilemapAlignmentTests
 			{
 				Vector3 centre = MapCoord.TileToWorld(col, row);
 				bool solid = Physics2D.OverlapPoint(centre, mask) != null;
-				bool wallInData = map.GetGid(map.walls, col, row) != 0;
+				bool blockedInData = MapCoord.IsPassable(col, row) == false;
 
-				if (wallInData && solid == false)
-					holes.Add($"({col},{row}) world={centre} 데이터는 벽인데 콜라이더 없음");
+				if (blockedInData && solid == false)
+					holes.Add($"({col},{row}) world={centre} 데이터는 차단인데 콜라이더 없음");
 
-				if (wallInData == false && solid)
-					ghosts.Add($"({col},{row}) world={centre} 데이터는 바닥인데 콜라이더 있음");
+				if (blockedInData == false && solid)
+					ghosts.Add($"({col},{row}) world={centre} 데이터는 통과인데 콜라이더 있음");
 			}
 		}
 

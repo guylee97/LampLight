@@ -38,6 +38,9 @@ public class PlayerController : BaseController
 	float _noisyFloorNoiseScale = 1.8f;
 
 	[SerializeField]
+	float _muffledFloorNoiseScale = 0.6f;
+
+	[SerializeField]
 	float _lampVisibilityBonus = 0.65f;
 
 	[SerializeField]
@@ -71,6 +74,7 @@ public class PlayerController : BaseController
 	bool _initialized;
 	bool _sneaking;
 	bool _onNoisyFloor;
+	bool _onMuffledFloor;
 	bool _lampKeyWasPressed;
 	bool _isListening;
 	float _noisePulseRadius;
@@ -84,6 +88,7 @@ public class PlayerController : BaseController
 	public bool IsSneaking { get { return _sneaking; } }
 
 	public bool IsOnNoisyFloor { get { return _onNoisyFloor; } }
+	public bool IsOnMuffledFloor { get { return _onMuffledFloor; } }
 
 	public bool IsListening { get { return _isListening; } }
 
@@ -289,6 +294,7 @@ public class PlayerController : BaseController
 		}
 
 		_onNoisyFloor = MapCoord.IsNoisy(transform.position);
+		_onMuffledFloor = _onNoisyFloor == false && MapCoord.IsMuffled(transform.position);
 
 		if (isMoving)
 		{
@@ -297,6 +303,10 @@ public class PlayerController : BaseController
 				noiseRadius *= _noisyFloorNoiseScale;
 				if (noisyFloorClips != null && noisyFloorClips.Length > 0)
 					footstepClips = noisyFloorClips;
+			}
+			else if (_onMuffledFloor)
+			{
+				noiseRadius *= _muffledFloorNoiseScale;
 			}
 
 			FacingDirection = _moveDir;
