@@ -24,7 +24,8 @@ DEBRIS_DISPLAY_SCALE = 0.7
 
 
 def load_rules(path):
-    doc = json.load(open(path))
+    with open(path, encoding="utf-8") as handle:
+        doc = json.load(handle)
     rule = doc["footprint_rule"]
     return doc["assets"], rule["block_threshold"], rule["noise_threshold"], rule["alpha_min"]
 
@@ -79,7 +80,8 @@ def coverage(resource, cols, rows, alpha_min, cache):
 
 def bake(level, assets, block_t, noise_t, alpha_min, cache):
     path = os.path.join(DATA, f"map_l{level}.json")
-    data = json.load(open(path))
+    with open(path, encoding="utf-8") as handle:
+        data = json.load(handle)
     width, height = data["width"], data["height"]
     walls = data["walls"]
 
@@ -92,7 +94,11 @@ def bake(level, assets, block_t, noise_t, alpha_min, cache):
             unknown.add(deco["key"])
             continue
 
-        verdict = CODE.get(entry["passability"], WALK)
+        if entry["passability"] not in CODE:
+            unknown.add(f'{deco["key"]}:{entry["passability"]}')
+            continue
+
+        verdict = CODE[entry["passability"]]
         if verdict == WALK:
             continue
 
@@ -102,8 +108,8 @@ def bake(level, assets, block_t, noise_t, alpha_min, cache):
         left = deco["x"] + deco["width"] * 0.5 - span_x * 0.5
         bottom = height - deco["y"] + deco["height"] * 0.5 - span_y * 0.5
 
-        cols = max(1, int(round(span_x)))
-        rows = max(1, int(round(span_y)))
+        cols = max(1, round(span_x))
+        rows = max(1, round(span_y))
         grid = coverage(deco["resource"], cols, rows, alpha_min, cache)
         if grid is None:
             unknown.add(deco["resource"])
@@ -128,7 +134,8 @@ def bake(level, assets, block_t, noise_t, alpha_min, cache):
                     collision[index] = verdict
 
     data["collision"] = collision
-    json.dump(data, open(path, "w"), ensure_ascii=False, separators=(",", ":"))
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(data, handle, ensure_ascii=False, separators=(",", ":"))
 
     counts = {v: collision.count(v) for v in (WALK, BLOCK, NOISE, MUFFLED)}
     return counts, unknown

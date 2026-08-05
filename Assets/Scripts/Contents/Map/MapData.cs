@@ -144,6 +144,26 @@ public class MapData : ILoader<string, MapPoint>
 			return false;
 		}
 
+		if (collision != null)
+		{
+			if (collision.Length != expected)
+			{
+				error = $"collision length mismatch: expected {expected}, got {collision.Length}";
+				return false;
+			}
+
+			for (int i = 0; i < collision.Length; i++)
+			{
+				int code = collision[i];
+				if (code != MapCoord.CollisionWalk && code != MapCoord.CollisionBlock
+					&& code != MapCoord.CollisionNoise && code != MapCoord.CollisionMuffled)
+				{
+					error = $"collision[{i}] has undefined code {code}";
+					return false;
+				}
+			}
+		}
+
 		if (spawns == null || spawns.Length == 0)
 		{
 			error = "no spawn anchors";

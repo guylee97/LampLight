@@ -18,7 +18,7 @@ DATA = os.path.join(ROOT, "Assets", "Resources", "Data")
 TILES = os.path.join(ROOT, "Assets", "Resources", "Tileset", "tiles_single")
 RES = os.path.join(ROOT, "Assets", "Resources")
 
-FONT = "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
+FONT = os.path.join(ROOT, "Assets", "TextMesh Pro", "Fonts", "LiberationSans.ttf")
 
 TILE_PX = 64
 GUTTER = 56
@@ -47,6 +47,18 @@ GROUND_PREFIXES = ("prop_floor_", "large_carpet_", "cobweb_", "extra_cobweb_",
 GROUND_KEYS = {"prop_grate", "prop_pebbles", "prop_roots", "prop_roots_stone",
                "prop_bones_long", "prop_bones_pile", "prop_skull",
                "extra_prop_skull_b"}
+
+
+def load_font(size):
+    try:
+        return ImageFont.truetype(FONT, size)
+    except OSError:
+        pass
+
+    try:
+        return ImageFont.load_default(size)
+    except TypeError:
+        return ImageFont.load_default()
 
 
 def is_ground(key):
@@ -172,9 +184,9 @@ def compose(data, level, tiles, cache, subtitle):
     page.alpha_composite(body, (GUTTER, HEADER))
 
     draw = ImageDraw.Draw(page)
-    label = ImageFont.truetype(FONT, 30)
-    title = ImageFont.truetype(FONT, 34)
-    small = ImageFont.truetype(FONT, 26)
+    label = load_font(30)
+    title = load_font(34)
+    small = load_font(26)
 
     for col in range(0, width, 5):
         draw.text((GUTTER + col * TILE_PX + 6, 6), str(col), font=label, fill=TEXT)

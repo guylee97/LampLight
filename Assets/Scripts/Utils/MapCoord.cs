@@ -136,7 +136,7 @@ public static class MapCoord
 				|| deco.colliderWidth <= 0.0f || deco.colliderHeight <= 0.0f)
 				continue;
 
-			if (MapDecoPlacer.SealsMapObject(deco))
+			if (MapDecoPlacer.SealsMapObject(map, deco))
 				continue;
 
 			float centerX = deco.x + deco.width * 0.5f + deco.colliderOffsetX;

@@ -2,7 +2,9 @@
 
 막은 것이 벽이면 손대지 않고, 바닥에 놓인 오브젝트가 통로를 끊은 경우에만
 그 오브젝트를 통로 밖으로 민다. 그림이 함께 움직이므로 보이는 것과 판정이
-어긋나지 않는다. 민 뒤에는 collision 을 다시 구워야 한다.
+어긋나지 않는다. 최대 3칸 안에서 빈자리를 찾지 못하면 그 오브젝트는
+decorations 에서 제거된다. 맵 json 을 되돌릴 수 없게 덮어쓰므로 실행 전에
+커밋해 두어라. 민 뒤에는 collision 을 다시 구워야 한다.
 
     python3 Tools/open_passages.py <collision_map.json>
 """
@@ -19,6 +21,7 @@ DATA = os.path.join(ROOT, "Assets", "Resources", "Data")
 
 STEP = 0.25
 MAX_SHIFT = 3.0
+MIN_ISLAND = 2
 DEBRIS_DISPLAY_SCALE = 0.7
 
 
@@ -82,7 +85,7 @@ def gates_of(data):
     gates = set()
 
     for iso in found[1:]:
-        if len(iso) < 2:
+        if len(iso) < MIN_ISLAND:
             continue
         for col, row in iso:
             for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
@@ -99,7 +102,8 @@ def gates_of(data):
 
 def clear_gates(level, rules_path):
     path = os.path.join(DATA, f"map_l{level}.json")
-    data = json.load(open(path))
+    with open(path, encoding="utf-8") as handle:
+        data = json.load(handle)
     height = data["height"]
     gates = gates_of(data)
 
@@ -107,6 +111,7 @@ def clear_gates(level, rules_path):
         return 0, 0
 
     moved = dropped = 0
+    taken = set()
 
     for deco in data["decorations"]:
         if not (tiles_of(deco, height) & gates):
@@ -123,7 +128,7 @@ def clear_gates(level, rules_path):
                         continue
                     deco["x"] = origin[0] + dx * STEP
                     deco["y"] = origin[1] + dy * STEP
-                    if not (tiles_of(deco, height) & gates):
+                    if not (tiles_of(deco, height) & (gates | taken)):
                         placed = (deco["x"], deco["y"])
                         break
                 if placed:
@@ -132,6 +137,7 @@ def clear_gates(level, rules_path):
                 break
 
         if placed:
+            taken |= tiles_of(deco, height)
             moved += 1
         else:
             deco["x"], deco["y"] = origin
@@ -139,7 +145,8 @@ def clear_gates(level, rules_path):
             dropped += 1
 
     data["decorations"] = [d for d in data["decorations"] if not d.get("_drop")]
-    json.dump(data, open(path, "w"), ensure_ascii=False, separators=(",", ":"))
+    with open(path, "w", encoding="utf-8") as handle:
+        json.dump(data, handle, ensure_ascii=False, separators=(",", ":"))
     return moved, dropped
 
 
@@ -166,11 +173,21 @@ def main():
         if total == 0:
             break
 
+    remaining = 0
+
     for level in (1, 2, 3):
-        data = json.load(open(os.path.join(DATA, f"map_l{level}.json")))
+        with open(os.path.join(DATA, f"map_l{level}.json"), encoding="utf-8") as handle:
+            data = json.load(handle)
         found = regions_of(data)
         stranded = sum(len(r) for r in found[1:])
+        openable = sum(len(r) for r in found[1:] if len(r) >= MIN_ISLAND)
+        remaining += openable
         print(f"L{level}: 영역 {len(found)}개, 최대 {len(found[0])}칸, 고립 {stranded}칸")
+
+    if remaining:
+        print(f"이을 수 있는 고립 {remaining}칸이 남았다. 수렴하지 않았으니 손으로 확인하라.",
+              file=sys.stderr)
+        return 1
 
     return 0
 

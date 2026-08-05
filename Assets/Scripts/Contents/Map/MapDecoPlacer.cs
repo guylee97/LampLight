@@ -144,7 +144,7 @@ public class MapDecoPlacer : MonoBehaviour
 			if (lit != null)
 				renderer.sharedMaterial = lit;
 
-			AttachFixedCollision(go, placement, scaleX, scaleY);
+			AttachFixedCollision(map, go, placement, scaleX, scaleY);
 			AttachNoiseTrigger(go, placement.key);
 			AttachContainer(go, placement.key, renderer);
 			_spawned.Add(go);
@@ -153,18 +153,19 @@ public class MapDecoPlacer : MonoBehaviour
 
 	public const float MapObjectClearance = 0.35f;
 
-	void AttachFixedCollision(GameObject go, MapDecoration placement, float scaleX, float scaleY)
+	void AttachFixedCollision(MapData map, GameObject go, MapDecoration placement, float scaleX, float scaleY)
 	{
-		MapData map = Managers.Data.Map;
-		if (map != null && map.collision != null
-			&& map.collision.Length == map.width * map.height)
+		if (map == null)
+			return;
+
+		if (map.collision != null && map.collision.Length == map.width * map.height)
 			return;
 
 		if (placement.collisionEnabled == false
 			|| placement.colliderWidth <= 0.0f || placement.colliderHeight <= 0.0f)
 			return;
 
-		if (SealsMapObject(placement))
+		if (SealsMapObject(map, placement))
 		{
 			Debug.LogWarning($"MapDecoPlacer: '{placement.key}' 가 필수 지점을 막아 충돌을 껐다");
 			return;
@@ -173,7 +174,7 @@ public class MapDecoPlacer : MonoBehaviour
 		float absScaleX = Mathf.Max(0.0001f, Mathf.Abs(scaleX));
 		float absScaleY = Mathf.Max(0.0001f, Mathf.Abs(scaleY));
 		float visualBottomX = placement.x + placement.width * 0.5f;
-		float visualBottomY = Managers.Data.Map.height - placement.y;
+		float visualBottomY = map.height - placement.y;
 		Vector2 worldCenter = new Vector2(
 			visualBottomX + placement.colliderOffsetX,
 			visualBottomY + placement.colliderOffsetY);
@@ -187,9 +188,8 @@ public class MapDecoPlacer : MonoBehaviour
 			(worldCenter.y - go.transform.position.y) / scaleY);
 	}
 
-	public static bool SealsMapObject(MapDecoration placement)
+	public static bool SealsMapObject(MapData map, MapDecoration placement)
 	{
-		MapData map = Managers.Data.Map;
 		if (map == null || map.objects == null)
 			return false;
 
