@@ -125,7 +125,7 @@ public class SpawnSelector : MonoBehaviour
 		foreach (MapPoint candidate in ordered)
 		{
 			int distance = MapPathfinder.Distance(candidate, exit);
-			if (distance == MapPathfinder.Unreachable)
+			if (distance == MapPathfinder.Unreachable || BlockedByDecoration(candidate))
 				continue;
 
 			if (distance >= _minPairDistance)
@@ -143,6 +143,36 @@ public class SpawnSelector : MonoBehaviour
 				+ $"가장 먼 {best} 타일로 대체했다");
 
 		return farthest;
+	}
+
+	public const float SpawnClearanceRadius = 0.35f;
+
+	public static bool BlockedByDecoration(MapPoint point)
+	{
+		return point != null && BlockedByDecoration(MapCoord.ToWorld(point), SpawnClearanceRadius);
+	}
+
+	public static bool BlockedByDecoration(Vector3 world, float clearance)
+	{
+		MapData map = Managers.Data.Map;
+		if (map == null || map.decorations == null)
+			return false;
+
+		foreach (MapDecoration deco in map.decorations)
+		{
+			if (deco.collisionEnabled == false
+				|| deco.colliderWidth <= 0.0f || deco.colliderHeight <= 0.0f)
+				continue;
+
+			float centerX = deco.x + deco.width * 0.5f + deco.colliderOffsetX;
+			float centerY = map.height - deco.y + deco.colliderOffsetY;
+
+			if (Mathf.Abs(world.x - centerX) < deco.colliderWidth * 0.5f + clearance
+				&& Mathf.Abs(world.y - centerY) < deco.colliderHeight * 0.5f + clearance)
+				return true;
+		}
+
+		return false;
 	}
 
 	public static bool TryPickFarthestPair(IReadOnlyList<MapPoint> anchors,
