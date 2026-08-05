@@ -59,8 +59,9 @@ public static class MapCoord
 		return IsWalkable(tile.x, tile.y);
 	}
 
-	public const float ActorHalfWidth = 0.22f;
-	public const float ActorHalfHeight = 0.12f;
+	public const float ActorHalfWidth = 0.31f;
+	public const float ActorHalfHeight = 0.16f;
+	public const float ActorFootOffset = -0.317f;
 
 	static MapData _blockedFor;
 	static bool[] _blockedTiles;
@@ -116,8 +117,10 @@ public static class MapCoord
 
 			int minCol = Mathf.FloorToInt(centerX - halfWidth - 0.5f);
 			int maxCol = Mathf.CeilToInt(centerX + halfWidth - 0.5f);
-			int minRow = Mathf.FloorToInt(map.height - 1 - (centerY + halfHeight - 0.5f));
-			int maxRow = Mathf.CeilToInt(map.height - 1 - (centerY - halfHeight - 0.5f));
+			int minRow = Mathf.FloorToInt(
+				map.height - 1 - (centerY + halfHeight - 0.5f - ActorFootOffset)) - 1;
+			int maxRow = Mathf.CeilToInt(
+				map.height - 1 - (centerY - halfHeight - 0.5f - ActorFootOffset)) + 1;
 
 			for (int row = minRow; row <= maxRow; row++)
 			{
@@ -127,7 +130,7 @@ public static class MapCoord
 						continue;
 
 					float tileX = col + 0.5f;
-					float tileY = map.height - 1 - row + 0.5f;
+					float tileY = map.height - 1 - row + 0.5f + ActorFootOffset;
 
 					if (Mathf.Abs(tileX - centerX) < halfWidth
 						&& Mathf.Abs(tileY - centerY) < halfHeight)
