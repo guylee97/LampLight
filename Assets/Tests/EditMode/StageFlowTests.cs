@@ -22,6 +22,29 @@ public class StageFlowTests
 	}
 
 	[Test]
+	public void BeginStageRestoresTimeScaleAfterGameOverFroze()
+	{
+		Time.timeScale = 0.0f;
+
+		Managers.Game.BeginStage();
+
+		Assert.AreEqual(1.0f, Time.timeScale, 0.0001f,
+			"게임오버가 timeScale 을 0 으로 두고 재시작하면 새 스테이지가 멈춘 채 시작한다");
+	}
+
+	[Test]
+	public void ResumingSyncsTimeScaleEvenWhenPauseFlagUnchanged()
+	{
+		Managers.Game.SetPaused(false);
+		Time.timeScale = 0.0f;
+
+		Managers.Game.SetPaused(false);
+
+		Assert.AreEqual(1.0f, Time.timeScale, 0.0001f,
+			"IsPaused 가 이미 false 여도 timeScale 은 되돌려야 한다");
+	}
+
+	[Test]
 	public void CollectingRaisesProgressAndCompletes()
 	{
 		int lastCollected = 0;
