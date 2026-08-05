@@ -88,6 +88,7 @@ public class MapData : ILoader<string, MapPoint>
 	public int[] floor;
 	public int[] walls;
 	public int[] deco;
+	public int[] collision;
 
 	public MapTileProp[] tileProps;
 	public MapTileset[] tilesets;

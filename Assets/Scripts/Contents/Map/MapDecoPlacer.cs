@@ -155,6 +155,11 @@ public class MapDecoPlacer : MonoBehaviour
 
 	void AttachFixedCollision(GameObject go, MapDecoration placement, float scaleX, float scaleY)
 	{
+		MapData map = Managers.Data.Map;
+		if (map != null && map.collision != null
+			&& map.collision.Length == map.width * map.height)
+			return;
+
 		if (placement.collisionEnabled == false
 			|| placement.colliderWidth <= 0.0f || placement.colliderHeight <= 0.0f)
 			return;

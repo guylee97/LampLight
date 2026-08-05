@@ -146,6 +146,39 @@ public class MapBakeTests
 	}
 
 	[Test]
+	public void C11_BakedCollisionCoversEveryTile()
+	{
+		System.Collections.Generic.List<string> bad = new System.Collections.Generic.List<string>();
+
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			MapData map = Load(level);
+
+			if (map.collision == null || map.collision.Length != map.width * map.height)
+			{
+				bad.Add($"L{level} collision 길이 {(map.collision == null ? 0 : map.collision.Length)}"
+					+ $" != {map.width * map.height}");
+				continue;
+			}
+
+			for (int row = 0; row < map.height; row++)
+			{
+				for (int col = 0; col < map.width; col++)
+				{
+					int value = map.collision[row * map.width + col];
+					if (value < MapCoord.CollisionWalk || value > MapCoord.CollisionMuffled)
+						bad.Add($"L{level} ({col},{row}) 판정값 {value}");
+
+					if (value != MapCoord.CollisionBlock && MapCoord.IsWalkable(col, row) == false)
+						bad.Add($"L{level} ({col},{row}) 는 벽인데 통과로 표시됐다");
+				}
+			}
+		}
+
+		Assert.IsEmpty(bad, string.Join("\n", bad));
+	}
+
+	[Test]
 	public void C9_ExitDoorSitsOnReachableFloor()
 	{
 		System.Collections.Generic.List<string> bad = new System.Collections.Generic.List<string>();

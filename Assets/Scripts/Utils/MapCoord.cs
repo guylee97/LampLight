@@ -66,13 +66,42 @@ public static class MapCoord
 	static MapData _blockedFor;
 	static bool[] _blockedTiles;
 
+	public const int CollisionWalk = 0;
+	public const int CollisionBlock = 1;
+	public const int CollisionNoise = 2;
+	public const int CollisionMuffled = 3;
+
+	static bool HasBakedCollision(MapData map)
+	{
+		return map.collision != null && map.collision.Length == map.width * map.height;
+	}
+
+	public static int CollisionAt(int col, int row)
+	{
+		MapData map = Map;
+		if (map == null || map.Contains(col, row) == false)
+			return CollisionBlock;
+
+		if (HasBakedCollision(map))
+			return map.collision[row * map.width + col];
+
+		return IsWalkable(col, row) ? CollisionWalk : CollisionBlock;
+	}
+
 	public static bool IsPassable(int col, int row)
 	{
+		MapData map = Map;
+		if (map == null || map.Contains(col, row) == false)
+			return false;
+
+		if (HasBakedCollision(map))
+			return map.collision[row * map.width + col] != CollisionBlock;
+
 		if (IsWalkable(col, row) == false)
 			return false;
 
 		bool[] blocked = BlockedTiles();
-		return blocked == null || blocked[row * Map.width + col] == false;
+		return blocked == null || blocked[row * map.width + col] == false;
 	}
 
 	public static void InvalidateBlockedTiles()
@@ -147,6 +176,9 @@ public static class MapCoord
 		if (Map == null)
 			return false;
 
+		if (CollisionAt(col, row) == CollisionNoise)
+			return true;
+
 		MapTileProp prop = Map.GetProp(Map.GetGid(Map.floor, col, row));
 		return prop != null && prop.noisy;
 	}
@@ -155,6 +187,17 @@ public static class MapCoord
 	{
 		Vector2Int tile = WorldToTile(world);
 		return IsNoisy(tile.x, tile.y);
+	}
+
+	public static bool IsMuffled(int col, int row)
+	{
+		return CollisionAt(col, row) == CollisionMuffled;
+	}
+
+	public static bool IsMuffled(Vector3 world)
+	{
+		Vector2Int tile = WorldToTile(world);
+		return IsMuffled(tile.x, tile.y);
 	}
 
 	public static Bounds WorldBounds()

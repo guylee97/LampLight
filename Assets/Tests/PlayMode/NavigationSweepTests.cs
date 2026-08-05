@@ -43,7 +43,7 @@ public class NavigationSweepTests
 		{
 			for (int col = 0; col < map.width; col++)
 			{
-				if (MapCoord.IsWalkable(col, row) == false)
+				if (MapCoord.IsPassable(col, row) == false)
 					continue;
 
 				Vector2 center = Center(col, row, body);
@@ -59,7 +59,7 @@ public class NavigationSweepTests
 					int nextCol = col + step.x;
 					int nextRow = row + step.y;
 
-					if (MapCoord.IsWalkable(nextCol, nextRow) == false)
+					if (MapCoord.IsPassable(nextCol, nextRow) == false)
 						continue;
 
 					Vector2 target = Center(nextCol, nextRow, body);
@@ -84,10 +84,10 @@ public class NavigationSweepTests
 		Debug.Log($"NavigationSweep: unstandable={unstandable.Count} blockedEdges={blockedEdges.Count} report={report}");
 
 		Assert.IsEmpty(unstandable,
-			$"플레이어 콜라이더가 들어가지 못하는 walkable 타일 {unstandable.Count}개. 리포트: {report}");
+			$"플레이어 콜라이더가 들어가지 못하는 통과 가능 타일 {unstandable.Count}개. 리포트: {report}");
 
 		Assert.IsEmpty(blockedEdges,
-			$"인접한 walkable 타일 사이를 물리적으로 지나갈 수 없는 구간 {blockedEdges.Count}개. 리포트: {report}");
+			$"인접한 통과 가능 타일 사이를 물리적으로 지나갈 수 없는 구간 {blockedEdges.Count}개. 리포트: {report}");
 	}
 
 	static BodyShape ReadPlayerShape()
@@ -132,7 +132,7 @@ public class NavigationSweepTests
 				Vector2Int tile = new Vector2Int(col, row);
 
 				Color32 color = wall;
-				if (MapCoord.IsWalkable(col, row))
+				if (MapCoord.IsPassable(col, row))
 					color = open;
 
 				if (edgeTiles.Contains(tile))
