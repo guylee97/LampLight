@@ -84,7 +84,7 @@ public class LampTests
 		_host.transform.position = Vector3.zero;
 		_host.transform.rotation = Quaternion.identity;
 
-		Assert.IsTrue(_lamp.IsInLightCone(new Vector3(0, 3, 0)));
+		Assert.IsTrue(_lamp.IsInLightCone(new Vector3(0, _lamp.Range * 0.5f, 0)));
 	}
 
 	[Test]

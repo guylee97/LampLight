@@ -72,7 +72,7 @@ public class Lamp : MonoBehaviour
 	public bool IsOn { get { return _isOn && _remainingDuration > 0; } }
 	public bool IsSwitchedOn { get { return _isOn; } }
 	public bool HasFuel { get { return _remainingDuration > 0; } }
-	public float Range { get { return _range; } }
+	public float Range { get { return _listening ? _orbRadius * _listenRangeRatio : _orbRadius; } }
 	public float Angle { get { return _angle; } }
 	public float MaxDuration { get { return _maxDuration; } }
 	public float RemainingDuration { get { return _remainingDuration; } }
@@ -95,11 +95,8 @@ public class Lamp : MonoBehaviour
 	void Update()
 	{
 		UpdateDirection();
+		UpdateDuration();
 		ApplyLightSettings();
-	}
-
-	void FixedUpdate()
-	{
 	}
 
 	void UpdateDirection()
@@ -237,8 +234,7 @@ public class Lamp : MonoBehaviour
 		if (!IsOn)
 			return false;
 
-		float radius = _listening ? _orbRadius * _listenRangeRatio : _orbRadius;
-		return Vector2.Distance(transform.position, position) <= radius;
+		return Vector2.Distance(transform.position, position) <= Range;
 	}
 
 	bool IsBlocked(Vector3 targetPosition)
