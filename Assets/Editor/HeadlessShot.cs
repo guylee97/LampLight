@@ -12,9 +12,15 @@ public static class HeadlessShot
 	const string KeyHeight = "HeadlessShot.Height";
 	const string KeyWait = "HeadlessShot.Wait";
 
+	const string KeySeconds = "HeadlessShot.Seconds";
+	const string KeySeed = "HeadlessShot.Seed";
+	const string KeyDebug = "HeadlessShot.Debug";
+	const string KeyPose = "HeadlessShot.Pose";
+
 	const int StartFrame = 30;
 
 	static int _frame;
+	static float _playStartTime;
 
 	public static void Capture()
 	{
@@ -36,6 +42,10 @@ public static class HeadlessShot
 		SessionState.SetInt(KeyWidth, width);
 		SessionState.SetInt(KeyHeight, height);
 		SessionState.SetInt(KeyWait, wait);
+		SessionState.SetFloat(KeySeconds, ParseFloat(Arg("-shotSeconds", "0"), 0.0f));
+		SessionState.SetInt(KeySeed, ParseInt(Arg("-shotSeed", "-1"), -1));
+		SessionState.SetBool(KeyDebug, Arg("-shotColliders", null) != null);
+		SessionState.SetFloat(KeyPose, ParseFloat(Arg("-shotPose", "0"), 0.0f));
 
 		Debug.Log($"HeadlessShot: open {scene} -> {outPath} ({width}x{height}, wait {wait})");
 		EditorSceneManager.OpenScene(scene, OpenSceneMode.Single);
@@ -47,8 +57,11 @@ public static class HeadlessShot
 	[InitializeOnLoadMethod]
 	static void OnDomainLoad()
 	{
-		if (SessionState.GetBool(KeyPending, false))
-			Hook();
+		if (SessionState.GetBool(KeyPending, false) == false)
+			return;
+
+		InGameScene.SeedOverride = SessionState.GetInt(KeySeed, -1);
+		Hook();
 	}
 
 	static void Hook()
@@ -80,9 +93,16 @@ public static class HeadlessShot
 		_frame++;
 
 		if (_frame == StartFrame)
+		{
 			ForceStartPlaying();
+			_playStartTime = Time.realtimeSinceStartup;
+		}
 
 		if (_frame < SessionState.GetInt(KeyWait, 180))
+			return;
+
+		float seconds = SessionState.GetFloat(KeySeconds, 0.0f);
+		if (seconds > 0.0f && Time.realtimeSinceStartup - _playStartTime < seconds)
 			return;
 
 		int code = 0;
@@ -148,6 +168,19 @@ public static class HeadlessShot
 		int height = SessionState.GetInt(KeyHeight, 1080);
 		string outPath = SessionState.GetString(KeyOut, "shot.png");
 
+		RouteOverlayCanvases(camera);
+
+		float pose = SessionState.GetFloat(KeyPose, 0.0f);
+		if (pose > 0.0f)
+			PoseEnemiesBesidePlayer(pose);
+
+		if (SessionState.GetBool(KeyDebug, false))
+		{
+			GameObject viewer = new GameObject("DebugColliderView");
+			viewer.AddComponent<DebugColliderView>().Build();
+			Debug.Log("HeadlessShot: collider overlay on");
+		}
+
 		RenderTexture rt = new RenderTexture(width, height, 24, RenderTextureFormat.ARGB32);
 		rt.Create();
 
@@ -173,10 +206,71 @@ public static class HeadlessShot
 		Debug.Log($"HeadlessShot: wrote {outPath} ({new FileInfo(outPath).Length} bytes) via camera '{camera.name}'");
 	}
 
+	static void PoseEnemiesBesidePlayer(float distance)
+	{
+		PlayerController player = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+		if (player == null)
+			return;
+
+		Vector3 origin = player.transform.position;
+		string[] order = { "Walker", "Wanderer", "Runner" };
+		Vector3[] slots =
+		{
+			new Vector3(-distance, 0.0f, 0.0f),
+			new Vector3(distance, 0.0f, 0.0f),
+			new Vector3(0.0f, distance, 0.0f),
+		};
+
+		EnemyBase[] enemies = UnityEngine.Object.FindObjectsByType<EnemyBase>(
+			FindObjectsSortMode.InstanceID);
+
+		for (int i = 0; i < order.Length; i++)
+		{
+			foreach (EnemyBase enemy in enemies)
+			{
+				if (enemy == null || enemy.name.Contains(order[i]) == false)
+					continue;
+
+				enemy.transform.position = origin + slots[i];
+				Rigidbody2D body = enemy.GetComponent<Rigidbody2D>();
+				if (body != null)
+					body.simulated = false;
+
+				Debug.Log($"HeadlessShot: posed {enemy.name} at {slots[i]}");
+				break;
+			}
+		}
+
+		Rigidbody2D playerBody = player.GetComponent<Rigidbody2D>();
+		if (playerBody != null)
+			playerBody.simulated = false;
+	}
+
+	static void RouteOverlayCanvases(Camera camera)
+	{
+		foreach (Canvas canvas in UnityEngine.Object.FindObjectsByType<Canvas>(
+			FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+		{
+			if (canvas.renderMode != RenderMode.ScreenSpaceOverlay)
+				continue;
+
+			canvas.renderMode = RenderMode.ScreenSpaceCamera;
+			canvas.worldCamera = camera;
+			canvas.planeDistance = 1.0f;
+			Canvas.ForceUpdateCanvases();
+		}
+	}
+
 	static int ParseInt(string value, int fallback)
 	{
 		int parsed;
 		return int.TryParse(value, out parsed) ? parsed : fallback;
+	}
+
+	static float ParseFloat(string value, float fallback)
+	{
+		float parsed;
+		return float.TryParse(value, out parsed) ? parsed : fallback;
 	}
 
 	static string Arg(string name, string fallback)
