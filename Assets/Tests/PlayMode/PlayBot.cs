@@ -10,6 +10,7 @@ public class PlayBot
 	const float StuckMinDistance = 0.05f;
 	const float StuckLimit = 1.2f;
 	const float AxisThreshold = 0.04f;
+	const float AxisDriftTolerance = 0.05f;
 
 	readonly Transform _actor;
 	readonly Collider2D _body;
@@ -164,10 +165,16 @@ public class PlayBot
 
 		if (AxisLocked)
 		{
-			if (Mathf.Abs(delta.x) >= Mathf.Abs(delta.y))
-				delta.y = 0;
-			else
-				delta.x = 0;
+			bool horizontal = Mathf.Abs(delta.x) >= Mathf.Abs(delta.y);
+			float drift = horizontal ? Mathf.Abs(delta.y) : Mathf.Abs(delta.x);
+
+			if (drift <= AxisDriftTolerance)
+			{
+				if (horizontal)
+					delta.y = 0;
+				else
+					delta.x = 0;
+			}
 		}
 
 		if (delta.x > AxisThreshold)
