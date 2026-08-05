@@ -78,8 +78,7 @@ public class MapObjectPlacer : MonoBehaviour
 			PlaceArtifactAt(artifactPoints[i], tile, parent);
 		}
 
-		if (_progress != null)
-			_progress.OnAllArtifactsCollected += PlaceRandomExit;
+		PlaceExitDoorFromMap(map, parent);
 
 		ApplyConcealment(level);
 
@@ -137,8 +136,6 @@ public class MapObjectPlacer : MonoBehaviour
 
 	public void Clear()
 	{
-		if (_progress != null)
-			_progress.OnAllArtifactsCollected -= PlaceRandomExit;
 		foreach (Artifact artifact in _artifacts)
 		{
 			if (artifact != null)
@@ -154,32 +151,16 @@ public class MapObjectPlacer : MonoBehaviour
 		}
 	}
 
-	void PlaceRandomExit()
+	void PlaceExitDoorFromMap(MapData map, Transform parent)
 	{
-		if (_exitDoor != null)
-			return;
-
-		MapData map = Managers.Data.Map;
-		List<MapPoint> candidates = new List<MapPoint>();
-		for (int row = 0; row < map.height; row++)
+		MapPoint point = map.Find(ExitDoorPoint);
+		if (point == null)
 		{
-			for (int col = 0; col < map.width; col++)
-			{
-				if (MapCoord.IsWalkable(col, row) == false)
-					continue;
-				candidates.Add(new MapPoint
-				{
-					name = ExitDoorPoint,
-					col = col,
-					row = row,
-					x = col + 0.5f,
-					y = map.height - row - 0.5f,
-				});
-			}
+			Debug.LogError($"MapObjectPlacer: 맵에 {ExitDoorPoint} 지점이 없다");
+			return;
 		}
 
-		if (candidates.Count > 0)
-			PlaceExitDoor(candidates[(_rng ?? new System.Random()).Next(candidates.Count)], _parent);
+		PlaceExitDoor(point, parent);
 	}
 
 	static List<Vector2Int> CollectWalkableTiles(MapData map)
@@ -189,7 +170,7 @@ public class MapObjectPlacer : MonoBehaviour
 		{
 			for (int col = 0; col < map.width; col++)
 			{
-				if (MapCoord.IsWalkable(col, row))
+				if (MapCoord.IsPassable(col, row))
 					candidates.Add(new Vector2Int(col, row));
 			}
 		}
@@ -246,15 +227,5 @@ public class MapObjectPlacer : MonoBehaviour
 
 		_exitDoor.Init(_progress);
 		_exitDoor.UseStairSprite();
-	}
-
-
-
-	public void MoveExitDoor(MapPoint point)
-	{
-		if (_exitDoor == null || point == null)
-			return;
-
-		_exitDoor.transform.position = MapCoord.ToWorld(point);
 	}
 }
