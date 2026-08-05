@@ -65,7 +65,7 @@ public class WandererZombie : EnemyBase
 			return;
 		}
 
-		if (Time.time >= _nextTurnTime)
+		if (Time.time >= _nextTurnTime || IsStuck())
 			ChoosePatrolDirection();
 	}
 
@@ -92,7 +92,7 @@ public class WandererZombie : EnemyBase
 			return;
 		}
 
-		_moveDir = (_player.transform.position - transform.position).normalized;
+		_moveDir = SteerTowards(_player.transform.position);
 		UpdateAnimatorDirection(_moveDir);
 	}
 

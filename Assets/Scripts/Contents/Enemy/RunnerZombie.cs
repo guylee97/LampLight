@@ -56,7 +56,7 @@ public class RunnerZombie : EnemyBase
 		if (State == Define.EnemyState.Chasing)
 			return;
 
-		if (Time.time >= _nextRouteTurnTime)
+		if (Time.time >= _nextRouteTurnTime || IsStuck())
 			ChooseRouteDirection();
 	}
 
@@ -98,7 +98,7 @@ public class RunnerZombie : EnemyBase
 		if (toNoise.magnitude > _player.CurrentNoiseRadius * _hearingScale)
 			return;
 
-		_moveDir = toNoise.normalized;
+		_moveDir = SteerTowards(_player.transform.position);
 		_lastHeardTime = Time.time;
 		_heardNoiseThisFrame = true;
 		UpdateAnimatorDirection(_moveDir);

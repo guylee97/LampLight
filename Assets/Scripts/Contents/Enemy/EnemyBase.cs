@@ -1,8 +1,14 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class EnemyBase : MonoBehaviour, ILampReactive
 {
+	const float PathRefreshInterval = 0.4f;
+	const float WaypointArrivalRange = 0.2f;
+	const float StuckCheckInterval = 0.5f;
+	const float StuckMoveThreshold = 0.05f;
+
 	[SerializeField]
 	protected Define.EnemyState _state;
 
@@ -37,6 +43,13 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 	float _nextChaseSignalTime;
 	float _nextChaseSoundTime;
 	float _nextPresenceSoundTime;
+
+	readonly List<Vector2Int> _path = new List<Vector2Int>();
+	int _pathIndex;
+	Vector2Int _pathGoal = new Vector2Int(int.MinValue, int.MinValue);
+	float _nextPathTime;
+	Vector2 _lastStuckSample;
+	float _nextStuckCheckTime;
 
 	public Define.WorldObject WorldObjectType { get; protected set; } = Define.WorldObject.Enemy;
 	protected float SpeedMultiplier { get { return _speedMultiplier; } }
@@ -112,6 +125,61 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 		yield return new WaitForSeconds(duration);
 		_speedMultiplier = 1.0f;
 		_slowCoroutine = null;
+	}
+
+	protected Vector2 SteerTowards(Vector3 destination)
+	{
+		Vector2 toDestination = (Vector2)destination - (Vector2)transform.position;
+
+		if (MapCoord.IsReady == false)
+			return toDestination.normalized;
+
+		Vector2Int goal = MapCoord.WorldToTile(destination);
+		Vector2Int self = MapCoord.WorldToTile(transform.position);
+
+		if (self == goal)
+			return toDestination.normalized;
+
+		if (goal != _pathGoal || Time.time >= _nextPathTime)
+			Repath(self, goal);
+
+		while (_pathIndex < _path.Count && ReachedWaypoint(_path[_pathIndex]))
+			_pathIndex++;
+
+		if (_pathIndex >= _path.Count)
+			return toDestination.normalized;
+
+		Vector3 waypoint = MapCoord.TileToWorld(_path[_pathIndex].x, _path[_pathIndex].y);
+		return ((Vector2)waypoint - (Vector2)transform.position).normalized;
+	}
+
+	void Repath(Vector2Int self, Vector2Int goal)
+	{
+		_pathGoal = goal;
+		_nextPathTime = Time.time + PathRefreshInterval;
+
+		_pathIndex = MapPathfinder.TryFindPath(self, goal, _path) ? 1 : 0;
+	}
+
+	bool ReachedWaypoint(Vector2Int tile)
+	{
+		Vector3 waypoint = MapCoord.TileToWorld(tile.x, tile.y);
+		Vector2 offset = (Vector2)waypoint - (Vector2)transform.position;
+		return offset.sqrMagnitude <= WaypointArrivalRange * WaypointArrivalRange;
+	}
+
+	protected bool IsStuck()
+	{
+		if (Time.time < _nextStuckCheckTime)
+			return false;
+
+		_nextStuckCheckTime = Time.time + StuckCheckInterval;
+
+		Vector2 now = transform.position;
+		float moved = (now - _lastStuckSample).magnitude;
+		_lastStuckSample = now;
+
+		return moved < StuckMoveThreshold;
 	}
 
 	protected void UpdateAnimatorDirection(Vector2 direction)
