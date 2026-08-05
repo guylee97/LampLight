@@ -13,6 +13,9 @@ public class CameraController : MonoBehaviour
 	[SerializeField]
 	Vector3 _offset = new Vector3(0, 0, -10);
 
+	[SerializeField]
+	int _pixelsPerUnit = 32;
+
 	public Transform Target
 	{
 		get { return _target; }
@@ -24,7 +27,8 @@ public class CameraController : MonoBehaviour
 		if (_target == null)
 			return;
 
-		transform.position = _target.position + _offset;
+		_smoothed = _target.position + _offset;
+		transform.position = ToPixelGrid(_smoothed);
 	}
 
 	void LateUpdate()
@@ -35,6 +39,26 @@ public class CameraController : MonoBehaviour
 		Vector3 targetPosition = _target.position + _offset;
 
 		float t = 1.0f - Mathf.Exp(-_smoothSpeed * Time.deltaTime);
-		transform.position = Vector3.Lerp(transform.position, targetPosition, t);
+		_smoothed = Vector3.Lerp(_smoothed, targetPosition, t);
+		transform.position = ToPixelGrid(_smoothed);
+	}
+
+	void OnEnable()
+	{
+		_smoothed = transform.position;
+	}
+
+	Vector3 _smoothed;
+
+	Vector3 ToPixelGrid(Vector3 position)
+	{
+		if (_pixelsPerUnit <= 0)
+			return position;
+
+		float unit = 1.0f / _pixelsPerUnit;
+		return new Vector3(
+			Mathf.Round(position.x / unit) * unit,
+			Mathf.Round(position.y / unit) * unit,
+			position.z);
 	}
 }
