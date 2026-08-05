@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,8 +16,6 @@ public class SpawnSelector : MonoBehaviour
 
 	MapPoint _playerStart;
 	MapPoint _exitDoor;
-
-	public Action<MapPoint, MapPoint> OnPairSelected;
 
 	public MapPoint PlayerStart { get { return _playerStart; } }
 	public MapPoint ExitDoor { get { return _exitDoor; } }
@@ -96,9 +93,6 @@ public class SpawnSelector : MonoBehaviour
 		_exitDoor = exit;
 
 		SyncMapPoints(start, exit);
-
-		if (OnPairSelected != null)
-			OnPairSelected.Invoke(_playerStart, _exitDoor);
 
 		return true;
 	}
