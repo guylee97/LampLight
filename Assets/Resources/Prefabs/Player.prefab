@@ -135,10 +135,10 @@ MonoBehaviour:
   _isOn: 1
   _intensity: 1.5
   _shadowIntensity: 1
-  _innerRangeRatio: 0.65
+  _innerRangeRatio: 0.15
   _innerAngleRatio: 0.8
-  _orbRadius: 1.4
-  _forwardOffset: 1.2
+  _orbRadius: 1.9
+  _forwardOffset: 0.25
   _light: {fileID: 0}
   _obstacleMask:
     serializedVersion: 2
