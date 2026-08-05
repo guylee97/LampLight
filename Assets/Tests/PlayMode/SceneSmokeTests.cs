@@ -93,9 +93,41 @@ public class SceneSmokeTests
 				$"유물 {artifact.PointName}({tile.x},{tile.y})에 도달할 수 없다");
 		}
 
+		foreach (Container container in Object.FindObjectsByType<Container>(FindObjectsSortMode.None))
+		{
+			if (container.HoldsArtifact == false)
+				continue;
+
+			Vector2Int box = MapCoord.WorldToTile(container.transform.position);
+			Assert.IsTrue(HasReachableSpotBeside(field, box),
+				$"유물이 든 상자({box.x},{box.y}) 옆에 설 수 있는 칸이 없다");
+		}
+
 		Vector2Int exit = MapCoord.WorldToTile(placer.ExitDoor.transform.position);
 		Assert.AreNotEqual(MapPathfinder.Unreachable, MapPathfinder.Sample(field, exit.x, exit.y),
 			$"출구({exit.x},{exit.y})에 도달할 수 없다");
+	}
+
+	const int InteractTiles = 1;
+
+	static bool HasReachableSpotBeside(int[] field, Vector2Int tile)
+	{
+		for (int dy = -InteractTiles; dy <= InteractTiles; dy++)
+		{
+			for (int dx = -InteractTiles; dx <= InteractTiles; dx++)
+			{
+				int col = tile.x + dx;
+				int row = tile.y + dy;
+
+				if (MapCoord.IsPassable(col, row) == false)
+					continue;
+
+				if (MapPathfinder.Sample(field, col, row) != MapPathfinder.Unreachable)
+					return true;
+			}
+		}
+
+		return false;
 	}
 
 	[UnityTest]
