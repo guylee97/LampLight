@@ -5,7 +5,7 @@ using UnityEngine;
 
 public static class AudioSetup
 {
-	const string SoundDir = "Assets/Resources/Sounds";
+	const string SoundDir = "Assets/Resources/Audio";
 	const string ArtifactPrefab = "Assets/Resources/Prefabs/Map/Artifact.prefab";
 	const string ExitDoorPrefab = "Assets/Resources/Prefabs/Map/ExitDoor.prefab";
 	const string BuildDir = "Build/WebGL";
@@ -134,10 +134,12 @@ public static class AudioSetup
 			}
 
 			SerializedObject so = new SerializedObject(player);
-			SetClipArray(so, "_walkFootstepClips", "step_walk");
-			SetClipArray(so, "_sneakFootstepClips", "step_sneak");
-			SetClipArray(so, "_runFootstepClips", "step_run");
-			SetClipArray(so, "_noisyFloorFootstepClips", "step_noisy_floor");
+			SetClipArray(so, "_walkFootstepClips", "step_walk_var1");
+			SetClipArray(so, "_sneakFootstepClips", "step_sneak_var1");
+			SetClipArray(so, "_runFootstepClips", "step_run_var1");
+			SetClipArray(so, "_noisyWalkFootstepClips", "step_walk_var2");
+			SetClipArray(so, "_noisySneakFootstepClips", "step_sneak_var2");
+			SetClipArray(so, "_noisyRunFootstepClips", "step_run_var2");
 			so.ApplyModifiedPropertiesWithoutUndo();
 
 			Util.GetOrAddComponent<StoneThrower>(root);
@@ -167,7 +169,7 @@ public static class AudioSetup
 
 		List<AudioClip> clips = new List<AudioClip>();
 
-		AudioClip first = LoadClip(clipName);
+		AudioClip first = LoadClip(clipName + "_1");
 		if (first != null)
 			clips.Add(first);
 
@@ -382,7 +384,18 @@ public static class AudioSetup
 
 	static AudioClip LoadClip(string clipName)
 	{
-		return AssetDatabase.LoadAssetAtPath<AudioClip>($"{SoundDir}/{clipName}.wav");
+		string[] guids = AssetDatabase.FindAssets($"{clipName} t:AudioClip", new[] { SoundDir });
+
+		foreach (string guid in guids)
+		{
+			AudioClip clip = AssetDatabase.LoadAssetAtPath<AudioClip>(
+				AssetDatabase.GUIDToAssetPath(guid));
+
+			if (clip != null && clip.name == clipName)
+				return clip;
+		}
+
+		return null;
 	}
 
 	[MenuItem("LampLight/Audio/Configure WebGL")]

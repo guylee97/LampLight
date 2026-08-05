@@ -115,7 +115,8 @@ public class PingScheduler : MonoBehaviour
 		_nextDspTime += AudioTuning.PingPeriod(distance);
 
 		Vector3 offset = transform.position - _listener.position;
-		SoundRing.Emit(offset, SoundRing.GuideColor, distance);
+		// 소리 방향 HUD 기능 제거.
+		// SoundRing.Emit(offset, SoundRing.GuideColor, distance);
 
 		if (OnPinged != null)
 			OnPinged.Invoke(offset);

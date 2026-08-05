@@ -18,11 +18,25 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 	[SerializeField]
 	float _chaseSignalInterval = 0.65f;
 
+	[SerializeField]
+	float _chaseSoundInterval = 2.0f;
+
+	[SerializeField, Range(0.0f, 1.0f)]
+	float _chaseSoundVolume = 1.0f;
+
+	[SerializeField]
+	float _audibleDistance = 4.0f;
+
+	[SerializeField]
+	float _presenceSoundInterval = 5.0f;
+
 	Animator _animator;
 	AudioSource _stateAudioSource;
 	Coroutine _slowCoroutine;
 	float _speedMultiplier = 1.0f;
 	float _nextChaseSignalTime;
+	float _nextChaseSoundTime;
+	float _nextPresenceSoundTime;
 
 	public Define.WorldObject WorldObjectType { get; protected set; } = Define.WorldObject.Enemy;
 	protected float SpeedMultiplier { get { return _speedMultiplier; } }
@@ -43,6 +57,8 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 
 	void Start()
 	{
+		Util.GetOrAddComponent<WorldYSort>(gameObject);
+
 		Init();
 		UpdateStateSound();
 		UpdateAnimatorState();
@@ -70,6 +86,8 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 		}
 
 		UpdateChaseSoundSignal();
+		UpdatePresenceSound();
+		UpdateChaseSound();
 	}
 
 	public abstract void Init();
@@ -168,6 +186,7 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 		{
 			Managers.Sound.EmitSoundSignal(transform.position, Define.Sound.Threat, 0.85f);
 			_nextChaseSignalTime = Time.time + _chaseSignalInterval;
+			PlayChaseSound();
 		}
 
 		switch (State)
@@ -177,9 +196,6 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 				break;
 			case Define.EnemyState.Patrol:
 				clip = _patrolSound;
-				break;
-			case Define.EnemyState.Chasing:
-				clip = _chaseSound;
 				break;
 		}
 
@@ -196,15 +212,30 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 			if (_stateAudioSource == null)
 				_stateAudioSource = gameObject.AddComponent<AudioSource>();
 
-			_stateAudioSource.loop = true;
+			_stateAudioSource.loop = false;
 			Managers.Sound.ConfigureSource(_stateAudioSource, Define.Sound.Threat, true);
 		}
 
-		if (_stateAudioSource.clip == clip && _stateAudioSource.isPlaying)
+		_stateAudioSource.clip = clip;
+		_stateAudioSource.maxDistance = _audibleDistance;
+		_stateAudioSource.Play();
+		_nextPresenceSoundTime = Time.time + Mathf.Max(clip.length, _presenceSoundInterval);
+	}
+
+	void UpdatePresenceSound()
+	{
+		if (State != Define.EnemyState.Idle && State != Define.EnemyState.Patrol)
 			return;
 
-		_stateAudioSource.clip = clip;
+		if (_stateAudioSource == null || _stateAudioSource.clip == null)
+			return;
+
+		if (_stateAudioSource.isPlaying || Time.time < _nextPresenceSoundTime)
+			return;
+
 		_stateAudioSource.Play();
+		_nextPresenceSoundTime = Time.time
+			+ Mathf.Max(_stateAudioSource.clip.length, _presenceSoundInterval);
 	}
 
 	void UpdateChaseSoundSignal()
@@ -214,5 +245,28 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 
 		Managers.Sound.EmitSoundSignal(transform.position, Define.Sound.Threat, 0.85f);
 		_nextChaseSignalTime = Time.time + _chaseSignalInterval;
+	}
+
+	void UpdateChaseSound()
+	{
+		if (State != Define.EnemyState.Chasing || Time.time < _nextChaseSoundTime)
+			return;
+
+		PlayChaseSound();
+	}
+
+	void PlayChaseSound()
+	{
+		if (_chaseSound != null)
+			Managers.Sound.PlayAtPoint(
+				_chaseSound,
+				transform.position,
+				Define.Sound.Threat,
+				_chaseSoundVolume,
+				1.0f,
+				_audibleDistance
+			);
+
+		_nextChaseSoundTime = Time.time + Mathf.Max(0.1f, _chaseSoundInterval);
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager
 {
@@ -25,6 +26,11 @@ public class UIManager
         Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.overrideSorting = true;
+
+		CanvasScaler scaler = Util.GetOrAddComponent<CanvasScaler>(go);
+		scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+		scaler.referenceResolution = new Vector2(1920, 1080);
+		scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
 
         if (sort)
         {
@@ -98,7 +104,17 @@ public class UIManager
         T popup = Util.GetOrAddComponent<T>(go);
         _popupStack.Push(popup);
 
-        go.transform.SetParent(Root.transform);
+        go.transform.SetParent(Root.transform, false);
+
+		RectTransform rect = go.GetComponent<RectTransform>();
+		if (rect != null)
+		{
+			rect.anchorMin = Vector2.zero;
+			rect.anchorMax = Vector2.one;
+			rect.offsetMin = Vector2.zero;
+			rect.offsetMax = Vector2.zero;
+			rect.localScale = Vector3.one;
+		}
 
 		return popup;
     }

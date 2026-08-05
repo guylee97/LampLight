@@ -6,6 +6,9 @@ public class WalkerZombie : EnemyBase
 	[SerializeField]
 	float _moveSpeed = 2.5f;
 
+	[SerializeField, Range(0.1f, 1.0f)]
+	float _hearingScale = 0.3f;
+
 	[SerializeField]
 	float _catchRange = 0.4f;
 
@@ -46,8 +49,7 @@ public class WalkerZombie : EnemyBase
 		if (_player == null)
 			return;
 
-		float distance = Vector2.Distance(transform.position, _player.transform.position);
-		if (_player.CurrentNoiseRadius > 0 && distance <= _player.CurrentNoiseRadius)
+		if (CanHearPlayer())
 		{
 			RememberPlayerNoise();
 			State = Define.EnemyState.Chasing;
@@ -105,7 +107,7 @@ public class WalkerZombie : EnemyBase
 			return false;
 
 		float distance = Vector2.Distance(transform.position, _player.transform.position);
-		return distance <= _player.CurrentNoiseRadius;
+		return distance <= _player.CurrentNoiseRadius * _hearingScale;
 	}
 
 	void RememberPlayerNoise()

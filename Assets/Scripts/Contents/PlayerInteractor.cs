@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class PlayerInteractor : MonoBehaviour
 {
 	[SerializeField]
-	float _radius = 1.15f;
+	float _radius = 1.5f;
 
 	[SerializeField]
 	LayerMask _mask = ~0;
@@ -13,7 +13,7 @@ public class PlayerInteractor : MonoBehaviour
 	[SerializeField]
 	PlayerController _player;
 
-	readonly Collider2D[] _hits = new Collider2D[16];
+	readonly Collider2D[] _hits = new Collider2D[64];
 
 	ContactFilter2D _filter;
 	IInteractable _current;
@@ -33,6 +33,17 @@ public class PlayerInteractor : MonoBehaviour
 				return 0.0f;
 
 			return Mathf.Clamp01(_hold / _current.HoldSeconds);
+		}
+	}
+
+	public float HoldRemainingSeconds
+	{
+		get
+		{
+			if (_current == null)
+				return 0.0f;
+
+			return Mathf.Max(0.0f, _current.HoldSeconds - _hold);
 		}
 	}
 
@@ -100,7 +111,9 @@ public class PlayerInteractor : MonoBehaviour
 		if (_holdSource == null)
 		{
 			_holdSource = Util.GetOrAddComponent<AudioSource>(gameObject);
-			_holdSource.clip = Managers.Resource.Load<AudioClip>("Sounds/container_hold");
+			_holdSource.clip = Managers.Resource.Load<AudioClip>("Audio/container_hold");
+			if (_holdSource.clip == null)
+				_holdSource.clip = Managers.Resource.Load<AudioClip>("Audio/step_walk_var2_1");
 			_holdSource.loop = true;
 			_holdSource.playOnAwake = false;
 			_holdSource.spatialBlend = 0.0f;

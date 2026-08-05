@@ -13,8 +13,8 @@ public static class ConcealmentRules
 	{
 		switch (Clamp(level))
 		{
-			case 1: return 1.0f;
-			case 2: return 1.5f;
+			case 1: return 2.0f;
+			case 2: return 3.0f;
 			default: return 0.0f;
 		}
 	}

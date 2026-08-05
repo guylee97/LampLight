@@ -196,6 +196,7 @@ public class DebugOverlay : MonoBehaviour
 	{
 		EnsureStyles();
 		DrawKeyLegend();
+		DrawRoundButtons();
 
 		if (Invulnerable)
 		{
@@ -213,6 +214,29 @@ public class DebugOverlay : MonoBehaviour
 
 		GUI.Box(new Rect(8, 8, _panelWidth, height), GUIContent.none);
 		GUI.Label(new Rect(16, 12, _panelWidth - 16, height), text, _style);
+	}
+
+	void DrawRoundButtons()
+	{
+		float width = 110.0f;
+		float height = 34.0f;
+		float gap = 6.0f;
+		float x = Screen.width - width - 8.0f;
+		float y = (Invulnerable ? 44.0f : 8.0f) + Legend.Length * 24.0f + 24.0f;
+
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			if (GUI.Button(new Rect(x, y, width, height), $"ROUND {level}"))
+				StartRound(level);
+
+			y += height + gap;
+		}
+	}
+
+	void StartRound(int level)
+	{
+		Managers.Game.SetLevel(level);
+		Managers.Scene.LoadScene(Define.Scene.InGame);
 	}
 
 	void EnsureStyles()

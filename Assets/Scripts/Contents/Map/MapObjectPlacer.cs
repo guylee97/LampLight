@@ -23,6 +23,8 @@ public class MapObjectPlacer : MonoBehaviour
 
 	readonly List<Artifact> _artifacts = new List<Artifact>();
 	ExitDoor _exitDoor;
+	Transform _parent;
+	System.Random _rng;
 
 	public IReadOnlyList<Artifact> Artifacts { get { return _artifacts; } }
 	public ExitDoor ExitDoor { get { return _exitDoor; } }
@@ -39,6 +41,11 @@ public class MapObjectPlacer : MonoBehaviour
 
 	public void Place(int maxArtifacts, float artifactRadiusTiles, int level)
 	{
+		Place(maxArtifacts, artifactRadiusTiles, level, new System.Random());
+	}
+
+	public void Place(int maxArtifacts, float artifactRadiusTiles, int level, System.Random rng)
+	{
 		MapData map = Managers.Data.Map;
 		if (map == null)
 		{
@@ -52,21 +59,27 @@ public class MapObjectPlacer : MonoBehaviour
 			_progress.ResetProgress();
 
 		Transform parent = _root != null ? _root : transform;
+		_parent = parent;
+		_rng = rng ?? new System.Random();
 
+		List<MapPoint> artifactPoints = new List<MapPoint>();
 		foreach (MapPoint point in map.objects)
 		{
-			if (point.name.StartsWith(ArtifactPrefix))
-			{
-				if (_artifacts.Count >= maxArtifacts)
-					continue;
-
-				PlaceArtifact(point, parent);
-			}
-			else if (point.name == ExitDoorPoint)
-			{
-				PlaceExitDoor(point, parent);
-			}
+			if (point.name.StartsWith(ArtifactPrefix) && artifactPoints.Count < maxArtifacts)
+				artifactPoints.Add(point);
 		}
+
+		List<Vector2Int> candidates = CollectWalkableTiles(map);
+		for (int i = 0; i < artifactPoints.Count && candidates.Count > 0; i++)
+		{
+			int index = _rng.Next(candidates.Count);
+			Vector2Int tile = candidates[index];
+			candidates.RemoveAt(index);
+			PlaceArtifactAt(artifactPoints[i], tile, parent);
+		}
+
+		if (_progress != null)
+			_progress.OnAllArtifactsCollected += PlaceRandomExit;
 
 		ApplyConcealment(level);
 
@@ -124,6 +137,8 @@ public class MapObjectPlacer : MonoBehaviour
 
 	public void Clear()
 	{
+		if (_progress != null)
+			_progress.OnAllArtifactsCollected -= PlaceRandomExit;
 		foreach (Artifact artifact in _artifacts)
 		{
 			if (artifact != null)
@@ -137,6 +152,49 @@ public class MapObjectPlacer : MonoBehaviour
 			Managers.Resource.Destroy(_exitDoor.gameObject);
 			_exitDoor = null;
 		}
+	}
+
+	void PlaceRandomExit()
+	{
+		if (_exitDoor != null)
+			return;
+
+		MapData map = Managers.Data.Map;
+		List<MapPoint> candidates = new List<MapPoint>();
+		for (int row = 0; row < map.height; row++)
+		{
+			for (int col = 0; col < map.width; col++)
+			{
+				if (MapCoord.IsWalkable(col, row) == false)
+					continue;
+				candidates.Add(new MapPoint
+				{
+					name = ExitDoorPoint,
+					col = col,
+					row = row,
+					x = col + 0.5f,
+					y = map.height - row - 0.5f,
+				});
+			}
+		}
+
+		if (candidates.Count > 0)
+			PlaceExitDoor(candidates[(_rng ?? new System.Random()).Next(candidates.Count)], _parent);
+	}
+
+	static List<Vector2Int> CollectWalkableTiles(MapData map)
+	{
+		List<Vector2Int> candidates = new List<Vector2Int>();
+		for (int row = 0; row < map.height; row++)
+		{
+			for (int col = 0; col < map.width; col++)
+			{
+				if (MapCoord.IsWalkable(col, row))
+					candidates.Add(new Vector2Int(col, row));
+			}
+		}
+
+		return candidates;
 	}
 
 	void PlaceArtifact(MapPoint point, Transform parent)
@@ -158,6 +216,19 @@ public class MapObjectPlacer : MonoBehaviour
 		_artifacts.Add(artifact);
 	}
 
+	void PlaceArtifactAt(MapPoint source, Vector2Int tile, Transform parent)
+	{
+		MapPoint randomized = new MapPoint
+		{
+			name = source.name,
+			col = tile.x,
+			row = tile.y,
+			x = tile.x + 0.5f,
+			y = Managers.Data.Map.height - tile.y - 0.5f,
+		};
+		PlaceArtifact(randomized, parent);
+	}
+
 	void PlaceExitDoor(MapPoint point, Transform parent)
 	{
 		GameObject go = Managers.Resource.Instantiate(_exitDoorPath, parent);
@@ -174,7 +245,7 @@ public class MapObjectPlacer : MonoBehaviour
 		}
 
 		_exitDoor.Init(_progress);
-		_exitDoor.UseCatalogSprites(point);
+		_exitDoor.UseStairSprite();
 	}
 
 

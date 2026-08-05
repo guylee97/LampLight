@@ -1,0 +1,1309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="56" height="52" tilewidth="64" tileheight="64" infinite="0" nextlayerid="8" nextobjectid="243">
+ <tileset firstgid="1" source="tiles.tsx"/>
+ <tileset firstgid="23" source="objects.tsx"/>
+ <layer id="1" name="floor" width="56" height="52">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,0,0,0,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,0,0,0,3,3,3,3,3,3,3,0,0,0,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,0,0,0,3,3,3,3,3,3,3,0,0,0,3,3,0,0,0,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,0,0,0,3,3,3,3,3,3,3,0,0,0,3,3,3,3,3,3,3,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,2,2,2,2,2,2,2,2,2,4,2,4,4,4,4,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,3,3,3,3,3,3,3,0,0,0,3,3,3,3,4,4,4,4,4,4,4,4,4,0,
+0,0,1,1,1,1,1,1,1,1,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,4,1,1,3,3,3,1,1,4,0,
+0,0,1,1,1,1,1,1,1,1,4,4,4,2,2,2,2,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,4,1,1,3,3,3,1,1,4,0,
+0,0,1,1,1,1,1,1,1,1,4,4,2,2,0,0,0,0,0,0,0,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,3,3,4,1,1,3,3,3,1,1,4,0,
+0,0,1,1,1,1,1,1,1,1,4,4,2,2,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,3,3,4,1,1,3,3,3,1,1,4,0,
+0,0,1,1,1,1,1,1,1,4,4,4,4,2,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,3,3,4,1,1,3,3,3,1,1,4,0,
+0,0,1,1,1,1,1,1,1,1,4,4,4,2,2,2,2,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,0,4,1,1,3,3,3,1,1,4,0,
+0,0,2,2,2,2,2,2,2,2,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,4,1,1,3,3,3,1,1,4,0,
+0,0,2,2,2,2,2,2,2,2,2,4,4,4,4,4,2,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,4,1,1,3,3,3,1,1,4,0,
+0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,4,2,2,3,3,3,2,2,4,0,
+0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,3,3,3,1,1,1,1,1,1,1,1,1,1,2,0,0,4,2,2,3,3,3,2,2,4,0,
+0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,3,3,3,1,1,1,1,1,1,1,1,1,1,2,0,0,4,2,2,3,3,3,2,2,4,0,
+0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,3,3,3,1,1,1,1,1,1,1,1,1,1,2,0,0,4,4,4,4,4,4,4,4,4,0,
+0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,3,3,3,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,3,3,0,0,0,0,0,
+0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,3,3,3,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,3,3,0,0,0,0,0,
+0,0,0,0,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,3,3,3,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,3,3,0,0,0,0,0,
+0,0,0,0,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,3,3,3,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,3,3,0,0,0,0,0,
+0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,3,5,3,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,3,3,0,0,0,0,0,
+0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,5,5,5,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,3,3,3,3,0,0,0,
+0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,5,5,2,5,5,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,3,3,3,3,0,0,0,
+0,0,0,0,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,2,3,3,3,3,3,3,3,5,5,2,2,2,5,5,3,3,3,3,3,3,3,3,2,0,0,0,0,0,0,0,3,3,0,0,0,
+0,0,0,0,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,2,3,3,3,3,3,3,5,5,2,2,2,2,2,5,5,3,3,3,3,3,3,3,2,0,0,0,0,0,0,0,3,3,0,0,0,
+0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,3,3,3,3,3,3,5,5,2,2,2,5,5,3,3,3,4,4,4,4,4,2,3,3,3,3,3,0,0,3,3,0,0,0,
+0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,5,5,2,5,5,1,1,1,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,0,0,0,
+0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,3,3,3,2,1,1,1,1,1,1,1,1,1,5,5,5,1,1,1,4,4,4,4,4,4,4,4,0,3,3,3,3,3,3,3,3,0,0,0,
+0,0,0,0,3,3,3,3,0,0,0,0,0,0,0,0,0,3,3,3,2,1,1,1,1,1,1,1,1,1,3,5,3,1,1,4,4,4,4,4,2,2,2,2,0,3,3,3,3,3,3,0,0,0,0,0,
+0,0,0,0,3,3,3,3,0,0,0,0,0,0,0,0,0,3,3,0,2,1,1,1,1,1,1,1,1,1,3,3,3,1,1,4,4,4,4,2,2,2,2,2,0,3,3,3,3,3,3,3,0,0,0,0,
+0,0,0,0,0,0,3,3,0,0,0,0,3,3,3,3,3,3,3,0,2,1,1,1,1,1,1,1,1,1,3,3,3,1,1,4,4,4,2,2,2,2,0,0,0,3,3,3,3,3,3,3,0,0,0,0,
+0,0,0,0,0,0,3,3,0,0,0,0,3,3,3,3,3,3,3,0,2,1,1,1,1,1,1,1,1,1,3,3,3,1,1,4,4,4,2,2,2,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,
+0,0,0,0,0,0,3,3,0,0,0,0,3,3,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,3,3,3,1,1,4,4,4,2,2,0,0,0,0,0,0,3,3,3,3,3,3,0,0,0,0,
+0,0,0,0,0,0,3,3,0,0,0,0,3,3,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,4,4,2,2,0,0,0,0,0,0,3,3,0,0,3,3,0,0,0,0,
+0,0,0,0,0,0,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,3,3,0,0,0,0,
+0,0,0,0,0,0,3,3,3,3,3,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,3,3,0,0,0,0,
+0,0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,4,4,4,4,0,0,0,
+0,0,0,4,1,1,1,1,1,1,1,1,1,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,2,2,0,2,2,0,2,4,0,4,4,0,0,0,
+0,0,0,4,1,1,1,1,5,5,5,5,1,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,2,2,0,2,2,0,2,4,0,4,4,0,0,0,
+0,0,0,4,1,1,5,5,5,5,5,5,5,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,2,2,2,2,4,4,4,4,4,0,0,0,
+0,0,0,4,1,5,5,2,2,2,2,5,5,5,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4,0,0,0,
+0,0,0,4,1,5,5,2,2,2,2,2,5,5,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,0,0,0,
+0,0,0,4,1,5,5,2,2,2,2,5,5,5,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4,4,4,1,1,1,1,1,1,1,1,1,1,1,0,0,0,
+0,0,0,4,1,1,5,5,2,2,2,5,5,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,2,2,2,2,2,2,2,2,2,2,0,0,0,
+0,0,0,4,1,1,5,5,5,5,5,5,1,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,4,2,0,2,2,0,2,2,0,2,2,0,0,0,
+0,0,0,4,1,1,1,1,5,5,5,5,1,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,4,2,0,2,2,0,2,2,0,2,2,0,0,0,
+0,0,0,4,1,1,1,1,1,1,1,1,1,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,4,4,2,2,2,2,2,2,2,2,2,2,0,0,0,
+0,0,0,4,1,1,1,1,1,1,1,1,1,1,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,4,4,4,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="2" name="walls" width="56" height="52">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,0,0,18,0,0,18,0,0,18,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,0,0,21,0,0,21,0,0,21,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,0,0,18,0,0,18,0,0,18,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,0,0,21,0,0,21,0,0,21,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup draworder="index" id="3" name="room_g_grand_sanctum">
+  <object id="1" gid="89" x="1888" y="1145.6" width="192" height="192">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="2" gid="90" x="1952" y="1280" width="128" height="128">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="3" gid="71" x="1952" y="1382.4" width="128" height="128">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="4" gid="106" x="1868.8" y="1100.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="5" gid="2147483754" x="2163.2" y="1100.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="6" gid="101" x="1881.6" y="1331.2" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="7" gid="2147483749" x="2150.4" y="1331.2" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="8" gid="39" x="2016" y="1356.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="9" gid="99" x="1888" y="1420.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="10" gid="2147483747" x="2144" y="1420.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="11" gid="2684354635" x="1920" y="1497.6" width="192" height="192">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="12" gid="2684354635" x="1920" y="1644.8" width="192" height="192">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="13" gid="2684354635" x="1920" y="1958.4" width="192" height="192">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="14" gid="2684354635" x="1920" y="2105.6" width="192" height="192">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="15" gid="2684354635" x="1920" y="2252.8" width="192" height="192">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="16" gid="74" x="1920" y="1792" width="192" height="192">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="17" gid="38" x="1984" y="1740.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="18" gid="106" x="1856" y="1600" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="19" gid="2147483754" x="2112" y="1600" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="20" gid="106" x="1817.6" y="1728" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="21" gid="2147483754" x="2150.4" y="1728" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="22" gid="106" x="1856" y="1856" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="23" gid="2147483754" x="2112" y="1856" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="24" gid="118" x="1600" y="1088" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="25" gid="2147483766" x="2368" y="1088" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="26" gid="118" x="1600" y="1216" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="27" gid="2147483766" x="2368" y="1216" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="28" gid="118" x="1600" y="1344" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="29" gid="2147483766" x="2368" y="1344" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="30" gid="118" x="1600" y="1472" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="31" gid="2147483766" x="2368" y="1472" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="32" gid="114" x="1600" y="1856" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="33" gid="2147483767" x="2368" y="1856" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="34" gid="114" x="1600" y="1984" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="35" gid="2147483767" x="2368" y="1984" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="36" gid="116" x="1600" y="2112" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="37" gid="2147483765" x="2342.4" y="2124.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="38" gid="73" x="1728" y="1497.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="39" gid="2147483721" x="2112" y="1497.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="40" gid="96" x="1849.6" y="1452.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="41" gid="2147483744" x="2182.4" y="1452.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="42" gid="73" x="1728" y="1625.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="43" gid="2147483721" x="2112" y="1625.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="44" gid="96" x="1849.6" y="1580.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="45" gid="2147483744" x="2182.4" y="1580.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="46" gid="73" x="1728" y="1945.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="47" gid="2147483721" x="2112" y="1945.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="48" gid="96" x="1849.6" y="1900.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="49" gid="2147483744" x="2182.4" y="1900.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="50" gid="73" x="1728" y="2073.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="51" gid="2147483721" x="2112" y="2073.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="52" gid="96" x="1849.6" y="2028.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="53" gid="2147483744" x="2182.4" y="2028.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="P"/>
+   </properties>
+  </object>
+  <object id="54" gid="48" x="1363.2" y="1164.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="55" gid="2147483697" x="2604.8" y="1164.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="56" gid="111" x="1433.6" y="1369.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="57" gid="2147483759" x="2534.4" y="1369.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="58" gid="91" x="1356.8" y="1561.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="59" gid="2147483739" x="2547.2" y="1561.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="60" gid="95" x="1440" y="1932.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="61" gid="125" x="1497.6" y="2073.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="62" gid="126" x="1369.6" y="1740.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="63" gid="2147483775" x="2598.4" y="1740.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="64" gid="2147483740" x="2406.4" y="2009.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="65" gid="80" x="2214.4" y="2201.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="66" gid="2147483731" x="2304" y="2240" width="128" height="128">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="67" gid="2147483730" x="2457.6" y="1830.4" width="128" height="128">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="68" gid="51" x="2361.6" y="2086.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="69" gid="2147483707" x="2444.8" y="2137.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="70" gid="66" x="2265.6" y="2060.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="71" gid="2147483702" x="2496" y="2022.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="72" gid="53" x="2150.4" y="2201.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="73" gid="2147483712" x="2073.6" y="2214.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="74" gid="61" x="2470.4" y="1868.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="75" gid="97" x="2009.6" y="2150.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="76" gid="2147483771" x="1932.8" y="2188.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="77" gid="98" x="1702.4" y="2176" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="78" gid="2147483682" x="1484.8" y="2201.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="79" gid="100" x="1875.2" y="2009.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="80" gid="2147483751" x="2156.8" y="1945.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="81" gid="42" x="1344" y="1024" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="82" gid="2147483689" x="2624" y="1024" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="83" gid="43" x="1344" y="2176" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="84" gid="24" x="1792" y="1024" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="85" gid="121" x="1350.4" y="2048" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="86" gid="2147483770" x="2611.2" y="1600" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup draworder="index" id="4" name="room_h_collapsed_cloister">
+  <object id="87" gid="2147483740" x="729.6" y="448" width="128" height="128">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="88" gid="80" x="320" y="614.4" width="128" height="128">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="89" gid="2147483729" x="524.8" y="793.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="90" gid="82" x="678.4" y="857.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="91" gid="72" x="204.8" y="806.4" width="128" height="128">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="92" gid="2147483731" x="704" y="652.8" width="128" height="128">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="93" gid="119" x="256" y="326.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="94" gid="114" x="448" y="326.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="95" gid="119" x="256" y="454.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="96" gid="114" x="448" y="454.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="97" gid="118" x="192" y="832" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="98" gid="2147483764" x="576" y="326.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="99" gid="2147483763" x="396.8" y="851.2" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="100" gid="117" x="537.6" y="857.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="101" gid="51" x="652.8" y="460.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="102" gid="2147483700" x="601.6" y="524.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="103" gid="59" x="742.4" y="678.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="104" gid="2147483714" x="768" y="806.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="105" gid="54" x="563.2" y="409.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="106" gid="2147483712" x="358.4" y="409.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="107" gid="53" x="294.4" y="665.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="108" gid="2147483698" x="473.6" y="601.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="109" gid="68" x="204.8" y="448" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="110" gid="2147483710" x="793.6" y="409.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="111" gid="57" x="422.4" y="780.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="112" gid="2147483709" x="268.8" y="806.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="113" gid="60" x="716.8" y="857.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="114" gid="2147483715" x="320" y="332.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="115" gid="97" x="409.6" y="665.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="116" gid="2147483771" x="614.4" y="652.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="117" gid="100" x="281.6" y="588.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="118" gid="2147483750" x="665.6" y="729.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="119" gid="42" x="192" y="320" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="120" gid="43" x="192" y="889.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="121" gid="2147483689" x="768" y="320" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="122" gid="121" x="198.4" y="665.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="123" gid="2147483770" x="640" y="870.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup draworder="index" id="5" name="room_k_fallen_shrine">
+  <object id="124" gid="89" x="3327.7" y="511.061" width="192" height="192" rotation="90"/>
+  <object id="125" gid="74" x="3133.18" y="702.942" width="192" height="192"/>
+  <object id="126" gid="83" x="3093.49" y="435.737" width="128" height="128">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="127" gid="57" x="3274.88" y="709.848" width="64" height="64">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="128" gid="106" x="3136.73" y="560.576" width="64" height="64">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="129" gid="103" x="3150.69" y="578.456" width="64" height="64">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="130" gid="105" x="3295.94" y="660.308" width="64" height="64">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="131" gid="117" x="3289.96" y="587.258" width="64" height="64">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="132" gid="104" x="3079.52" y="645.282" width="64" height="64">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="133" gid="117" x="3112" y="588" width="64" height="64">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="134" gid="120" x="2944" y="800" width="64" height="64">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="135" gid="120" x="3008" y="800" width="64" height="64">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="136" gid="120" x="3072" y="800" width="64" height="64">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="137" gid="120" x="3136" y="800" width="64" height="64">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="138" gid="120" x="3392" y="800" width="64" height="64">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="139" gid="120" x="3456" y="800" width="64" height="64">
+   <properties>
+    <property name="rule" value="G"/>
+   </properties>
+  </object>
+  <object id="140" gid="129" x="3136.88" y="960" width="192" height="192">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="141" gid="129" x="3136.88" y="1152" width="192" height="192">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="142" gid="2147483744" x="3008" y="870" width="64" height="64">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="143" gid="96" x="3072" y="870" width="64" height="64">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="144" gid="2147483744" x="3328" y="870" width="64" height="64">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="145" gid="96" x="3008" y="972" width="64" height="64">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="146" gid="2147483744" x="3072" y="972" width="64" height="64">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="147" gid="2147483744" x="3392" y="972" width="64" height="64">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="148" gid="2147483744" x="3008" y="1076" width="64" height="64">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="149" gid="96" x="3072" y="1076" width="64" height="64">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="150" gid="2147483744" x="3328" y="1076" width="64" height="64">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="151" gid="3221225568" x="3350" y="932" width="64" height="64">
+   <properties>
+    <property name="rule" value="W"/>
+   </properties>
+  </object>
+  <object id="152" gid="117" x="2954" y="922" width="64" height="64">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="153" gid="82" x="3392" y="903.668" width="128" height="128">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="154" gid="2147483769" x="3446" y="742" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="155" gid="122" x="2950" y="732" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="156" gid="63" x="3412" y="1158" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="157" gid="113" x="3334" y="1164" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="158" gid="65" x="3114.51" y="1003.09" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="159" gid="58" x="3002" y="1172" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="160" gid="88" x="3125.44" y="528.162" width="192" height="192">
+   <properties>
+    <property name="rule" value="T"/>
+   </properties>
+  </object>
+  <object id="161" gid="105" x="3115.5" y="618.812" width="64" height="64">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="162" gid="2147483748" x="3283.83" y="673.32" width="64" height="64">
+   <properties>
+    <property name="rule" value="R"/>
+   </properties>
+  </object>
+  <object id="163" gid="89" x="3135.82" y="705.582" width="192" height="192" rotation="-90"/>
+  <object id="164" gid="104" x="3103.88" y="628.38" width="64" height="64"/>
+  <object id="165" gid="104" x="3272.88" y="613.416" width="64" height="64"/>
+  <object id="166" gid="104" x="3286.08" y="623.978" width="64" height="64"/>
+  <object id="167" gid="113" x="2974.49" y="1058.79" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup draworder="index" id="6" name="room_i_blood_chamber">
+  <object id="168" gid="74" x="480" y="2854.4" width="192" height="192">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="169" gid="85" x="480" y="2854.4" width="192" height="192">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="170" gid="76" x="480" y="3136" width="192" height="192">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="171" gid="91" x="262.4" y="2828.8" width="128" height="128">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="172" gid="2147483739" x="825.6" y="2828.8" width="128" height="128">
+   <properties>
+    <property name="rule" value="S"/>
+   </properties>
+  </object>
+  <object id="173" gid="95" x="332.8" y="2636.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="174" gid="2147483743" x="819.2" y="2636.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="175" gid="99" x="332.8" y="2982.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="176" gid="2147483747" x="819.2" y="2982.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="177" gid="40" x="576" y="2892.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="178" gid="106" x="409.6" y="2662.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="179" gid="2147483754" x="742.4" y="2662.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="180" gid="101" x="377.6" y="2841.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="181" gid="2147483749" x="774.4" y="2841.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="182" gid="104" x="409.6" y="2969.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="183" gid="2147483752" x="742.4" y="2969.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="184" gid="105" x="576" y="2598.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="185" gid="2147483751" x="576" y="3161.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="186" gid="110" x="384" y="3136" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="187" gid="2147483758" x="768" y="3136" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="188" gid="108" x="576" y="3110.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="189" gid="98" x="294.4" y="3097.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="190" gid="2147483746" x="857.6" y="3097.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="191" gid="97" x="345.6" y="2572.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="192" gid="2147483745" x="806.4" y="2572.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="193" gid="123" x="486.4" y="3174.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="194" gid="2147483682" x="665.6" y="3174.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="195" gid="2147483771" x="268.8" y="2662.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="196" gid="34" x="883.2" y="2944" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="197" gid="57" x="422.4" y="2905.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="198" gid="2147483705" x="729.6" y="2905.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="199" gid="63" x="512" y="2649.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="200" gid="2147483702" x="640" y="3046.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="201" gid="42" x="256" y="2560" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="202" gid="2147483689" x="832" y="2560" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="203" gid="43" x="256" y="3136" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="204" gid="2147483672" x="832" y="3136" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="205" gid="121" x="262.4" y="3008" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="206" gid="2147483770" x="889.6" y="2688" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup draworder="index" id="7" name="room_j_forgotten_ossuary">
+  <object id="207" gid="48" x="2508.8" y="2572.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="208" gid="49" x="2700.8" y="2572.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="209" gid="2147483697" x="2892.8" y="2572.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="210" gid="2147483696" x="3084.8" y="2572.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="211" gid="49" x="2508.8" y="3020.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="212" gid="2147483697" x="3084.8" y="3020.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="213" gid="111" x="2713.6" y="3020.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="214" gid="2147483759" x="2918.4" y="3020.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="215" gid="77" x="2816" y="2841.6" width="128" height="128">
+   <properties>
+    <property name="rule" value="A"/>
+   </properties>
+  </object>
+  <object id="216" gid="107" x="2624" y="2816" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="217" gid="2147483757" x="3008" y="2816" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="218" gid="98" x="2579.2" y="2636.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="219" gid="2147483745" x="2771.2" y="2643.2" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="220" gid="123" x="2963.2" y="2630.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="221" gid="2147483682" x="3155.2" y="2636.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="222" gid="97" x="2579.2" y="3078.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="223" gid="2147483746" x="3155.2" y="3078.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="224" gid="2147483771" x="2777.6" y="3084.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="225" gid="97" x="2969.6" y="3084.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="226" gid="98" x="2726.4" y="2892.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="227" gid="2147483771" x="3033.6" y="2713.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="228" gid="34" x="2649.6" y="2726.4" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="229" gid="2147483745" x="3110.4" y="2892.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="230" gid="103" x="2688" y="2764.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="231" gid="2147483753" x="3008" y="2905.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="F"/>
+   </properties>
+  </object>
+  <object id="232" gid="2147483732" x="3161.6" y="2828.8" width="128" height="128">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="233" gid="61" x="2508.8" y="2905.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="234" gid="2147483705" x="2905.6" y="2956.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="235" gid="60" x="3238.4" y="2969.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="236" gid="2147483714" x="2585.6" y="2764.8" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="237" gid="42" x="2496" y="2688" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="238" gid="2147483689" x="3200" y="2688" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="239" gid="43" x="2496" y="2944" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="240" gid="2147483672" x="3200" y="3008" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="241" gid="121" x="2828.8" y="2969.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+  <object id="242" gid="2147483770" x="3251.2" y="2841.6" width="64" height="64">
+   <properties>
+    <property name="rule" value="E"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

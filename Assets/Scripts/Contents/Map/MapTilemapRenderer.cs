@@ -27,6 +27,10 @@ public class MapTilemapRenderer : MonoBehaviour
 		if (map == null || HasTilemaps == false)
 			return;
 
+		SetSortingOrder(_floor, -1000);
+		SetSortingOrder(_wall, -990);
+		SetSortingOrder(_deco, -980);
+
 		Dictionary<int, TileBase> tiles = MapPalette.BuildLookup(map);
 
 		Paint(_floor, map, map.floor, tiles);
@@ -34,6 +38,16 @@ public class MapTilemapRenderer : MonoBehaviour
 		Paint(_deco, map, map.deco, tiles);
 
 		RebuildColliders(_wall);
+	}
+
+	static void SetSortingOrder(Tilemap tilemap, int order)
+	{
+		if (tilemap == null)
+			return;
+
+		TilemapRenderer renderer = tilemap.GetComponent<TilemapRenderer>();
+		if (renderer != null)
+			renderer.sortingOrder = order;
 	}
 
 	public static void RebuildColliders(Tilemap tilemap)

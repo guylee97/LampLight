@@ -1,0 +1,2005 @@
+{
+  "schema": "lamplight.objects.merged.v1",
+  "tileSizePx": 32,
+  "displayScale": 2,
+  "objects": [
+    {
+      "key": "artifact_bell",
+      "file": "objects/artifact/obj_artifact_bell.png",
+      "resource": "Art/Objects/artifact/obj_artifact_bell",
+      "category": "artifact",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "artifact_bell_buried",
+      "file": "objects/artifact/obj_artifact_bell_buried.png",
+      "resource": "Art/Objects/artifact/obj_artifact_bell_buried",
+      "category": "artifact",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "artifact_crest",
+      "file": "objects/artifact/obj_artifact_crest.png",
+      "resource": "Art/Objects/artifact/obj_artifact_crest",
+      "category": "artifact",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "artifact_crest_buried",
+      "file": "objects/artifact/obj_artifact_crest_buried.png",
+      "resource": "Art/Objects/artifact/obj_artifact_crest_buried",
+      "category": "artifact",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "artifact_mask",
+      "file": "objects/artifact/obj_artifact_mask.png",
+      "resource": "Art/Objects/artifact/obj_artifact_mask",
+      "category": "artifact",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "artifact_mask_buried",
+      "file": "objects/artifact/obj_artifact_mask_buried.png",
+      "resource": "Art/Objects/artifact/obj_artifact_mask_buried",
+      "category": "artifact",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "artifact_seal",
+      "file": "objects/artifact/obj_artifact_seal.png",
+      "resource": "Art/Objects/artifact/obj_artifact_seal",
+      "category": "artifact",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "artifact_seal_buried",
+      "file": "objects/artifact/obj_artifact_seal_buried.png",
+      "resource": "Art/Objects/artifact/obj_artifact_seal_buried",
+      "category": "artifact",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "cobweb_corner",
+      "file": "objects/cobweb/obj_cobweb_corner.png",
+      "resource": "Art/Objects/cobweb/obj_cobweb_corner",
+      "category": "cobweb",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "cobweb_radial",
+      "file": "objects/cobweb/obj_cobweb_radial.png",
+      "resource": "Art/Objects/cobweb/obj_cobweb_radial",
+      "category": "cobweb",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "cobweb_torn",
+      "file": "objects/cobweb/obj_cobweb_torn.png",
+      "resource": "Art/Objects/cobweb/obj_cobweb_torn",
+      "category": "cobweb",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "container_chest",
+      "file": "objects/container/obj_container_chest.png",
+      "resource": "Art/Objects/container/obj_container_chest",
+      "category": "container",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.8,
+        "height": 0.5,
+        "offsetX": 0.0,
+        "offsetY": 0.25
+      }
+    },
+    {
+      "key": "container_crate",
+      "file": "objects/container/obj_container_crate.png",
+      "resource": "Art/Objects/container/obj_container_crate",
+      "category": "container",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.8,
+        "height": 0.5,
+        "offsetX": 0.0,
+        "offsetY": 0.25
+      }
+    },
+    {
+      "key": "container_drawer_closed",
+      "file": "objects/container/obj_container_drawer_closed.png",
+      "resource": "Art/Objects/container/obj_container_drawer_closed",
+      "category": "container",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.8,
+        "height": 0.5,
+        "offsetX": 0.0,
+        "offsetY": 0.25
+      }
+    },
+    {
+      "key": "container_drawer_open",
+      "file": "objects/container/obj_container_drawer_open.png",
+      "resource": "Art/Objects/container/obj_container_drawer_open",
+      "category": "container",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.8,
+        "height": 0.5,
+        "offsetX": 0.0,
+        "offsetY": 0.25
+      }
+    },
+    {
+      "key": "container_sarcophagus_closed",
+      "file": "objects/container/obj_container_sarcophagus_closed.png",
+      "resource": "Art/Objects/container/obj_container_sarcophagus_closed",
+      "category": "container",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.8,
+        "height": 0.5,
+        "offsetX": 0.0,
+        "offsetY": 0.25
+      }
+    },
+    {
+      "key": "container_sarcophagus_open",
+      "file": "objects/container/obj_container_sarcophagus_open.png",
+      "resource": "Art/Objects/container/obj_container_sarcophagus_open",
+      "category": "container",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.8,
+        "height": 0.5,
+        "offsetX": 0.0,
+        "offsetY": 0.25
+      }
+    },
+    {
+      "key": "debris_arch",
+      "file": "objects/debris/obj_debris_arch.png",
+      "resource": "Art/Objects/debris/obj_debris_arch",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_blocks",
+      "file": "objects/debris/obj_debris_blocks.png",
+      "resource": "Art/Objects/debris/obj_debris_blocks",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_blocks_b",
+      "file": "objects/debris/obj_debris_blocks_b.png",
+      "resource": "Art/Objects/debris/obj_debris_blocks_b",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_capital",
+      "file": "objects/debris/obj_debris_capital.png",
+      "resource": "Art/Objects/debris/obj_debris_capital",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_fragments",
+      "file": "objects/debris/obj_debris_fragments.png",
+      "resource": "Art/Objects/debris/obj_debris_fragments",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_frame",
+      "file": "objects/debris/obj_debris_frame.png",
+      "resource": "Art/Objects/debris/obj_debris_frame",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_frame_b",
+      "file": "objects/debris/obj_debris_frame_b.png",
+      "resource": "Art/Objects/debris/obj_debris_frame_b",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_gravel_a",
+      "file": "objects/debris/obj_debris_gravel_a.png",
+      "resource": "Art/Objects/debris/obj_debris_gravel_a",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_gravel_b",
+      "file": "objects/debris/obj_debris_gravel_b.png",
+      "resource": "Art/Objects/debris/obj_debris_gravel_b",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_masonry",
+      "file": "objects/debris/obj_debris_masonry.png",
+      "resource": "Art/Objects/debris/obj_debris_masonry",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_mossy",
+      "file": "objects/debris/obj_debris_mossy.png",
+      "resource": "Art/Objects/debris/obj_debris_mossy",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_pile",
+      "file": "objects/debris/obj_debris_pile.png",
+      "resource": "Art/Objects/debris/obj_debris_pile",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_planks",
+      "file": "objects/debris/obj_debris_planks.png",
+      "resource": "Art/Objects/debris/obj_debris_planks",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_shards",
+      "file": "objects/debris/obj_debris_shards.png",
+      "resource": "Art/Objects/debris/obj_debris_shards",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_shelf",
+      "file": "objects/debris/obj_debris_shelf.png",
+      "resource": "Art/Objects/debris/obj_debris_shelf",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_slabs",
+      "file": "objects/debris/obj_debris_slabs.png",
+      "resource": "Art/Objects/debris/obj_debris_slabs",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_stone",
+      "file": "objects/debris/obj_debris_stone.png",
+      "resource": "Art/Objects/debris/obj_debris_stone",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_stones",
+      "file": "objects/debris/obj_debris_stones.png",
+      "resource": "Art/Objects/debris/obj_debris_stones",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_structure",
+      "file": "objects/debris/obj_debris_structure.png",
+      "resource": "Art/Objects/debris/obj_debris_structure",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_timber",
+      "file": "objects/debris/obj_debris_timber.png",
+      "resource": "Art/Objects/debris/obj_debris_timber",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "debris_wall",
+      "file": "objects/debris/obj_debris_wall.png",
+      "resource": "Art/Objects/debris/obj_debris_wall",
+      "category": "debris",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "door_broken",
+      "file": "objects/door/obj_door_broken.png",
+      "resource": "Art/Objects/door/obj_door_broken",
+      "category": "door",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "door_open",
+      "file": "objects/door/obj_door_open.png",
+      "resource": "Art/Objects/door/obj_door_open",
+      "category": "door",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "exit_locked",
+      "file": "objects/exit/obj_exit_locked.png",
+      "resource": "Art/Objects/exit/obj_exit_locked",
+      "category": "exit",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "exit_open",
+      "file": "objects/exit/obj_exit_open.png",
+      "resource": "Art/Objects/exit/obj_exit_open",
+      "category": "exit",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "large_altar_low",
+      "file": "objects/large/obj_large_altar_low.png",
+      "resource": "Art/Objects/large/obj_large_altar_low",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.4,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_arch_fallen",
+      "file": "objects/large/obj_large_arch_fallen.png",
+      "resource": "Art/Objects/large/obj_large_arch_fallen",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.4,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_benches_pair",
+      "file": "objects/large/obj_large_benches_pair.png",
+      "resource": "Art/Objects/large/obj_large_benches_pair",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.8,
+        "height": 0.55,
+        "offsetX": 0.0,
+        "offsetY": 0.275
+      }
+    },
+    {
+      "key": "large_carpet",
+      "file": "objects/large/obj_large_carpet.png",
+      "resource": "Art/Objects/large/obj_large_carpet",
+      "category": "large",
+      "footprint": "3x3",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "large_carpet_round_seal",
+      "file": "objects/large/obj_large_carpet_round_seal.png",
+      "resource": "Art/Objects/large/obj_large_carpet_round_seal",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "large_carpet_runner",
+      "file": "objects/large/obj_large_carpet_runner.png",
+      "resource": "Art/Objects/large/obj_large_carpet_runner",
+      "category": "large",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "large_firepit",
+      "file": "objects/large/obj_large_firepit.png",
+      "resource": "Art/Objects/large/obj_large_firepit",
+      "category": "large",
+      "footprint": "3x3",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 2.0,
+        "height": 1.1,
+        "offsetX": 0.0,
+        "offsetY": 0.55
+      }
+    },
+    {
+      "key": "large_lid_pit",
+      "file": "objects/large/obj_large_lid_pit.png",
+      "resource": "Art/Objects/large/obj_large_lid_pit",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.4,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_offering_table",
+      "file": "objects/large/obj_large_offering_table.png",
+      "resource": "Art/Objects/large/obj_large_offering_table",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.4,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_pillar_broken_pair",
+      "file": "objects/large/obj_large_pillar_broken_pair.png",
+      "resource": "Art/Objects/large/obj_large_pillar_broken_pair",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.4,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_pillar_fallen_long",
+      "file": "objects/large/obj_large_pillar_fallen_long.png",
+      "resource": "Art/Objects/large/obj_large_pillar_fallen_long",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.4,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_pillar_fallen_short",
+      "file": "objects/large/obj_large_pillar_fallen_short.png",
+      "resource": "Art/Objects/large/obj_large_pillar_fallen_short",
+      "category": "large",
+      "footprint": "1x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.4,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_pillar_pile",
+      "file": "objects/large/obj_large_pillar_pile.png",
+      "resource": "Art/Objects/large/obj_large_pillar_pile",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.4,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_rubble_heap",
+      "file": "objects/large/obj_large_rubble_heap.png",
+      "resource": "Art/Objects/large/obj_large_rubble_heap",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.4,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_rubble_mossy",
+      "file": "objects/large/obj_large_rubble_mossy.png",
+      "resource": "Art/Objects/large/obj_large_rubble_mossy",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.4,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_sacrificial_slab",
+      "file": "objects/large/obj_large_sacrificial_slab.png",
+      "resource": "Art/Objects/large/obj_large_sacrificial_slab",
+      "category": "large",
+      "footprint": "3x3",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 2.0,
+        "height": 0.75,
+        "offsetX": 0.0,
+        "offsetY": 0.375
+      }
+    },
+    {
+      "key": "large_shelf_fallen",
+      "file": "objects/large/obj_large_shelf_fallen.png",
+      "resource": "Art/Objects/large/obj_large_shelf_fallen",
+      "category": "large",
+      "footprint": "3x3",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 2.0,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_statue_fallen",
+      "file": "objects/large/obj_large_statue_fallen.png",
+      "resource": "Art/Objects/large/obj_large_statue_fallen",
+      "category": "large",
+      "footprint": "3x3",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.8,
+        "height": 0.75,
+        "offsetX": 0.0,
+        "offsetY": 0.375
+      }
+    },
+    {
+      "key": "large_statue_kneeling",
+      "file": "objects/large/obj_large_statue_kneeling.png",
+      "resource": "Art/Objects/large/obj_large_statue_kneeling",
+      "category": "large",
+      "footprint": "2x3",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.35,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_steps",
+      "file": "objects/large/obj_large_steps.png",
+      "resource": "Art/Objects/large/obj_large_steps",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "large_trough",
+      "file": "objects/large/obj_large_trough.png",
+      "resource": "Art/Objects/large/obj_large_trough",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.4,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "large_wall_collapse",
+      "file": "objects/large/obj_large_wall_collapse.png",
+      "resource": "Art/Objects/large/obj_large_wall_collapse",
+      "category": "large",
+      "footprint": "2x2",
+      "px": [
+        64,
+        64
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 1.4,
+        "height": 0.65,
+        "offsetX": 0.0,
+        "offsetY": 0.325
+      }
+    },
+    {
+      "key": "noise_glass",
+      "file": "objects/noise/obj_noise_glass.png",
+      "resource": "Art/Objects/noise/obj_noise_glass",
+      "category": "noise",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "noise_planks",
+      "file": "objects/noise/obj_noise_planks.png",
+      "resource": "Art/Objects/noise/obj_noise_planks",
+      "category": "noise",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_basin",
+      "file": "objects/prop/obj_prop_basin.png",
+      "resource": "Art/Objects/prop/obj_prop_basin",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_bench",
+      "file": "objects/prop/obj_prop_bench.png",
+      "resource": "Art/Objects/prop/obj_prop_bench",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.85,
+        "height": 0.4,
+        "offsetX": 0.0,
+        "offsetY": 0.2
+      }
+    },
+    {
+      "key": "prop_bones_long",
+      "file": "objects/prop/obj_prop_bones_long.png",
+      "resource": "Art/Objects/prop/obj_prop_bones_long",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_bones_pile",
+      "file": "objects/prop/obj_prop_bones_pile.png",
+      "resource": "Art/Objects/prop/obj_prop_bones_pile",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_bowl",
+      "file": "objects/prop/obj_prop_bowl.png",
+      "resource": "Art/Objects/prop/obj_prop_bowl",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_candle_fallen",
+      "file": "objects/prop/obj_prop_candle_fallen.png",
+      "resource": "Art/Objects/prop/obj_prop_candle_fallen",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_candle_holder",
+      "file": "objects/prop/obj_prop_candle_holder.png",
+      "resource": "Art/Objects/prop/obj_prop_candle_holder",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_candle_leaning",
+      "file": "objects/prop/obj_prop_candle_leaning.png",
+      "resource": "Art/Objects/prop/obj_prop_candle_leaning",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_candle_melted",
+      "file": "objects/prop/obj_prop_candle_melted.png",
+      "resource": "Art/Objects/prop/obj_prop_candle_melted",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_candle_short",
+      "file": "objects/prop/obj_prop_candle_short.png",
+      "resource": "Art/Objects/prop/obj_prop_candle_short",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_candle_stub",
+      "file": "objects/prop/obj_prop_candle_stub.png",
+      "resource": "Art/Objects/prop/obj_prop_candle_stub",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_candle_tall",
+      "file": "objects/prop/obj_prop_candle_tall.png",
+      "resource": "Art/Objects/prop/obj_prop_candle_tall",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_floor_seal",
+      "file": "objects/prop/obj_prop_floor_seal.png",
+      "resource": "Art/Objects/prop/obj_prop_floor_seal",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_floor_seal_broken",
+      "file": "objects/prop/obj_prop_floor_seal_broken.png",
+      "resource": "Art/Objects/prop/obj_prop_floor_seal_broken",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_floor_tile",
+      "file": "objects/prop/obj_prop_floor_tile.png",
+      "resource": "Art/Objects/prop/obj_prop_floor_tile",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_grate",
+      "file": "objects/prop/obj_prop_grate.png",
+      "resource": "Art/Objects/prop/obj_prop_grate",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_gravestone",
+      "file": "objects/prop/obj_prop_gravestone.png",
+      "resource": "Art/Objects/prop/obj_prop_gravestone",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.7,
+        "height": 0.45,
+        "offsetX": 0.0,
+        "offsetY": 0.225
+      }
+    },
+    {
+      "key": "prop_ledge",
+      "file": "objects/prop/obj_prop_ledge.png",
+      "resource": "Art/Objects/prop/obj_prop_ledge",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_pebbles",
+      "file": "objects/prop/obj_prop_pebbles.png",
+      "resource": "Art/Objects/prop/obj_prop_pebbles",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_pillar_broken",
+      "file": "objects/prop/obj_prop_pillar_broken.png",
+      "resource": "Art/Objects/prop/obj_prop_pillar_broken",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.7,
+        "height": 0.45,
+        "offsetX": 0.0,
+        "offsetY": 0.225
+      }
+    },
+    {
+      "key": "prop_pillar_capital",
+      "file": "objects/prop/obj_prop_pillar_capital.png",
+      "resource": "Art/Objects/prop/obj_prop_pillar_capital",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.7,
+        "height": 0.45,
+        "offsetX": 0.0,
+        "offsetY": 0.225
+      }
+    },
+    {
+      "key": "prop_pillar_column",
+      "file": "objects/prop/obj_prop_pillar_column.png",
+      "resource": "Art/Objects/prop/obj_prop_pillar_column",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.7,
+        "height": 0.45,
+        "offsetX": 0.0,
+        "offsetY": 0.225
+      }
+    },
+    {
+      "key": "prop_pillar_drum",
+      "file": "objects/prop/obj_prop_pillar_drum.png",
+      "resource": "Art/Objects/prop/obj_prop_pillar_drum",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.7,
+        "height": 0.45,
+        "offsetX": 0.0,
+        "offsetY": 0.225
+      }
+    },
+    {
+      "key": "prop_pillar_intact",
+      "file": "objects/prop/obj_prop_pillar_intact.png",
+      "resource": "Art/Objects/prop/obj_prop_pillar_intact",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.7,
+        "height": 0.45,
+        "offsetX": 0.0,
+        "offsetY": 0.225
+      }
+    },
+    {
+      "key": "prop_pillar_stump",
+      "file": "objects/prop/obj_prop_pillar_stump.png",
+      "resource": "Art/Objects/prop/obj_prop_pillar_stump",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": true,
+        "width": 0.7,
+        "height": 0.45,
+        "offsetX": 0.0,
+        "offsetY": 0.225
+      }
+    },
+    {
+      "key": "prop_railing",
+      "file": "objects/prop/obj_prop_railing.png",
+      "resource": "Art/Objects/prop/obj_prop_railing",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_roots",
+      "file": "objects/prop/obj_prop_roots.png",
+      "resource": "Art/Objects/prop/obj_prop_roots",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_roots_stone",
+      "file": "objects/prop/obj_prop_roots_stone.png",
+      "resource": "Art/Objects/prop/obj_prop_roots_stone",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_skull",
+      "file": "objects/prop/obj_prop_skull.png",
+      "resource": "Art/Objects/prop/obj_prop_skull",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_step",
+      "file": "objects/prop/obj_prop_step.png",
+      "resource": "Art/Objects/prop/obj_prop_step",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_tablet_a",
+      "file": "objects/prop/obj_prop_tablet_a.png",
+      "resource": "Art/Objects/prop/obj_prop_tablet_a",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_tablet_b",
+      "file": "objects/prop/obj_prop_tablet_b.png",
+      "resource": "Art/Objects/prop/obj_prop_tablet_b",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "prop_tablet_c",
+      "file": "objects/prop/obj_prop_tablet_c.png",
+      "resource": "Art/Objects/prop/obj_prop_tablet_c",
+      "category": "prop",
+      "footprint": "1x1",
+      "px": [
+        32,
+        32
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "walldeco_arcade",
+      "file": "objects/walldeco/obj_walldeco_arcade.png",
+      "resource": "Art/Objects/walldeco/obj_walldeco_arcade",
+      "category": "walldeco",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "walldeco_arcade_mirror",
+      "file": "objects/walldeco/obj_walldeco_arcade_mirror.png",
+      "resource": "Art/Objects/walldeco/obj_walldeco_arcade_mirror",
+      "category": "walldeco",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "walldeco_arch",
+      "file": "objects/walldeco/obj_walldeco_arch.png",
+      "resource": "Art/Objects/walldeco/obj_walldeco_arch",
+      "category": "walldeco",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "walldeco_arch_mirror",
+      "file": "objects/walldeco/obj_walldeco_arch_mirror.png",
+      "resource": "Art/Objects/walldeco/obj_walldeco_arch_mirror",
+      "category": "walldeco",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "walldeco_brickband",
+      "file": "objects/walldeco/obj_walldeco_brickband.png",
+      "resource": "Art/Objects/walldeco/obj_walldeco_brickband",
+      "category": "walldeco",
+      "footprint": "tile",
+      "px": [
+        96,
+        48
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "walldeco_chains",
+      "file": "objects/walldeco/obj_walldeco_chains.png",
+      "resource": "Art/Objects/walldeco/obj_walldeco_chains",
+      "category": "walldeco",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "walldeco_chains_mirror",
+      "file": "objects/walldeco/obj_walldeco_chains_mirror.png",
+      "resource": "Art/Objects/walldeco/obj_walldeco_chains_mirror",
+      "category": "walldeco",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "walldeco_hole",
+      "file": "objects/walldeco/obj_walldeco_hole.png",
+      "resource": "Art/Objects/walldeco/obj_walldeco_hole",
+      "category": "walldeco",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "walldeco_hole_mirror",
+      "file": "objects/walldeco/obj_walldeco_hole_mirror.png",
+      "resource": "Art/Objects/walldeco/obj_walldeco_hole_mirror",
+      "category": "walldeco",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "walldeco_plain",
+      "file": "objects/walldeco/obj_walldeco_plain.png",
+      "resource": "Art/Objects/walldeco/obj_walldeco_plain",
+      "category": "walldeco",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "walldeco_sag",
+      "file": "objects/walldeco/obj_walldeco_sag.png",
+      "resource": "Art/Objects/walldeco/obj_walldeco_sag",
+      "category": "walldeco",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    },
+    {
+      "key": "walldeco_sag_mirror",
+      "file": "objects/walldeco/obj_walldeco_sag_mirror.png",
+      "resource": "Art/Objects/walldeco/obj_walldeco_sag_mirror",
+      "category": "walldeco",
+      "footprint": "3x1",
+      "px": [
+        96,
+        96
+      ],
+      "collision": {
+        "enabled": false,
+        "width": 0.0,
+        "height": 0.0,
+        "offsetX": 0.0,
+        "offsetY": 0.0
+      }
+    }
+  ]
+}

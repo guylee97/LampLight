@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class AudioRigTests
 {
-	const string SoundDir = "Assets/Resources/Sounds";
+	const string SoundDir = "Assets/Resources/Audio";
 
 	[Test]
 	public void EveryClipPreloads()
 	{
 		string[] guids = AssetDatabase.FindAssets("t:AudioClip", new[] { SoundDir });
-		Assert.Greater(guids.Length, 0, "Resources/Sounds에 클립이 없다");
+		Assert.Greater(guids.Length, 0, "Resources/Audio에 클립이 없다");
 
 		List<string> bad = new List<string>();
 

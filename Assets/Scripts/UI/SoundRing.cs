@@ -172,7 +172,8 @@ public class SoundRing : MonoBehaviour
 	{
 		s_instance = this;
 		_visible = _enabledByDefault;
-		BuildCanvas();
+		// 소리 방향 HUD 기능 제거.
+		// BuildCanvas();
 	}
 
 	void OnDestroy()
@@ -183,11 +184,12 @@ public class SoundRing : MonoBehaviour
 
 	void EmitInternal(float angle, float halfWidth, Color tint)
 	{
-		if (_graphic == null)
-			BuildCanvas();
-
-		if (_graphic != null)
-			_graphic.Emit(angle, halfWidth, tint);
+		// 소리 방향 HUD 기능 제거.
+		// if (_graphic == null)
+		// 	BuildCanvas();
+		//
+		// if (_graphic != null)
+		// 	_graphic.Emit(angle, halfWidth, tint);
 	}
 
 	void BuildCanvas()
@@ -205,6 +207,7 @@ public class SoundRing : MonoBehaviour
 		CanvasScaler scaler = canvasGo.AddComponent<CanvasScaler>();
 		scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
 		scaler.referenceResolution = new Vector2(1920, 1080);
+		scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
 
 		GameObject graphicGo = new GameObject("Ring");
 		graphicGo.transform.SetParent(canvasGo.transform, false);

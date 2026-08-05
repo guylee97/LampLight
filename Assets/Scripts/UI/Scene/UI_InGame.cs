@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,8 +44,13 @@ public class UI_InGame : UI_Scene
 	RectTransform _soundRingRoot;
 	readonly List<SoundRing> _soundRings = new List<SoundRing>();
 	bool _ready;
+	float _remainingSeconds;
+	Text _noticeText;
+	Coroutine _noticeRoutine;
+	GameObject _holdProgressRoot;
+	Text _holdProgressText;
 
-	public void Setup(StageProgress progress, PlayerController player)
+	public void Setup(StageProgress progress, PlayerController player, float deadlineSeconds = 0.0f)
 	{
 		_progress = progress;
 		_player = player;
@@ -56,6 +62,7 @@ public class UI_InGame : UI_Scene
 			_interactor = _player.GetComponent<PlayerInteractor>();
 		}
 
+		_remainingSeconds = deadlineSeconds;
 		RefreshArtifacts();
 	}
 
@@ -74,24 +81,58 @@ public class UI_InGame : UI_Scene
 			RefreshArtifacts();
 
 		if (_progress != null)
+		{
 			_progress.OnArtifactCollected += OnArtifactCollected;
+			_progress.OnAllArtifactsCollected += OnAllArtifactsCollected;
+		}
 
-		CreateSoundRingPool();
-		Managers.Sound.OnSpatialSoundPlayed += OnSpatialSoundPlayed;
+		HideStatusBars();
+		CreateNoticeText();
+		CreateHoldProgress();
+
+		// ?뚮━ 諛⑺뼢 HUD 湲곕뒫 ?쒓굅.
+		// CreateSoundRingPool();
+		// Managers.Sound.OnSpatialSoundPlayed += OnSpatialSoundPlayed;
 	}
 
 	void OnDestroy()
 	{
 		if (_progress != null)
+		{
 			_progress.OnArtifactCollected -= OnArtifactCollected;
+			_progress.OnAllArtifactsCollected -= OnAllArtifactsCollected;
+		}
 
-		if (Managers.TryGetSound(out SoundManager sound))
-			sound.OnSpatialSoundPlayed -= OnSpatialSoundPlayed;
+		// if (Managers.TryGetSound(out SoundManager sound))
+		// 	sound.OnSpatialSoundPlayed -= OnSpatialSoundPlayed;
 	}
 
 	void OnArtifactCollected(int collected, int required)
 	{
 		RefreshArtifacts();
+	}
+
+	void OnAllArtifactsCollected()
+	{
+		if (_noticeRoutine != null)
+			StopCoroutine(_noticeRoutine);
+		_noticeRoutine = StartCoroutine(ShowNotice());
+	}
+
+	IEnumerator ShowNotice()
+	{
+		if (_noticeText == null)
+			yield break;
+
+		_noticeText.text = "어딘가 문이 열렸다";
+		yield return new WaitForSecondsRealtime(2.5f);
+		_noticeText.text = string.Empty;
+		_noticeRoutine = null;
+	}
+
+	public void SetRemainingTime(float seconds)
+	{
+		_remainingSeconds = seconds;
 	}
 
 	void RefreshArtifacts()
@@ -109,13 +150,22 @@ public class UI_InGame : UI_Scene
 		if (_ready == false)
 			return;
 
-		UpdateSoundRings();
-		UpdateFill(GetImage((int)Images.StaminaFill), _status == null ? 0 : _status.StaminaRatio);
-		UpdateFill(GetImage((int)Images.FuelFill), _lamp == null ? 0 : _lamp.RemainingRatio);
+		// UpdateSoundRings();
 
 		Text fuelText = GetText((int)Texts.FuelText);
-		if (fuelText != null && _lamp != null)
-			fuelText.text = _lamp.IsOn ? $"등불  {Mathf.CeilToInt(_lamp.RemainingDuration)}s" : "등불  꺼짐";
+		if (fuelText != null)
+		{
+			RectTransform fuelRect = fuelText.rectTransform;
+			fuelRect.anchorMin = new Vector2(0.5f, 1.0f);
+			fuelRect.anchorMax = new Vector2(0.5f, 1.0f);
+			fuelRect.pivot = new Vector2(0.5f, 1.0f);
+			fuelRect.anchoredPosition = new Vector2(0.0f, -28.0f);
+			fuelRect.sizeDelta = new Vector2(420.0f, 55.0f);
+			fuelText.alignment = TextAnchor.MiddleCenter;
+
+			int seconds = Mathf.CeilToInt(_remainingSeconds);
+			fuelText.text = $"남은 시간  {seconds / 60:00}:{seconds % 60:00}";
+		}
 
 		Text prompt = GetText((int)Texts.PromptText);
 		if (prompt != null)
@@ -123,6 +173,84 @@ public class UI_InGame : UI_Scene
 			IInteractable target = _interactor == null ? null : _interactor.Current;
 			prompt.text = target == null ? string.Empty : target.Prompt;
 		}
+
+		UpdateHoldProgress();
+	}
+
+	void CreateHoldProgress()
+	{
+		if (_holdProgressRoot != null)
+			return;
+
+		_holdProgressRoot = new GameObject("InteractionProgress", typeof(RectTransform));
+		_holdProgressRoot.transform.SetParent(transform, false);
+
+		RectTransform rootRect = _holdProgressRoot.GetComponent<RectTransform>();
+		rootRect.anchorMin = new Vector2(0.5f, 0.0f);
+		rootRect.anchorMax = new Vector2(0.5f, 0.0f);
+		rootRect.pivot = new Vector2(0.5f, 0.0f);
+		rootRect.anchoredPosition = new Vector2(0.0f, 88.0f);
+		rootRect.sizeDelta = new Vector2(480.0f, 64.0f);
+
+		GameObject textObject = new GameObject("RemainingText", typeof(RectTransform), typeof(Text));
+		textObject.transform.SetParent(_holdProgressRoot.transform, false);
+		RectTransform textRect = textObject.GetComponent<RectTransform>();
+		textRect.anchorMin = Vector2.zero;
+		textRect.anchorMax = Vector2.one;
+		textRect.offsetMin = Vector2.zero;
+		textRect.offsetMax = Vector2.zero;
+
+		_holdProgressText = textObject.GetComponent<Text>();
+		_holdProgressText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+		_holdProgressText.fontSize = 30;
+		_holdProgressText.alignment = TextAnchor.MiddleCenter;
+		_holdProgressText.color = new Color(1.0f, 0.82f, 0.42f, 1.0f);
+		_holdProgressText.raycastTarget = false;
+
+		_holdProgressRoot.SetActive(false);
+	}
+
+	void UpdateHoldProgress()
+	{
+		if (_holdProgressRoot == null || _holdProgressText == null)
+			return;
+
+		bool visible = _interactor != null
+			&& _interactor.Current != null
+			&& _interactor.Current.HoldSeconds > 0.0f
+			&& _interactor.HoldProgress > 0.0f;
+
+		_holdProgressRoot.SetActive(visible);
+		if (visible)
+			_holdProgressText.text = $"뒤지는 중  {_interactor.HoldRemainingSeconds:0.0}초";
+	}
+
+	void HideStatusBars()
+	{
+		foreach (Images value in System.Enum.GetValues(typeof(Images)))
+		{
+			Image image = GetImage((int)value);
+			if (image != null)
+				image.transform.parent.gameObject.SetActive(false);
+		}
+	}
+
+	void CreateNoticeText()
+	{
+		if (_noticeText != null)
+			return;
+
+		GameObject go = new GameObject("ExitNoticeText", typeof(RectTransform), typeof(Text));
+		go.transform.SetParent(transform, false);
+		RectTransform rect = go.GetComponent<RectTransform>();
+		rect.anchorMin = new Vector2(0.5f, 0.08f);
+		rect.anchorMax = new Vector2(0.5f, 0.08f);
+		rect.sizeDelta = new Vector2(600, 60);
+		_noticeText = go.GetComponent<Text>();
+		_noticeText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+		_noticeText.fontSize = 30;
+		_noticeText.alignment = TextAnchor.MiddleCenter;
+		_noticeText.color = Color.white;
 	}
 
 	void CreateSoundRingPool()

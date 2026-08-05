@@ -36,7 +36,7 @@ public class PlayerBreath : MonoBehaviour
 			_status = GetComponentInParent<PlayerStatus>();
 
 		if (_clip == null)
-			_clip = Managers.Resource.Load<AudioClip>("Sounds/breath_tired");
+			_clip = Managers.Resource.Load<AudioClip>("Audio/breath_tired");
 
 		_source = Util.GetOrAddComponent<AudioSource>(gameObject);
 		_source.clip = _clip;

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public static class SceneDresser
 {
 	const string ScenePath = "Assets/Scenes/InGame.unity";
-	const string PropArtDir = "Assets/Art/Props";
+	const string PropArtDir = "Assets/Resources/Art/Objects/prop";
 	const string WalkerZombiePath = "Assets/Resources/Prefabs/WalkerZombie.prefab";
 	const string WandererZombiePath = "Assets/Resources/Prefabs/WandererZombie.prefab";
 	const string PropPrefabDir = "Assets/Resources/Prefabs/Props";

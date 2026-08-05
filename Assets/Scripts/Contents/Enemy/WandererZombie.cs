@@ -4,10 +4,13 @@ using UnityEngine;
 public class WandererZombie : EnemyBase
 {
 	[SerializeField]
-	float _patrolSpeed = 3.0f;
+	float _patrolSpeed = 2.0f;
 
 	[SerializeField]
-	float _chaseSpeed = 7.0f;
+	float _chaseSpeed = 3.5f;
+
+	[SerializeField, Range(0.1f, 1.0f)]
+	float _hearingScale = 0.3f;
 
 	[SerializeField]
 	float _catchRange = 0.4f;
@@ -121,7 +124,7 @@ public class WandererZombie : EnemyBase
 			return false;
 
 		float distance = Vector2.Distance(transform.position, _player.transform.position);
-		return distance <= _player.CurrentNoiseRadius;
+		return distance <= _player.CurrentNoiseRadius * _hearingScale;
 	}
 
 	PlayerController FindPlayer()

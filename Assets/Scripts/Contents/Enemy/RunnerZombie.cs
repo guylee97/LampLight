@@ -12,6 +12,9 @@ public class RunnerZombie : EnemyBase
 	[SerializeField]
 	float _silentReleaseDuration = 3.0f;
 
+	[SerializeField, Range(0.1f, 1.0f)]
+	float _hearingScale = 0.3f;
+
 	Rigidbody2D _rigidbody;
 	PlayerController _player;
 	Vector2 _moveDir;
@@ -61,7 +64,6 @@ public class RunnerZombie : EnemyBase
 	{
 		_heardNoiseThisFrame = false;
 		ListenForPlayerNoise();
-		UpdateAlert();
 
 		if (Time.time - _lastHeardTime < _silentReleaseDuration)
 			return;
@@ -93,7 +95,7 @@ public class RunnerZombie : EnemyBase
 			return;
 
 		Vector2 toNoise = _player.transform.position - transform.position;
-		if (toNoise.magnitude > _player.CurrentNoiseRadius)
+		if (toNoise.magnitude > _player.CurrentNoiseRadius * _hearingScale)
 			return;
 
 		_moveDir = toNoise.normalized;

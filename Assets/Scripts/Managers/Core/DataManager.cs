@@ -46,22 +46,8 @@ public class DataManager
 
 	public bool BuildLevelMap(int level, int seed)
 	{
-		int used;
-		MapData generated = MapGenerator.Generate(level, seed, out used);
-
-		string error;
-		if (generated != null && generated.Validate(out error))
-		{
-			LastSeed = used;
-			LastUsedFallback = false;
-			UseMap(generated);
-			return true;
-		}
-
-		Debug.LogWarning($"DataManager: generation failed for L{level}, falling back to the baked map");
-
 		LastSeed = -1;
-		LastUsedFallback = true;
+		LastUsedFallback = false;
 		return LoadLevelMap(level);
 	}
 

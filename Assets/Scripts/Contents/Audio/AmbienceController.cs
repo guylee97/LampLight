@@ -45,10 +45,10 @@ public class AmbienceController : MonoBehaviour
 	void Awake()
 	{
 		if (_ambientClip == null)
-			_ambientClip = Managers.Resource.Load<AudioClip>("Sounds/ambient_temple");
+			_ambientClip = Managers.Resource.Load<AudioClip>("Audio/ambient_temple");
 
 		if (_heartbeatClip == null)
-			_heartbeatClip = Managers.Resource.Load<AudioClip>("Sounds/lantern_low");
+			_heartbeatClip = Managers.Resource.Load<AudioClip>("Audio/lantern_low");
 
 		_ambient = CreateSource("Ambient", _ambientClip, _ambientIsStinger == false);
 		_heart = CreateSource("Heartbeat", _heartbeatClip, false);

@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: a2858557bd50bec54ecba29304027e4e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 76726936d44004ad4b4a685e01dd0222, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -182,7 +182,7 @@ MonoBehaviour:
   _listener: {fileID: 0}
   _radiusTiles: 12
   _semitoneOffset: 0
-  _active: 1
+  _active: 0
 --- !u!1 &7480253743634085326
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,10 +228,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8a2f0e69b83846d89abca8970be18d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: LampLight::OcclusionSource
-  _clearClip: {fileID: 0}
-  _muffledClip: {fileID: 0}
+  _clearClip: {fileID: 8300000, guid: 7d10584d80552bf42bf5b5861de2387d, type: 3}
+  _muffledClip: {fileID: 8300000, guid: 7d10584d80552bf42bf5b5861de2387d, type: 3}
   _bus: 1
-  _radiusTiles: 6
+  _radiusTiles: 9
   _listener: {fileID: 0}
 --- !u!114 &7460005834835268728
 MonoBehaviour:
@@ -245,6 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 584643d753bbd4ab087c895ba22ae77a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: LampLight::ProximityDrone
-  _radiusTiles: 6
+  _radiusTiles: 9
   _maxGain: 0.55
   _falloffPower: 2

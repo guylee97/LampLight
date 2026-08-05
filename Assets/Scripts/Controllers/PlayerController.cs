@@ -53,12 +53,19 @@ public class PlayerController : BaseController
 	AudioClip[] _sneakFootstepClips;
 
 	[SerializeField]
-	AudioClip[] _noisyFloorFootstepClips;
+	AudioClip[] _noisyWalkFootstepClips;
+
+	[SerializeField]
+	AudioClip[] _noisyRunFootstepClips;
+
+	[SerializeField]
+	AudioClip[] _noisySneakFootstepClips;
 
 	Rigidbody2D _rigidbody;
 	PlayerStatus _status;
 	Animator _animator;
 	float _nextFootstepTime;
+	int _footstepClipIndex;
 	float _moveSpeed;
 	Vector2 _moveDir;
 	bool _initialized;
@@ -106,6 +113,8 @@ public class PlayerController : BaseController
 
 	void Awake()
 	{
+		Util.GetOrAddComponent<WorldYSort>(gameObject);
+
 		Init();
 	}
 
@@ -250,6 +259,7 @@ public class PlayerController : BaseController
 		_moveSpeed = _walkSpeed;
 		float footstepInterval = _walkFootstepInterval;
 		AudioClip[] footstepClips = _walkFootstepClips;
+		AudioClip[] noisyFloorClips = _noisyWalkFootstepClips;
 		float noiseRadius = _walkNoiseRadius;
 
 		if (isRunning)
@@ -257,6 +267,7 @@ public class PlayerController : BaseController
 			_moveSpeed = _runSpeed;
 			footstepInterval = _runFootstepInterval;
 			footstepClips = _runFootstepClips;
+			noisyFloorClips = _noisyRunFootstepClips;
 			noiseRadius = _runNoiseRadius;
 
 			if (_status != null)
@@ -269,6 +280,7 @@ public class PlayerController : BaseController
 				_moveSpeed = _sneakSpeed;
 				footstepInterval = _sneakFootstepInterval;
 				footstepClips = _sneakFootstepClips;
+				noisyFloorClips = _noisySneakFootstepClips;
 				noiseRadius = _sneakNoiseRadius;
 			}
 
@@ -283,8 +295,8 @@ public class PlayerController : BaseController
 			if (_onNoisyFloor)
 			{
 				noiseRadius *= _noisyFloorNoiseScale;
-				if (_noisyFloorFootstepClips != null && _noisyFloorFootstepClips.Length > 0)
-					footstepClips = _noisyFloorFootstepClips;
+				if (noisyFloorClips != null && noisyFloorClips.Length > 0)
+					footstepClips = noisyFloorClips;
 			}
 
 			FacingDirection = _moveDir;
@@ -371,7 +383,8 @@ public class PlayerController : BaseController
 		}
 		else
 		{
-			AudioClip clip = footstepClips[Random.Range(0, footstepClips.Length)];
+			AudioClip clip = footstepClips[_footstepClipIndex % footstepClips.Length];
+			_footstepClipIndex++;
 			Managers.Sound.PlayAtPoint(clip, transform.position, Define.Sound.Self);
 		}
 

@@ -1,0 +1,166 @@
+{
+  "schema": "one_lantern.tileset.v2",
+  "tilePx": 32,
+  "displayScale": 2,
+  "columns": 8,
+  "tilecount": 24,
+  "sheet": "temple_tileset.png",
+  "singles": "tiles_single/",
+  "autotile": {
+    "formula": "tileid = 8 + mask",
+    "bits": {
+      "1": "N",
+      "2": "E",
+      "4": "S",
+      "8": "W"
+    },
+    "note": "맵 바깥은 벽으로 취급"
+  },
+  "tiles": {
+    "0": {
+      "name": "floor_a_base",
+      "walkable": true,
+      "noisy": false,
+      "file": "tiles_single/tile_00_floor_a_base.png"
+    },
+    "1": {
+      "name": "wall_solid",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_01_wall_solid.png"
+    },
+    "2": {
+      "name": "floor_b_cracked",
+      "walkable": true,
+      "noisy": false,
+      "file": "tiles_single/tile_02_floor_b_cracked.png"
+    },
+    "3": {
+      "name": "floor_c_gravel",
+      "walkable": true,
+      "noisy": true,
+      "file": "tiles_single/tile_03_floor_c_gravel.png"
+    },
+    "4": {
+      "name": "floor_d_moss",
+      "walkable": true,
+      "noisy": false,
+      "file": "tiles_single/tile_04_floor_d_moss.png"
+    },
+    "5": {
+      "name": "floor_e_wet",
+      "walkable": true,
+      "noisy": false,
+      "file": "tiles_single/tile_05_floor_e_wet.png"
+    },
+    "8": {
+      "name": "wall_edge_00_open",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_08_wall_edge_00_open.png"
+    },
+    "9": {
+      "name": "wall_edge_01_n",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_09_wall_edge_01_n.png"
+    },
+    "10": {
+      "name": "wall_edge_02_e",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_10_wall_edge_02_e.png"
+    },
+    "11": {
+      "name": "wall_edge_03_ne",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_11_wall_edge_03_ne.png"
+    },
+    "12": {
+      "name": "wall_edge_04_s",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_12_wall_edge_04_s.png"
+    },
+    "13": {
+      "name": "wall_edge_05_ns",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_13_wall_edge_05_ns.png"
+    },
+    "14": {
+      "name": "wall_edge_06_es",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_14_wall_edge_06_es.png"
+    },
+    "15": {
+      "name": "wall_edge_07_nes",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_15_wall_edge_07_nes.png"
+    },
+    "16": {
+      "name": "wall_edge_08_w",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_16_wall_edge_08_w.png"
+    },
+    "17": {
+      "name": "wall_edge_09_nw",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_17_wall_edge_09_nw.png"
+    },
+    "18": {
+      "name": "wall_edge_10_ew",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_18_wall_edge_10_ew.png"
+    },
+    "19": {
+      "name": "wall_edge_11_new",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_19_wall_edge_11_new.png"
+    },
+    "20": {
+      "name": "wall_edge_12_sw",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_20_wall_edge_12_sw.png"
+    },
+    "21": {
+      "name": "wall_edge_13_nsw",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_21_wall_edge_13_nsw.png"
+    },
+    "22": {
+      "name": "wall_edge_14_esw",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_22_wall_edge_14_esw.png"
+    },
+    "23": {
+      "name": "wall_edge_15_nesw",
+      "walkable": false,
+      "noisy": false,
+      "file": "tiles_single/tile_23_wall_edge_15_nesw.png"
+    }
+  },
+  "palette": {
+    "floor": [
+      98,
+      122,
+      117
+    ],
+    "wall": [
+      38,
+      46,
+      48
+    ],
+    "note": "벽 장식(walldeco) 실측 색과 정합"
+  }
+}
