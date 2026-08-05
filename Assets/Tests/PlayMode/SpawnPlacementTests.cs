@@ -127,7 +127,7 @@ public class SpawnPlacementTests
 						yield return new WaitForFixedUpdate();
 					}
 
-					Vector2Int landed = MapCoord.WorldToTile(player.transform.position);
+					Vector2Int landed = BodyTile(player);
 					tested++;
 
 					if (MapCoord.IsWalkable(landed.x, landed.y) == false)
@@ -188,17 +188,24 @@ public class SpawnPlacementTests
 			bot.Release();
 			yield return new WaitForFixedUpdate();
 
-			Vector2Int landed = MapCoord.WorldToTile(player.transform.position);
+			Vector2Int landed = BodyTile(player);
 
 			if (MapCoord.IsWalkable(landed.x, landed.y) == false)
 			{
 				breaches.Add($"{name}: ({from.x},{from.y}) 에서 밀었더니 벽 ({landed.x},{landed.y}) 로 들어갔다 "
-					+ $"(월드 {player.transform.position})");
+					+ $"(몸통 {player.GetComponent<Collider2D>().bounds.center})");
 			}
 		}
 
 		bot.Dispose();
 		Assert.IsEmpty(breaches, string.Join("\n", breaches));
+	}
+
+	static Vector2Int BodyTile(PlayerController player)
+	{
+		Collider2D body = player.GetComponent<Collider2D>();
+		Vector3 probe = body != null ? body.bounds.center : player.transform.position;
+		return MapCoord.WorldToTile(probe);
 	}
 
 	static Vector2Int FindTileFacing(MapData map, Vector2Int step)

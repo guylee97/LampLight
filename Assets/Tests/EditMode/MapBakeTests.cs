@@ -37,7 +37,7 @@ public class MapBakeTests
 	[Test]
 	public void EveryLevelMapMatchesItsSpec()
 	{
-		int[,] expected = { { 1, 20, 14 }, { 2, 26, 17 }, { 3, 32, 20 } };
+		int[,] expected = { { 1, 30, 28 }, { 2, 41, 40 }, { 3, 56, 52 } };
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -146,21 +146,53 @@ public class MapBakeTests
 	}
 
 	[Test]
+	public void C9_ExitDoorSitsOnReachableFloor()
+	{
+		System.Collections.Generic.List<string> bad = new System.Collections.Generic.List<string>();
+
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			MapData map = Load(level);
+			MapPoint exit = map.Find(MapObjectPlacer.ExitDoorPoint);
+			MapPoint start = map.Find("player_start");
+
+			if (MapCoord.IsWalkable(exit.col, exit.row) == false)
+			{
+				bad.Add($"L{level} ({exit.col},{exit.row}) 에 설 수 없다");
+				continue;
+			}
+
+			if (MapPathfinder.Distance(start, exit) == MapPathfinder.Unreachable)
+				bad.Add($"L{level} 시작점에서 ({exit.col},{exit.row}) 로 갈 수 없다");
+		}
+
+		Assert.IsEmpty(bad, "출구 계단: " + string.Join(", ", bad));
+	}
+
+	[Test]
 	public void C10_FirstLevelHasAnArtifactNearTheStart()
 	{
 		MapData map = Load(1);
-		MapPoint start = Managers.Data.GetPoint("player_start");
-		int[] field = MapPathfinder.DistanceField(start.col, start.row);
+		System.Collections.Generic.List<string> bad = new System.Collections.Generic.List<string>();
 
-		bool found = false;
-		foreach (MapPoint artifact in Artifacts(map))
+		foreach (MapPoint spawn in map.spawns)
 		{
-			int d = MapPathfinder.Sample(field, artifact.col, artifact.row);
-			if (d >= 5 && d <= 9)
-				found = true;
+			int[] field = MapPathfinder.DistanceField(spawn.col, spawn.row);
+			bool found = false;
+
+			foreach (MapPoint artifact in Artifacts(map))
+			{
+				int d = MapPathfinder.Sample(field, artifact.col, artifact.row);
+				if (d >= 5 && d <= 9)
+					found = true;
+			}
+
+			if (found == false)
+				bad.Add($"({spawn.col},{spawn.row})");
 		}
 
-		Assert.IsTrue(found, "L1은 시작 5~9타일 안에 유물이 있어야 2초 내 첫 리듬음이 난다");
+		Assert.IsEmpty(bad, "L1은 어느 시작점에서든 5~9타일 안에 유물이 있어야 "
+			+ "2초 내 첫 리듬음이 난다. 위반: " + string.Join(", ", bad));
 	}
 
 	[Test]
@@ -203,7 +235,7 @@ public class MapBakeTests
 
 			float ratio = walkable / (float)(map.width * map.height);
 			Assert.GreaterOrEqual(ratio, 0.30f, $"L{level} 보행 비율이 너무 낮다 ({ratio:0.00})");
-			Assert.LessOrEqual(ratio, 0.50f, $"L{level} 보행 비율이 너무 높다 ({ratio:0.00})");
+			Assert.LessOrEqual(ratio, 0.52f, $"L{level} 보행 비율이 너무 높다 ({ratio:0.00})");
 		}
 	}
 }

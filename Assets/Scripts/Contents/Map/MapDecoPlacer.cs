@@ -109,8 +109,9 @@ public class MapDecoPlacer : MonoBehaviour
 			go.transform.SetParent(parent, false);
 
 			Bounds bounds = sprite.bounds;
-			float scaleX = bounds.size.x > 0.0f ? placement.width / bounds.size.x : 1.0f;
-			float scaleY = bounds.size.y > 0.0f ? placement.height / bounds.size.y : 1.0f;
+			float trim = DecoSpec.DisplayScale(placement.key);
+			float scaleX = bounds.size.x > 0.0f ? placement.width * trim / bounds.size.x : 1.0f;
+			float scaleY = bounds.size.y > 0.0f ? placement.height * trim / bounds.size.y : 1.0f;
 
 			go.transform.localScale = new Vector3(scaleX, scaleY, 1.0f);
 			go.transform.position = new Vector3(
@@ -150,11 +151,19 @@ public class MapDecoPlacer : MonoBehaviour
 		}
 	}
 
+	public const float MapObjectClearance = 0.35f;
+
 	void AttachFixedCollision(GameObject go, MapDecoration placement, float scaleX, float scaleY)
 	{
 		if (placement.collisionEnabled == false
 			|| placement.colliderWidth <= 0.0f || placement.colliderHeight <= 0.0f)
 			return;
+
+		if (SealsMapObject(placement))
+		{
+			Debug.LogWarning($"MapDecoPlacer: '{placement.key}' 가 필수 지점을 막아 충돌을 껐다");
+			return;
+		}
 
 		float absScaleX = Mathf.Max(0.0001f, Mathf.Abs(scaleX));
 		float absScaleY = Mathf.Max(0.0001f, Mathf.Abs(scaleY));
@@ -171,6 +180,29 @@ public class MapDecoPlacer : MonoBehaviour
 		collider.offset = new Vector2(
 			(worldCenter.x - go.transform.position.x) / scaleX,
 			(worldCenter.y - go.transform.position.y) / scaleY);
+	}
+
+	public static bool SealsMapObject(MapDecoration placement)
+	{
+		MapData map = Managers.Data.Map;
+		if (map == null || map.objects == null)
+			return false;
+
+		float centerX = placement.x + placement.width * 0.5f + placement.colliderOffsetX;
+		float centerY = map.height - placement.y + placement.colliderOffsetY;
+		float halfWidth = placement.colliderWidth * 0.5f;
+		float halfHeight = placement.colliderHeight * 0.5f;
+
+		foreach (MapPoint point in map.objects)
+		{
+			Vector3 world = MapCoord.ToWorld(point);
+
+			if (Mathf.Abs(world.x - centerX) < halfWidth + MapObjectClearance
+				&& Mathf.Abs(world.y - centerY) < halfHeight + MapObjectClearance)
+				return true;
+		}
+
+		return false;
 	}
 
 	static bool IsGroundDecoration(string key)

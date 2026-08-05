@@ -72,6 +72,7 @@ public class GameManagerEx
         LastScore = 0;
         LastGrade = "C";
         SetPaused(false);
+        Time.timeScale = 1.0f;
     }
 
     public void GameOver()
@@ -127,11 +128,12 @@ public class GameManagerEx
 
     public void SetPaused(bool paused)
     {
+        Time.timeScale = paused ? 0 : 1;
+
         if (IsPaused == paused)
             return;
 
         IsPaused = paused;
-        Time.timeScale = paused ? 0 : 1;
 
         if (OnPauseChanged != null)
             OnPauseChanged.Invoke(paused);

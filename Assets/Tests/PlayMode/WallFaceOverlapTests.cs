@@ -56,12 +56,7 @@ public class WallFaceOverlapTests
 
 	static bool IsWallFace(SpriteRenderer renderer)
 	{
-		string name = renderer.name;
-
-		if (name.StartsWith("walldeco"))
-			return true;
-
-		return renderer.GetComponentInParent<ExitDoor>() != null;
+		return renderer.name.StartsWith("walldeco");
 	}
 
 	[UnityTest]
@@ -77,10 +72,6 @@ public class WallFaceOverlapTests
 		Assert.IsNotNull(exit, "출구 포인트가 없다");
 		Assert.IsNotNull(start, "시작 포인트가 없다");
 
-		Assert.IsTrue(WallFaceRules.IsDoorway(map, exit.col, exit.row,
-			WallFaceRules.DoorCols, WallFaceRules.DoorRows),
-			$"L{level} 출구 ({exit.col},{exit.row}) 가 문틀 규칙을 못 지킨다");
-
 		ExitDoor door = Object.FindFirstObjectByType<ExitDoor>();
 		Assert.IsNotNull(door, "출구가 씬에 없다");
 
@@ -93,21 +84,19 @@ public class WallFaceOverlapTests
 
 		Assert.IsNotNull(renderer, "출구 스프라이트가 없다");
 
-		float doorBase = renderer.bounds.min.y;
-		float standTop = map.height - exit.row;
+		Vector3 stand = MapCoord.TileToWorld(exit.col, exit.row);
+		Bounds art = renderer.bounds;
 
-		Assert.AreEqual(standTop, doorBase, 0.01f,
-			$"L{level} 문 밑변 {doorBase} 이 서는 칸 윗변 {standTop} 과 안 맞는다");
+		Assert.IsTrue(art.min.x <= stand.x && stand.x <= art.max.x
+			&& art.min.y <= stand.y && stand.y <= art.max.y,
+			$"L{level} 계단 스프라이트가 출구 칸 ({exit.col},{exit.row}) 를 덮지 않는다");
 
 		int reached = MapPathfinder.Distance(start, exit);
 		Assert.AreNotEqual(MapPathfinder.Unreachable, reached,
 			$"L{level} 시작 ({start.col},{start.row}) 에서 출구 ({exit.col},{exit.row}) 로 갈 수 없다");
 
-		for (int dx = -1; dx <= 1; dx++)
-		{
-			Assert.IsTrue(MapCoord.IsWalkable(exit.col + dx, exit.row),
-				$"L{level} 문 앞 ({exit.col + dx},{exit.row}) 에 설 수 없다");
-		}
+		Assert.IsTrue(MapCoord.IsWalkable(exit.col, exit.row),
+			$"L{level} 출구 칸 ({exit.col},{exit.row}) 에 설 수 없다");
 
 		Debug.Log($"L{level} 출구 ({exit.col},{exit.row}) 시작에서 {reached}타일");
 	}

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+	const float EnemyClearance = 0.35f;
+
 	[SerializeField]
 	string _walkerPath = "WalkerZombie";
 
@@ -75,6 +77,9 @@ public class EnemySpawner : MonoBehaviour
 			for (int col = 0; col < map.width; col++)
 			{
 				if (MapCoord.IsWalkable(col, row) == false)
+					continue;
+
+				if (SpawnSelector.BlockedByDecoration(MapCoord.TileToWorld(col, row), EnemyClearance))
 					continue;
 
 				int distance = MapPathfinder.Sample(field, col, row);

@@ -7,15 +7,13 @@ public static class ActorPhysicsSetup
 	const string MaterialDir = "Assets/Resources/Physics";
 	const string MaterialPath = MaterialDir + "/Frictionless.physicsMaterial2D";
 
-	static readonly (string Path, Define.Layer Layer)[] ActorPrefabs =
+	static readonly (string Path, Define.Layer Layer, Vector2 Body, float FootOffset)[] ActorPrefabs =
 	{
-		("Assets/Resources/Prefabs/Player.prefab", Define.Layer.Player),
-		("Assets/Resources/Prefabs/DefaultZombie.prefab", Define.Layer.Enemy),
-		("Assets/Resources/Prefabs/ActiveZombie.prefab", Define.Layer.Enemy),
+		("Assets/Resources/Prefabs/Player.prefab", Define.Layer.Player, new Vector2(0.34f, 0.18f), -0.238f),
+		("Assets/Resources/Prefabs/WalkerZombie.prefab", Define.Layer.Enemy, new Vector2(0.34f, 0.18f), -0.262f),
+		("Assets/Resources/Prefabs/WandererZombie.prefab", Define.Layer.Enemy, new Vector2(0.50f, 0.26f), -0.214f),
+		("Assets/Resources/Prefabs/RunnerZombie.prefab", Define.Layer.Enemy, new Vector2(0.62f, 0.32f), -0.317f),
 	};
-
-	static readonly Vector2 BodySize = new Vector2(0.58f, 0.4f);
-	static readonly Vector2 BodyOffset = new Vector2(0, -0.28f);
 
 	[MenuItem("LampLight/Setup Actor Physics")]
 	public static void Setup()
@@ -24,8 +22,8 @@ public static class ActorPhysicsSetup
 
 		Physics2D.IgnoreLayerCollision((int)Define.Layer.Enemy, (int)Define.Layer.Enemy, true);
 
-		foreach ((string path, Define.Layer layer) in ActorPrefabs)
-			Apply(path, layer, material);
+		foreach ((string path, Define.Layer layer, Vector2 body, float footOffset) in ActorPrefabs)
+			Apply(path, layer, body, footOffset, material);
 
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
@@ -49,7 +47,8 @@ public static class ActorPhysicsSetup
 		return material;
 	}
 
-	static void Apply(string path, Define.Layer layer, PhysicsMaterial2D material)
+	static void Apply(string path, Define.Layer layer, Vector2 bodySize, float footOffset,
+		PhysicsMaterial2D material)
 	{
 		GameObject prefab = PrefabUtility.LoadPrefabContents(path);
 		if (prefab == null)
@@ -60,20 +59,21 @@ public static class ActorPhysicsSetup
 
 		prefab.layer = (int)layer;
 
-		CapsuleCollider2D capsule = prefab.GetComponent<CapsuleCollider2D>();
-		if (capsule == null)
+		foreach (Collider2D stale in prefab.GetComponents<Collider2D>())
 		{
-			Collider2D stale = prefab.GetComponent<Collider2D>();
-			if (stale != null)
+			if (stale is CapsuleCollider2D == false)
 				Object.DestroyImmediate(stale);
-
-			capsule = prefab.AddComponent<CapsuleCollider2D>();
 		}
 
+		CapsuleCollider2D capsule = prefab.GetComponent<CapsuleCollider2D>();
+		if (capsule == null)
+			capsule = prefab.AddComponent<CapsuleCollider2D>();
+
 		capsule.direction = CapsuleDirection2D.Horizontal;
-		capsule.size = BodySize;
-		capsule.offset = BodyOffset;
+		capsule.size = bodySize;
+		capsule.offset = new Vector2(0.0f, footOffset);
 		capsule.isTrigger = false;
+		capsule.sharedMaterial = material;
 
 		Rigidbody2D body = prefab.GetComponent<Rigidbody2D>();
 		if (body == null)
@@ -88,6 +88,6 @@ public static class ActorPhysicsSetup
 
 		PrefabUtility.SaveAsPrefabAsset(prefab, path);
 		PrefabUtility.UnloadPrefabContents(prefab);
-		Debug.Log($"ActorPhysicsSetup: {path} (layer {(int)layer})");
+		Debug.Log($"ActorPhysicsSetup: {path} (layer {(int)layer}, body {bodySize.x}x{bodySize.y})");
 	}
 }

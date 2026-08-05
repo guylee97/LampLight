@@ -72,9 +72,18 @@ public class UI_MainScreen : UI_Scene
 
 			buttonImage.sprite = buttonSprite;
 			buttonImage.preserveAspect = true;
-			Text text = start.GetComponentInChildren<Text>(true);
-			if (text != null)
-				text.gameObject.SetActive(false);
+			HideButtonLabel(start);
+		}
+	}
+
+	static void HideButtonLabel(Button start)
+	{
+		foreach (Graphic label in start.GetComponentsInChildren<Graphic>(true))
+		{
+			if (label.gameObject == start.gameObject || label is Image)
+				continue;
+
+			label.gameObject.SetActive(false);
 		}
 	}
 

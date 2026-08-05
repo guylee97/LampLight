@@ -19,6 +19,28 @@ public class MapPathfinderTests
 	}
 
 	[Test]
+	public void DecorationColliderBlocksTheTileButNotTheWallCheck()
+	{
+		MapTestFixture.Install(MapTestFixture.DecorationBlock());
+
+		Assert.IsTrue(MapCoord.IsWalkable(MapTestFixture.BlockedCol, MapTestFixture.BlockedRow),
+			"장식물이 놓인 칸은 벽 타일이 아니다");
+		Assert.IsFalse(MapCoord.IsPassable(MapTestFixture.BlockedCol, MapTestFixture.BlockedRow),
+			"장식물 충돌 영역은 통행 불가로 잡혀야 한다");
+	}
+
+	[Test]
+	public void PathDetoursAroundDecorationCollider()
+	{
+		MapTestFixture.Install(MapTestFixture.DecorationBlock());
+
+		Assert.IsTrue(MapPathfinder.TryFindPath(new Vector2Int(0, 2), new Vector2Int(6, 2), _path));
+		CollectionAssert.DoesNotContain(_path,
+			new Vector2Int(MapTestFixture.BlockedCol, MapTestFixture.BlockedRow),
+			"경로가 장식물 충돌 영역을 지나면 좀비가 낀다");
+	}
+
+	[Test]
 	public void FindsPathAroundWall()
 	{
 		Assert.IsTrue(MapPathfinder.TryFindPath(new Vector2Int(0, 2), new Vector2Int(6, 2), _path));

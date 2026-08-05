@@ -91,7 +91,7 @@ public class WalkerZombie : EnemyBase
 			return;
 		}
 
-		_moveDir = toLastHeardPosition.normalized;
+		_moveDir = SteerTowards(_lastHeardPosition);
 		UpdateAnimatorDirection(_moveDir);
 	}
 

@@ -40,6 +40,32 @@ public static class MapTestFixture
 	public const int PlainFloorGid = 2;
 	public const int NoisyRow = 0;
 
+	public const int BlockedCol = 3;
+	public const int BlockedRow = 2;
+
+	public static MapData DecorationBlock()
+	{
+		MapData map = Build(new int[Width * Height]);
+
+		map.decorations = new[]
+		{
+			new MapDecoration
+			{
+				key = "prop_test_block",
+				resource = string.Empty,
+				x = BlockedCol,
+				y = Height - (Height - 1 - BlockedRow) - 0.5f,
+				width = 1.0f,
+				height = 1.0f,
+				collisionEnabled = true,
+				colliderWidth = 0.8f,
+				colliderHeight = 0.8f,
+			},
+		};
+
+		return map;
+	}
+
 	public static MapData Build(int[] walls)
 	{
 		MapData map = new MapData();

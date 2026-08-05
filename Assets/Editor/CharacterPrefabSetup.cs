@@ -3,13 +3,11 @@ using UnityEngine;
 
 public static class CharacterPrefabSetup
 {
-	const int ColliderPixelsPerUnit = 64;
-
 	static readonly (string Prefab, string Character)[] Mapping =
 	{
 		("Assets/Resources/Prefabs/Player.prefab", "player"),
-		("Assets/Resources/Prefabs/DefaultZombie.prefab", "zombie_walker"),
-		("Assets/Resources/Prefabs/ActiveZombie.prefab", "zombie_wanderer"),
+		("Assets/Resources/Prefabs/WalkerZombie.prefab", "zombie_walker"),
+		("Assets/Resources/Prefabs/WandererZombie.prefab", "zombie_wanderer"),
 		("Assets/Resources/Prefabs/RunnerZombie.prefab", "zombie_runner"),
 	};
 
@@ -76,48 +74,13 @@ public static class CharacterPrefabSetup
 		if (legacy != null)
 			legacy.enabled = false;
 
-		ApplyCollider(root, spec);
 		ApplyFirstSprite(renderer, spec);
 
 		PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
 		PrefabUtility.UnloadPrefabContents(root);
 
-		Debug.Log($"CharacterPrefabSetup: {characterKey} -> {prefabPath} "
-			+ $"(충돌 {spec.colliderW}x{spec.colliderH}px)");
+		Debug.Log($"CharacterPrefabSetup: {characterKey} -> {prefabPath}");
 		return true;
-	}
-
-	static void ApplyCollider(GameObject root, CharacterSpec spec)
-	{
-		if (spec.colliderW <= 0.0f || spec.colliderH <= 0.0f)
-			return;
-
-		Vector2 size = spec.ColliderSize(ColliderPixelsPerUnit);
-
-		CapsuleCollider2D capsule = root.GetComponent<CapsuleCollider2D>();
-		if (capsule != null)
-		{
-			capsule.size = size;
-			capsule.offset = Vector2.zero;
-			EditorUtility.SetDirty(capsule);
-			return;
-		}
-
-		BoxCollider2D box = root.GetComponent<BoxCollider2D>();
-		if (box != null)
-		{
-			box.size = size;
-			box.offset = Vector2.zero;
-			EditorUtility.SetDirty(box);
-			return;
-		}
-
-		CircleCollider2D circle = root.GetComponent<CircleCollider2D>();
-		if (circle != null)
-		{
-			circle.radius = Mathf.Min(size.x, size.y) * 0.5f;
-			EditorUtility.SetDirty(circle);
-		}
 	}
 
 	static void ApplyFirstSprite(SpriteRenderer renderer, CharacterSpec spec)
