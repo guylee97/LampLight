@@ -31,8 +31,8 @@ public class InteractionTests
 	public void ConcealmentHoldGrowsWithLevel()
 	{
 		Assert.AreEqual(0.0f, ConcealmentRules.HoldSeconds(0), 0.001f);
-		Assert.AreEqual(1.0f, ConcealmentRules.HoldSeconds(1), 0.001f);
-		Assert.AreEqual(1.5f, ConcealmentRules.HoldSeconds(2), 0.001f);
+		Assert.AreEqual(2.0f, ConcealmentRules.HoldSeconds(1), 0.001f);
+		Assert.AreEqual(3.0f, ConcealmentRules.HoldSeconds(2), 0.001f);
 	}
 
 	[Test]
