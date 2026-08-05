@@ -59,8 +59,8 @@ public static class MapCoord
 		return IsWalkable(tile.x, tile.y);
 	}
 
-	public const float ActorHalfWidth = 0.17f;
-	public const float ActorHalfHeight = 0.09f;
+	public const float ActorHalfWidth = 0.22f;
+	public const float ActorHalfHeight = 0.12f;
 
 	static MapData _blockedFor;
 	static bool[] _blockedTiles;
