@@ -11,6 +11,14 @@ public static class DecoSpec
 
 	public const float DebrisRatio = 0.012f;
 	public const float DebrisWallWeight = 0.70f;
+	public const float DebrisDisplayScale = 0.7f;
+
+	public static float DisplayScale(string key)
+	{
+		return string.IsNullOrEmpty(key) || key.StartsWith("debris_") == false
+			? 1.0f
+			: DebrisDisplayScale;
+	}
 
 	public const float MossRatio = 0.045f;
 	public const int MossCornerWeight = 3;
