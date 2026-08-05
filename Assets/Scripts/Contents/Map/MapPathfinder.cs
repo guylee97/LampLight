@@ -67,7 +67,7 @@ public static class MapPathfinder
 
 		int[] dist = NewField(map);
 
-		if (MapCoord.IsWalkable(startCol, startRow) == false)
+		if (MapCoord.IsPassable(startCol, startRow) == false)
 		{
 			_fieldCache[key] = dist;
 			return dist;
@@ -89,7 +89,7 @@ public static class MapPathfinder
 				int nc = col + DirCol[d];
 				int nr = row + DirRow[d];
 
-				if (MapCoord.IsWalkable(nc, nr) == false)
+				if (MapCoord.IsPassable(nc, nr) == false)
 					continue;
 
 				int ni = nr * map.width + nc;
@@ -157,7 +157,7 @@ public static class MapPathfinder
 		if (map == null)
 			return false;
 
-		if (MapCoord.IsWalkable(start.x, start.y) == false || MapCoord.IsWalkable(goal.x, goal.y) == false)
+		if (MapCoord.IsPassable(start.x, start.y) == false || MapCoord.IsPassable(goal.x, goal.y) == false)
 			return false;
 
 		int width = map.width;
@@ -211,10 +211,10 @@ public static class MapPathfinder
 				int nc = col + StepCol[d];
 				int nr = row + StepRow[d];
 
-				if (MapCoord.IsWalkable(nc, nr) == false)
+				if (MapCoord.IsPassable(nc, nr) == false)
 					continue;
 
-				if (d >= 4 && (MapCoord.IsWalkable(nc, row) == false || MapCoord.IsWalkable(col, nr) == false))
+				if (d >= 4 && (MapCoord.IsPassable(nc, row) == false || MapCoord.IsPassable(col, nr) == false))
 					continue;
 
 				int ni = nr * width + nc;

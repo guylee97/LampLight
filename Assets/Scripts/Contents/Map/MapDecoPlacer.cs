@@ -182,7 +182,7 @@ public class MapDecoPlacer : MonoBehaviour
 			(worldCenter.y - go.transform.position.y) / scaleY);
 	}
 
-	static bool SealsMapObject(MapDecoration placement)
+	public static bool SealsMapObject(MapDecoration placement)
 	{
 		MapData map = Managers.Data.Map;
 		if (map == null || map.objects == null)
