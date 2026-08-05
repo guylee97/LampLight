@@ -74,6 +74,8 @@ public class InGameScene : MonoBehaviour
 		if (_deco != null)
 			_deco.Place(Managers.Data.LastSeed >= 0 ? Managers.Data.LastSeed : mapSeed);
 
+		BakeCollision();
+
 		ApplyLevelConfig(config);
 
 		System.Random rng = configured < 0 ? new System.Random() : new System.Random(configured);
@@ -92,6 +94,18 @@ public class InGameScene : MonoBehaviour
 		_remainingSeconds = config.DeadlineSeconds;
 
 		Managers.Game.OnStageEnded += OnStageEnded;
+	}
+
+	void BakeCollision()
+	{
+		MapCollisionBaker baker = FindFirstObjectByType<MapCollisionBaker>();
+		if (baker == null)
+		{
+			GameObject host = new GameObject(nameof(MapCollisionBaker));
+			baker = host.AddComponent<MapCollisionBaker>();
+		}
+
+		baker.Build(Managers.Data.Map);
 	}
 
 	void ApplyLevelConfig(LevelConfig config)

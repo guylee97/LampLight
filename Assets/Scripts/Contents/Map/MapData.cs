@@ -88,6 +88,7 @@ public class MapData : ILoader<string, MapPoint>
 	public int[] floor;
 	public int[] walls;
 	public int[] deco;
+	public int[] collision;
 
 	public MapTileProp[] tileProps;
 	public MapTileset[] tilesets;
@@ -141,6 +142,26 @@ public class MapData : ILoader<string, MapPoint>
 		{
 			error = $"layer length mismatch: expected {expected}, got floor={LayerLength(floor)} walls={LayerLength(walls)} deco={LayerLength(deco)}";
 			return false;
+		}
+
+		if (collision != null)
+		{
+			if (collision.Length != expected)
+			{
+				error = $"collision length mismatch: expected {expected}, got {collision.Length}";
+				return false;
+			}
+
+			for (int i = 0; i < collision.Length; i++)
+			{
+				int code = collision[i];
+				if (code != MapCoord.CollisionWalk && code != MapCoord.CollisionBlock
+					&& code != MapCoord.CollisionNoise && code != MapCoord.CollisionMuffled)
+				{
+					error = $"collision[{i}] has undefined code {code}";
+					return false;
+				}
+			}
 		}
 
 		if (spawns == null || spawns.Length == 0)
