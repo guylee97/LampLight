@@ -146,6 +146,30 @@ public class MapBakeTests
 	}
 
 	[Test]
+	public void C9_ExitDoorSitsOnReachableFloor()
+	{
+		System.Collections.Generic.List<string> bad = new System.Collections.Generic.List<string>();
+
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			MapData map = Load(level);
+			MapPoint exit = map.Find(MapObjectPlacer.ExitDoorPoint);
+			MapPoint start = map.Find("player_start");
+
+			if (MapCoord.IsWalkable(exit.col, exit.row) == false)
+			{
+				bad.Add($"L{level} ({exit.col},{exit.row}) 에 설 수 없다");
+				continue;
+			}
+
+			if (MapPathfinder.Distance(start, exit) == MapPathfinder.Unreachable)
+				bad.Add($"L{level} 시작점에서 ({exit.col},{exit.row}) 로 갈 수 없다");
+		}
+
+		Assert.IsEmpty(bad, "출구 계단: " + string.Join(", ", bad));
+	}
+
+	[Test]
 	public void C10_FirstLevelHasAnArtifactNearTheStart()
 	{
 		MapData map = Load(1);

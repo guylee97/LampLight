@@ -63,10 +63,17 @@ public class SceneSmokeTests
 
 		LevelConfig config = Managers.Game.Level;
 
-		Assert.AreEqual(config.ArtifactsPlaced, placer.Artifacts.Count,
-			"배치된 유물 수가 레벨 정의와 다르다");
+		int stashed = 0;
+		foreach (Container container in Object.FindObjectsByType<Container>(FindObjectsSortMode.None))
+		{
+			if (container.HoldsArtifact)
+				stashed++;
+		}
 
-		Assert.GreaterOrEqual(placer.Artifacts.Count, progress.Required,
+		Assert.AreEqual(config.ArtifactsPlaced, placer.Artifacts.Count + stashed,
+			"배치된 유물 수가 레벨 정의와 다르다 (컨테이너에 숨긴 것 포함)");
+
+		Assert.GreaterOrEqual(placer.Artifacts.Count + stashed, progress.Required,
 			"배치 수가 필요 수보다 적으면 클리어가 불가능하다");
 
 		Assert.IsNotNull(placer.ExitDoor, "출구가 배치되지 않았다");

@@ -26,6 +26,8 @@ public class Container : MonoBehaviour, IInteractable
 
 	bool _opened;
 	bool _containsArtifact;
+
+	public bool HoldsArtifact { get { return _containsArtifact; } }
 	StageProgress _progress;
 
 	public Action<Container> OnOpened;
