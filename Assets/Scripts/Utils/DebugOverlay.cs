@@ -23,7 +23,7 @@ public class DebugOverlay : MonoBehaviour
 	}
 
 	[SerializeField]
-	bool _enabledInBuild = true;
+	bool _enabledInBuild = false;
 
 	[SerializeField]
 	float _panelWidth = 520.0f;
@@ -244,6 +244,7 @@ public class DebugOverlay : MonoBehaviour
 		if (_style == null)
 		{
 			_style = new GUIStyle(GUI.skin.label);
+			_style.font = KoreanFont.Font;
 			_style.fontSize = 18;
 			_style.richText = false;
 			_style.wordWrap = false;
@@ -252,6 +253,7 @@ public class DebugOverlay : MonoBehaviour
 		if (_legendStyle == null)
 		{
 			_legendStyle = new GUIStyle(GUI.skin.label);
+			_legendStyle.font = KoreanFont.Font;
 			_legendStyle.fontSize = 18;
 			_legendStyle.alignment = TextAnchor.UpperRight;
 			_legendStyle.richText = false;
