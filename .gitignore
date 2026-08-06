@@ -115,3 +115,6 @@ __pycache__/
 # QA harness output
 /QAReports/
 /[Cc]overage/
+
+# Raw audio staging outside Assets (Tools/slice_footsteps.py reads Audio/Incoming)
+/Audio/
