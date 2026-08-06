@@ -201,7 +201,7 @@ public class UI_InGame : UI_Scene
 		textRect.offsetMax = Vector2.zero;
 
 		_holdProgressText = textObject.GetComponent<Text>();
-		_holdProgressText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+		_holdProgressText.font = KoreanFont.Font;
 		_holdProgressText.fontSize = 30;
 		_holdProgressText.alignment = TextAnchor.MiddleCenter;
 		_holdProgressText.color = new Color(1.0f, 0.82f, 0.42f, 1.0f);
@@ -247,7 +247,7 @@ public class UI_InGame : UI_Scene
 		rect.anchorMax = new Vector2(0.5f, 0.08f);
 		rect.sizeDelta = new Vector2(600, 60);
 		_noticeText = go.GetComponent<Text>();
-		_noticeText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+		_noticeText.font = KoreanFont.Font;
 		_noticeText.fontSize = 30;
 		_noticeText.alignment = TextAnchor.MiddleCenter;
 		_noticeText.color = Color.white;

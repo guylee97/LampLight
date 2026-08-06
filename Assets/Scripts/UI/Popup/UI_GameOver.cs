@@ -38,7 +38,7 @@ public class UI_GameOver : UI_Popup
 
 		Text titleText = title.GetComponent<Text>();
 		titleText.text = "GAME OVER";
-		titleText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+		titleText.font = KoreanFont.Font;
 		titleText.fontSize = 72;
 		titleText.alignment = TextAnchor.MiddleCenter;
 		titleText.color = Color.white;

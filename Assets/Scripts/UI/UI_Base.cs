@@ -13,6 +13,7 @@ public abstract class UI_Base : MonoBehaviour
 	private void Start()
 	{
 		Init();
+		KoreanFont.ApplyAll(gameObject);
 	}
 
 	protected void Bind<T>(Type type) where T : UnityEngine.Object
