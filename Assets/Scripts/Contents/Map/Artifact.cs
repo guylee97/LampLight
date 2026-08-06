@@ -1,9 +1,25 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Collider2D))]
 public class Artifact : MonoBehaviour, IInteractable
 {
+	[SerializeField, Min(0.1f)]
+	float _glowRadiusTiles = 5.0f;
+
+	[SerializeField]
+	float _glowIntensity = 0.9f;
+
+	[SerializeField]
+	Color _glowColor = new Color(1.0f, 0.83f, 0.45f, 1.0f);
+
+	[SerializeField]
+	float _glowPulseSpeed = 2.2f;
+
+	Light2D _glow;
+	Transform _listener;
+
 	[SerializeField]
 	string _pointName;
 
@@ -52,6 +68,73 @@ public class Artifact : MonoBehaviour, IInteractable
 	public void SetConcealment(int level)
 	{
 		_concealment = Mathf.Clamp(level, 0, 2);
+	}
+
+	void Update()
+	{
+		if (_collected)
+		{
+			if (_glow != null)
+				_glow.enabled = false;
+
+			return;
+		}
+
+		if (ResolveListener() == false)
+		{
+			if (_glow != null)
+				_glow.enabled = false;
+
+			return;
+		}
+
+		float distance = Vector2.Distance(transform.position, _listener.position);
+		float near = Mathf.Clamp01(1.0f - distance / _glowRadiusTiles);
+
+		if (near <= 0.0f)
+		{
+			if (_glow != null)
+				_glow.enabled = false;
+
+			return;
+		}
+
+		EnsureGlow();
+
+		float pulse = 0.85f + 0.15f * Mathf.Sin(Time.time * _glowPulseSpeed);
+		_glow.enabled = true;
+		_glow.intensity = _glowIntensity * near * near * pulse;
+		_glow.pointLightOuterRadius = _glowRadiusTiles * 0.5f * (0.6f + 0.4f * near);
+	}
+
+	bool ResolveListener()
+	{
+		if (_listener != null)
+			return true;
+
+		PlayerController player = FindFirstObjectByType<PlayerController>();
+		if (player == null)
+			return false;
+
+		_listener = player.transform;
+		return true;
+	}
+
+	void EnsureGlow()
+	{
+		if (_glow != null)
+			return;
+
+		GameObject go = new GameObject("ArtifactGlow");
+		go.transform.SetParent(transform, false);
+
+		_glow = go.AddComponent<Light2D>();
+		_glow.lightType = Light2D.LightType.Point;
+		_glow.color = _glowColor;
+		_glow.pointLightInnerRadius = 0.0f;
+		_glow.pointLightOuterAngle = 360.0f;
+		_glow.pointLightInnerAngle = 360.0f;
+		_glow.shadowsEnabled = false;
 	}
 
 	public void Init(StageProgress progress, string pointName)

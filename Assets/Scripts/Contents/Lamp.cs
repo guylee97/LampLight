@@ -25,16 +25,28 @@ public class Lamp : MonoBehaviour
 	float _shadowIntensity = 1.0f;
 
 	[SerializeField]
-	float _innerRangeRatio = 0.65f;
+	float _innerRangeRatio = 0.15f;
 
 	[SerializeField]
 	float _innerAngleRatio = 0.8f;
 
 	[SerializeField]
-	float _orbRadius = 1.4f;
+	float _orbRadius = 1.9f;
 
 	[SerializeField]
-	float _forwardOffset = 1.2f;
+	float _forwardOffset = 0.25f;
+
+	[SerializeField]
+	Color _warmColor = new Color(1.0f, 0.576f, 0.161f, 1.0f);
+
+	[SerializeField, Range(0.0f, 0.5f)]
+	float _flickerAmount = 0.12f;
+
+	[SerializeField]
+	float _flickerSpeed = 7.0f;
+
+	[SerializeField, Range(0.0f, 0.5f)]
+	float _flickerRadiusAmount = 0.05f;
 
 	[SerializeField]
 	Light2D _light;
@@ -207,13 +219,15 @@ public class Lamp : MonoBehaviour
 			return;
 
 		float radius = _listening ? _orbRadius * _listenRangeRatio : _orbRadius;
+		float flicker = Flicker();
 
 		_light.enabled = IsOn;
 		_light.lightType = Light2D.LightType.Point;
-		_light.intensity = _intensity;
+		_light.color = _warmColor;
+		_light.intensity = _intensity * (1.0f + flicker * _flickerAmount);
 		_light.shadowsEnabled = true;
 		_light.shadowIntensity = _shadowIntensity;
-		_light.pointLightOuterRadius = radius;
+		_light.pointLightOuterRadius = radius * (1.0f + flicker * _flickerRadiusAmount);
 		_light.pointLightInnerRadius = radius * _innerRangeRatio;
 		_light.pointLightOuterAngle = 360.0f;
 		_light.pointLightInnerAngle = 360.0f;
@@ -227,6 +241,15 @@ public class Lamp : MonoBehaviour
 		_light.pointLightOuterAngle = angle;
 		_light.pointLightInnerAngle = angle * _innerAngleRatio;
 		*/
+	}
+
+	float Flicker()
+	{
+		if (_flickerAmount <= 0.0f && _flickerRadiusAmount <= 0.0f)
+			return 0.0f;
+
+		float t = Time.time * _flickerSpeed;
+		return Mathf.PerlinNoise(t, 0.0f) * 2.0f - 1.0f;
 	}
 
 	public bool IsInLightCone(Vector3 position)
