@@ -84,7 +84,9 @@ public class TutorialController : MonoBehaviour
 		GameObject textGo = new GameObject("Line");
 		textGo.transform.SetParent(canvasGo.transform, false);
 		_text = textGo.AddComponent<Text>();
-		_text.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+		_text.font = KoreanFont.Font != null
+			? KoreanFont.Font
+			: Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
 		_text.fontSize = 30;
 		_text.alignment = TextAnchor.MiddleCenter;
 		_text.color = new Color(0.90f, 0.76f, 0.53f, 1.0f);

@@ -41,41 +41,54 @@ def sprite_path(resource):
     return os.path.join(ROOT, "Assets", "Resources", resource + ".png")
 
 
-def coverage(resource, cols, rows, alpha_min, cache):
-    """스프라이트를 cols x rows 격자로 잘라 칸별 불투명 픽셀 비율을 낸다."""
-    key = (resource, cols, rows)
-    if key in cache:
-        return cache[key]
+def opaque_pixels(resource, alpha_min, cache):
+    """스프라이트의 불투명 픽셀 좌표와 크기. 없으면 None."""
+    if resource in cache:
+        return cache[resource]
 
     from PIL import Image
 
     path = sprite_path(resource)
     if not os.path.exists(path):
-        cache[key] = None
+        cache[resource] = None
         return None
 
     alpha = Image.open(path).convert("RGBA").split()[3]
     w, h = alpha.size
     px = alpha.load()
-    grid = []
+    solid = [
+        (x, y)
+        for y in range(h)
+        for x in range(w)
+        if px[x, y] >= alpha_min
+    ]
 
-    for r in range(rows):
-        row = []
-        for c in range(cols):
-            x0, x1 = w * c // cols, w * (c + 1) // cols
-            y0, y1 = h * r // rows, h * (r + 1) // rows
-            area = max(1, (x1 - x0) * (y1 - y0))
-            solid = sum(
-                1
-                for y in range(y0, y1)
-                for x in range(x0, x1)
-                if px[x, y] >= alpha_min
-            )
-            row.append(solid / area)
-        grid.append(row)
+    cache[resource] = (w, h, solid)
+    return cache[resource]
 
-    cache[key] = grid
-    return grid
+
+def tile_coverage(resource, left, bottom, span_x, span_y, alpha_min, cache):
+    """그려지는 자리를 기준으로 타일별로 덮은 면적을 낸다.
+
+    스프라이트를 격자로 잘라 칸마다 비율을 내면 반 칸짜리 그림도 한 칸을
+    통째로 막는다. 그림이 실제로 놓이는 월드 좌표에서 재야 판정이 보이는
+    것과 맞는다.
+    """
+    data = opaque_pixels(resource, alpha_min, cache)
+    if data is None:
+        return None
+
+    w, h, solid = data
+    per_pixel = (span_x / w) * (span_y / h)
+    tiles = {}
+
+    for x, y in solid:
+        world_x = left + (x + 0.5) * span_x / w
+        world_y = bottom + (h - 1 - y + 0.5) * span_y / h
+        cell = (math.floor(world_x), math.floor(world_y))
+        tiles[cell] = tiles.get(cell, 0.0) + per_pixel
+
+    return tiles
 
 
 def bake(level, assets, block_t, noise_t, alpha_min, cache):
@@ -108,30 +121,25 @@ def bake(level, assets, block_t, noise_t, alpha_min, cache):
         left = deco["x"] + deco["width"] * 0.5 - span_x * 0.5
         bottom = height - deco["y"] + deco["height"] * 0.5 - span_y * 0.5
 
-        cols = max(1, round(span_x))
-        rows = max(1, round(span_y))
-        grid = coverage(deco["resource"], cols, rows, alpha_min, cache)
-        if grid is None:
+        tiles = tile_coverage(
+            deco["resource"], left, bottom, span_x, span_y, alpha_min, cache)
+        if tiles is None:
             unknown.add(deco["resource"])
             continue
 
         threshold = block_t if verdict == BLOCK else noise_t
 
-        for gr in range(rows):
-            for gc in range(cols):
-                if grid[gr][gc] < threshold:
-                    continue
+        for (col, world_row), covered in tiles.items():
+            if covered < threshold:
+                continue
 
-                col = math.floor(left + (gc + 0.5) * span_x / cols)
-                world_y = bottom + (rows - 1 - gr + 0.5) * span_y / rows
-                row = height - 1 - math.floor(world_y)
+            row = height - 1 - world_row
+            if not (0 <= col < width and 0 <= row < height):
+                continue
 
-                if not (0 <= col < width and 0 <= row < height):
-                    continue
-
-                index = row * width + col
-                if RANK[verdict] > RANK[collision[index]]:
-                    collision[index] = verdict
+            index = row * width + col
+            if RANK[verdict] > RANK[collision[index]]:
+                collision[index] = verdict
 
     counts = {v: collision.count(v) for v in (WALK, BLOCK, NOISE, MUFFLED)}
     if unknown:
