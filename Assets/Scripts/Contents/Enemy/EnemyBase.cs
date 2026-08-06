@@ -202,6 +202,14 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 		if (_animator == null)
 			return;
 
+		if (State == Define.EnemyState.Caught)
+		{
+			_animator.speed = 0.0f;
+			return;
+		}
+
+		_animator.speed = 1.0f;
+
 		bool isChasing = State == Define.EnemyState.Chasing;
 		bool isMoving = State == Define.EnemyState.Patrol || isChasing;
 		_animator.SetBool("IsMoving", isMoving);

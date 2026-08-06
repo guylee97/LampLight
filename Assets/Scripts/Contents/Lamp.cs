@@ -68,6 +68,7 @@ public class Lamp : MonoBehaviour
 	float _listenHearingScale = 1.3f;
 
 	float _remainingDuration;
+	float _snuffScale = 1.0f;
 	float _fuelScale = 1.0f;
 	bool _listening;
 
@@ -190,6 +191,12 @@ public class Lamp : MonoBehaviour
 		return true;
 	}
 
+	public void SnuffTo(float scale)
+	{
+		_snuffScale = Mathf.Clamp01(scale);
+		ApplyLightSettings();
+	}
+
 	public void Toggle()
 	{
 		if (_isOn)
@@ -221,14 +228,14 @@ public class Lamp : MonoBehaviour
 		float radius = _listening ? _orbRadius * _listenRangeRatio : _orbRadius;
 		float flicker = Flicker();
 
-		_light.enabled = IsOn;
+		_light.enabled = IsOn && _snuffScale > 0.0f;
 		_light.lightType = Light2D.LightType.Point;
 		_light.color = _warmColor;
-		_light.intensity = _intensity * (1.0f + flicker * _flickerAmount);
+		_light.intensity = _intensity * (1.0f + flicker * _flickerAmount) * _snuffScale;
 		_light.shadowsEnabled = true;
 		_light.shadowIntensity = _shadowIntensity;
-		_light.pointLightOuterRadius = radius * (1.0f + flicker * _flickerRadiusAmount);
-		_light.pointLightInnerRadius = radius * _innerRangeRatio;
+		_light.pointLightOuterRadius = radius * (1.0f + flicker * _flickerRadiusAmount) * _snuffScale;
+		_light.pointLightInnerRadius = radius * _innerRangeRatio * _snuffScale;
 		_light.pointLightOuterAngle = 360.0f;
 		_light.pointLightInnerAngle = 360.0f;
 
