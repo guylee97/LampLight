@@ -7,9 +7,9 @@ using UnityEngine.U2D;
 
 public static class PixelPerfectSetup
 {
-	public const int AssetsPPU = 32;
-	public const int RefWidth = 320;
-	public const int RefHeight = 180;
+	public const int AssetsPPU = 64;
+	public const int RefWidth = 640;
+	public const int RefHeight = 360;
 
 	const string ScenePath = "Assets/Scenes/InGame.unity";
 
