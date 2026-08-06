@@ -45,7 +45,7 @@ public class Lamp : MonoBehaviour
 	[SerializeField]
 	float _flickerSpeed = 7.0f;
 
-	[SerializeField]
+	[SerializeField, Range(0.0f, 0.5f)]
 	float _flickerRadiusAmount = 0.05f;
 
 	[SerializeField]
@@ -245,7 +245,7 @@ public class Lamp : MonoBehaviour
 
 	float Flicker()
 	{
-		if (_flickerAmount <= 0.0f)
+		if (_flickerAmount <= 0.0f && _flickerRadiusAmount <= 0.0f)
 			return 0.0f;
 
 		float t = Time.time * _flickerSpeed;

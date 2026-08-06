@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 [RequireComponent(typeof(Collider2D))]
 public class Artifact : MonoBehaviour, IInteractable
 {
-	[SerializeField]
+	[SerializeField, Min(0.1f)]
 	float _glowRadiusTiles = 5.0f;
 
 	[SerializeField]
@@ -81,7 +81,12 @@ public class Artifact : MonoBehaviour, IInteractable
 		}
 
 		if (ResolveListener() == false)
+		{
+			if (_glow != null)
+				_glow.enabled = false;
+
 			return;
+		}
 
 		float distance = Vector2.Distance(transform.position, _listener.position);
 		float near = Mathf.Clamp01(1.0f - distance / _glowRadiusTiles);

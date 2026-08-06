@@ -44,7 +44,14 @@ public static class PixelPerfectSetup
 
 		Configure(camera, width, height);
 		EditorSceneManager.MarkSceneDirty(camera.gameObject.scene);
-		EditorSceneManager.SaveOpenScenes();
+
+		if (EditorSceneManager.SaveOpenScenes() == false)
+		{
+			Debug.LogError($"PixelPerfectSetup: {ScenePath} 저장에 실패했다");
+			EditorApplication.Exit(3);
+			return;
+		}
+
 		EditorApplication.Exit(0);
 	}
 
