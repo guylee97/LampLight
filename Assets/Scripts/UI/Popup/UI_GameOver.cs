@@ -66,16 +66,16 @@ public class UI_GameOver : UI_Popup
 		_sheet.interactable = false;
 		_sheet.blocksRaycasts = false;
 
-		Picture(sheet, "Your Dead Title", new Vector2(0.5f, 0.70f), 860.0f);
+		Picture(sheet, "Your Dead Title", new Vector2(0.5f, 0.668f), 1434.0f);
 		BuildScore(sheet);
-		Picture(sheet, "Play Again", new Vector2(0.5f, 0.34f), 260.0f);
-		Choice(sheet, "Yes button", new Vector2(0.43f, 0.24f), 170.0f, Retry);
-		Choice(sheet, "No button", new Vector2(0.57f, 0.24f), 135.0f, Quit);
+		Picture(sheet, "Play Again", new Vector2(0.5f, 0.278f), 212.0f);
+		Choice(sheet, "Yes button", new Vector2(0.4208f, 0.2046f), 184.0f, Retry);
+		Choice(sheet, "No button", new Vector2(0.5898f, 0.2046f), 143.0f, Quit);
 	}
 
 	void BuildScore(RectTransform sheet)
 	{
-		Image plank = Picture(sheet, "wooden_planks", new Vector2(0.5f, 0.5f), 300.0f);
+		Image plank = Picture(sheet, "wooden_planks", new Vector2(0.5f, 0.419f), 386.0f);
 
 		GameObject go = new GameObject("Score", typeof(RectTransform), typeof(Text));
 		go.transform.SetParent(plank != null ? plank.rectTransform : sheet, false);
