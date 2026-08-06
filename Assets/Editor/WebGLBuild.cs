@@ -46,6 +46,8 @@ public static class WebGLBuild
 		PlayerSettings.WebGL.decompressionFallback = true;
 		PlayerSettings.WebGL.linkerTarget = WebGLLinkerTarget.Wasm;
 		PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.ExplicitlyThrownExceptionsOnly;
+		PlayerSettings.WebGL.template = "PROJECT:LampLight";
+		PlayerSettings.SplashScreen.show = false;
 		PlayerSettings.runInBackground = true;
 		PlayerSettings.defaultWebScreenWidth = 1920;
 		PlayerSettings.defaultWebScreenHeight = 1080;

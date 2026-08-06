@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>%UNITY_WEB_NAME%</title>
+  <link rel="shortcut icon" href="TemplateData/favicon.ico">
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; }
+    #unity-container { position: absolute; inset: 0; }
+    #unity-canvas { width: 100%; height: 100%; display: block; background: #000; }
+    #unity-loading-bar { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; }
+    #unity-progress-bar-empty { width: 240px; height: 10px; background: #222; }
+    #unity-progress-bar-full { width: 0; height: 10px; background: #c8a24a; }
+    #unity-warning { position: absolute; left: 50%; top: 8px; transform: translateX(-50%); background: #fff; padding: 8px; display: none; }
+  </style>
+</head>
+<body>
+  <div id="unity-container">
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+    <div id="unity-loading-bar"><div id="unity-progress-bar-empty"><div id="unity-progress-bar-full"></div></div></div>
+    <div id="unity-warning"></div>
+  </div>
+  <script>
+    var canvas = document.querySelector("#unity-canvas");
+    var warning = document.querySelector("#unity-warning");
+    var loading = document.querySelector("#unity-loading-bar");
+    var bar = document.querySelector("#unity-progress-bar-full");
+
+    function unityShowBanner(msg, type) {
+      warning.style.display = "block";
+      warning.innerHTML += "<div>" + msg + "</div>";
+      if (type == "error") warning.style.background = "#f66";
+    }
+
+    var config = {
+      dataUrl: "Build/%UNITY_WEBGL_BUILD_NAME%.data%UNITY_WEBGL_COMPRESSION_SUFFIX%",
+      frameworkUrl: "Build/%UNITY_WEBGL_BUILD_NAME%.framework.js%UNITY_WEBGL_COMPRESSION_SUFFIX%",
+      codeUrl: "Build/%UNITY_WEBGL_BUILD_NAME%.wasm%UNITY_WEBGL_COMPRESSION_SUFFIX%",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "%UNITY_COMPANY_NAME%",
+      productName: "%UNITY_PRODUCT_NAME%",
+      productVersion: "%UNITY_PRODUCT_VERSION%",
+      showBanner: unityShowBanner,
+    };
+
+    // 캔버스를 컨테이너 크기에 맞춰 실제 픽셀까지 따라가게 한다.
+    // 기본 템플릿은 1920x1080 px 로 못박아서 전체화면이 여백만 늘어난다.
+    function resize() {
+      var dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(canvas.clientWidth * dpr);
+      canvas.height = Math.floor(canvas.clientHeight * dpr);
+    }
+    window.addEventListener("resize", resize);
+    document.addEventListener("fullscreenchange", resize);
+
+    loading.style.display = "flex";
+    var script = document.createElement("script");
+    script.src = "Build/%UNITY_WEBGL_LOADER_URL%";
+    script.onload = function () {
+      createUnityInstance(canvas, config, function (p) { bar.style.width = 100 * p + "%"; })
+        .then(function (instance) {
+          loading.style.display = "none";
+          resize();
+          window.unityInstance = instance;
+        })
+        .catch(unityShowBanner);
+    };
+    document.body.appendChild(script);
+    resize();
+  </script>
+</body>
+</html>
