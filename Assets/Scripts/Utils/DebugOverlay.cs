@@ -23,7 +23,7 @@ public class DebugOverlay : MonoBehaviour
 	}
 
 	[SerializeField]
-	bool _enabledInBuild = false;
+	bool _enabledInBuild = true;
 
 	[SerializeField]
 	float _panelWidth = 520.0f;
@@ -44,13 +44,13 @@ public class DebugOverlay : MonoBehaviour
 
 	static readonly LegendRow[] Legend =
 	{
-		new LegendRow { Text = "1   정보 패널", On = () => _instance != null && _instance._panel },
-		new LegendRow { Text = "2   전체 보기", On = () => _instance != null && _instance._revealed },
-		new LegendRow { Text = "3   맵 오버레이", On = () => _instance != null && _instance._overlay },
-		new LegendRow { Text = "4   순간이동", On = null },
-		new LegendRow { Text = "G   무적", On = () => Invulnerable },
-		new LegendRow { Text = "T   연료 충전", On = null },
-		new LegendRow { Text = "R   맵 재생성", On = null },
+		new LegendRow { Text = "1   Info panel", On = () => _instance != null && _instance._panel },
+		new LegendRow { Text = "2   Reveal map", On = () => _instance != null && _instance._revealed },
+		new LegendRow { Text = "3   Map overlay", On = () => _instance != null && _instance._overlay },
+		new LegendRow { Text = "4   Teleport", On = null },
+		new LegendRow { Text = "G   Invulnerable", On = () => Invulnerable },
+		new LegendRow { Text = "T   Refill fuel", On = null },
+		new LegendRow { Text = "R   Rebuild map", On = null },
 	};
 
 	static readonly Color RoomColor = new Color(0.35f, 0.75f, 1.0f, 0.9f);
@@ -202,7 +202,7 @@ public class DebugOverlay : MonoBehaviour
 		{
 			GUI.color = InvulnerableColor;
 			GUI.Label(new Rect(Screen.width - _legendWidth - 18.0f, 10.0f, _legendWidth, 28.0f),
-				"무적 모드 ON", _legendStyle);
+				"INVULNERABLE", _legendStyle);
 			GUI.color = Color.white;
 		}
 
@@ -244,7 +244,6 @@ public class DebugOverlay : MonoBehaviour
 		if (_style == null)
 		{
 			_style = new GUIStyle(GUI.skin.label);
-			_style.font = KoreanFont.Font;
 			_style.fontSize = 18;
 			_style.richText = false;
 			_style.wordWrap = false;
@@ -253,7 +252,6 @@ public class DebugOverlay : MonoBehaviour
 		if (_legendStyle == null)
 		{
 			_legendStyle = new GUIStyle(GUI.skin.label);
-			_legendStyle.font = KoreanFont.Font;
 			_legendStyle.fontSize = 18;
 			_legendStyle.alignment = TextAnchor.UpperRight;
 			_legendStyle.richText = false;
@@ -290,21 +288,21 @@ public class DebugOverlay : MonoBehaviour
 		MapData map = Managers.Data.Map;
 		if (map == null)
 		{
-			sb.AppendLine("맵 없음");
+			sb.AppendLine("no map");
 			return sb.ToString();
 		}
 
-		sb.AppendLine($"레벨 {Managers.Game.CurrentLevel}   시드 {Managers.Data.LastSeed}"
-			+ $"{(Managers.Data.LastUsedFallback ? " (베이크 폴백)" : "")}");
-		sb.AppendLine($"맵 {map.width}x{map.height}   방 {(map.rooms == null ? 0 : map.rooms.Length)}개   "
-			+ $"장식 {DecoCount()}개");
+		sb.AppendLine($"level {Managers.Game.CurrentLevel}   seed {Managers.Data.LastSeed}"
+			+ $"{(Managers.Data.LastUsedFallback ? " (bake fallback)" : "")}");
+		sb.AppendLine($"map {map.width}x{map.height}   rooms {(map.rooms == null ? 0 : map.rooms.Length)}   "
+			+ $"deco {DecoCount()}");
 
 		if (_progress == null)
 			_progress = FindFirstObjectByType<StageProgress>();
 
 		if (_progress != null)
-			sb.AppendLine($"유물 {_progress.Collected}/{_progress.Required}   "
-				+ $"가중치 {_progress.WeightedValue:F2}");
+			sb.AppendLine($"artifacts {_progress.Collected}/{_progress.Required}   "
+				+ $"weight {_progress.WeightedValue:F2}");
 
 		if (_player == null)
 			_player = FindFirstObjectByType<PlayerController>();
@@ -315,16 +313,16 @@ public class DebugOverlay : MonoBehaviour
 			Vector2Int tile = MapCoord.WorldToTile(position);
 
 			sb.AppendLine();
-			sb.AppendLine($"플레이어 ({position.x:F2}, {position.y:F2})  타일 ({tile.x},{tile.y})");
-			sb.AppendLine($"  소음반경 {_player.CurrentNoiseRadius:F2}   이동 {(_player.IsSneaking ? "살금" : "보통")}"
-				+ $"   시끄러운바닥 {(MapCoord.IsNoisy(position) ? "예" : "아니오")}");
-			sb.AppendLine($"  현재 타일 {(MapCoord.IsWalkable(tile.x, tile.y) ? "통행가능" : "벽 !!")}"
-				+ $"   벽gid {map.GetGid(map.walls, tile.x, tile.y)}");
+			sb.AppendLine($"player ({position.x:F2}, {position.y:F2})  tile ({tile.x},{tile.y})");
+			sb.AppendLine($"  noise {_player.CurrentNoiseRadius:F2}   move {(_player.IsSneaking ? "sneak" : "walk")}"
+				+ $"   noisy floor {(MapCoord.IsNoisy(position) ? "yes" : "no")}");
+			sb.AppendLine($"  tile {(MapCoord.IsWalkable(tile.x, tile.y) ? "open" : "WALL !!")}"
+				+ $"   wall gid {map.GetGid(map.walls, tile.x, tile.y)}");
 		}
 
 		EnemyBase[] enemies = FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
 		sb.AppendLine();
-		sb.AppendLine($"적 {enemies.Length}");
+		sb.AppendLine($"enemies {enemies.Length}");
 
 		for (int i = 0; i < enemies.Length && i < 8; i++)
 		{
@@ -333,7 +331,7 @@ public class DebugOverlay : MonoBehaviour
 				? -1.0f
 				: Vector2.Distance(enemy.transform.position, _player.transform.position);
 
-			sb.AppendLine($"  {enemy.name,-16} {enemy.State,-8} 거리 {distance:F1}");
+			sb.AppendLine($"  {enemy.name,-16} {enemy.State,-8} dist {distance:F1}");
 		}
 
 		return sb.ToString();

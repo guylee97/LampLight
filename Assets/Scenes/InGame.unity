@@ -26065,7 +26065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b72f15311595f449b9c1e2e924d1182e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: LampLight::DebugOverlay
-  _enabledInBuild: 0
+  _enabledInBuild: 1
   _panelWidth: 340
   _legendWidth: 168
 --- !u!4 &1901842213
