@@ -6,7 +6,9 @@ public class UISpriteImportTests
 {
 	static readonly string[] LoadedByUI =
 	{
-		"Art/UI/Game_Over_Screen/jumpscare_face",
+		"Art/UI/Game_Over_Screen/jumpscare_sangju",
+		"Art/UI/Game_Over_Screen/jumpscare_yeokgol",
+		"Art/UI/Game_Over_Screen/jumpscare_banshin",
 		"Art/UI/Common/press_any_key",
 		"Art/UI/Common/esc_title",
 		"Art/UI/Game_Over_Screen/Your Dead Title",

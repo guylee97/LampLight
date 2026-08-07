@@ -16,6 +16,15 @@ public class UI_GameOver : UI_Popup
 	const float RushEndScale = 2.6f;
 	const float SwallowFrom = 0.72f;
 
+	// 입이 화면 어디쯤 있는지. 확대는 이 점을 중심으로 일어난다.
+	const float MouthPivotY = 0.36f;
+
+	// 증명사진처럼 반듯한 정면이면 안 무섭다. 비스듬히 들어와 각도를 틀며 덮친다.
+	const float TiltStartDegrees = -9.0f;
+	const float TiltEndDegrees = 4.0f;
+	const float EntryOffsetX = -0.09f;
+	const float EntryOffsetY = 0.06f;
+
 	const float SettleSeconds = 0.28f;
 	const float SheetFadeSeconds = 0.22f;
 
@@ -104,6 +113,11 @@ public class UI_GameOver : UI_Popup
 	void BuildFace()
 	{
 		RectTransform rect = Stretch("Jumpscare");
+
+		// 확대 기준을 입에 둔다. 화면 정중앙을 기준으로 키우면 얼굴 아래쪽에 있는
+		// 입이 밑으로 밀려나 잘린다 — 정작 봐야 할 게 화면 밖으로 나간다.
+		rect.pivot = new Vector2(0.5f, MouthPivotY);
+
 		_face = rect.gameObject.AddComponent<Image>();
 		_face.preserveAspect = false;
 		_face.raycastTarget = false;
@@ -112,7 +126,7 @@ public class UI_GameOver : UI_Popup
 		_scare = LoadScareFrames();
 		_face.sprite = _scare != null && _scare.Length > 0
 			? _scare[0]
-			: Resources.Load<Sprite>(ArtDir + (_spec != null ? _spec.FaceArt : "jumpscare_face"));
+			: Resources.Load<Sprite>(ArtDir + (_spec != null ? _spec.FaceArt : "jumpscare_sangju"));
 
 		_face.enabled = false;
 	}
@@ -254,10 +268,19 @@ public class UI_GameOver : UI_Popup
 			float rush = Mathf.Lerp(RushStartScale, RushEndScale, k * k);
 			faceRect.localScale = new Vector3(rush, rush, 1.0f);
 
+			// 비스듬히 들어와 정면으로 틀며 덮친다.
+			faceRect.localRotation = Quaternion.Euler(
+				0.0f, 0.0f, Mathf.Lerp(TiltStartDegrees, TiltEndDegrees, Ease.OutQuint(k)));
+
+			// 옆에서 파고들다 입이 화면 한가운데로 온다.
+			Vector2 entry = new Vector2(
+				root.rect.width * EntryOffsetX, root.rect.height * EntryOffsetY);
+			Vector2 drift = Vector2.Lerp(entry, Vector2.zero, Ease.OutQuint(k));
+
 			// 다가올수록 손이 떨리듯 흔들림이 커진다.
 			float seed = Time.unscaledTime * 90.0f;
 			float shake = amplitude * (0.4f + 1.6f * k);
-			faceRect.anchoredPosition = new Vector2(
+			faceRect.anchoredPosition = drift + new Vector2(
 				(Mathf.PerlinNoise(seed, 0.0f) * 2.0f - 1.0f) * shake,
 				(Mathf.PerlinNoise(0.0f, seed) * 2.0f - 1.0f) * shake);
 
