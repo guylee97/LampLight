@@ -98,6 +98,9 @@ public class PlayerController : BaseController
 	{
 		Util.GetOrAddComponent<WorldYSort>(gameObject);
 
+		if (FindFirstObjectByType<AudioListener>() == null)
+			Util.GetOrAddComponent<AudioListener>(gameObject);
+
 		Init();
 	}
 

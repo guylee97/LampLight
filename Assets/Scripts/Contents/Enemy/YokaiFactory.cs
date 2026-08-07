@@ -3,6 +3,7 @@ using UnityEngine;
 public static class YokaiFactory
 {
 	public const int PixelsPerUnit = 32;
+	public const string LitMaterialResource = "Image/M_SpriteLit";
 
 	const float FallbackColliderTiles = 1.25f;
 
@@ -18,6 +19,10 @@ public static class YokaiFactory
 
 		SpriteRenderer renderer = art.AddComponent<SpriteRenderer>();
 		renderer.sortingOrder = 0;
+
+		Material lit = Resources.Load<Material>(LitMaterialResource);
+		if (lit != null)
+			renderer.sharedMaterial = lit;
 
 		Rigidbody2D body = go.AddComponent<Rigidbody2D>();
 		body.bodyType = RigidbodyType2D.Dynamic;
