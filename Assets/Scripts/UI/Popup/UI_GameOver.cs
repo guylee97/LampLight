@@ -218,7 +218,7 @@ public class UI_GameOver : UI_Popup
 				(Mathf.PerlinNoise(0.0f, seed) * 2.0f - 1.0f) * amplitude);
 
 			_flash.color = new Color(
-				0.55f, 0.02f, 0.02f, 0.5f * (1.0f - Mathf.Clamp01(t / FaceSeconds)));
+				0.55f, 0.02f, 0.02f, 0.5f * (1.0f - Ease.OutQuint(t / FaceSeconds)));
 			yield return null;
 		}
 	}
@@ -240,7 +240,7 @@ public class UI_GameOver : UI_Popup
 
 		for (float t = 0.0f; t < SheetFadeSeconds; t += Time.unscaledDeltaTime)
 		{
-			_sheet.alpha = t / SheetFadeSeconds;
+			_sheet.alpha = Ease.SmootherStep(t / SheetFadeSeconds);
 			yield return null;
 		}
 

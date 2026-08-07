@@ -310,13 +310,27 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 			case Define.EnemyState.Chasing:
 			case Define.EnemyState.Caught:
 				_directional.SetState(DirectionalSpriteAnimator.StateWalk);
+				_directional.SetIntensity(2.1f);
+				_directional.SetStutter(0.7f, 2.0f);
 				break;
-			case Define.EnemyState.Patrol:
 			case Define.EnemyState.Searching:
 				_directional.SetState(DirectionalSpriteAnimator.StateWalk);
+				_directional.SetIntensity(1.3f);
+				_directional.SetStutter(0.55f, 1.0f);
+				break;
+			case Define.EnemyState.Patrol:
+				_directional.SetState(DirectionalSpriteAnimator.StateWalk);
+				_directional.SetIntensity(1.0f);
+				_directional.SetStutter(0.45f, 1.0f);
+				break;
+			case Define.EnemyState.Petrified:
+				_directional.SetState(DirectionalSpriteAnimator.StateIdle);
+				_directional.SetStutter(0.0f, 0.0f);
 				break;
 			default:
 				_directional.SetState(DirectionalSpriteAnimator.StateIdle);
+				_directional.SetIntensity(1.0f);
+				_directional.SetStutter(0.0f, 0.0f);
 				break;
 		}
 	}

@@ -197,8 +197,9 @@ public class Altar : MonoBehaviour, IInteractable
 		{
 			float progress = _interactor == null ? 0.0f : _interactor.HoldProgress;
 			float pulse = 0.75f + 0.25f * Mathf.Sin(Time.time * 9.0f);
-			_glow.intensity = (baseIntensity + 1.35f * progress) * pulse;
-			_glow.pointLightOuterRadius = _glowRadius * (1.0f + 0.6f * progress);
+			float eased = Ease.InOutCubic(progress);
+			_glow.intensity = (baseIntensity + 1.35f * eased) * pulse;
+			_glow.pointLightOuterRadius = _glowRadius * (1.0f + 0.6f * eased);
 			return;
 		}
 

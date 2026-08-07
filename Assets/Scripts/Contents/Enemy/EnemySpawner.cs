@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
 	string _yokaiPath = "MaskYokai";
 
 	[SerializeField]
-	string _yokaiCharacterKey = YokaiFactory.TalKey;
+	string _yokaiCharacterKey = YokaiFactory.AgwiKey;
 
 	[SerializeField]
 	Transform _root;

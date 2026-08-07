@@ -223,6 +223,56 @@ def solve_frame(states, source_size):
     return frame, crop_left, crop_top, foot_baseline
 
 
+def palette_from(paths, max_colors):
+    swatch = Image.new("RGB", (1, 1))
+    pixels = []
+
+    for path in paths:
+        image = Image.open(path).convert("RGBA")
+        data = image.load()
+        for y in range(image.size[1]):
+            for x in range(image.size[0]):
+                r, g, b, a = data[x, y]
+                if a > 16:
+                    pixels.append((r, g, b))
+
+    if not pixels:
+        raise SystemExit("팔레트 원본에서 색을 못 읽었다")
+
+    swatch = Image.new("RGB", (len(pixels), 1))
+    swatch.putdata(pixels)
+    return swatch.quantize(colors=max_colors, method=Image.MEDIANCUT)
+
+
+def quantize(image, reference, max_colors):
+    alpha = image.getchannel("A")
+    flat = Image.new("RGB", image.size, (0, 0, 0))
+    flat.paste(image.convert("RGB"), mask=alpha)
+
+    if reference is None:
+        reduced = flat.quantize(colors=max_colors, method=Image.MEDIANCUT, dither=Image.FLOYDSTEINBERG)
+    else:
+        reduced = flat.quantize(palette=reference, dither=Image.FLOYDSTEINBERG)
+
+    out = reduced.convert("RGBA")
+    out.putalpha(alpha)
+    return out
+
+
+def count_colors(image):
+    data = image.convert("RGBA").load()
+    width, height = image.size
+    seen = set()
+
+    for y in range(height):
+        for x in range(width):
+            r, g, b, a = data[x, y]
+            if a > 16:
+                seen.add((r, g, b))
+
+    return len(seen)
+
+
 def compose(states, frame, crop_left, crop_top):
     sheets = {}
 
@@ -346,6 +396,10 @@ def main():
     parser.add_argument("--speed-multiplier", type=float, default=1.0)
     parser.add_argument("--noise-radius", type=float, default=5.0)
     parser.add_argument("--search-seconds", type=float, default=3.0)
+    parser.add_argument("--max-colors", type=int, default=0,
+                        help="0 이면 색 정규화를 하지 않는다")
+    parser.add_argument("--palette-from", default="",
+                        help="쉼표로 구분한 기존 스프라이트 경로. 그 색만 쓰도록 맞춘다")
     args = parser.parse_args()
 
     states = {}
@@ -367,8 +421,19 @@ def main():
     sheets = compose(states, frame, crop_left, crop_top)
     anims = {}
 
+    reference = None
+    if args.palette_from:
+        sources = [s.strip() for s in args.palette_from.split(",") if s.strip()]
+        reference = palette_from(sources, max(2, args.max_colors or 32))
+
     for state, (sheet, cols) in sheets.items():
         png_path = os.path.join(out_dir, f"{args.key}_{state}_sheet.png")
+
+        if args.max_colors > 0 or reference is not None:
+            before = count_colors(sheet)
+            sheet = quantize(sheet, reference, args.max_colors or 32)
+            print(f"  {state}: 색 {before} -> {count_colors(sheet)}")
+
         sheet.save(png_path)
         write_meta(png_path, args.key, state, frame, cols, pivot_y)
 

@@ -1,0 +1,52 @@
+{
+  "character": "agwi",
+  "label": "아귀",
+  "frameWidth": 96,
+  "frameHeight": 96,
+  "displayScale": 1,
+  "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+  ],
+  "directionIndex": {
+    "s": 0,
+    "se": 1,
+    "e": 2,
+    "ne": 3,
+    "n": 4,
+    "nw": 5,
+    "w": 6,
+    "sw": 7
+  },
+  "footBaselineY": 86,
+  "anchor": "bottom-center",
+  "anims": {
+    "idle": {
+      "frames": 1
+    },
+    "walk": {
+      "frames": 8,
+      "fps": 6.0
+    }
+  },
+  "behavior": {
+    "speedMultiplier": 1.0,
+    "noiseDetectRadiusTiles": 5.0,
+    "searchDurationSec": 3.0
+  },
+  "collisionBox": {
+    "w": 28,
+    "h": 28,
+    "anchor": "bottom-center"
+  },
+  "render": {
+    "imageSmoothing": false,
+    "integerScaleOnly": true
+  }
+}

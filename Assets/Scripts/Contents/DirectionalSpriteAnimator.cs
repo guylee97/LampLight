@@ -20,6 +20,15 @@ public class DirectionalSpriteAnimator : MonoBehaviour
 	[SerializeField]
 	float _defaultFps = 6.0f;
 
+	[SerializeField, Range(0.0f, 0.9f)]
+	float _stutter = 0.0f;
+
+	[SerializeField]
+	float _twitchPixels = 0.0f;
+
+	[SerializeField]
+	int _pixelsPerUnit = 32;
+
 	CharacterSpec _spec;
 	CharacterState _state;
 	readonly Dictionary<string, Sprite> _sprites = new Dictionary<string, Sprite>();
@@ -28,6 +37,9 @@ public class DirectionalSpriteAnimator : MonoBehaviour
 	float _fps;
 	float _timer;
 	int _frame;
+	float _intensity = 1.0f;
+	Vector3 _restLocalPosition;
+	bool _restCaptured;
 
 	public string CharacterKey { get { return _characterKey; } }
 	public CharacterSpec Spec { get { return _spec; } }
@@ -126,20 +138,73 @@ public class DirectionalSpriteAnimator : MonoBehaviour
 		return null;
 	}
 
+	public void SetIntensity(float intensity)
+	{
+		_intensity = Mathf.Clamp(intensity, 0.0f, 3.0f);
+	}
+
+	public void SetStutter(float stutter, float twitchPixels)
+	{
+		_stutter = Mathf.Clamp(stutter, 0.0f, 0.9f);
+		_twitchPixels = Mathf.Max(0.0f, twitchPixels);
+	}
+
+	float HoldSeconds(int frame)
+	{
+		float step = 1.0f / _fps;
+
+		if (_stutter <= 0.0f || _state == null || _state.frames <= 1)
+			return step;
+
+		float phase = Mathf.Repeat(frame * 0.6180339887f, 1.0f);
+		float scale = Mathf.Lerp(1.0f - _stutter, 1.0f + _stutter, phase);
+		return step * scale;
+	}
+
 	void Update()
 	{
+		UpdateTwitch();
+
 		if (_state == null || _state.frames <= 1 || _fps <= 0.0f)
 			return;
 
-		_timer += Time.deltaTime;
+		_timer += Time.deltaTime * _intensity;
 
-		float step = 1.0f / _fps;
-		if (_timer < step)
+		float hold = HoldSeconds(_frame);
+		if (_timer < hold)
 			return;
 
-		_timer -= step;
+		_timer -= hold;
 		_frame = (_frame + 1) % _state.frames;
 		Apply();
+	}
+
+	void UpdateTwitch()
+	{
+		if (_renderer == null)
+			return;
+
+		Transform art = _renderer.transform;
+
+		if (_restCaptured == false)
+		{
+			_restLocalPosition = art.localPosition;
+			_restCaptured = true;
+		}
+
+		if (_twitchPixels <= 0.0f)
+		{
+			art.localPosition = _restLocalPosition;
+			return;
+		}
+
+		float unit = 1.0f / Mathf.Max(1, _pixelsPerUnit);
+		float seed = Time.time * 17.0f;
+
+		int x = Mathf.RoundToInt((Mathf.PerlinNoise(seed, 0.0f) * 2.0f - 1.0f) * _twitchPixels);
+		int y = Mathf.RoundToInt((Mathf.PerlinNoise(0.0f, seed) * 2.0f - 1.0f) * _twitchPixels);
+
+		art.localPosition = _restLocalPosition + new Vector3(x * unit, y * unit, 0.0f);
 	}
 
 	void Apply()

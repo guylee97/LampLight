@@ -117,7 +117,7 @@ public class CameraController : MonoBehaviour
 		}
 
 		float remaining = Mathf.Clamp01((_shakeUntil - Time.unscaledTime) / _shakeDuration);
-		float amplitude = _shakeAmplitude * remaining;
+		float amplitude = _shakeAmplitude * Ease.OutQuint(remaining);
 		float seed = Time.unscaledTime * 47.0f;
 
 		float x = (Mathf.PerlinNoise(seed, 0.0f) * 2.0f - 1.0f) * amplitude;
