@@ -16,6 +16,10 @@ rsync -a --delete \
   "$SRC"/ "$DST"/
 
 # 배치 실행이 사용자 스피커로 소리를 내지 않도록 그림자 쪽 오디오만 끈다.
-sed -i '' 's/  m_DisableAudio: 0/  m_DisableAudio: 1/' "$DST/ProjectSettings/AudioManager.asset"
+# 단 플레이어를 굽는 실행은 예외다 — 여기서 끄면 소리 없는 빌드가 나간다.
+case " $* " in
+  *" -buildOut "*|*"WebGLBuild"*) ;;
+  *) sed -i '' 's/  m_DisableAudio: 0/  m_DisableAudio: 1/' "$DST/ProjectSettings/AudioManager.asset" ;;
+esac
 
 exec "$UNITY" -batchmode -projectPath "$DST" "$@"
