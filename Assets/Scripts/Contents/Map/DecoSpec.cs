@@ -12,12 +12,28 @@ public static class DecoSpec
 	public const float DebrisRatio = 0.012f;
 	public const float DebrisWallWeight = 0.70f;
 	public const float DebrisDisplayScale = 0.7f;
+	public const float CandleDisplayScale = 0.40f;
+	public const float RemainsDisplayScale = 0.45f;
+	public const float PropDisplayScale = 0.70f;
 
 	public static float DisplayScale(string key)
 	{
-		return string.IsNullOrEmpty(key) || key.StartsWith("debris_") == false
-			? 1.0f
-			: DebrisDisplayScale;
+		if (string.IsNullOrEmpty(key))
+			return 1.0f;
+
+		if (key.StartsWith("debris_"))
+			return DebrisDisplayScale;
+
+		if (key.StartsWith("prop_candle_"))
+			return CandleDisplayScale;
+
+		if (key.StartsWith("prop_skull") || key.StartsWith("prop_bones_"))
+			return RemainsDisplayScale;
+
+		if (key.StartsWith("prop_"))
+			return PropDisplayScale;
+
+		return 1.0f;
 	}
 
 	public const float MossRatio = 0.045f;
