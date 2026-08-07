@@ -4,9 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class MaskYokai : EnemyBase
 {
-	public const string PetrifyClip = "yokai_petrify";
-	public const string ReleaseClip = "yokai_release";
-
 	[SerializeField]
 	float _patrolSpeed = 1.6f;
 
@@ -34,18 +31,32 @@ public class MaskYokai : EnemyBase
 	[SerializeField]
 	float _ritualSpeedBonusPerStep = 0.35f;
 
+	YokaiSpec _spec = YokaiTable.ForLevel(LevelTable.MinLevel);
 	Rigidbody2D _rigidbody;
 	CircleCollider2D _body;
 	PlayerController _player;
 	Vector2 _moveDir;
 	Vector2 _lastKnownPosition;
 	Vector2 _patrolTarget;
-	Define.EnemyState _stateBeforePetrify = Define.EnemyState.Patrol;
 	float _nextPatrolRetargetTime;
 	bool _hasPatrolTarget;
 	List<Vector2> _route;
 	int _routeIndex;
-	bool _wasPetrified;
+
+	public YokaiSpec Spec { get { return _spec; } }
+
+	public void UseSpec(YokaiSpec spec)
+	{
+		if (spec == null)
+			return;
+
+		_spec = spec;
+		_patrolSpeed = spec.PatrolSpeed;
+		_chaseSpeed = spec.ChaseSpeed;
+		_searchSpeed = spec.SearchSpeed;
+		_sightRange = spec.SightRange;
+		_hearingScale = spec.HearingScale;
+	}
 
 	public override void Init()
 	{
@@ -103,9 +114,6 @@ public class MaskYokai : EnemyBase
 
 	protected override void UpdatePatrol()
 	{
-		if (TryPetrify())
-			return;
-
 		if (TryDetectPlayer())
 			return;
 
@@ -121,9 +129,6 @@ public class MaskYokai : EnemyBase
 
 	protected override void UpdateChasing()
 	{
-		if (TryPetrify())
-			return;
-
 		if (ResolvePlayer() == false)
 		{
 			State = Define.EnemyState.Searching;
@@ -151,9 +156,6 @@ public class MaskYokai : EnemyBase
 
 	protected override void UpdateSearching()
 	{
-		if (TryPetrify())
-			return;
-
 		if (TryDetectPlayer())
 			return;
 
@@ -172,56 +174,10 @@ public class MaskYokai : EnemyBase
 		}
 	}
 
-	protected override void UpdatePetrified()
-	{
-		_moveDir = Vector2.zero;
-
-		if (IsLitByLamp())
-			return;
-
-		Managers.Sound.PlayAtPointOptional(ReleaseClip, transform.position, Define.Sound.Threat);
-		_wasPetrified = false;
-		State = _stateBeforePetrify == Define.EnemyState.Petrified
-			? Define.EnemyState.Searching
-			: _stateBeforePetrify;
-	}
-
 	protected override void UpdateCaught()
 	{
 		_moveDir = Vector2.zero;
 		Managers.Game.GameOver(transform);
-	}
-
-	bool TryPetrify()
-	{
-		if (IsLitByLamp() == false)
-			return false;
-
-		if (_player != null)
-			_lastKnownPosition = _player.transform.position;
-
-		_stateBeforePetrify = State == Define.EnemyState.Chasing
-			? Define.EnemyState.Chasing
-			: Define.EnemyState.Searching;
-
-		if (_wasPetrified == false)
-		{
-			_wasPetrified = true;
-			Managers.Sound.PlayAtPointOptional(PetrifyClip, transform.position, Define.Sound.Threat);
-		}
-
-		_moveDir = Vector2.zero;
-		State = Define.EnemyState.Petrified;
-		return true;
-	}
-
-	bool IsLitByLamp()
-	{
-		if (ResolvePlayer() == false)
-			return false;
-
-		Lamp lamp = _player.Lamp;
-		return lamp != null && lamp.IsOn && lamp.IsInLightCone(transform.position);
 	}
 
 	bool TryDetectPlayer()

@@ -2,13 +2,13 @@ using UnityEngine;
 
 public static class YokaiFactory
 {
-	public const string AgwiKey = "agwi";
 	public const int PixelsPerUnit = 32;
 
 	const float FallbackColliderTiles = 1.25f;
 
-	public static GameObject Build(string characterKey, Transform parent)
+	public static GameObject Build(YokaiSpec spec, Transform parent)
 	{
+		string characterKey = ResolveCharacter(spec.CharacterKey);
 		GameObject go = new GameObject($"Yokai_{characterKey}");
 		go.transform.SetParent(parent, false);
 		go.layer = (int)Define.Layer.Enemy;
@@ -35,8 +35,23 @@ public static class YokaiFactory
 		animator.SetCharacter(characterKey);
 		animator.SetStutter(0.45f, 1.0f);
 
-		go.AddComponent<MaskYokai>();
+		renderer.color = spec.Tint;
+
+		MaskYokai yokai = go.AddComponent<MaskYokai>();
+		yokai.UseSpec(spec);
 		return go;
+	}
+
+	static string ResolveCharacter(string characterKey)
+	{
+		if (CharacterCatalog.Get(characterKey) != null)
+			return characterKey;
+
+		string fallback = YokaiTable.At(0).CharacterKey;
+		Debug.LogWarning(
+			$"YokaiFactory: '{characterKey}' 스프라이트가 아직 없어 '{fallback}' 로 대체한다");
+
+		return fallback;
 	}
 
 	static float ColliderRadius(string characterKey)

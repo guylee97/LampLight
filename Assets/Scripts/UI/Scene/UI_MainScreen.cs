@@ -31,7 +31,7 @@ public class UI_MainScreen : UI_Scene
 		start.gameObject.BindEvent(OnStartButtonClicked);
 		ApplyArtwork(start);
 		_prompt = PressAnyKeyPrompt.Attach(
-			transform, PressAnyKeyPrompt.PressAnyKeyArt, 0.135f, 560.0f);
+			transform, PressAnyKeyPrompt.PressAnyKeyArt, 0.235f, 620.0f);
 		_prompt.gameObject.SetActive(false);
 		Managers.Sound.PlayOptional(
 			"Title_Background_Music/👍Title_Background_Mixing",
@@ -75,31 +75,8 @@ public class UI_MainScreen : UI_Scene
 			image.raycastTarget = false;
 		}
 
-		Sprite buttonSprite = LoadSprite("Art/UI/Title screen/Start button");
-		Image buttonImage = start == null ? null : start.GetComponent<Image>();
-		if (buttonImage != null && buttonSprite != null)
-		{
-			RectTransform rect = start.GetComponent<RectTransform>();
-			rect.anchorMin = new Vector2(0.5f, 0.24f);
-			rect.anchorMax = new Vector2(0.5f, 0.24f);
-			rect.anchoredPosition = Vector2.zero;
-			rect.sizeDelta = new Vector2(360.0f, 150.0f);
-
-			buttonImage.sprite = buttonSprite;
-			buttonImage.preserveAspect = true;
-			HideButtonLabel(start);
-		}
-	}
-
-	static void HideButtonLabel(Button start)
-	{
-		foreach (Graphic label in start.GetComponentsInChildren<Graphic>(true))
-		{
-			if (label.gameObject == start.gameObject || label is Image)
-				continue;
-
-			label.gameObject.SetActive(false);
-		}
+		if (start != null)
+			start.gameObject.SetActive(false);
 	}
 
 	IEnumerator ShowSoundNotice(Button start)

@@ -5,14 +5,14 @@ using UnityEngine.UI;
 public class UI_GameOver : UI_Popup
 {
 	const string ArtDir = "Art/UI/Game_Over_Screen/";
-	const string FaceSprite = "jumpscare_face";
 
-	public const string ScreamClip = "jumpscare_scream";
+
 	public const string ScreamFallbackClip = "moster growl (4)";
 
 	const float SilenceSeconds = 0.10f;
-	const float LungeSeconds = 0.16f;
-	const float FaceSeconds = 0.34f;
+	const float LungeSeconds = 0.30f;
+	const float DefaultFaceSeconds = 0.34f;
+
 	const float SettleSeconds = 0.28f;
 	const float SheetFadeSeconds = 0.22f;
 
@@ -31,6 +31,7 @@ public class UI_GameOver : UI_Popup
 	CanvasGroup _sheet;
 	CameraController _camera;
 	PressAnyKeyPrompt _prompt;
+	YokaiSpec _spec;
 	bool _acceptsInput;
 	float _listenerVolume = 1.0f;
 
@@ -51,6 +52,8 @@ public class UI_GameOver : UI_Popup
 		scaler.matchWidthOrHeight = 0.5f;
 		gameObject.GetOrAddComponent<GraphicRaycaster>();
 
+		_spec = ResolveSpec();
+
 		_dim = Stretch("Dim").gameObject.AddComponent<Image>();
 		_dim.color = new Color(0, 0, 0, 0);
 		_dim.raycastTarget = false;
@@ -68,6 +71,19 @@ public class UI_GameOver : UI_Popup
 		_listenerVolume = AudioListener.volume;
 
 		StartCoroutine(Play());
+	}
+
+	YokaiSpec ResolveSpec()
+	{
+		Transform catcher = Managers.Game.Catcher;
+		MaskYokai yokai = catcher == null ? null : catcher.GetComponentInParent<MaskYokai>();
+
+		return yokai != null ? yokai.Spec : YokaiTable.ForLevel(Managers.Game.CurrentLevel);
+	}
+
+	float FaceSeconds
+	{
+		get { return _spec != null ? _spec.FaceHoldSeconds : DefaultFaceSeconds; }
 	}
 
 	RectTransform Stretch(string childName)
@@ -109,7 +125,7 @@ public class UI_GameOver : UI_Popup
 		_lunge.sprite = sprite;
 		_lunge.preserveAspect = true;
 		_lunge.raycastTarget = false;
-		_lunge.color = new Color(0.72f, 0.72f, 0.78f, 1.0f);
+		_lunge.color = _spec != null ? _spec.Tint : Color.white;
 		_lunge.enabled = false;
 	}
 
@@ -138,11 +154,13 @@ public class UI_GameOver : UI_Popup
 		for (float t = 0.0f; t < LungeSeconds; t += Time.unscaledDeltaTime)
 		{
 			float k = Ease.OutQuint(t / LungeSeconds);
-			float scale = Mathf.Lerp(0.22f, 2.4f, k);
+			float scale = Mathf.Lerp(0.55f, _spec != null ? _spec.LungeScale : 3.1f, k);
 
 			rect.localScale = new Vector3(scale, scale, 1.0f);
 			rect.anchoredPosition = Vector2.Lerp(from, Vector2.zero, k);
-			_lunge.color = new Color(0.72f, 0.72f, 0.78f, Mathf.Lerp(0.55f, 1.0f, k));
+			Color tint = _spec != null ? _spec.Tint : Color.white;
+			float dim = Mathf.Lerp(1.0f, 0.32f, k);
+			_lunge.color = new Color(tint.r * dim, tint.g * dim, tint.b * dim, 1.0f);
 			yield return null;
 		}
 
@@ -153,7 +171,7 @@ public class UI_GameOver : UI_Popup
 	{
 		RectTransform rect = Stretch("Jumpscare");
 		_face = rect.gameObject.AddComponent<Image>();
-		_face.sprite = Resources.Load<Sprite>(ArtDir + FaceSprite);
+		_face.sprite = Resources.Load<Sprite>(ArtDir + (_spec != null ? _spec.FaceArt : "jumpscare_face"));
 		_face.preserveAspect = false;
 		_face.raycastTarget = false;
 		_face.color = new Color(1, 1, 1, 0);
@@ -242,7 +260,10 @@ public class UI_GameOver : UI_Popup
 	IEnumerator Face()
 	{
 		AudioListener.volume = _listenerVolume;
-		Managers.Sound.PlayOptional(ScreamClip, ScreamFallbackClip, Define.Sound.Threat);
+		Managers.Sound.PlayOptional(
+			_spec != null ? _spec.ScreamClip : "jumpscare_scream",
+			ScreamFallbackClip,
+			Define.Sound.Threat);
 
 		Lamp lamp = FindFirstObjectByType<Lamp>();
 		if (lamp != null)

@@ -18,9 +18,6 @@ public class EnemySpawner : MonoBehaviour
 	string _yokaiPath = "MaskYokai";
 
 	[SerializeField]
-	string _yokaiCharacterKey = YokaiFactory.AgwiKey;
-
-	[SerializeField]
 	Transform _root;
 
 	[SerializeField]
@@ -61,7 +58,7 @@ public class EnemySpawner : MonoBehaviour
 		{
 			bool useHook = hookPlaced == false && hook.Count > 0;
 			List<Vector2Int> pool = useHook ? hook : far;
-			SpawnYokai(pool[rng.Next(pool.Count)], parent);
+			SpawnYokai(pool[rng.Next(pool.Count)], parent, YokaiTable.ForLevel(config.Level));
 			hookPlaced |= useHook;
 		}
 
@@ -109,12 +106,12 @@ public class EnemySpawner : MonoBehaviour
 		}
 	}
 
-	void SpawnYokai(Vector2Int tile, Transform parent)
+	void SpawnYokai(Vector2Int tile, Transform parent, YokaiSpec spec)
 	{
 		GameObject go = Managers.Resource.Instantiate(_yokaiPath, parent);
 
 		if (go == null)
-			go = YokaiFactory.Build(_yokaiCharacterKey, parent);
+			go = YokaiFactory.Build(spec, parent);
 
 		if (go == null)
 			return;

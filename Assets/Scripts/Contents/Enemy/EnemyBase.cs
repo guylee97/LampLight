@@ -150,9 +150,6 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 			case Define.EnemyState.Searching:
 				UpdateSearching();
 				break;
-			case Define.EnemyState.Petrified:
-				UpdatePetrified();
-				break;
 			case Define.EnemyState.Caught:
 				UpdateCaught();
 				break;
@@ -171,7 +168,6 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 	protected virtual void UpdatePatrol() { }
 	protected virtual void UpdateChasing() { }
 	protected virtual void UpdateSearching() { }
-	protected virtual void UpdatePetrified() { }
 	protected virtual void UpdateCaught() { }
 	protected virtual void UpdateDie() { }
 
@@ -277,12 +273,6 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 		if (_animator == null)
 			return;
 
-		if (State == Define.EnemyState.Petrified)
-		{
-			_animator.speed = 0.0f;
-			return;
-		}
-
 		_animator.speed = 1.0f;
 
 		if (State == Define.EnemyState.Caught)
@@ -325,10 +315,6 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 				_directional.SetState(DirectionalSpriteAnimator.StateWalk);
 				_directional.SetIntensity(1.0f);
 				_directional.SetStutter(0.45f, 1.0f);
-				break;
-			case Define.EnemyState.Petrified:
-				_directional.SetState(DirectionalSpriteAnimator.StateIdle);
-				_directional.SetStutter(0.0f, 0.0f);
 				break;
 			default:
 				_directional.SetState(DirectionalSpriteAnimator.StateIdle);

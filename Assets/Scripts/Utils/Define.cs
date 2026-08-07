@@ -27,7 +27,6 @@ public class Define
 		Caught,
 		Die,
 		Searching,
-		Petrified,
 	}
 
 	public enum Awareness
