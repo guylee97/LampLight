@@ -71,13 +71,13 @@ public class Altar : MonoBehaviour, IInteractable
 		get
 		{
 			if (_finished)
-				return "봉인되었다";
+				return "닫혔다";
 
 			if (Carried > 0)
-				return $"[E] 유물을 올린다  {_placed} / {Required}";
+				return $"[E] 공양물을 올린다  {_placed} / {Required}";
 
 			int missing = Mathf.Max(0, Required - _progress.Collected);
-			return $"유물 {missing}개가 더 필요하다";
+			return $"공양물 {missing}개가 더 필요하다";
 		}
 	}
 

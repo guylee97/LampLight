@@ -179,7 +179,7 @@ public static class GameplaySetup
 		root.AddComponent<UI_InGame>();
 
 		Text artifacts = MakeText("ArtifactText", root.transform, 44, TextAnchor.UpperLeft, Ink);
-		artifacts.text = "유물  0 / 4";
+		artifacts.text = "공양물  0 / 4";
 		Place(artifacts.rectTransform, new Vector2(0, 1), new Vector2(0, 1), new Vector2(48, -40), new Vector2(420, 60));
 
 		Image fuel = MakeBar("FuelFill", root.transform, Flame, new Vector2(48, 118), new Vector2(360, 26));
@@ -216,7 +216,7 @@ public static class GameplaySetup
 		Place(title.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 140), new Vector2(700, 90));
 
 		Text detail = MakeText("ResultDetailText", panel.transform, 36, TextAnchor.MiddleCenter, Ink);
-		detail.text = "유물  0 / 4";
+		detail.text = "공양물  0 / 4";
 		Place(detail.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(0, 50), new Vector2(700, 60));
 
 		MakeButton("RetryButton", "다시 시도", panel.transform, new Vector2(0, -60), new Vector2(400, 80));

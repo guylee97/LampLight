@@ -79,7 +79,7 @@ public class UI_Result : UI_Popup
 
 		if (cleared == false)
 		{
-			detail.text = $"유물  {_collected} / {_required}";
+			detail.text = $"공양물  {_collected} / {_required}";
 			return;
 		}
 

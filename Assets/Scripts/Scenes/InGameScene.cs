@@ -21,6 +21,8 @@ public class InGameScene : MonoBehaviour
 
 	[SerializeField]
 	EnemySpawner _spawner;
+	LevelConfig _pendingSpawnConfig;
+	System.Random _pendingSpawnRng;
 
 	[SerializeField]
 	MapTilemapRenderer _tilemap;
@@ -138,18 +140,20 @@ public class InGameScene : MonoBehaviour
 		if (config.Level > LevelTable.MinLevel)
 		{
 			UI_Dialogue.Say(
-				"더 깊은 전각이다.",
-				"여기 있는 건 아까 그것이 아니야.");
+				"안쪽으로 더 들어왔어.",
+				"아까 그게 끝이 아니었나 봐.");
 			return;
 		}
 
 		UI_Dialogue.Say(
-			"눈을 떠보니 폐사찰이다. 등불 하나뿐이야.",
-			"공양물을 모아 제단에 올려야 여길 나간다.");
+			"눈을 떠보니 버려진 절이야. 등불 하나 남았고.",
+			"제단이 비어 있어. 이 불 꺼지기 전에 채워야겠지.");
 	}
 
 	void OnArtifactCollected(int collected, int required)
 	{
+		SpawnYokai();
+
 		if (collected >= required)
 			UI_Dialogue.Say("다 모았다. 제단으로.");
 		else
@@ -209,9 +213,24 @@ public class InGameScene : MonoBehaviour
 		}
 
 		if (_spawner != null)
-			_spawner.Spawn(config, _selector.PlayerStart, rng);
+		{
+			_pendingSpawnConfig = config;
+			_pendingSpawnRng = rng;
+		}
 		else
+		{
 			PushEnemiesAwayFrom(_selector.PlayerStart);
+		}
+	}
+
+	void SpawnYokai()
+	{
+		if (_pendingSpawnConfig == null || _spawner == null || _selector == null)
+			return;
+
+		_spawner.Spawn(_pendingSpawnConfig, _selector.PlayerStart, _pendingSpawnRng);
+		_pendingSpawnConfig = null;
+		_pendingSpawnRng = null;
 	}
 
 	void PushEnemiesAwayFrom(MapPoint start)

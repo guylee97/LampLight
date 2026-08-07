@@ -57,7 +57,7 @@ public class Artifact : MonoBehaviour, IInteractable
 		get
 		{
 			if (_concealment == 0)
-				return "[E] 유물 수집";
+				return "[E] 공양물 줍기";
 
 			return _concealment == 1 ? "[E] 잔해를 헤친다" : "[E] 석관을 연다";
 		}

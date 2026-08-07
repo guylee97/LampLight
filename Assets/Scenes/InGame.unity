@@ -11198,9 +11198,9 @@ MonoBehaviour:
   _wandererPath: WandererZombie
   _runnerPath: RunnerZombie
   _root: {fileID: 0}
-  _minDistanceFromStart: 7
-  _hookDistanceMin: 7
-  _hookDistanceMax: 9
+  _minDistanceFromStart: 14
+  _hookDistanceMin: 14
+  _hookDistanceMax: 18
 --- !u!4 &1482483644
 Transform:
   m_ObjectHideFlags: 0
