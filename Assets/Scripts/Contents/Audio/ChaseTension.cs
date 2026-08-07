@@ -14,9 +14,6 @@ public class ChaseTension : MonoBehaviour
 	float _zoomAtNear = 0.82f;
 
 	[SerializeField]
-	float _shakeAtNear = 0.10f;
-
-	[SerializeField]
 	float _slowestBeat = 0.95f;
 
 	[SerializeField]
@@ -112,9 +109,6 @@ public class ChaseTension : MonoBehaviour
 			return;
 
 		_camera.ZoomTo(Mathf.Lerp(1.0f, _zoomAtNear, _pressure), 1.2f);
-
-		if (_pressure > 0.55f)
-			_camera.Shake(_shakeAtNear * _pressure, 0.25f);
 	}
 
 	void ApplyHeartbeat()

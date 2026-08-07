@@ -2,11 +2,11 @@
  "characters": [
   {
    "key": "agwi",
-   "frameWidth": 96,
-   "frameHeight": 96,
-   "footBaselineY": 86,
+   "frameWidth": 100,
+   "frameHeight": 100,
+   "footBaselineY": 90,
    "pivotX": 0.5,
-   "pivotY": 0.10416666666666667,
+   "pivotY": 0.1,
    "colliderW": 28.0,
    "colliderH": 28.0,
    "speedMultiplier": 1.0,
@@ -38,11 +38,11 @@
     {
      "name": "walk",
      "resource": "Art/Characters/agwi/agwi_walk_sheet",
-     "cols": 8,
+     "cols": 17,
      "rows": 8,
-     "frames": 8,
+     "frames": 17,
      "directionAxis": "row",
-     "fps": 6.0,
+     "fps": 12.0,
      "fpsSneak": 0.0,
      "fpsWalk": 0.0,
      "fpsRun": 0.0

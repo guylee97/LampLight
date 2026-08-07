@@ -47,6 +47,9 @@ public class UI_Result : UI_Popup
 		GetButton((int)Buttons.RetryButton).gameObject.BindEvent(OnRetry);
 		GetButton((int)Buttons.TitleButton).gameObject.BindEvent(OnTitle);
 
+		PressAnyKeyPrompt.Attach(transform, "PRESS ANY KEY", 0.14f, 38);
+		PressAnyKeyPrompt.Attach(transform, "ESC \uD0C0\uC774\uD2C0\uB85C", 0.075f, 24);
+
 		_ready = true;
 		BuildBadge();
 		Apply();
@@ -122,5 +125,24 @@ public class UI_Result : UI_Popup
 	void OnTitle(PointerEventData data)
 	{
 		Managers.Scene.LoadScene(Define.Scene.Title);
+	}
+
+	void Update()
+	{
+		if (_ready == false)
+			return;
+
+		if (AnyKey.EscapeDown)
+		{
+			_ready = false;
+			OnTitle(null);
+			return;
+		}
+
+		if (AnyKey.Down)
+		{
+			_ready = false;
+			OnRetry(null);
+		}
 	}
 }

@@ -93,7 +93,7 @@ public class AmbienceController : MonoBehaviour
 
 		if (_nextStingerTime < 0.0f)
 		{
-			_nextStingerTime = Time.time + Random.Range(_stingerMinGap, _stingerMaxGap);
+			_nextStingerTime = Time.time + _stingerMinGap;
 			return;
 		}
 
@@ -101,7 +101,7 @@ public class AmbienceController : MonoBehaviour
 			return;
 
 		_ambient.Play();
-		_nextStingerTime = Time.time + Random.Range(_stingerMinGap, _stingerMaxGap);
+		_nextStingerTime = Time.time + (_stingerMinGap + _stingerMaxGap) * 0.5f;
 	}
 
 	void UpdateHeartbeat()

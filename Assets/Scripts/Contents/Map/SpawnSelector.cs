@@ -63,7 +63,7 @@ public class SpawnSelector : MonoBehaviour
 
 	public bool Select()
 	{
-		return Select(new System.Random());
+		return Select(Determinism.Stream(0));
 	}
 
 	public bool Select(int seed)

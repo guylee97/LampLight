@@ -1,8 +1,8 @@
 {
   "character": "agwi",
   "label": "아귀",
-  "frameWidth": 96,
-  "frameHeight": 96,
+  "frameWidth": 100,
+  "frameHeight": 100,
   "displayScale": 1,
   "directions": [
     "s",
@@ -24,15 +24,15 @@
     "w": 6,
     "sw": 7
   },
-  "footBaselineY": 86,
+  "footBaselineY": 90,
   "anchor": "bottom-center",
   "anims": {
     "idle": {
       "frames": 1
     },
     "walk": {
-      "frames": 8,
-      "fps": 6.0
+      "frames": 17,
+      "fps": 12.0
     }
   },
   "behavior": {

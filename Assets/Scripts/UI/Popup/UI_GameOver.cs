@@ -28,6 +28,8 @@ public class UI_GameOver : UI_Popup
 	Image _dim;
 	CanvasGroup _sheet;
 	CameraController _camera;
+	PressAnyKeyPrompt _prompt;
+	bool _acceptsInput;
 	float _listenerVolume = 1.0f;
 
 	public override void Init()
@@ -98,9 +100,8 @@ public class UI_GameOver : UI_Popup
 		_sheet.blocksRaycasts = false;
 
 		Picture(sheet, "Your Dead Title", new Vector2(0.5f, 0.668f), 1434.0f);
-		Picture(sheet, "Play Again", new Vector2(0.5f, 0.278f), 212.0f);
-		Choice(sheet, "Yes button", new Vector2(0.4208f, 0.2046f), 184.0f, Retry);
-		Choice(sheet, "No button", new Vector2(0.5898f, 0.2046f), 143.0f, Quit);
+		_prompt = PressAnyKeyPrompt.Attach(sheet, "PRESS ANY KEY \uB2E4\uC2DC", 0.30f, 40);
+		PressAnyKeyPrompt.Attach(sheet, "ESC \uD0C0\uC774\uD2C0\uB85C", 0.225f, 26);
 	}
 
 	Image Picture(RectTransform parent, string file, Vector2 anchor, float width)
@@ -124,27 +125,6 @@ public class UI_GameOver : UI_Popup
 		image.sprite = sprite;
 		image.raycastTarget = false;
 		return image;
-	}
-
-	void Choice(RectTransform parent, string file, Vector2 anchor, float width,
-		UnityEngine.Events.UnityAction onClick)
-	{
-		Image image = Picture(parent, file, anchor, width);
-		if (image == null)
-			return;
-
-		image.raycastTarget = true;
-
-		Button button = image.gameObject.AddComponent<Button>();
-		button.targetGraphic = image;
-		button.onClick.AddListener(onClick);
-
-		ColorBlock colors = button.colors;
-		colors.normalColor = new Color(0.78f, 0.78f, 0.78f);
-		colors.highlightedColor = Color.white;
-		colors.pressedColor = new Color(0.6f, 0.55f, 0.4f);
-		colors.fadeDuration = 0.05f;
-		button.colors = colors;
 	}
 
 	IEnumerator Play()
@@ -245,6 +225,26 @@ public class UI_GameOver : UI_Popup
 		}
 
 		_sheet.alpha = 1.0f;
+		_acceptsInput = true;
+	}
+
+	void Update()
+	{
+		if (_acceptsInput == false)
+			return;
+
+		if (AnyKey.EscapeDown)
+		{
+			_acceptsInput = false;
+			Quit();
+			return;
+		}
+
+		if (AnyKey.Down)
+		{
+			_acceptsInput = false;
+			Retry();
+		}
 	}
 
 	void Restore()

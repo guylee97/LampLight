@@ -142,7 +142,7 @@ public class RunnerZombie : EnemyBase
 
 	void ChooseRouteDirection()
 	{
-		_moveDir = Random.insideUnitCircle.normalized;
+		_moveDir = DeterministicHeading();
 		_nextRouteTurnTime = Time.time + _routeTurnInterval;
 		UpdateAnimatorDirection(_moveDir);
 	}
@@ -154,5 +154,14 @@ public class RunnerZombie : EnemyBase
 			return player.GetComponent<PlayerController>();
 
 		return Object.FindFirstObjectByType<PlayerController>();
+	}
+
+	int _headingStep;
+
+	Vector2 DeterministicHeading()
+	{
+		_headingStep++;
+		float angle = (_headingStep * 137.5f + Mathf.Abs(GetInstanceID()) % 360) * Mathf.Deg2Rad;
+		return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
 	}
 }

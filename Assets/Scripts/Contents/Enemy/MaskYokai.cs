@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -34,6 +35,7 @@ public class MaskYokai : EnemyBase
 	float _ritualSpeedBonusPerStep = 0.35f;
 
 	Rigidbody2D _rigidbody;
+	CircleCollider2D _body;
 	PlayerController _player;
 	Vector2 _moveDir;
 	Vector2 _lastKnownPosition;
@@ -41,6 +43,8 @@ public class MaskYokai : EnemyBase
 	Define.EnemyState _stateBeforePetrify = Define.EnemyState.Patrol;
 	float _nextPatrolRetargetTime;
 	bool _hasPatrolTarget;
+	List<Vector2> _route;
+	int _routeIndex;
 	bool _wasPetrified;
 
 	public override void Init()
@@ -56,8 +60,9 @@ public class MaskYokai : EnemyBase
 		_rigidbody.interpolation = RigidbodyInterpolation2D.Interpolate;
 		_rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-		if (GetComponent<Collider2D>() == null)
-			gameObject.AddComponent<CircleCollider2D>();
+		_body = GetComponent<CircleCollider2D>();
+		if (_body == null && GetComponent<Collider2D>() == null)
+			_body = gameObject.AddComponent<CircleCollider2D>();
 
 		State = Define.EnemyState.Patrol;
 	}
@@ -106,8 +111,7 @@ public class MaskYokai : EnemyBase
 
 		if (_hasPatrolTarget == false
 			|| Time.time >= _nextPatrolRetargetTime
-			|| Vector2.Distance(transform.position, _patrolTarget) <= _arrivalRange
-			|| IsStuck())
+			|| Vector2.Distance(transform.position, _patrolTarget) <= _arrivalRange)
 		{
 			ChoosePatrolTarget();
 		}
@@ -265,31 +269,96 @@ public class MaskYokai : EnemyBase
 		_nextPatrolRetargetTime = Time.time + _patrolRetargetSeconds;
 		_hasPatrolTarget = true;
 
-		if (MapCoord.IsReady == false)
+		MapData map = MapCoord.IsReady ? Managers.Data.Map : null;
+
+		if (map == null || map.rooms == null || map.rooms.Length == 0)
 		{
-			_patrolTarget = (Vector2)transform.position + Random.insideUnitCircle * 4.0f;
+			_patrolTarget = transform.position;
 			return;
 		}
 
-		for (int attempt = 0; attempt < 12; attempt++)
+		if (_route == null)
+			BuildRoute(map);
+
+		if (_route.Count == 0)
 		{
-			Vector2 candidate = (Vector2)transform.position + Random.insideUnitCircle.normalized
-				* Random.Range(3.0f, 8.0f);
-
-			if (MapCoord.IsWalkable(candidate) == false)
-				continue;
-
-			_patrolTarget = candidate;
+			_patrolTarget = transform.position;
 			return;
 		}
 
-		_patrolTarget = transform.position;
+		_routeIndex = (_routeIndex + 1) % _route.Count;
+		_patrolTarget = _route[_routeIndex];
+	}
+
+	void BuildRoute(MapData map)
+	{
+		_route = new List<Vector2>();
+
+		foreach (MapRoom room in map.rooms)
+		{
+			Vector3 center = MapCoord.TileToWorld(
+				room.col + room.width / 2,
+				room.row + room.height / 2);
+
+			_route.Add(center);
+		}
+
+		Vector2 here = transform.position;
+		_route.Sort((a, b) => (a - here).sqrMagnitude.CompareTo((b - here).sqrMagnitude));
+		_routeIndex = -1;
 	}
 
 	void Steer(Vector2 destination)
 	{
 		_moveDir = SteerTowards(destination);
+
+		if (IsStuck())
+			_moveDir = Unwedge(destination);
+
 		UpdateAnimatorDirection(_moveDir);
+	}
+
+	Vector2 Unwedge(Vector2 destination)
+	{
+		Vector2 self = transform.position;
+		Vector2 wanted = (destination - self).normalized;
+		float radius = _body != null ? _body.radius : 0.45f;
+
+		for (int i = 1; i <= 6; i++)
+		{
+			float sweep = 30.0f * i;
+
+			foreach (float sign in StuckSweepSigns)
+			{
+				Vector2 candidate = Rotate(wanted, sweep * sign);
+				if (IsClear(self, candidate, radius))
+					return candidate;
+			}
+		}
+
+		return -wanted;
+	}
+
+	static readonly float[] StuckSweepSigns = { 1.0f, -1.0f };
+
+	bool IsClear(Vector2 origin, Vector2 direction, float radius)
+	{
+		RaycastHit2D hit = Physics2D.CircleCast(
+			origin,
+			radius * 0.95f,
+			direction,
+			1.1f,
+			1 << (int)Define.Layer.Block);
+
+		return hit.collider == null;
+	}
+
+	static Vector2 Rotate(Vector2 value, float degrees)
+	{
+		float rad = degrees * Mathf.Deg2Rad;
+		float cos = Mathf.Cos(rad);
+		float sin = Mathf.Sin(rad);
+		return new Vector2(value.x * cos - value.y * sin, value.x * sin + value.y * cos);
 	}
 
 	bool ResolvePlayer()

@@ -10,6 +10,18 @@ public class UI_MainScreen : UI_Scene
 		StartButton
 	}
 
+	PressAnyKeyPrompt _prompt;
+	bool _ready;
+
+	void Update()
+	{
+		if (_ready == false || AnyKey.Down == false)
+			return;
+
+		_ready = false;
+		OnStartButtonClicked(null);
+	}
+
 	public override void Init()
 	{
 		base.Init();
@@ -18,6 +30,8 @@ public class UI_MainScreen : UI_Scene
 		Button start = GetButton((int)Buttons.StartButton);
 		start.gameObject.BindEvent(OnStartButtonClicked);
 		ApplyArtwork(start);
+		_prompt = PressAnyKeyPrompt.Attach(transform, "PRESS ANY KEY", 0.135f, 38);
+		_prompt.gameObject.SetActive(false);
 		Managers.Sound.PlayOptional(
 			"Title_Background_Music/👍Title_Background_Mixing",
 			Define.Sound.Ambient,
@@ -132,6 +146,11 @@ public class UI_MainScreen : UI_Scene
 		}
 
 		yield return new WaitForSecondsRealtime(2.0f);
+
+		if (_prompt != null)
+			_prompt.gameObject.SetActive(true);
+
+		_ready = true;
 
 		CanvasGroup group = splash.GetComponent<CanvasGroup>();
 		const float fadeSeconds = 0.6f;

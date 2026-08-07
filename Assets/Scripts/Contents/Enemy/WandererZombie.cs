@@ -112,10 +112,10 @@ public class WandererZombie : EnemyBase
 
 	void ChoosePatrolDirection()
 	{
-		_moveDir = Random.insideUnitCircle.normalized;
+		_moveDir = DeterministicHeading();
 		UpdateAnimatorDirection(_moveDir);
 		_moveSpeed = _patrolSpeed;
-		_nextTurnTime = Time.time + Random.Range(_minTurnInterval, _maxTurnInterval);
+		_nextTurnTime = Time.time + (_minTurnInterval + _maxTurnInterval) * 0.5f;
 	}
 
 	bool CanHearPlayer()
@@ -136,4 +136,13 @@ public class WandererZombie : EnemyBase
 		return Object.FindFirstObjectByType<PlayerController>();
 	}
 
+
+	int _headingStep;
+
+	Vector2 DeterministicHeading()
+	{
+		_headingStep++;
+		float angle = (_headingStep * 137.5f + Mathf.Abs(GetInstanceID()) % 360) * Mathf.Deg2Rad;
+		return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+	}
 }

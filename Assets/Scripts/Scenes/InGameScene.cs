@@ -56,7 +56,7 @@ public class InGameScene : MonoBehaviour
 		int configured = SeedOverride >= 0 ? SeedOverride : _seed;
 		int mapSeed = configured >= 0
 			? configured
-			: UnityEngine.Random.Range(1, int.MaxValue - MapGenerator.MaxAttempts);
+			: Determinism.Seed;
 		Managers.Data.BuildLevelMap(config.Level, mapSeed);
 
 		if (_tilemap == null)
@@ -75,7 +75,7 @@ public class InGameScene : MonoBehaviour
 
 		ApplyLevelConfig(config);
 
-		System.Random rng = configured < 0 ? new System.Random() : new System.Random(configured);
+		System.Random rng = new System.Random(configured < 0 ? Determinism.Seed : configured);
 		int containedArtifacts = ConfigureArtifactContainers(config);
 		_placer.Place(
 			config.ArtifactsPlaced - containedArtifacts,
@@ -254,7 +254,7 @@ public class InGameScene : MonoBehaviour
 		if (candidates.Count == 0)
 			return;
 
-		System.Random rng = _seed < 0 ? new System.Random() : new System.Random(_seed + 1);
+		System.Random rng = Determinism.Stream(_seed < 0 ? 1 : _seed + 1);
 
 		foreach (EnemyBase enemy in FindObjectsByType<EnemyBase>(FindObjectsSortMode.None))
 		{
@@ -297,7 +297,7 @@ public class InGameScene : MonoBehaviour
 		if (containers.Length == 0 || config.ArtifactsPlaced <= 1)
 			return 0;
 
-		containers[UnityEngine.Random.Range(0, containers.Length)].SetArtifact(_progress);
+		containers[Managers.Game.CurrentLevel % containers.Length].SetArtifact(_progress);
 		return 1;
 	}
 

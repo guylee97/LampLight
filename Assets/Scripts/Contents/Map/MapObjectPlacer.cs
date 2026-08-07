@@ -41,7 +41,7 @@ public class MapObjectPlacer : MonoBehaviour
 
 	public void Place(int maxArtifacts, float artifactRadiusTiles, int level)
 	{
-		Place(maxArtifacts, artifactRadiusTiles, level, new System.Random());
+		Place(maxArtifacts, artifactRadiusTiles, level, Determinism.Stream(level));
 	}
 
 	public void Place(int maxArtifacts, float artifactRadiusTiles, int level, System.Random rng)
@@ -60,7 +60,7 @@ public class MapObjectPlacer : MonoBehaviour
 
 		Transform parent = _root != null ? _root : transform;
 		_parent = parent;
-		_rng = rng ?? new System.Random();
+		_rng = rng ?? Determinism.Stream(level);
 
 		List<MapPoint> artifactPoints = new List<MapPoint>();
 		foreach (MapPoint point in map.objects)

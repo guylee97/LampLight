@@ -27,6 +27,33 @@ TextureImporter:
       213: 601815255
     second: agwi_walk_s_07
   - first:
+      213: -1772079807
+    second: agwi_walk_s_08
+  - first:
+      213: 114361724
+    second: agwi_walk_s_09
+  - first:
+      213: -1900990273
+    second: agwi_walk_s_10
+  - first:
+      213: -487051511
+    second: agwi_walk_s_11
+  - first:
+      213: -1277196030
+    second: agwi_walk_s_12
+  - first:
+      213: -1991834868
+    second: agwi_walk_s_13
+  - first:
+      213: -136334152
+    second: agwi_walk_s_14
+  - first:
+      213: -660989703
+    second: agwi_walk_s_15
+  - first:
+      213: -132816292
+    second: agwi_walk_s_16
+  - first:
       213: 502027281
     second: agwi_walk_se_00
   - first:
@@ -50,6 +77,33 @@ TextureImporter:
   - first:
       213: 1374113179
     second: agwi_walk_se_07
+  - first:
+      213: -1082994087
+    second: agwi_walk_se_08
+  - first:
+      213: -1020222368
+    second: agwi_walk_se_09
+  - first:
+      213: 1627395609
+    second: agwi_walk_se_10
+  - first:
+      213: -202213972
+    second: agwi_walk_se_11
+  - first:
+      213: 234854667
+    second: agwi_walk_se_12
+  - first:
+      213: -1926128867
+    second: agwi_walk_se_13
+  - first:
+      213: 702129600
+    second: agwi_walk_se_14
+  - first:
+      213: 1476922784
+    second: agwi_walk_se_15
+  - first:
+      213: 345935892
+    second: agwi_walk_se_16
   - first:
       213: 183798408
     second: agwi_walk_e_00
@@ -75,6 +129,33 @@ TextureImporter:
       213: -756840514
     second: agwi_walk_e_07
   - first:
+      213: -281333053
+    second: agwi_walk_e_08
+  - first:
+      213: -827502199
+    second: agwi_walk_e_09
+  - first:
+      213: -2095894391
+    second: agwi_walk_e_10
+  - first:
+      213: 440978633
+    second: agwi_walk_e_11
+  - first:
+      213: 145417893
+    second: agwi_walk_e_12
+  - first:
+      213: -997389287
+    second: agwi_walk_e_13
+  - first:
+      213: 1042545243
+    second: agwi_walk_e_14
+  - first:
+      213: -390612333
+    second: agwi_walk_e_15
+  - first:
+      213: 1642283601
+    second: agwi_walk_e_16
+  - first:
       213: 208025636
     second: agwi_walk_ne_00
   - first:
@@ -98,6 +179,33 @@ TextureImporter:
   - first:
       213: 701667379
     second: agwi_walk_ne_07
+  - first:
+      213: -1588090618
+    second: agwi_walk_ne_08
+  - first:
+      213: 835562511
+    second: agwi_walk_ne_09
+  - first:
+      213: 560709333
+    second: agwi_walk_ne_10
+  - first:
+      213: -526486784
+    second: agwi_walk_ne_11
+  - first:
+      213: 1894721663
+    second: agwi_walk_ne_12
+  - first:
+      213: -515241834
+    second: agwi_walk_ne_13
+  - first:
+      213: -947119608
+    second: agwi_walk_ne_14
+  - first:
+      213: 1537142033
+    second: agwi_walk_ne_15
+  - first:
+      213: -952013551
+    second: agwi_walk_ne_16
   - first:
       213: -1560158607
     second: agwi_walk_n_00
@@ -123,6 +231,33 @@ TextureImporter:
       213: 942327125
     second: agwi_walk_n_07
   - first:
+      213: -552858581
+    second: agwi_walk_n_08
+  - first:
+      213: -967046507
+    second: agwi_walk_n_09
+  - first:
+      213: -570663866
+    second: agwi_walk_n_10
+  - first:
+      213: 2015793655
+    second: agwi_walk_n_11
+  - first:
+      213: -1652271640
+    second: agwi_walk_n_12
+  - first:
+      213: 202700835
+    second: agwi_walk_n_13
+  - first:
+      213: -166235951
+    second: agwi_walk_n_14
+  - first:
+      213: 1729129910
+    second: agwi_walk_n_15
+  - first:
+      213: -544737782
+    second: agwi_walk_n_16
+  - first:
       213: -1865187999
     second: agwi_walk_nw_00
   - first:
@@ -146,6 +281,33 @@ TextureImporter:
   - first:
       213: -117317786
     second: agwi_walk_nw_07
+  - first:
+      213: -2039474301
+    second: agwi_walk_nw_08
+  - first:
+      213: -1740527522
+    second: agwi_walk_nw_09
+  - first:
+      213: 1755601158
+    second: agwi_walk_nw_10
+  - first:
+      213: -1784972008
+    second: agwi_walk_nw_11
+  - first:
+      213: 591560194
+    second: agwi_walk_nw_12
+  - first:
+      213: 1126535501
+    second: agwi_walk_nw_13
+  - first:
+      213: 1792531542
+    second: agwi_walk_nw_14
+  - first:
+      213: 1464788702
+    second: agwi_walk_nw_15
+  - first:
+      213: -299444167
+    second: agwi_walk_nw_16
   - first:
       213: -1902639404
     second: agwi_walk_w_00
@@ -171,6 +333,33 @@ TextureImporter:
       213: 195107387
     second: agwi_walk_w_07
   - first:
+      213: -1789002422
+    second: agwi_walk_w_08
+  - first:
+      213: -717620083
+    second: agwi_walk_w_09
+  - first:
+      213: 1417378558
+    second: agwi_walk_w_10
+  - first:
+      213: -559517412
+    second: agwi_walk_w_11
+  - first:
+      213: -1678313125
+    second: agwi_walk_w_12
+  - first:
+      213: -211559577
+    second: agwi_walk_w_13
+  - first:
+      213: -590025467
+    second: agwi_walk_w_14
+  - first:
+      213: 1184114678
+    second: agwi_walk_w_15
+  - first:
+      213: -851407918
+    second: agwi_walk_w_16
+  - first:
       213: -1483250795
     second: agwi_walk_sw_00
   - first:
@@ -194,6 +383,33 @@ TextureImporter:
   - first:
       213: 1295368883
     second: agwi_walk_sw_07
+  - first:
+      213: -683664340
+    second: agwi_walk_sw_08
+  - first:
+      213: 501334836
+    second: agwi_walk_sw_09
+  - first:
+      213: 483668051
+    second: agwi_walk_sw_10
+  - first:
+      213: -843469669
+    second: agwi_walk_sw_11
+  - first:
+      213: 1072222601
+    second: agwi_walk_sw_12
+  - first:
+      213: 800303538
+    second: agwi_walk_sw_13
+  - first:
+      213: 1798114174
+    second: agwi_walk_sw_14
+  - first:
+      213: -636679676
+    second: agwi_walk_sw_15
+  - first:
+      213: 605182324
+    second: agwi_walk_sw_16
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -306,11 +522,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 672
-        width: 96
-        height: 96
+        y: 700
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -327,12 +543,12 @@ TextureImporter:
       name: agwi_walk_s_01
       rect:
         serializedVersion: 2
-        x: 96
-        y: 672
-        width: 96
-        height: 96
+        x: 100
+        y: 700
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -349,12 +565,12 @@ TextureImporter:
       name: agwi_walk_s_02
       rect:
         serializedVersion: 2
-        x: 192
-        y: 672
-        width: 96
-        height: 96
+        x: 200
+        y: 700
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -371,12 +587,12 @@ TextureImporter:
       name: agwi_walk_s_03
       rect:
         serializedVersion: 2
-        x: 288
-        y: 672
-        width: 96
-        height: 96
+        x: 300
+        y: 700
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -393,12 +609,12 @@ TextureImporter:
       name: agwi_walk_s_04
       rect:
         serializedVersion: 2
-        x: 384
-        y: 672
-        width: 96
-        height: 96
+        x: 400
+        y: 700
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -415,12 +631,12 @@ TextureImporter:
       name: agwi_walk_s_05
       rect:
         serializedVersion: 2
-        x: 480
-        y: 672
-        width: 96
-        height: 96
+        x: 500
+        y: 700
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -437,12 +653,12 @@ TextureImporter:
       name: agwi_walk_s_06
       rect:
         serializedVersion: 2
-        x: 576
-        y: 672
-        width: 96
-        height: 96
+        x: 600
+        y: 700
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -459,12 +675,12 @@ TextureImporter:
       name: agwi_walk_s_07
       rect:
         serializedVersion: 2
-        x: 672
-        y: 672
-        width: 96
-        height: 96
+        x: 700
+        y: 700
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -478,15 +694,213 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: agwi_walk_s_08
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 700
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e29ece5ed9a4e024f33ff6f74c21f888
+      internalID: -1772079807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_s_09
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 700
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22573ea7ef6ad19cac27c59a8fd9cf22
+      internalID: 114361724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_s_10
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 700
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 181db8e9dada05e2d821a2c74f52cfc2
+      internalID: -1900990273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_s_11
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 700
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 437412271b1883666ec9d915c892929a
+      internalID: -487051511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_s_12
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 700
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c0c5393ed3f100faa5b5fb15d805015
+      internalID: -1277196030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_s_13
+      rect:
+        serializedVersion: 2
+        x: 1300
+        y: 700
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34f2b1349ad1d907d578727048298ae5
+      internalID: -1991834868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_s_14
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 700
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 751bed51d95ae26eaa74ff19448285f4
+      internalID: -136334152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_s_15
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 700
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ee25adcc3a4f4275081fbf6ff878c3b
+      internalID: -660989703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_s_16
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 700
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98db8c2563f9201e71afe9e2be22a1ec
+      internalID: -132816292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: agwi_walk_se_00
       rect:
         serializedVersion: 2
         x: 0
-        y: 576
-        width: 96
-        height: 96
+        y: 600
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -503,12 +917,12 @@ TextureImporter:
       name: agwi_walk_se_01
       rect:
         serializedVersion: 2
-        x: 96
-        y: 576
-        width: 96
-        height: 96
+        x: 100
+        y: 600
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -525,12 +939,12 @@ TextureImporter:
       name: agwi_walk_se_02
       rect:
         serializedVersion: 2
-        x: 192
-        y: 576
-        width: 96
-        height: 96
+        x: 200
+        y: 600
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -547,12 +961,12 @@ TextureImporter:
       name: agwi_walk_se_03
       rect:
         serializedVersion: 2
-        x: 288
-        y: 576
-        width: 96
-        height: 96
+        x: 300
+        y: 600
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -569,12 +983,12 @@ TextureImporter:
       name: agwi_walk_se_04
       rect:
         serializedVersion: 2
-        x: 384
-        y: 576
-        width: 96
-        height: 96
+        x: 400
+        y: 600
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -591,12 +1005,12 @@ TextureImporter:
       name: agwi_walk_se_05
       rect:
         serializedVersion: 2
-        x: 480
-        y: 576
-        width: 96
-        height: 96
+        x: 500
+        y: 600
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -613,12 +1027,12 @@ TextureImporter:
       name: agwi_walk_se_06
       rect:
         serializedVersion: 2
-        x: 576
-        y: 576
-        width: 96
-        height: 96
+        x: 600
+        y: 600
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -635,12 +1049,12 @@ TextureImporter:
       name: agwi_walk_se_07
       rect:
         serializedVersion: 2
-        x: 672
-        y: 576
-        width: 96
-        height: 96
+        x: 700
+        y: 600
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -654,15 +1068,213 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: agwi_walk_se_08
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 600
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e1460eec56872e95bf9513a7defe469
+      internalID: -1082994087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_se_09
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 600
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82e7c795da42c52b8570ed9b04e141ad
+      internalID: -1020222368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_se_10
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 600
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c23379aad8a31ae72c64005f389d305
+      internalID: 1627395609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_se_11
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 600
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fff8d63c8c9c5118e793da49f459fa02
+      internalID: -202213972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_se_12
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 600
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc72dc6553dd1a779e1c906b48463628
+      internalID: 234854667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_se_13
+      rect:
+        serializedVersion: 2
+        x: 1300
+        y: 600
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed1551337da06ed39d573f5990c7be40
+      internalID: -1926128867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_se_14
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 600
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a333e09b4ecb7e9514bc486b7977cc60
+      internalID: 702129600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_se_15
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 600
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7d224badeb4d20ae544db160661dc73
+      internalID: 1476922784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_se_16
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 600
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1db7a2873c4daa4b35ca010229f0292b
+      internalID: 345935892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: agwi_walk_e_00
       rect:
         serializedVersion: 2
         x: 0
-        y: 480
-        width: 96
-        height: 96
+        y: 500
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -679,12 +1291,12 @@ TextureImporter:
       name: agwi_walk_e_01
       rect:
         serializedVersion: 2
-        x: 96
-        y: 480
-        width: 96
-        height: 96
+        x: 100
+        y: 500
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -701,12 +1313,12 @@ TextureImporter:
       name: agwi_walk_e_02
       rect:
         serializedVersion: 2
-        x: 192
-        y: 480
-        width: 96
-        height: 96
+        x: 200
+        y: 500
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -723,12 +1335,12 @@ TextureImporter:
       name: agwi_walk_e_03
       rect:
         serializedVersion: 2
-        x: 288
-        y: 480
-        width: 96
-        height: 96
+        x: 300
+        y: 500
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -745,12 +1357,12 @@ TextureImporter:
       name: agwi_walk_e_04
       rect:
         serializedVersion: 2
-        x: 384
-        y: 480
-        width: 96
-        height: 96
+        x: 400
+        y: 500
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -767,12 +1379,12 @@ TextureImporter:
       name: agwi_walk_e_05
       rect:
         serializedVersion: 2
-        x: 480
-        y: 480
-        width: 96
-        height: 96
+        x: 500
+        y: 500
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -789,12 +1401,12 @@ TextureImporter:
       name: agwi_walk_e_06
       rect:
         serializedVersion: 2
-        x: 576
-        y: 480
-        width: 96
-        height: 96
+        x: 600
+        y: 500
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -811,12 +1423,12 @@ TextureImporter:
       name: agwi_walk_e_07
       rect:
         serializedVersion: 2
-        x: 672
-        y: 480
-        width: 96
-        height: 96
+        x: 700
+        y: 500
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -830,15 +1442,213 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: agwi_walk_e_08
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 500
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdec88eb63a431001b85885dd0469ba0
+      internalID: -281333053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_e_09
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 500
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d75fa499c3fe94bee9514aec23c0516c
+      internalID: -827502199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_e_10
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 500
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d82096d9f9b9f2eea21125d4fbff27d
+      internalID: -2095894391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_e_11
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 500
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2be857fb21ce3fa6801dce9c73ef5a1
+      internalID: 440978633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_e_12
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 500
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00234d45c41dcb26201a8c000cfa1acc
+      internalID: 145417893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_e_13
+      rect:
+        serializedVersion: 2
+        x: 1300
+        y: 500
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f37e380fffbe1392da699fd91ff2124
+      internalID: -997389287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_e_14
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 500
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e02ec1b3c04ca7ea9aa0616b2dc36bb9
+      internalID: 1042545243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_e_15
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 500
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ba6699c7d4de26ce6c9159137275a5e
+      internalID: -390612333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_e_16
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 500
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d884c5da9df54c3b0569165cc6d73b0
+      internalID: 1642283601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: agwi_walk_ne_00
       rect:
         serializedVersion: 2
         x: 0
-        y: 384
-        width: 96
-        height: 96
+        y: 400
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -855,12 +1665,12 @@ TextureImporter:
       name: agwi_walk_ne_01
       rect:
         serializedVersion: 2
-        x: 96
-        y: 384
-        width: 96
-        height: 96
+        x: 100
+        y: 400
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -877,12 +1687,12 @@ TextureImporter:
       name: agwi_walk_ne_02
       rect:
         serializedVersion: 2
-        x: 192
-        y: 384
-        width: 96
-        height: 96
+        x: 200
+        y: 400
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -899,12 +1709,12 @@ TextureImporter:
       name: agwi_walk_ne_03
       rect:
         serializedVersion: 2
-        x: 288
-        y: 384
-        width: 96
-        height: 96
+        x: 300
+        y: 400
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -921,12 +1731,12 @@ TextureImporter:
       name: agwi_walk_ne_04
       rect:
         serializedVersion: 2
-        x: 384
-        y: 384
-        width: 96
-        height: 96
+        x: 400
+        y: 400
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -943,12 +1753,12 @@ TextureImporter:
       name: agwi_walk_ne_05
       rect:
         serializedVersion: 2
-        x: 480
-        y: 384
-        width: 96
-        height: 96
+        x: 500
+        y: 400
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -965,12 +1775,12 @@ TextureImporter:
       name: agwi_walk_ne_06
       rect:
         serializedVersion: 2
-        x: 576
-        y: 384
-        width: 96
-        height: 96
+        x: 600
+        y: 400
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -987,12 +1797,12 @@ TextureImporter:
       name: agwi_walk_ne_07
       rect:
         serializedVersion: 2
-        x: 672
-        y: 384
-        width: 96
-        height: 96
+        x: 700
+        y: 400
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1006,15 +1816,213 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: agwi_walk_ne_08
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 400
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9877ddeffd8c11c4b29d8f4e601149b5
+      internalID: -1588090618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_ne_09
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 400
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 992b7e1d583a023f05a4833b2089bda5
+      internalID: 835562511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_ne_10
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 400
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d7c9a12701f830809beb98be4cc35e6
+      internalID: 560709333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_ne_11
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 400
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b6b89f2dd6b5737a16edaa33cf0e241
+      internalID: -526486784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_ne_12
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 400
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff62b418fa8590b685ee1e12fb126b0b
+      internalID: 1894721663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_ne_13
+      rect:
+        serializedVersion: 2
+        x: 1300
+        y: 400
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef5718f711654b677a0f9505ddded99d
+      internalID: -515241834
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_ne_14
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 400
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae2f48917638f2bd2add8facb8c6acf1
+      internalID: -947119608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_ne_15
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 400
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0fe91ee03d1464108d73f6de5b747ad
+      internalID: 1537142033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_ne_16
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 400
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e845d18ec8f5789ab39966583dee8f4f
+      internalID: -952013551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: agwi_walk_n_00
       rect:
         serializedVersion: 2
         x: 0
-        y: 288
-        width: 96
-        height: 96
+        y: 300
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1031,12 +2039,12 @@ TextureImporter:
       name: agwi_walk_n_01
       rect:
         serializedVersion: 2
-        x: 96
-        y: 288
-        width: 96
-        height: 96
+        x: 100
+        y: 300
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1053,12 +2061,12 @@ TextureImporter:
       name: agwi_walk_n_02
       rect:
         serializedVersion: 2
-        x: 192
-        y: 288
-        width: 96
-        height: 96
+        x: 200
+        y: 300
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1075,12 +2083,12 @@ TextureImporter:
       name: agwi_walk_n_03
       rect:
         serializedVersion: 2
-        x: 288
-        y: 288
-        width: 96
-        height: 96
+        x: 300
+        y: 300
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1097,12 +2105,12 @@ TextureImporter:
       name: agwi_walk_n_04
       rect:
         serializedVersion: 2
-        x: 384
-        y: 288
-        width: 96
-        height: 96
+        x: 400
+        y: 300
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1119,12 +2127,12 @@ TextureImporter:
       name: agwi_walk_n_05
       rect:
         serializedVersion: 2
-        x: 480
-        y: 288
-        width: 96
-        height: 96
+        x: 500
+        y: 300
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1141,12 +2149,12 @@ TextureImporter:
       name: agwi_walk_n_06
       rect:
         serializedVersion: 2
-        x: 576
-        y: 288
-        width: 96
-        height: 96
+        x: 600
+        y: 300
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1163,12 +2171,12 @@ TextureImporter:
       name: agwi_walk_n_07
       rect:
         serializedVersion: 2
-        x: 672
-        y: 288
-        width: 96
-        height: 96
+        x: 700
+        y: 300
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1182,15 +2190,213 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: agwi_walk_n_08
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 300
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e729ed4d7c4548557d77c64981f4be30
+      internalID: -552858581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_n_09
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 300
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 525e7c876ef55c417a1e5b47835897b7
+      internalID: -967046507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_n_10
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 300
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4cf2214de6fc22ba3edf28838805e38
+      internalID: -570663866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_n_11
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 300
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83050cbff0a726eff92c6b588109ff3d
+      internalID: 2015793655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_n_12
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 300
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 750fbddd84195b89dc200d88b98d5123
+      internalID: -1652271640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_n_13
+      rect:
+        serializedVersion: 2
+        x: 1300
+        y: 300
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afa3e84fd9c6933551211c13a68cce47
+      internalID: 202700835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_n_14
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 300
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65930f996118538f34541fddb756d726
+      internalID: -166235951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_n_15
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 300
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d98f8c83b2c82a56610bb6bca9cfb419
+      internalID: 1729129910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_n_16
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 300
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aac029199392267d0941ed9de49f8e3b
+      internalID: -544737782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: agwi_walk_nw_00
       rect:
         serializedVersion: 2
         x: 0
-        y: 192
-        width: 96
-        height: 96
+        y: 200
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1207,12 +2413,12 @@ TextureImporter:
       name: agwi_walk_nw_01
       rect:
         serializedVersion: 2
-        x: 96
-        y: 192
-        width: 96
-        height: 96
+        x: 100
+        y: 200
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1229,12 +2435,12 @@ TextureImporter:
       name: agwi_walk_nw_02
       rect:
         serializedVersion: 2
-        x: 192
-        y: 192
-        width: 96
-        height: 96
+        x: 200
+        y: 200
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1251,12 +2457,12 @@ TextureImporter:
       name: agwi_walk_nw_03
       rect:
         serializedVersion: 2
-        x: 288
-        y: 192
-        width: 96
-        height: 96
+        x: 300
+        y: 200
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1273,12 +2479,12 @@ TextureImporter:
       name: agwi_walk_nw_04
       rect:
         serializedVersion: 2
-        x: 384
-        y: 192
-        width: 96
-        height: 96
+        x: 400
+        y: 200
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1295,12 +2501,12 @@ TextureImporter:
       name: agwi_walk_nw_05
       rect:
         serializedVersion: 2
-        x: 480
-        y: 192
-        width: 96
-        height: 96
+        x: 500
+        y: 200
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1317,12 +2523,12 @@ TextureImporter:
       name: agwi_walk_nw_06
       rect:
         serializedVersion: 2
-        x: 576
-        y: 192
-        width: 96
-        height: 96
+        x: 600
+        y: 200
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1339,12 +2545,12 @@ TextureImporter:
       name: agwi_walk_nw_07
       rect:
         serializedVersion: 2
-        x: 672
-        y: 192
-        width: 96
-        height: 96
+        x: 700
+        y: 200
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1358,15 +2564,213 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: agwi_walk_nw_08
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 200
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82cb43bd13e2206964bbceac700e2040
+      internalID: -2039474301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_nw_09
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 200
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 712e112791fba060217d99bf90ab48dd
+      internalID: -1740527522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_nw_10
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 200
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a740e0f0fc6167ca38abbf56f2fe53c
+      internalID: 1755601158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_nw_11
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 200
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 516d81d7c41a355f73c01df73f14985d
+      internalID: -1784972008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_nw_12
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 200
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1308ccc2b40445bb979543c3fde8e82d
+      internalID: 591560194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_nw_13
+      rect:
+        serializedVersion: 2
+        x: 1300
+        y: 200
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cc63bdab9c3d9cee04793b7f9163e01
+      internalID: 1126535501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_nw_14
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 200
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f3350f85db9fc56a3ddace713e4e639
+      internalID: 1792531542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_nw_15
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 200
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 098e62bfeee7ed25ff1de67421dbbf9f
+      internalID: 1464788702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_nw_16
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 200
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f92baa193886822cd4a7f6059f634604
+      internalID: -299444167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: agwi_walk_w_00
       rect:
         serializedVersion: 2
         x: 0
-        y: 96
-        width: 96
-        height: 96
+        y: 100
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1383,12 +2787,12 @@ TextureImporter:
       name: agwi_walk_w_01
       rect:
         serializedVersion: 2
-        x: 96
-        y: 96
-        width: 96
-        height: 96
+        x: 100
+        y: 100
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1405,12 +2809,12 @@ TextureImporter:
       name: agwi_walk_w_02
       rect:
         serializedVersion: 2
-        x: 192
-        y: 96
-        width: 96
-        height: 96
+        x: 200
+        y: 100
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1427,12 +2831,12 @@ TextureImporter:
       name: agwi_walk_w_03
       rect:
         serializedVersion: 2
-        x: 288
-        y: 96
-        width: 96
-        height: 96
+        x: 300
+        y: 100
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1449,12 +2853,12 @@ TextureImporter:
       name: agwi_walk_w_04
       rect:
         serializedVersion: 2
-        x: 384
-        y: 96
-        width: 96
-        height: 96
+        x: 400
+        y: 100
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1471,12 +2875,12 @@ TextureImporter:
       name: agwi_walk_w_05
       rect:
         serializedVersion: 2
-        x: 480
-        y: 96
-        width: 96
-        height: 96
+        x: 500
+        y: 100
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1493,12 +2897,12 @@ TextureImporter:
       name: agwi_walk_w_06
       rect:
         serializedVersion: 2
-        x: 576
-        y: 96
-        width: 96
-        height: 96
+        x: 600
+        y: 100
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1515,12 +2919,12 @@ TextureImporter:
       name: agwi_walk_w_07
       rect:
         serializedVersion: 2
-        x: 672
-        y: 96
-        width: 96
-        height: 96
+        x: 700
+        y: 100
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1534,15 +2938,213 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: agwi_walk_w_08
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 100
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4139bfb62ae4ce2bfd5ba871f2127df
+      internalID: -1789002422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_w_09
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 100
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 544dd69720fe6c5e824f800f3f4d89e9
+      internalID: -717620083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_w_10
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 100
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f5b11e5fd4fdc8713f8d947b1e19555
+      internalID: 1417378558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_w_11
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 100
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c56c7eb5847d3495ec4e99986737245
+      internalID: -559517412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_w_12
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 100
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b63771ad5a591c56c2b6cf836e5c34ae
+      internalID: -1678313125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_w_13
+      rect:
+        serializedVersion: 2
+        x: 1300
+        y: 100
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 022636e1a2d1b70f13c18e30df6f16cd
+      internalID: -211559577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_w_14
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 100
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 738185402a31e8e59cf00adbf4f189f4
+      internalID: -590025467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_w_15
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 100
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f93fd0a5b6abf98fcbccbb89dc849709
+      internalID: 1184114678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_w_16
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 100
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 881d832f09be9f1ae234858152bfc0cb
+      internalID: -851407918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: agwi_walk_sw_00
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 96
-        height: 96
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1559,12 +3161,12 @@ TextureImporter:
       name: agwi_walk_sw_01
       rect:
         serializedVersion: 2
-        x: 96
+        x: 100
         y: 0
-        width: 96
-        height: 96
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1581,12 +3183,12 @@ TextureImporter:
       name: agwi_walk_sw_02
       rect:
         serializedVersion: 2
-        x: 192
+        x: 200
         y: 0
-        width: 96
-        height: 96
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1603,12 +3205,12 @@ TextureImporter:
       name: agwi_walk_sw_03
       rect:
         serializedVersion: 2
-        x: 288
+        x: 300
         y: 0
-        width: 96
-        height: 96
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1625,12 +3227,12 @@ TextureImporter:
       name: agwi_walk_sw_04
       rect:
         serializedVersion: 2
-        x: 384
+        x: 400
         y: 0
-        width: 96
-        height: 96
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1647,12 +3249,12 @@ TextureImporter:
       name: agwi_walk_sw_05
       rect:
         serializedVersion: 2
-        x: 480
+        x: 500
         y: 0
-        width: 96
-        height: 96
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1669,12 +3271,12 @@ TextureImporter:
       name: agwi_walk_sw_06
       rect:
         serializedVersion: 2
-        x: 576
+        x: 600
         y: 0
-        width: 96
-        height: 96
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1691,12 +3293,12 @@ TextureImporter:
       name: agwi_walk_sw_07
       rect:
         serializedVersion: 2
-        x: 672
+        x: 700
         y: 0
-        width: 96
-        height: 96
+        width: 100
+        height: 100
       alignment: 9
-      pivot: {x: 0.5, y: 0.104167}
+      pivot: {x: 0.5, y: 0.1}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1705,6 +3307,204 @@ TextureImporter:
       bones: []
       spriteID: ac92e8465e2663b26dac63a1aa87bec2
       internalID: 1295368883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_sw_08
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11a4aaedaf96eef52dd4938387658efe
+      internalID: -683664340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_sw_09
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 0
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bad2c7bf021ce221fa5ca1a6b8dcdf1f
+      internalID: 501334836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_sw_10
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 0
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6d347a2f2230efd87649feb40a04681
+      internalID: 483668051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_sw_11
+      rect:
+        serializedVersion: 2
+        x: 1100
+        y: 0
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e47f42f34480a936867d279f62bcbde9
+      internalID: -843469669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_sw_12
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 0
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26c0f96bfc034b263882f85572c1d96c
+      internalID: 1072222601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_sw_13
+      rect:
+        serializedVersion: 2
+        x: 1300
+        y: 0
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91364a1e2c137e5ad20f6ec7392a5297
+      internalID: 800303538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_sw_14
+      rect:
+        serializedVersion: 2
+        x: 1400
+        y: 0
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d0f231652850f643fb7c083d56ee2c1
+      internalID: 1798114174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_sw_15
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 0
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12b64b531fd6dbf9585efe7edbdda746
+      internalID: -636679676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: agwi_walk_sw_16
+      rect:
+        serializedVersion: 2
+        x: 1600
+        y: 0
+        width: 100
+        height: 100
+      alignment: 9
+      pivot: {x: 0.5, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a07f2fdf757519c13b7d1a32a09c572
+      internalID: 605182324
       vertices: []
       indices: 
       edges: []
@@ -1733,6 +3533,15 @@ TextureImporter:
       agwi_walk_e_05: -1874219420
       agwi_walk_e_06: 824369822
       agwi_walk_e_07: -756840514
+      agwi_walk_e_08: -281333053
+      agwi_walk_e_09: -827502199
+      agwi_walk_e_10: -2095894391
+      agwi_walk_e_11: 440978633
+      agwi_walk_e_12: 145417893
+      agwi_walk_e_13: -997389287
+      agwi_walk_e_14: 1042545243
+      agwi_walk_e_15: -390612333
+      agwi_walk_e_16: 1642283601
       agwi_walk_n_00: -1560158607
       agwi_walk_n_01: -1548916632
       agwi_walk_n_02: -1311407657
@@ -1741,6 +3550,15 @@ TextureImporter:
       agwi_walk_n_05: 1164263682
       agwi_walk_n_06: -1888050842
       agwi_walk_n_07: 942327125
+      agwi_walk_n_08: -552858581
+      agwi_walk_n_09: -967046507
+      agwi_walk_n_10: -570663866
+      agwi_walk_n_11: 2015793655
+      agwi_walk_n_12: -1652271640
+      agwi_walk_n_13: 202700835
+      agwi_walk_n_14: -166235951
+      agwi_walk_n_15: 1729129910
+      agwi_walk_n_16: -544737782
       agwi_walk_ne_00: 208025636
       agwi_walk_ne_01: -1996652348
       agwi_walk_ne_02: -861341811
@@ -1749,6 +3567,15 @@ TextureImporter:
       agwi_walk_ne_05: 48650167
       agwi_walk_ne_06: -1967645578
       agwi_walk_ne_07: 701667379
+      agwi_walk_ne_08: -1588090618
+      agwi_walk_ne_09: 835562511
+      agwi_walk_ne_10: 560709333
+      agwi_walk_ne_11: -526486784
+      agwi_walk_ne_12: 1894721663
+      agwi_walk_ne_13: -515241834
+      agwi_walk_ne_14: -947119608
+      agwi_walk_ne_15: 1537142033
+      agwi_walk_ne_16: -952013551
       agwi_walk_nw_00: -1865187999
       agwi_walk_nw_01: 870808830
       agwi_walk_nw_02: 341766471
@@ -1757,6 +3584,15 @@ TextureImporter:
       agwi_walk_nw_05: 1337430723
       agwi_walk_nw_06: 1175403670
       agwi_walk_nw_07: -117317786
+      agwi_walk_nw_08: -2039474301
+      agwi_walk_nw_09: -1740527522
+      agwi_walk_nw_10: 1755601158
+      agwi_walk_nw_11: -1784972008
+      agwi_walk_nw_12: 591560194
+      agwi_walk_nw_13: 1126535501
+      agwi_walk_nw_14: 1792531542
+      agwi_walk_nw_15: 1464788702
+      agwi_walk_nw_16: -299444167
       agwi_walk_s_00: 735818263
       agwi_walk_s_01: -773352298
       agwi_walk_s_02: 997600837
@@ -1765,6 +3601,15 @@ TextureImporter:
       agwi_walk_s_05: 621387825
       agwi_walk_s_06: 234314349
       agwi_walk_s_07: 601815255
+      agwi_walk_s_08: -1772079807
+      agwi_walk_s_09: 114361724
+      agwi_walk_s_10: -1900990273
+      agwi_walk_s_11: -487051511
+      agwi_walk_s_12: -1277196030
+      agwi_walk_s_13: -1991834868
+      agwi_walk_s_14: -136334152
+      agwi_walk_s_15: -660989703
+      agwi_walk_s_16: -132816292
       agwi_walk_se_00: 502027281
       agwi_walk_se_01: 959513136
       agwi_walk_se_02: 1832066409
@@ -1773,6 +3618,15 @@ TextureImporter:
       agwi_walk_se_05: 1469577337
       agwi_walk_se_06: -1104188945
       agwi_walk_se_07: 1374113179
+      agwi_walk_se_08: -1082994087
+      agwi_walk_se_09: -1020222368
+      agwi_walk_se_10: 1627395609
+      agwi_walk_se_11: -202213972
+      agwi_walk_se_12: 234854667
+      agwi_walk_se_13: -1926128867
+      agwi_walk_se_14: 702129600
+      agwi_walk_se_15: 1476922784
+      agwi_walk_se_16: 345935892
       agwi_walk_sw_00: -1483250795
       agwi_walk_sw_01: -276621474
       agwi_walk_sw_02: -1897707133
@@ -1781,6 +3635,15 @@ TextureImporter:
       agwi_walk_sw_05: 1275832022
       agwi_walk_sw_06: -985903584
       agwi_walk_sw_07: 1295368883
+      agwi_walk_sw_08: -683664340
+      agwi_walk_sw_09: 501334836
+      agwi_walk_sw_10: 483668051
+      agwi_walk_sw_11: -843469669
+      agwi_walk_sw_12: 1072222601
+      agwi_walk_sw_13: 800303538
+      agwi_walk_sw_14: 1798114174
+      agwi_walk_sw_15: -636679676
+      agwi_walk_sw_16: 605182324
       agwi_walk_w_00: -1902639404
       agwi_walk_w_01: -1415575092
       agwi_walk_w_02: 1582278060
@@ -1789,6 +3652,15 @@ TextureImporter:
       agwi_walk_w_05: 1695862226
       agwi_walk_w_06: 2145335507
       agwi_walk_w_07: 195107387
+      agwi_walk_w_08: -1789002422
+      agwi_walk_w_09: -717620083
+      agwi_walk_w_10: 1417378558
+      agwi_walk_w_11: -559517412
+      agwi_walk_w_12: -1678313125
+      agwi_walk_w_13: -211559577
+      agwi_walk_w_14: -590025467
+      agwi_walk_w_15: 1184114678
+      agwi_walk_w_16: -851407918
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
