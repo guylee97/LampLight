@@ -39,9 +39,12 @@ public class Altar : MonoBehaviour, IInteractable
 
 	public static int CompletedSteps { get { return s_completedSteps; } }
 
+	public static Altar Channeling { get; private set; }
+
 	public static void ResetProgress()
 	{
 		s_completedSteps = 0;
+		Channeling = null;
 	}
 
 	public int Placed { get { return _placed; } }
@@ -140,6 +143,7 @@ public class Altar : MonoBehaviour, IInteractable
 		if (channeling != _channeling)
 		{
 			_channeling = channeling;
+			Channeling = _channeling ? this : null;
 			ApplyChannelLighting();
 		}
 
@@ -225,6 +229,7 @@ public class Altar : MonoBehaviour, IInteractable
 		s_completedSteps = _placed;
 
 		_channeling = false;
+		Channeling = null;
 
 		if (ResolveLamp())
 			_lamp.SnuffTo(1.0f);

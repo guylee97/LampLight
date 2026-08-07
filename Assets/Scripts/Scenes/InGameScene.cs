@@ -1,9 +1,18 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InGameScene : MonoBehaviour
 {
+	const string DistantCueClip = "Monster/평상시/capaholiczsfx-creature-growl-deep-bass-403153";
+	const string DistantCueFallback = "zombie_idle_3";
+	const float DistantCueSeconds = 9.0f;
+	const float SpawnGraceSeconds = 3.5f;
+	const float ArrivalCameoDelay = 1.6f;
+	const int DistantCueMinTiles = 12;
+	const int DistantCueMaxTiles = 20;
+
 	[SerializeField]
 	StageProgress _progress;
 
@@ -23,6 +32,7 @@ public class InGameScene : MonoBehaviour
 	EnemySpawner _spawner;
 	LevelConfig _pendingSpawnConfig;
 	System.Random _pendingSpawnRng;
+	bool _saidLostInDark;
 
 	[SerializeField]
 	MapTilemapRenderer _tilemap;
@@ -95,8 +105,77 @@ public class InGameScene : MonoBehaviour
 
 		Managers.Game.OnStageEnded += OnStageEnded;
 		_progress.OnArtifactCollected += OnArtifactCollected;
+		MaskYokai.OnLostInDark += OnLostInDark;
 
 		OpeningLines(config);
+
+		if (config.Level > LevelTable.MinLevel)
+			StartCoroutine(ArrivalCameo(config));
+
+		StartCoroutine(DistantCue());
+	}
+
+	IEnumerator ArrivalCameo(LevelConfig config)
+	{
+		yield return new WaitForSeconds(ArrivalCameoDelay);
+
+		if (_player != null)
+			YokaiCameo.Play(YokaiTable.ForLevel(config.Level), _player.transform);
+	}
+
+	IEnumerator DistantCue()
+	{
+		yield return new WaitForSeconds(DistantCueSeconds);
+
+		if (_pendingSpawnConfig == null)
+			yield break;
+
+		Vector3 where;
+		if (TryFarPoint(out where) == false)
+			yield break;
+
+		Managers.Sound.PlayAtPointOptional(
+			DistantCueClip, DistantCueFallback, where, Define.Sound.Threat, 0.7f);
+	}
+
+	bool TryFarPoint(out Vector3 world)
+	{
+		world = Vector3.zero;
+
+		MapPoint start = _selector != null ? _selector.PlayerStart : null;
+		if (start == null)
+			return false;
+
+		int[] field = MapPathfinder.DistanceField(start.col, start.row);
+		MapData map = Managers.Data.Map;
+
+		if (field == null || map == null)
+			return false;
+
+		for (int row = 0; row < map.height; row++)
+		{
+			for (int col = 0; col < map.width; col++)
+			{
+				int distance = MapPathfinder.Sample(field, col, row);
+
+				if (distance >= DistantCueMinTiles && distance <= DistantCueMaxTiles)
+				{
+					world = MapCoord.TileToWorld(col, row);
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	void OnLostInDark()
+	{
+		if (_saidLostInDark)
+			return;
+
+		_saidLostInDark = true;
+		UI_Dialogue.Say("그냥 지나갔다.");
 	}
 
 	void BakeCollision()
@@ -154,6 +233,9 @@ public class InGameScene : MonoBehaviour
 	{
 		SpawnYokai();
 
+		if (_player != null)
+			FallingDust.Burst(_player.transform.position + Vector3.up * 1.4f, 7, 1.1f, collected * 977);
+
 		if (collected >= required)
 			UI_Dialogue.Say("다 모았다. 제단으로.");
 		else
@@ -164,6 +246,8 @@ public class InGameScene : MonoBehaviour
 	{
 		if (_progress != null)
 			_progress.OnArtifactCollected -= OnArtifactCollected;
+
+		MaskYokai.OnLostInDark -= OnLostInDark;
 
 		if (_player != null && _player.Lamp != null)
 			_player.Lamp.OnBurnedOut -= OnLampBurnedOut;
@@ -228,9 +312,20 @@ public class InGameScene : MonoBehaviour
 		if (_pendingSpawnConfig == null || _spawner == null || _selector == null)
 			return;
 
-		_spawner.Spawn(_pendingSpawnConfig, _selector.PlayerStart, _pendingSpawnRng);
+		LevelConfig config = _pendingSpawnConfig;
+		_spawner.Spawn(config, _selector.PlayerStart, _pendingSpawnRng);
 		_pendingSpawnConfig = null;
 		_pendingSpawnRng = null;
+
+		foreach (EnemyBase enemy in _spawner.Spawned)
+		{
+			MaskYokai yokai = enemy as MaskYokai;
+			if (yokai != null)
+				yokai.HoldSensesFor(SpawnGraceSeconds);
+		}
+
+		if (_player != null)
+			YokaiCameo.Play(YokaiTable.ForLevel(config.Level), _player.transform);
 	}
 
 	void PushEnemiesAwayFrom(MapPoint start)

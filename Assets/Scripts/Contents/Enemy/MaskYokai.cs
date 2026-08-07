@@ -31,7 +31,10 @@ public class MaskYokai : EnemyBase
 	[SerializeField]
 	float _ritualSpeedBonusPerStep = 0.35f;
 
+	public static System.Action OnLostInDark;
+
 	YokaiSpec _spec = YokaiTable.ForLevel(LevelTable.MinLevel);
+	float _sensesResumeTime;
 	Rigidbody2D _rigidbody;
 	CircleCollider2D _body;
 	PlayerController _player;
@@ -117,6 +120,14 @@ public class MaskYokai : EnemyBase
 		if (TryDetectPlayer())
 			return;
 
+		Altar channeling = Altar.Channeling;
+		if (channeling != null)
+		{
+			Steer(channeling.Position);
+			_hasPatrolTarget = false;
+			return;
+		}
+
 		if (_hasPatrolTarget == false
 			|| Time.time >= _nextPatrolRetargetTime
 			|| Vector2.Distance(transform.position, _patrolTarget) <= _arrivalRange)
@@ -150,6 +161,9 @@ public class MaskYokai : EnemyBase
 			Steer(_lastKnownPosition);
 			return;
 		}
+
+		if (_player.Lamp != null && _player.Lamp.IsOn == false && OnLostInDark != null)
+			OnLostInDark.Invoke();
 
 		State = Define.EnemyState.Searching;
 	}
@@ -190,8 +204,16 @@ public class MaskYokai : EnemyBase
 		return true;
 	}
 
+	public void HoldSensesFor(float seconds)
+	{
+		_sensesResumeTime = Time.time + Mathf.Max(0.0f, seconds);
+	}
+
 	bool CanSensePlayer()
 	{
+		if (Time.time < _sensesResumeTime)
+			return false;
+
 		if (ResolvePlayer() == false)
 			return false;
 
