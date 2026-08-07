@@ -14,7 +14,7 @@ RAW = RESOURCES / "Rawzip"
 OBJECTS = RESOURCES / "Art" / "Objects"
 TILES = RESOURCES / "Tileset" / "tiles_single"
 DATA = RESOURCES / "Data"
-FULL_MAP = RESOURCES / "FullMap"
+FULL_MAP = ROOT / "MapSource" / "FullMap"
 MERGED = DATA / "objects_manifest_merged.json"
 
 

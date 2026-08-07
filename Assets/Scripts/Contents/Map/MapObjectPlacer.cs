@@ -19,7 +19,7 @@ public class MapObjectPlacer : MonoBehaviour
 	string _artifactPath = "Map/Artifact";
 
 	[SerializeField]
-	string _exitDoorPath = "Map/ExitDoor";
+	string _altarPath = "Map/ExitDoor";
 
 	readonly List<Artifact> _artifacts = new List<Artifact>();
 	Altar _altar;
@@ -212,15 +212,11 @@ public class MapObjectPlacer : MonoBehaviour
 
 	void PlaceExitDoor(MapPoint point, Transform parent)
 	{
-		GameObject go = Managers.Resource.Instantiate(_exitDoorPath, parent);
+		GameObject go = Managers.Resource.Instantiate(_altarPath, parent);
 		if (go == null)
 			return;
 
 		go.transform.position = MapCoord.ToWorld(point);
-
-		ExitDoor legacy = go.GetComponent<ExitDoor>();
-		if (legacy != null)
-			Destroy(legacy);
 
 		_altar = go.GetComponent<Altar>();
 		if (_altar == null)

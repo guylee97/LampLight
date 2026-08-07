@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-FULL_MAP = ROOT / "Assets" / "Resources" / "FullMap"
+FULL_MAP = ROOT / "MapSource" / "FullMap"
 GID_MASK = 0x0FFFFFFF
 FLIP_MASK = 0xF0000000
 

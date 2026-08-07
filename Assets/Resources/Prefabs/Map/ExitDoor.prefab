@@ -76,7 +76,6 @@ GameObject:
   - component: {fileID: 4932656713152673331}
   - component: {fileID: 7861475314503306211}
   - component: {fileID: 7882248021725947361}
-  - component: {fileID: 8586426798697604987}
   - component: {fileID: 3628912922751119436}
   - component: {fileID: 5197239828250217040}
   m_Layer: 0
@@ -207,21 +206,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.2, y: 1.2}
   m_EdgeRadius: 0
---- !u!114 &8586426798697604987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2470142063599842086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06e74671c38d8f87fa89e44cb11467b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExitDoor
-  _lockedSprite: {fileID: 21300000, guid: 8321f34c227f34d77b82b240c46c6e7c, type: 3}
-  _openSprite: {fileID: 21300000, guid: 09f91ceffaa9d4169a5a1860ffb76139, type: 3}
-  _ping: {fileID: 5197239828250217040}
 --- !u!114 &3628912922751119436
 MonoBehaviour:
   m_ObjectHideFlags: 0

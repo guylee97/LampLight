@@ -3,7 +3,6 @@ using UnityEngine;
 public static class YokaiFactory
 {
 	public const string AgwiKey = "agwi";
-	public const string TalKey = "tal";
 	public const int PixelsPerUnit = 32;
 
 	const float FallbackColliderTiles = 1.25f;

@@ -9,7 +9,7 @@ from collections import deque
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-FULL_MAP = ROOT / "Assets" / "Resources" / "FullMap"
+FULL_MAP = ROOT / "MapSource" / "FullMap"
 MAP_SOURCES = FULL_MAP / "Map"
 DATA = ROOT / "Assets" / "Resources" / "Data"
 CATALOG = DATA / "temple_catalog.json"

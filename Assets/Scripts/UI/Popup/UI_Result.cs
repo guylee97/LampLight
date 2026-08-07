@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class UI_Result : UI_Popup
 {
 	public const string ClearClip = "level_clear";
-	public const string StampClip = "rank_stamp";
 	public const string DefeatClip = "death_contact";
 
 	bool _soundPlayed;
@@ -26,7 +25,6 @@ public class UI_Result : UI_Popup
 	int _collected;
 	int _required;
 	bool _ready;
-	Image _badge;
 
 	public void Setup(Define.StageResult result, int collected, int required)
 	{
@@ -53,30 +51,7 @@ public class UI_Result : UI_Popup
 			transform, PressAnyKeyPrompt.EscTitleArt, 0.075f, 230.0f);
 
 		_ready = true;
-		BuildBadge();
 		Apply();
-	}
-
-	void BuildBadge()
-	{
-		Text title = GetText((int)Texts.ResultTitleText);
-		if (title == null)
-			return;
-
-		GameObject go = new GameObject("RankBadge");
-		go.transform.SetParent(title.transform.parent, false);
-		go.transform.SetAsFirstSibling();
-
-		_badge = go.AddComponent<Image>();
-		_badge.raycastTarget = false;
-		_badge.preserveAspect = true;
-
-		RectTransform rect = _badge.rectTransform;
-		rect.anchorMin = new Vector2(0.5f, 1.0f);
-		rect.anchorMax = new Vector2(0.5f, 1.0f);
-		rect.pivot = new Vector2(0.5f, 1.0f);
-		rect.anchoredPosition = new Vector2(0.0f, -18.0f);
-		rect.sizeDelta = new Vector2(88.0f, 88.0f);
 	}
 
 	void Apply()
@@ -91,9 +66,6 @@ public class UI_Result : UI_Popup
 			_soundPlayed = true;
 			Managers.Sound.PlayOptional(cleared ? ClearClip : DefeatClip, Define.Sound.UI);
 		}
-
-		if (_badge != null)
-			_badge.gameObject.SetActive(false);
 
 		GameManagerEx game = Managers.Game;
 

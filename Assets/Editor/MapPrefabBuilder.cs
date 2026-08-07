@@ -65,12 +65,7 @@ public static class MapPrefabBuilder
 		collider.isTrigger = true;
 		collider.size = new Vector2(1.2f, 1.2f);
 
-		ExitDoor door = go.AddComponent<ExitDoor>();
-		SerializedObject so = new SerializedObject(door);
-		so.FindProperty("_lockedSprite").objectReferenceValue = locked;
-		so.FindProperty("_openSprite").objectReferenceValue = open;
-		so.ApplyModifiedPropertiesWithoutUndo();
-
+		go.AddComponent<Altar>();
 		Save(go, "ExitDoor");
 	}
 

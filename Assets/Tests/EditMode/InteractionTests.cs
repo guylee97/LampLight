@@ -56,24 +56,6 @@ public class InteractionTests
 	}
 
 	[Test]
-	public void RankBadgeExistsForEveryGrade()
-	{
-		foreach (string grade in new[] { "S", "A", "B", "C" })
-		{
-			Sprite sprite = RankBadge.Get(grade);
-			Assert.IsNotNull(sprite, $"{grade} 뱃지 생성 실패");
-			Assert.AreEqual(RankBadge.Size, sprite.texture.width);
-		}
-	}
-
-	[Test]
-	public void RankBadgeFallsBackOnUnknownGrade()
-	{
-		Assert.IsNotNull(RankBadge.Get(null));
-		Assert.IsNotNull(RankBadge.Get(""));
-	}
-
-	[Test]
 	public void OnlyLastLevelGivesStones()
 	{
 		Assert.AreEqual(0, LevelTable.Get(1).Stones);

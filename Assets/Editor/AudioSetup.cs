@@ -365,10 +365,10 @@ public static class AudioSetup
 			sp.FindProperty("_active").boolValue = active;
 			sp.ApplyModifiedPropertiesWithoutUndo();
 
-			ExitDoor door = root.GetComponent<ExitDoor>();
-			if (door != null)
+			Altar altar = root.GetComponent<Altar>();
+			if (altar != null)
 			{
-				SerializedObject sd = new SerializedObject(door);
+				SerializedObject sd = new SerializedObject(altar);
 				sd.FindProperty("_ping").objectReferenceValue = scheduler;
 				sd.ApplyModifiedPropertiesWithoutUndo();
 			}

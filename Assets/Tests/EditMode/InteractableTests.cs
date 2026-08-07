@@ -30,11 +30,11 @@ public class InteractableTests
 		return go.AddComponent<Artifact>();
 	}
 
-	static ExitDoor MakeDoor()
+	static Altar MakeAltar()
 	{
-		GameObject go = new GameObject("ExitDoor");
+		GameObject go = new GameObject("Altar");
 		go.AddComponent<BoxCollider2D>();
-		return go.AddComponent<ExitDoor>();
+		return go.AddComponent<Altar>();
 	}
 
 	static OilCanister MakeCanister()
@@ -107,58 +107,62 @@ public class InteractableTests
 	}
 
 	[Test]
-	public void ExitDoorStaysShutUntilEveryArtifactIsCollected()
+	public void AltarRefusesArtifactsThatWereNeverCollected()
 	{
-		ExitDoor door = MakeDoor();
-		door.Init(_progress);
+		Altar altar = MakeAltar();
+		altar.Init(_progress);
 
-		Assert.IsFalse(door.IsOpen);
-
-		for (int i = 0; i < _progress.Required - 1; i++)
-			_progress.ReportCollected();
-
-		Assert.IsFalse(door.IsOpen);
+		Assert.IsFalse(altar.CanInteract, "들고 있는 유물이 없으면 올릴 수 없다");
 
 		_progress.ReportCollected();
 
-		Assert.IsTrue(door.IsOpen);
+		Assert.IsTrue(altar.CanInteract, "유물을 하나 주웠으면 올릴 수 있다");
 
-		Object.DestroyImmediate(door.gameObject);
+		Object.DestroyImmediate(altar.gameObject);
 	}
 
 	[Test]
-	public void ShutExitDoorDoesNotEndTheStage()
+	public void AltarSealsOnlyAfterEveryRequiredArtifact()
 	{
-		ExitDoor door = MakeDoor();
-		door.Init(_progress);
-
-		door.Interact(null);
-
-		Assert.AreEqual(Define.StageResult.None, Managers.Game.Result);
-
-		Object.DestroyImmediate(door.gameObject);
-	}
-
-	[Test]
-	public void OpenExitDoorClearsTheStageOnlyOnce()
-	{
-		ExitDoor door = MakeDoor();
-		door.Init(_progress);
-
-		int escapes = 0;
-		door.OnEscaped += () => escapes++;
+		Altar altar = MakeAltar();
+		altar.Init(_progress);
 
 		for (int i = 0; i < _progress.Required; i++)
 			_progress.ReportCollected();
 
-		door.Interact(null);
-		door.Interact(null);
+		for (int i = 0; i < _progress.Required - 1; i++)
+		{
+			altar.Interact(null);
+			Assert.IsFalse(altar.IsSealed, $"{i + 1}개만 올렸는데 봉인됐다");
+			Assert.AreEqual(Define.StageResult.None, Managers.Game.Result);
+		}
 
-		Assert.AreEqual(1, escapes);
+		altar.Interact(null);
+
+		Assert.IsTrue(altar.IsSealed);
 		Assert.AreEqual(Define.StageResult.Cleared, Managers.Game.Result);
 
-		Object.DestroyImmediate(door.gameObject);
+		Object.DestroyImmediate(altar.gameObject);
 	}
 
+	[Test]
+	public void SealedAltarClearsTheStageOnlyOnce()
+	{
+		Altar altar = MakeAltar();
+		altar.Init(_progress);
 
+		int sealed_ = 0;
+		altar.OnSealed += () => sealed_++;
+
+		for (int i = 0; i < _progress.Required; i++)
+			_progress.ReportCollected();
+
+		for (int i = 0; i < _progress.Required + 2; i++)
+			altar.Interact(null);
+
+		Assert.AreEqual(1, sealed_, "봉인 이벤트는 한 번만");
+		Assert.AreEqual(Define.StageResult.Cleared, Managers.Game.Result);
+
+		Object.DestroyImmediate(altar.gameObject);
+	}
 }
