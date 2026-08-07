@@ -9,8 +9,6 @@ public class InGameScene : MonoBehaviour
 	const string DistantCueFallback = "zombie_idle_3";
 	const float DistantCueSeconds = 9.0f;
 	const float SpawnGraceSeconds = 3.5f;
-	const float ArrivalCameoDelay = 1.6f;
-	const float SightingDelay = 0.9f;
 	const int DistantCueMinTiles = 12;
 	const int DistantCueMaxTiles = 20;
 
@@ -110,18 +108,7 @@ public class InGameScene : MonoBehaviour
 
 		OpeningLines(config);
 
-		if (config.Level > LevelTable.MinLevel)
-			StartCoroutine(ArrivalCameo(config));
-
 		StartCoroutine(DistantCue());
-	}
-
-	IEnumerator ArrivalCameo(LevelConfig config)
-	{
-		yield return new WaitForSeconds(ArrivalCameoDelay);
-
-		if (_player != null)
-			YokaiCameo.Play(YokaiTable.ForLevel(config.Level), _player.transform);
 	}
 
 	IEnumerator DistantCue()
@@ -327,8 +314,7 @@ public class InGameScene : MonoBehaviour
 		if (_pendingSpawnConfig == null || _spawner == null || _selector == null)
 			return;
 
-		LevelConfig config = _pendingSpawnConfig;
-		_spawner.Spawn(config, _selector.PlayerStart, _pendingSpawnRng);
+		_spawner.Spawn(_pendingSpawnConfig, _selector.PlayerStart, _pendingSpawnRng);
 		_pendingSpawnConfig = null;
 		_pendingSpawnRng = null;
 
@@ -339,15 +325,6 @@ public class InGameScene : MonoBehaviour
 				yokai.HoldSensesFor(SpawnGraceSeconds);
 		}
 
-		StartCoroutine(Sighting(config));
-	}
-
-	IEnumerator Sighting(LevelConfig config)
-	{
-		yield return new WaitForSeconds(SightingDelay);
-
-		if (_player != null)
-			YokaiCameo.Play(YokaiTable.ForLevel(config.Level), _player.transform);
 	}
 
 	void PushEnemiesAwayFrom(MapPoint start)
