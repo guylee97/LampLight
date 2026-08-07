@@ -133,7 +133,7 @@ public class UI_Dialogue : MonoBehaviour
 			new Color(0.72f, 0.62f, 0.42f, 0.9f));
 		_hint.rectTransform.offsetMin = new Vector2(44.0f, 20.0f);
 		_hint.rectTransform.offsetMax = new Vector2(-44.0f, -36.0f);
-		_hint.text = "▾ 아무 키";
+		_hint.text = "아무 키";
 		_hint.enabled = false;
 	}
 

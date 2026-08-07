@@ -17,6 +17,7 @@ public class YokaiSpec
 
 	public float FaceHoldSeconds;
 	public UnityEngine.Color Tint;
+	public string[] OfferingLines;
 }
 
 public static class YokaiTable
@@ -40,6 +41,12 @@ public static class YokaiTable
 			ChaseClip = "chase_stinger",
 			FaceHoldSeconds = 0.34f,
 			Tint = new UnityEngine.Color(0.86f, 0.86f, 0.90f, 1.0f),
+			OfferingLines = new[]
+			{
+				"뭔가 바닥에 끌리는 소리가 났어.",
+				"머리카락 같은 게 문틈에 걸려 있어.",
+				"아까부터 자꾸 바닥만 쳐다보게 돼.",
+			},
 		},
 		// 2전각 — 관절이 거꾸로 꺾여 기는 몸. 빠른데 소리가 크다.
 		new YokaiSpec
@@ -58,6 +65,12 @@ public static class YokaiTable
 			ChaseClip = "chase_stinger",
 			FaceHoldSeconds = 0.46f,
 			Tint = new UnityEngine.Color(0.70f, 0.76f, 0.74f, 1.0f),
+			OfferingLines = new[]
+			{
+				"관절 꺾이는 소리 같은 게 들렸어.",
+				"뭔가 벽을 타고 지나갔어.",
+				"가까워지고 있어. 소리가 커.",
+			},
 		},
 		// 3전각 — 검은 상복의 키 큰 것. 느린데 절대 안 멈춘다.
 		new YokaiSpec
@@ -76,6 +89,12 @@ public static class YokaiTable
 			ChaseClip = "chase_stinger",
 			FaceHoldSeconds = 0.28f,
 			Tint = new UnityEngine.Color(0.95f, 0.80f, 0.78f, 1.0f),
+			OfferingLines = new[]
+			{
+				"천 스치는 소리가 계속 따라와.",
+				"아까 그 자리에 뭔가 서 있었던 것 같은데.",
+				"멈추질 않아.",
+			},
 		},
 	};
 

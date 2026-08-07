@@ -10,6 +10,7 @@ public class InGameScene : MonoBehaviour
 	const float DistantCueSeconds = 9.0f;
 	const float SpawnGraceSeconds = 3.5f;
 	const float ArrivalCameoDelay = 1.6f;
+	const float SightingDelay = 0.9f;
 	const int DistantCueMinTiles = 12;
 	const int DistantCueMaxTiles = 20;
 
@@ -236,10 +237,24 @@ public class InGameScene : MonoBehaviour
 		if (_player != null)
 			FallingDust.Burst(_player.transform.position + Vector3.up * 1.4f, 7, 1.1f, collected * 977);
 
-		if (collected >= required)
-			UI_Dialogue.Say("다 모았다. 제단으로.");
+		string count = collected >= required ? "다 모았어. 제단으로." : "하나 찾았어. 아직 모자라.";
+		string sense = OfferingLine(collected);
+
+		if (sense == null)
+			UI_Dialogue.Say(count);
 		else
-			UI_Dialogue.Say("하나 찾았다. 아직 모자라.");
+			UI_Dialogue.Say(count, sense);
+	}
+
+	static string OfferingLine(int collected)
+	{
+		YokaiSpec spec = YokaiTable.ForLevel(Managers.Game.CurrentLevel);
+
+		if (spec == null || spec.OfferingLines == null || spec.OfferingLines.Length == 0)
+			return null;
+
+		int index = Mathf.Clamp(collected - 1, 0, spec.OfferingLines.Length - 1);
+		return spec.OfferingLines[index];
 	}
 
 	void OnDestroy()
@@ -323,6 +338,13 @@ public class InGameScene : MonoBehaviour
 			if (yokai != null)
 				yokai.HoldSensesFor(SpawnGraceSeconds);
 		}
+
+		StartCoroutine(Sighting(config));
+	}
+
+	IEnumerator Sighting(LevelConfig config)
+	{
+		yield return new WaitForSeconds(SightingDelay);
 
 		if (_player != null)
 			YokaiCameo.Play(YokaiTable.ForLevel(config.Level), _player.transform);
