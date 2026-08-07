@@ -53,9 +53,9 @@ PROP_SCALE = {
     "prop_basin": 1 / 2,
     "container_chest": 3 / 4,
     "large_statue_kneeling": 3 / 4,
-    "prop_candle_tall": 1.0,
+    "prop_candle_tall": 2 / 5,
     "prop_railing": 1.0,
-    "prop_gravestone": 1.0,
+    "prop_gravestone": 5 / 8,
     "debris_shelf": 1.0,
     "prop_pillar_intact": 5 / 2,
 }
