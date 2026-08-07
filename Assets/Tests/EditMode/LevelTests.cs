@@ -99,14 +99,6 @@ public class LevelTests
 	}
 
 	[Test]
-	public void RunnerOnlyAppearsOnLastLevel()
-	{
-		Assert.AreEqual(0, LevelTable.Get(1).RunnerCount);
-		Assert.AreEqual(0, LevelTable.Get(2).RunnerCount);
-		Assert.AreEqual(1, LevelTable.Get(3).RunnerCount);
-	}
-
-	[Test]
 	public void EveryLevelHasAYokai()
 	{
 		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
@@ -140,10 +132,23 @@ public class LevelTests
 	}
 
 	[Test]
-	public void EnemyCountGrows()
+	public void DifficultyGrowsWithoutAddingEnemies()
 	{
-		Assert.Less(LevelTable.Get(1).EnemyCount, LevelTable.Get(2).EnemyCount);
-		Assert.Less(LevelTable.Get(2).EnemyCount, LevelTable.Get(3).EnemyCount);
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			Assert.AreEqual(1, LevelTable.Get(level).YokaiCount,
+				$"L{level}: 요괴는 전각마다 하나다 — 난이도는 맵과 공양물로 올린다");
+		}
+
+		Assert.Less(LevelTable.Get(1).ArtifactsRequired, LevelTable.Get(2).ArtifactsRequired);
+		Assert.Less(LevelTable.Get(2).ArtifactsRequired, LevelTable.Get(3).ArtifactsRequired);
+	}
+
+	[Test]
+	public void LampBurnGrowsWithLevel()
+	{
+		Assert.Less(LevelTable.Get(1).LampSeconds, LevelTable.Get(2).LampSeconds);
+		Assert.Less(LevelTable.Get(2).LampSeconds, LevelTable.Get(3).LampSeconds);
 	}
 
 	[Test]

@@ -37,6 +37,11 @@ public static class QaScene
 		for (int i = 0; i < 5; i++)
 			yield return null;
 
+		// 도입 대사는 게임을 멈춘다. 테스트는 대사가 아니라 플레이를 보는 것이라
+		// 사람이 넘기듯 치워 놓고 시작한다.
+		UI_Dialogue.Clear();
+		yield return null;
+
 		yield return new WaitForFixedUpdate();
 		Physics2D.SyncTransforms();
 	}

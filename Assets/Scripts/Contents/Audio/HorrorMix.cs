@@ -4,7 +4,10 @@ public class HorrorMix : MonoBehaviour
 {
 	public const string StingerPath = "chase_stinger";
 	public const string StingerFallbackPath = "moster growl (4)";
-	public const string ChaseLoopPath = "chase_loop";
+
+	// 추격 중에는 루프를 깔지 않는다. 정적이 기준선이고, 압박은 심박음이 만든다.
+	// 예전 chase_loop 은 웃음소리처럼 들려서 뺐다.
+	public const string ChaseLoopPath = "";
 	public const string RitualLoopPath = "ritual_loop";
 
 	const float SilenceSeconds = 0.12f;
@@ -108,11 +111,15 @@ public class HorrorMix : MonoBehaviour
 			s_instance = null;
 	}
 
+	/// loopPath 가 비면 스팅어 한 방만 치고 다시 정적으로 돌아간다.
 	void Strike(string loopPath)
 	{
 		CutLoop();
 
 		Managers.Sound.PlayOptional(StingerPath, StingerFallbackPath, Define.Sound.Threat);
+
+		if (string.IsNullOrEmpty(loopPath))
+			return;
 
 		_pendingLoopClip = Managers.Resource.Load<AudioClip>("Audio/" + loopPath);
 		_loopStartAt = _pendingLoopClip == null ? -1.0f : Time.time + SilenceSeconds;

@@ -142,8 +142,6 @@ public static class AudioSetup
 			SetClipArray(so, "_noisyRunFootstepClips", "step_run_var2");
 			so.ApplyModifiedPropertiesWithoutUndo();
 
-			Util.GetOrAddComponent<StoneThrower>(root);
-
 			PlayerBreath breath = Util.GetOrAddComponent<PlayerBreath>(root);
 			SerializedObject sb = new SerializedObject(breath);
 			sb.FindProperty("_clip").objectReferenceValue = LoadClip("breath_tired");

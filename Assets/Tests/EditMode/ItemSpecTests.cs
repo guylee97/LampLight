@@ -100,19 +100,4 @@ public class ItemSpecTests
 		Assert.AreEqual(96, locked.h, "출구는 96px(3타일)이어야 한다");
 	}
 
-	[Test]
-	public void StonesAreLevelThreeOnly()
-	{
-		Assert.AreEqual(0, LevelTable.Get(1).Stones);
-		Assert.AreEqual(0, LevelTable.Get(2).Stones);
-		Assert.AreEqual(2, LevelTable.Get(3).Stones, "돌멩이는 L3 에서 2개");
-	}
-
-	[Test]
-	public void OilCanisterIsLevelThreeOnly()
-	{
-		Assert.AreEqual(0, LevelTable.Get(1).OilCanisters);
-		Assert.AreEqual(0, LevelTable.Get(2).OilCanisters);
-		Assert.AreEqual(1, LevelTable.Get(3).OilCanisters, "기름통은 L3 에만 1개");
-	}
 }

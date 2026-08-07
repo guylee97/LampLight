@@ -12,6 +12,7 @@ public class StageCompletionTests
 	const float SecondsPerTile = 0.9f;
 	const float LegSlack = 4.0f;
 	const float TravelBudget = 120.0f;
+	const float BotSlowdown = 3.0f;
 
 	[UnityTest]
 	public IEnumerator BotCollectsEveryArtifactAndEscapes()
@@ -27,6 +28,8 @@ public class StageCompletionTests
 		Assert.IsNotNull(progress, "씬에 StageProgress가 없다");
 
 		DisableEnemies();
+		float lampBudget = HoldTheLamp(player);
+		float startedAt = Time.time;
 
 		PlayBot bot = new PlayBot(player.transform);
 
@@ -85,6 +88,11 @@ public class StageCompletionTests
 		bot.Dispose();
 
 		Assert.AreEqual(Define.StageResult.Cleared, Managers.Game.Result, "제단에서 봉인 처리가 되지 않았다");
+
+		float elapsed = Time.time - startedAt;
+		Assert.Less(elapsed, lampBudget * BotSlowdown,
+			$"봇이 한 바퀴 도는 데 {elapsed:0.0}초 걸렸다 — 등불 {lampBudget:0}초의 "
+			+ $"{BotSlowdown}배를 넘으면 사람이 해도 시간이 모자란다");
 	}
 
 	IEnumerator Travel(PlayBot bot, PlayerController player, Vector3 target, float arriveRadius)
@@ -94,6 +102,10 @@ public class StageCompletionTests
 
 		while (Time.time < deadline)
 		{
+			// 유물을 줍거나 전각이 바뀌면 대사가 떠서 게임이 멈춘다. 사람이 넘기듯 치운다.
+			if (UI_Dialogue.IsShowing)
+				UI_Dialogue.Clear();
+
 			if (Managers.Game.Result != Define.StageResult.None)
 			{
 				bot.AxisLocked = false;
@@ -164,5 +176,16 @@ public class StageCompletionTests
 	{
 		foreach (EnemyBase enemy in Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None))
 			enemy.gameObject.SetActive(false);
+	}
+
+	/// 봇은 사람보다 훨씬 느리게 걷는다. 등불을 시간에서 떼어내되 원래 예산은 돌려준다.
+	static float HoldTheLamp(PlayerController player)
+	{
+		float budget = LevelTable.Get(Managers.Game.CurrentLevel).LampSeconds;
+
+		if (player != null && player.Lamp != null)
+			player.Lamp.SetMaxDuration(budget * BotSlowdown * 2.0f);
+
+		return budget;
 	}
 }

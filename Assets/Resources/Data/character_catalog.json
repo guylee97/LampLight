@@ -1,55 +1,6 @@
 {
  "characters": [
   {
-   "key": "agwi",
-   "frameWidth": 100,
-   "frameHeight": 100,
-   "footBaselineY": 90,
-   "pivotX": 0.5,
-   "pivotY": 0.1,
-   "colliderW": 28.0,
-   "colliderH": 28.0,
-   "speedMultiplier": 1.0,
-   "noiseDetectRadiusTiles": 5.0,
-   "searchDurationSec": 3.0,
-   "directions": [
-    "s",
-    "se",
-    "e",
-    "ne",
-    "n",
-    "nw",
-    "w",
-    "sw"
-   ],
-   "states": [
-    {
-     "name": "idle",
-     "resource": "Art/Characters/agwi/agwi_idle_sheet",
-     "cols": 1,
-     "rows": 8,
-     "frames": 1,
-     "directionAxis": "row",
-     "fps": 0.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    },
-    {
-     "name": "walk",
-     "resource": "Art/Characters/agwi/agwi_walk_sheet",
-     "cols": 17,
-     "rows": 8,
-     "frames": 17,
-     "directionAxis": "row",
-     "fps": 12.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    }
-   ]
-  },
-  {
    "key": "player",
    "frameWidth": 84,
    "frameHeight": 84,
@@ -148,139 +99,17 @@
    ]
   },
   {
-   "key": "zombie_runner",
-   "frameWidth": 124,
-   "frameHeight": 124,
-   "footBaselineY": 93,
+   "key": "banshin",
+   "frameWidth": 100,
+   "frameHeight": 100,
+   "footBaselineY": 83,
    "pivotX": 0.5,
-   "pivotY": 0.25,
-   "colliderW": 48.0,
-   "colliderH": 48.0,
-   "speedMultiplier": 1.9,
-   "noiseDetectRadiusTiles": 9.0,
-   "searchDurationSec": 5.0,
-   "directions": [
-    "s",
-    "se",
-    "e",
-    "ne",
-    "n",
-    "nw",
-    "w",
-    "sw"
-   ],
-   "states": [
-    {
-     "name": "idle",
-     "resource": "Art/Characters/zombie_runner/zombie_runner_idle_sheet",
-     "cols": 1,
-     "rows": 8,
-     "frames": 1,
-     "directionAxis": "row",
-     "fps": 0.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    },
-    {
-     "name": "run",
-     "resource": "Art/Characters/zombie_runner/zombie_runner_run_sheet",
-     "cols": 1,
-     "rows": 8,
-     "frames": 1,
-     "directionAxis": "row",
-     "fps": 0.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    },
-    {
-     "name": "walk",
-     "resource": "Art/Characters/zombie_runner/zombie_runner_walk_sheet",
-     "cols": 2,
-     "rows": 8,
-     "frames": 2,
-     "directionAxis": "row",
-     "fps": 5.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    }
-   ]
-  },
-  {
-   "key": "zombie_walker",
-   "frameWidth": 92,
-   "frameHeight": 92,
-   "footBaselineY": 69,
-   "pivotX": 0.5,
-   "pivotY": 0.25,
-   "colliderW": 40.0,
-   "colliderH": 40.0,
-   "speedMultiplier": 0.85,
-   "noiseDetectRadiusTiles": 4.0,
-   "searchDurationSec": 8.0,
-   "directions": [
-    "s",
-    "se",
-    "e",
-    "ne",
-    "n",
-    "nw",
-    "w",
-    "sw"
-   ],
-   "states": [
-    {
-     "name": "chase",
-     "resource": "Art/Characters/zombie_walker/zombie_walker_chase_sheet",
-     "cols": 1,
-     "rows": 8,
-     "frames": 1,
-     "directionAxis": "row",
-     "fps": 0.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    },
-    {
-     "name": "idle",
-     "resource": "Art/Characters/zombie_walker/zombie_walker_idle_sheet",
-     "cols": 1,
-     "rows": 8,
-     "frames": 1,
-     "directionAxis": "row",
-     "fps": 0.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    },
-    {
-     "name": "walk",
-     "resource": "Art/Characters/zombie_walker/zombie_walker_walk_sheet",
-     "cols": 2,
-     "rows": 8,
-     "frames": 2,
-     "directionAxis": "row",
-     "fps": 4.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    }
-   ]
-  },
-  {
-   "key": "zombie_wanderer",
-   "frameWidth": 92,
-   "frameHeight": 92,
-   "footBaselineY": 68,
-   "pivotX": 0.5,
-   "pivotY": 0.2608695652173913,
-   "colliderW": 40.0,
-   "colliderH": 40.0,
+   "pivotY": 0.17,
+   "colliderW": 30.0,
+   "colliderH": 30.0,
    "speedMultiplier": 1.0,
-   "noiseDetectRadiusTiles": 6.0,
-   "searchDurationSec": 10.0,
+   "noiseDetectRadiusTiles": 5.0,
+   "searchDurationSec": 3.0,
    "directions": [
     "s",
     "se",
@@ -293,20 +122,8 @@
    ],
    "states": [
     {
-     "name": "chase",
-     "resource": "Art/Characters/zombie_wanderer/zombie_wanderer_chase_sheet",
-     "cols": 1,
-     "rows": 8,
-     "frames": 1,
-     "directionAxis": "row",
-     "fps": 0.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    },
-    {
      "name": "idle",
-     "resource": "Art/Characters/zombie_wanderer/zombie_wanderer_idle_sheet",
+     "resource": "Art/Characters/banshin/banshin_idle_sheet",
      "cols": 1,
      "rows": 8,
      "frames": 1,
@@ -318,12 +135,110 @@
     },
     {
      "name": "walk",
-     "resource": "Art/Characters/zombie_wanderer/zombie_wanderer_walk_sheet",
-     "cols": 2,
+     "resource": "Art/Characters/banshin/banshin_walk_sheet",
+     "cols": 16,
      "rows": 8,
-     "frames": 2,
+     "frames": 16,
      "directionAxis": "row",
-     "fps": 5.0,
+     "fps": 10.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    }
+   ]
+  },
+  {
+   "key": "yeokgol",
+   "frameWidth": 128,
+   "frameHeight": 128,
+   "footBaselineY": 118,
+   "pivotX": 0.5,
+   "pivotY": 0.078125,
+   "colliderW": 34.0,
+   "colliderH": 34.0,
+   "speedMultiplier": 1.0,
+   "noiseDetectRadiusTiles": 5.0,
+   "searchDurationSec": 3.0,
+   "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+   ],
+   "states": [
+    {
+     "name": "idle",
+     "resource": "Art/Characters/yeokgol/yeokgol_idle_sheet",
+     "cols": 1,
+     "rows": 8,
+     "frames": 1,
+     "directionAxis": "row",
+     "fps": 0.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    },
+    {
+     "name": "walk",
+     "resource": "Art/Characters/yeokgol/yeokgol_walk_sheet",
+     "cols": 16,
+     "rows": 8,
+     "frames": 16,
+     "directionAxis": "row",
+     "fps": 14.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    }
+   ]
+  },
+  {
+   "key": "sangju",
+   "frameWidth": 144,
+   "frameHeight": 144,
+   "footBaselineY": 134,
+   "pivotX": 0.5,
+   "pivotY": 0.069444,
+   "colliderW": 30.0,
+   "colliderH": 30.0,
+   "speedMultiplier": 1.0,
+   "noiseDetectRadiusTiles": 5.0,
+   "searchDurationSec": 3.0,
+   "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+   ],
+   "states": [
+    {
+     "name": "idle",
+     "resource": "Art/Characters/sangju/sangju_idle_sheet",
+     "cols": 1,
+     "rows": 8,
+     "frames": 1,
+     "directionAxis": "row",
+     "fps": 0.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    },
+    {
+     "name": "walk",
+     "resource": "Art/Characters/sangju/sangju_walk_sheet",
+     "cols": 14,
+     "rows": 8,
+     "frames": 14,
+     "directionAxis": "row",
+     "fps": 8.0,
      "fpsSneak": 0.0,
      "fpsWalk": 0.0,
      "fpsRun": 0.0

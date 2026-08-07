@@ -44,7 +44,6 @@ public class UI_InGame : UI_Scene
 	RectTransform _soundRingRoot;
 	readonly List<SoundRing> _soundRings = new List<SoundRing>();
 	bool _ready;
-	float _remainingSeconds;
 	Text _noticeText;
 	Coroutine _noticeRoutine;
 	GameObject _holdProgressRoot;
@@ -52,8 +51,11 @@ public class UI_InGame : UI_Scene
 	Altar _altar;
 	Image _arrow;
 	Sprite _arrowSprite;
+	Image _wickFill;
+	Image _wickFlame;
+	RectTransform _wickRoot;
 
-	public void Setup(StageProgress progress, PlayerController player, float deadlineSeconds = 0.0f)
+	public void Setup(StageProgress progress, PlayerController player)
 	{
 		_progress = progress;
 		_player = player;
@@ -65,7 +67,6 @@ public class UI_InGame : UI_Scene
 			_interactor = _player.GetComponent<PlayerInteractor>();
 		}
 
-		_remainingSeconds = deadlineSeconds;
 		RefreshArtifacts();
 	}
 
@@ -93,6 +94,7 @@ public class UI_InGame : UI_Scene
 		CreateNoticeText();
 		CreateHoldProgress();
 		CreateObjectiveArrow();
+		CreateWickGauge();
 
 		CreateSoundRingPool();
 		Managers.Sound.OnSpatialSoundPlayed += OnSpatialSoundPlayed;
@@ -132,9 +134,84 @@ public class UI_InGame : UI_Scene
 		_noticeRoutine = null;
 	}
 
-	public void SetRemainingTime(float seconds)
+	const string WickSprite = "Art/UI/Play_screen_UI/Lantern_Remaining_Wick";
+	const string FlameSprite = "Art/UI/Play_screen_UI/firelight";
+	const float WickHeight = 206.0f;
+	const float WickWidth = 16.0f;
+
+	/// 등불은 이 게임의 유일한 시계다. 숫자 대신 아티스트가 만든 심지가 타들어간다.
+	void CreateWickGauge()
 	{
-		_remainingSeconds = seconds;
+		if (_wickRoot != null)
+			return;
+
+		Sprite wick = Resources.Load<Sprite>(WickSprite);
+		if (wick == null)
+		{
+			Debug.LogWarning($"UI_InGame: Resources/{WickSprite} 없음");
+			return;
+		}
+
+		GameObject root = new GameObject("WickGauge", typeof(RectTransform));
+		root.transform.SetParent(transform, false);
+		_wickRoot = root.GetComponent<RectTransform>();
+		_wickRoot.anchorMin = new Vector2(0.0f, 0.0f);
+		_wickRoot.anchorMax = new Vector2(0.0f, 0.0f);
+		_wickRoot.pivot = new Vector2(0.0f, 0.0f);
+		_wickRoot.anchoredPosition = new Vector2(34.0f, 34.0f);
+		_wickRoot.sizeDelta = new Vector2(WickWidth, WickHeight);
+
+		GameObject fill = new GameObject("Wick", typeof(RectTransform), typeof(Image));
+		fill.transform.SetParent(root.transform, false);
+		RectTransform fillRect = fill.GetComponent<RectTransform>();
+		fillRect.anchorMin = Vector2.zero;
+		fillRect.anchorMax = Vector2.one;
+		fillRect.offsetMin = Vector2.zero;
+		fillRect.offsetMax = Vector2.zero;
+
+		_wickFill = fill.GetComponent<Image>();
+		_wickFill.sprite = wick;
+		_wickFill.preserveAspect = false;
+		_wickFill.raycastTarget = false;
+		_wickFill.type = Image.Type.Filled;
+		_wickFill.fillMethod = Image.FillMethod.Vertical;
+		_wickFill.fillOrigin = (int)Image.OriginVertical.Bottom;
+		_wickFill.fillAmount = 1.0f;
+
+		Sprite flame = Resources.Load<Sprite>(FlameSprite);
+		if (flame == null)
+			return;
+
+		GameObject head = new GameObject("Flame", typeof(RectTransform), typeof(Image));
+		head.transform.SetParent(root.transform, false);
+		RectTransform headRect = head.GetComponent<RectTransform>();
+		headRect.anchorMin = new Vector2(0.5f, 0.0f);
+		headRect.anchorMax = new Vector2(0.5f, 0.0f);
+		headRect.pivot = new Vector2(0.5f, 0.5f);
+		headRect.sizeDelta = new Vector2(26.0f, 26.0f);
+
+		_wickFlame = head.GetComponent<Image>();
+		_wickFlame.sprite = flame;
+		_wickFlame.raycastTarget = false;
+	}
+
+	void UpdateWickGauge()
+	{
+		if (_wickFill == null)
+			return;
+
+		float ratio = _lamp == null ? 0.0f : Mathf.Clamp01(_lamp.RemainingRatio);
+		_wickFill.fillAmount = ratio;
+
+		if (_wickFlame == null)
+			return;
+
+		// 불꽃은 남은 심지 끝에 앉아 함께 내려온다. 다 타면 꺼진다.
+		_wickFlame.enabled = ratio > 0.0f;
+		_wickFlame.rectTransform.anchoredPosition = new Vector2(0.0f, WickHeight * ratio);
+
+		float flicker = 0.85f + Mathf.PingPong(Time.unscaledTime * 1.7f, 0.3f);
+		_wickFlame.rectTransform.localScale = new Vector3(flicker, flicker, 1.0f);
 	}
 
 	void RefreshArtifacts()
@@ -160,21 +237,11 @@ public class UI_InGame : UI_Scene
 
 		UpdateSoundRings();
 		UpdateObjectiveArrow();
+		UpdateWickGauge();
 
 		Text fuelText = GetText((int)Texts.FuelText);
-		if (fuelText != null)
-		{
-			RectTransform fuelRect = fuelText.rectTransform;
-			fuelRect.anchorMin = new Vector2(0.5f, 1.0f);
-			fuelRect.anchorMax = new Vector2(0.5f, 1.0f);
-			fuelRect.pivot = new Vector2(0.5f, 1.0f);
-			fuelRect.anchoredPosition = new Vector2(0.0f, -28.0f);
-			fuelRect.sizeDelta = new Vector2(420.0f, 55.0f);
-			fuelText.alignment = TextAnchor.MiddleCenter;
-
-			int seconds = Mathf.CeilToInt(_remainingSeconds);
-			fuelText.text = $"남은 시간  {seconds / 60:00}:{seconds % 60:00}";
-		}
+		if (fuelText != null && fuelText.enabled)
+			fuelText.enabled = false;
 
 		Text prompt = GetText((int)Texts.PromptText);
 		if (prompt != null)

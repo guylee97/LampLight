@@ -37,26 +37,6 @@ public class InteractableTests
 		return go.AddComponent<Altar>();
 	}
 
-	static OilCanister MakeCanister()
-	{
-		GameObject go = new GameObject("OilCanister");
-		go.AddComponent<BoxCollider2D>();
-		return go.AddComponent<OilCanister>();
-	}
-
-	[Test]
-	public void OilCanisterIgnoresAMissingPlayer()
-	{
-		OilCanister canister = MakeCanister();
-
-		canister.Interact(null);
-
-		Assert.IsFalse(canister.IsUsed);
-		Assert.IsTrue(canister.CanInteract);
-
-		Object.DestroyImmediate(canister.gameObject);
-	}
-
 	[Test]
 	public void ArtifactReportsToProgressExactlyOnce()
 	{

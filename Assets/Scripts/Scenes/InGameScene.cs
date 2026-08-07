@@ -38,7 +38,6 @@ public class InGameScene : MonoBehaviour
 
 	UI_InGame _hud;
 	bool _escapeWasPressed;
-	float _remainingSeconds;
 
 	void Start()
 	{
@@ -86,12 +85,11 @@ public class InGameScene : MonoBehaviour
 		if (_placer.Altar != null)
 			_placer.Altar.SetChannelSeconds(config.RitualSeconds);
 
-		if (_selector.Select(rng))
+		if (_selector.Select())
 			ApplySpawnPair(config, rng);
 
 		_hud = Managers.UI.ShowSceneUI<UI_InGame>();
-		_hud.Setup(_progress, _player, config.DeadlineSeconds);
-		_remainingSeconds = config.DeadlineSeconds;
+		_hud.Setup(_progress, _player);
 
 		Managers.Game.OnStageEnded += OnStageEnded;
 		_progress.OnArtifactCollected += OnArtifactCollected;
@@ -114,15 +112,6 @@ public class InGameScene : MonoBehaviour
 	void ApplyLevelConfig(LevelConfig config)
 	{
 		_progress.SetRequired(config.ArtifactsRequired);
-		ApplyOilCanisters(config.OilCanisters);
-		NoiseLure.ClearAll();
-
-		if (_player != null)
-		{
-			StoneThrower thrower = _player.GetComponent<StoneThrower>();
-			if (thrower != null)
-				thrower.SetStones(config.Stones);
-		}
 
 		if (_player != null && _player.Lamp != null)
 		{
@@ -132,7 +121,14 @@ public class InGameScene : MonoBehaviour
 				seconds *= 1.2f;
 
 			_player.Lamp.SetMaxDuration(seconds);
+			_player.Lamp.OnBurnedOut += OnLampBurnedOut;
 		}
+	}
+
+	void OnLampBurnedOut()
+	{
+		if (Managers.Game.IsPlaying)
+			Managers.Game.GameOver();
 	}
 
 	void OpeningLines(LevelConfig config)
@@ -141,28 +137,32 @@ public class InGameScene : MonoBehaviour
 
 		if (config.Level > LevelTable.MinLevel)
 		{
-			UI_Dialogue.Say("더 깊은 곳이다. 여기 있는 것은 아까 그것이 아니다.");
+			UI_Dialogue.Say(
+				"더 깊은 전각이다.",
+				"여기 있는 건 아까 그것이 아니야.");
 			return;
 		}
 
 		UI_Dialogue.Say(
-			"불이 꺼지면 나도 여기 남는다.",
-			$"흩어진 유물 {config.ArtifactsRequired}개를 찾아 제단에 올려야 한다.",
-			"등불은 앞만 비춘다. 등 뒤는 보이지 않는다.");
+			"눈을 떠보니 폐사찰이다. 등불 하나뿐이야.",
+			"공양물을 모아 제단에 올려야 여길 나간다.");
 	}
 
 	void OnArtifactCollected(int collected, int required)
 	{
-		if (collected == 1 && required > 1)
-			UI_Dialogue.Say("하나 찾았다. 아직 모자란다.");
-		else if (collected >= required)
-			UI_Dialogue.Say("이제 제단으로.");
+		if (collected >= required)
+			UI_Dialogue.Say("다 모았다. 제단으로.");
+		else
+			UI_Dialogue.Say("하나 찾았다. 아직 모자라.");
 	}
 
 	void OnDestroy()
 	{
 		if (_progress != null)
 			_progress.OnArtifactCollected -= OnArtifactCollected;
+
+		if (_player != null && _player.Lamp != null)
+			_player.Lamp.OnBurnedOut -= OnLampBurnedOut;
 
 		if (Managers.TryGetGame(out GameManagerEx game))
 			game.OnStageEnded -= OnStageEnded;
@@ -193,21 +193,6 @@ public class InGameScene : MonoBehaviour
 
 		Debug.LogError("InGameScene: missing StageProgress, MapObjectPlacer, SpawnSelector or PlayerController");
 		return false;
-	}
-
-	void ApplyOilCanisters(int allowed)
-	{
-		int kept = 0;
-
-		foreach (OilCanister canister in FindObjectsByType<OilCanister>(FindObjectsInactive.Include,
-			FindObjectsSortMode.InstanceID))
-		{
-			bool enable = kept < allowed;
-			canister.gameObject.SetActive(enable);
-
-			if (enable)
-				kept++;
-		}
 	}
 
 	void ApplySpawnPair(LevelConfig config, System.Random rng)
@@ -271,15 +256,6 @@ public class InGameScene : MonoBehaviour
 
 	void Update()
 	{
-		if (Managers.Game.IsPlaying)
-		{
-			_remainingSeconds = Mathf.Max(0.0f, _remainingSeconds - Time.deltaTime);
-			if (_hud != null)
-				_hud.SetRemainingTime(_remainingSeconds);
-			if (_remainingSeconds <= 0.0f)
-				Managers.Game.GameOver();
-		}
-
 		Keyboard keyboard = Keyboard.current;
 		if (keyboard == null)
 			return;

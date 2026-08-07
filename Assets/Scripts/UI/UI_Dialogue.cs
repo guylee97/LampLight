@@ -9,8 +9,10 @@ public class UI_Dialogue : MonoBehaviour
 	public const string TypeClip = "text_type";
 
 	const float CharactersPerSecond = 34.0f;
-	const float AutoAdvanceSeconds = 3.2f;
 	const int SortingOrder = 550;
+
+	// 대사가 떠 있는 동안 게임은 멈춘다. 읽는 사이에 요괴가 다가오면 대사를 읽을 수 없다.
+	static int s_holds;
 
 	static UI_Dialogue s_instance;
 
@@ -20,7 +22,6 @@ public class UI_Dialogue : MonoBehaviour
 	Text _body;
 	Text _hint;
 	Coroutine _routine;
-	bool _advanceWasPressed;
 
 	public static bool IsShowing { get { return s_instance != null && s_instance._group.alpha > 0.01f; } }
 
@@ -54,6 +55,7 @@ public class UI_Dialogue : MonoBehaviour
 		}
 
 		s_instance._group.alpha = 0.0f;
+		Release();
 	}
 
 	static UI_Dialogue Resolve()
@@ -131,7 +133,8 @@ public class UI_Dialogue : MonoBehaviour
 			new Color(0.72f, 0.62f, 0.42f, 0.9f));
 		_hint.rectTransform.offsetMin = new Vector2(44.0f, 20.0f);
 		_hint.rectTransform.offsetMax = new Vector2(-44.0f, -36.0f);
-		_hint.text = "[E]";
+		_hint.text = "▾ 아무 키";
+		_hint.enabled = false;
 	}
 
 	void Border(RectTransform parent, Color color)
@@ -182,6 +185,7 @@ public class UI_Dialogue : MonoBehaviour
 	IEnumerator Run()
 	{
 		_group.alpha = 1.0f;
+		Hold();
 
 		while (_pending.Count > 0)
 		{
@@ -192,6 +196,26 @@ public class UI_Dialogue : MonoBehaviour
 
 		_group.alpha = 0.0f;
 		_routine = null;
+		Release();
+	}
+
+	static void Hold()
+	{
+		s_holds++;
+
+		if (s_holds == 1)
+			Time.timeScale = 0.0f;
+	}
+
+	static void Release()
+	{
+		if (s_holds <= 0)
+			return;
+
+		s_holds--;
+
+		if (s_holds == 0)
+			Time.timeScale = 1.0f;
 	}
 
 	IEnumerator Type(string line)
@@ -223,28 +247,19 @@ public class UI_Dialogue : MonoBehaviour
 		_body.text = line;
 	}
 
+	/// 자동으로 넘어가지 않는다. 읽고 나서 직접 넘긴다.
 	IEnumerator WaitForAdvance()
 	{
-		float deadline = Time.unscaledTime + AutoAdvanceSeconds;
+		_hint.enabled = true;
 
-		while (Time.unscaledTime < deadline)
-		{
-			if (Advance())
-				yield break;
-
+		while (Advance() == false)
 			yield return null;
-		}
+
+		_hint.enabled = false;
 	}
 
 	bool Advance()
 	{
-		Keyboard keyboard = Keyboard.current;
-		if (keyboard == null)
-			return false;
-
-		bool pressed = keyboard.eKey.isPressed || keyboard.spaceKey.isPressed;
-		bool fired = pressed && _advanceWasPressed == false;
-		_advanceWasPressed = pressed;
-		return fired;
+		return AnyKey.Down;
 	}
 }

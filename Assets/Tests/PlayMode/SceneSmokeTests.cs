@@ -163,10 +163,10 @@ public class SceneSmokeTests
 
 		EnemyBase[] enemies = Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
 		LevelConfig config = LevelTable.Get(Managers.Game.CurrentLevel);
-		int expected = config.EnemyCount;
+		int expected = config.YokaiCount;
 
 		Assert.AreEqual(expected, enemies.Length,
-			$"L{Managers.Game.CurrentLevel} 좀비가 {expected}마리 나와야 하는데 {enemies.Length}마리다");
+			$"L{Managers.Game.CurrentLevel} 요괴가 {expected}마리 나와야 하는데 {enemies.Length}마리다");
 
 		foreach (EnemyBase enemy in enemies)
 		{

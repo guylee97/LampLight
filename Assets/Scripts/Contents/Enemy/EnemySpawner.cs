@@ -6,15 +6,6 @@ public class EnemySpawner : MonoBehaviour
 	const float EnemyClearance = 0.35f;
 
 	[SerializeField]
-	string _walkerPath = "WalkerZombie";
-
-	[SerializeField]
-	string _wandererPath = "WandererZombie";
-
-	[SerializeField]
-	string _runnerPath = "RunnerZombie";
-
-	[SerializeField]
 	string _yokaiPath = "MaskYokai";
 
 	[SerializeField]
@@ -61,20 +52,6 @@ public class EnemySpawner : MonoBehaviour
 			SpawnYokai(pool[rng.Next(pool.Count)], parent, YokaiTable.ForLevel(config.Level));
 			hookPlaced |= useHook;
 		}
-
-		for (int i = 0; i < config.WalkerCount; i++)
-		{
-			bool useHook = config.Level == LevelTable.MinLevel && hookPlaced == false && hook.Count > 0;
-			List<Vector2Int> pool = useHook ? hook : far;
-			SpawnOne(_walkerPath, pool[rng.Next(pool.Count)], parent);
-			hookPlaced |= useHook;
-		}
-
-		for (int i = 0; i < config.WandererCount; i++)
-			SpawnOne(_wandererPath, far[rng.Next(far.Count)], parent);
-
-		for (int i = 0; i < config.RunnerCount; i++)
-			SpawnOne(_runnerPath, far[rng.Next(far.Count)], parent);
 	}
 
 	void CollectCandidates(int[] field, List<Vector2Int> far, List<Vector2Int> hook)
@@ -113,19 +90,6 @@ public class EnemySpawner : MonoBehaviour
 		if (go == null)
 			go = YokaiFactory.Build(spec, parent);
 
-		if (go == null)
-			return;
-
-		go.transform.position = MapCoord.TileToWorld(tile.x, tile.y);
-
-		EnemyBase enemy = go.GetComponent<EnemyBase>();
-		if (enemy != null)
-			_spawned.Add(enemy);
-	}
-
-	void SpawnOne(string path, Vector2Int tile, Transform parent)
-	{
-		GameObject go = Managers.Resource.Instantiate(path, parent);
 		if (go == null)
 			return;
 

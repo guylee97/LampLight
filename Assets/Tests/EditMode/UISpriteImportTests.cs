@@ -48,9 +48,10 @@ public class UISpriteImportTests
 	}
 
 	const string GameOverDir = "Assets/Resources/Art/UI/Game_Over_Screen";
+	const string SheetSuffix = "_sheet";
 
 	[Test]
-	public void GameOverScreenTexturesImportAsSingleSprites()
+	public void GameOverScreenTexturesImportAsTheirKindDemands()
 	{
 		List<string> bad = new List<string>();
 
@@ -63,13 +64,18 @@ public class UISpriteImportTests
 			if (importer == null)
 				continue;
 
-			if (importer.spriteImportMode != UnityEditor.SpriteImportMode.Single)
-				bad.Add($"{path}: spriteImportMode={importer.spriteImportMode}");
+			bool isSheet = System.IO.Path.GetFileNameWithoutExtension(path).EndsWith(SheetSuffix);
+			UnityEditor.SpriteImportMode wanted = isSheet
+				? UnityEditor.SpriteImportMode.Multiple
+				: UnityEditor.SpriteImportMode.Single;
+
+			if (importer.spriteImportMode != wanted)
+				bad.Add($"{path}: spriteImportMode={importer.spriteImportMode}, 기대={wanted}");
 		}
 
 		Assert.IsEmpty(bad,
-			"게임오버 화면 이미지는 통짜로 쓰는 것들이라 전부 Single 이어야 한다."
-			+ " Multiple 로 들어오면 조각 하나만 로드된다:\n"
+			$"게임오버 화면 이미지는 통짜로 쓰니 Single 이어야 하고, '{SheetSuffix}' 로 끝나는 프레임 시트만"
+			+ " Multiple 이다. 통짜가 Multiple 로 들어오면 조각 하나만 로드된다:\n"
 			+ string.Join("\n", bad));
 	}
 }

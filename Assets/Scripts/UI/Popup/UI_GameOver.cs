@@ -10,8 +10,11 @@ public class UI_GameOver : UI_Popup
 	public const string ScreamFallbackClip = "moster growl (4)";
 
 	const float SilenceSeconds = 0.10f;
-	const float LungeSeconds = 0.30f;
 	const float DefaultFaceSeconds = 0.34f;
+	const float ScareFps = 24.0f;
+	const float RushStartScale = 0.85f;
+	const float RushEndScale = 2.6f;
+	const float SwallowFrom = 0.72f;
 
 	const float SettleSeconds = 0.28f;
 	const float SheetFadeSeconds = 0.22f;
@@ -25,7 +28,7 @@ public class UI_GameOver : UI_Popup
 	const float JitterPixels = 0.014f;
 
 	Image _face;
-	Image _lunge;
+	Sprite[] _scare;
 	Image _flash;
 	Image _dim;
 	CanvasGroup _sheet;
@@ -58,7 +61,6 @@ public class UI_GameOver : UI_Popup
 		_dim.color = new Color(0, 0, 0, 0);
 		_dim.raycastTarget = false;
 
-		BuildLunge();
 		BuildFace();
 
 		_flash = Stretch("Flash").gameObject.AddComponent<Image>();
@@ -99,83 +101,34 @@ public class UI_GameOver : UI_Popup
 		return rect;
 	}
 
-	void BuildLunge()
-	{
-		Transform catcher = Managers.Game.Catcher;
-		if (catcher == null)
-			return;
-
-		SpriteRenderer source = catcher.GetComponentInChildren<SpriteRenderer>();
-		if (source == null || source.sprite == null)
-			return;
-
-		GameObject go = new GameObject("Lunge", typeof(RectTransform), typeof(Image));
-		go.transform.SetParent(transform, false);
-
-		RectTransform rect = go.GetComponent<RectTransform>();
-		rect.anchorMin = new Vector2(0.5f, 0.5f);
-		rect.anchorMax = new Vector2(0.5f, 0.5f);
-		rect.pivot = new Vector2(0.5f, 0.5f);
-
-		Sprite sprite = source.sprite;
-		float aspect = sprite.rect.width / Mathf.Max(1.0f, sprite.rect.height);
-		rect.sizeDelta = new Vector2(1080.0f * aspect, 1080.0f);
-
-		_lunge = go.GetComponent<Image>();
-		_lunge.sprite = sprite;
-		_lunge.preserveAspect = true;
-		_lunge.raycastTarget = false;
-		_lunge.color = _spec != null ? _spec.Tint : Color.white;
-		_lunge.enabled = false;
-	}
-
-	IEnumerator Lunge()
-	{
-		if (_lunge == null)
-			yield break;
-
-		Camera camera = Camera.main;
-		Transform catcher = Managers.Game.Catcher;
-		RectTransform root = GetComponent<RectTransform>();
-		RectTransform rect = _lunge.rectTransform;
-
-		Vector2 from = Vector2.zero;
-
-		if (camera != null && catcher != null)
-		{
-			Vector3 viewport = camera.WorldToViewportPoint(catcher.position);
-			from = new Vector2(
-				(viewport.x - 0.5f) * root.rect.width,
-				(viewport.y - 0.5f) * root.rect.height);
-		}
-
-		_lunge.enabled = true;
-
-		for (float t = 0.0f; t < LungeSeconds; t += Time.unscaledDeltaTime)
-		{
-			float k = Ease.OutQuint(t / LungeSeconds);
-			float scale = Mathf.Lerp(0.55f, _spec != null ? _spec.LungeScale : 3.1f, k);
-
-			rect.localScale = new Vector3(scale, scale, 1.0f);
-			rect.anchoredPosition = Vector2.Lerp(from, Vector2.zero, k);
-			Color tint = _spec != null ? _spec.Tint : Color.white;
-			float dim = Mathf.Lerp(1.0f, 0.32f, k);
-			_lunge.color = new Color(tint.r * dim, tint.g * dim, tint.b * dim, 1.0f);
-			yield return null;
-		}
-
-		_lunge.enabled = false;
-	}
-
 	void BuildFace()
 	{
 		RectTransform rect = Stretch("Jumpscare");
 		_face = rect.gameObject.AddComponent<Image>();
-		_face.sprite = Resources.Load<Sprite>(ArtDir + (_spec != null ? _spec.FaceArt : "jumpscare_face"));
 		_face.preserveAspect = false;
 		_face.raycastTarget = false;
-		_face.color = new Color(1, 1, 1, 0);
-		_face.enabled = _face.sprite != null;
+		_face.color = Color.white;
+
+		_scare = LoadScareFrames();
+		_face.sprite = _scare != null && _scare.Length > 0
+			? _scare[0]
+			: Resources.Load<Sprite>(ArtDir + (_spec != null ? _spec.FaceArt : "jumpscare_face"));
+
+		_face.enabled = false;
+	}
+
+	Sprite[] LoadScareFrames()
+	{
+		string sheet = _spec != null ? _spec.ScareSheet : null;
+		if (string.IsNullOrEmpty(sheet))
+			return null;
+
+		Sprite[] loaded = Resources.LoadAll<Sprite>(ArtDir + sheet);
+		if (loaded == null || loaded.Length == 0)
+			return null;
+
+		System.Array.Sort(loaded, (a, b) => string.CompareOrdinal(a.name, b.name));
+		return loaded;
 	}
 
 	void BuildSheet()
@@ -219,7 +172,6 @@ public class UI_GameOver : UI_Popup
 	IEnumerator Play()
 	{
 		yield return Hitstop();
-		yield return Lunge();
 		yield return Face();
 		yield return Flicker();
 		yield return Settle();
@@ -232,7 +184,7 @@ public class UI_GameOver : UI_Popup
 		AudioListener.volume = 0.0f;
 
 		if (_camera != null)
-			_camera.Shake(0.28f, SilenceSeconds + LungeSeconds + FaceSeconds);
+			_camera.Shake(0.34f, SilenceSeconds + FaceSeconds);
 
 		yield return new WaitForSecondsRealtime(SilenceSeconds);
 	}
@@ -277,24 +229,50 @@ public class UI_GameOver : UI_Popup
 		}
 
 		_dim.color = new Color(0, 0, 0, 0.0f);
-		_face.color = Color.white;
+		_face.enabled = true;
 		_flash.color = new Color(0.55f, 0.02f, 0.02f, 0.5f);
 
 		RectTransform faceRect = _face.rectTransform;
 		RectTransform root = GetComponent<RectTransform>();
 		float amplitude = root.rect.height * JitterPixels;
+		int count = _scare != null ? _scare.Length : 1;
+		float step = 1.0f / ScareFps;
+		float span = Mathf.Max(FaceSeconds, count * step);
+		float elapsed = 0.0f;
 
-		for (float t = 0.0f; t < FaceSeconds; t += Time.unscaledDeltaTime)
+		while (elapsed < span)
 		{
+			float k = Mathf.Clamp01(elapsed / span);
+
+			if (_scare != null && _scare.Length > 0)
+			{
+				int frame = Mathf.Min(count - 1, Mathf.FloorToInt(elapsed / step));
+				_face.sprite = _scare[frame];
+			}
+
+			// 제자리에서 여닫는 게 아니라 달려든다 — 뒤로 갈수록 가속해서 커진다.
+			float rush = Mathf.Lerp(RushStartScale, RushEndScale, k * k);
+			faceRect.localScale = new Vector3(rush, rush, 1.0f);
+
+			// 다가올수록 손이 떨리듯 흔들림이 커진다.
 			float seed = Time.unscaledTime * 90.0f;
+			float shake = amplitude * (0.4f + 1.6f * k);
 			faceRect.anchoredPosition = new Vector2(
-				(Mathf.PerlinNoise(seed, 0.0f) * 2.0f - 1.0f) * amplitude,
-				(Mathf.PerlinNoise(0.0f, seed) * 2.0f - 1.0f) * amplitude);
+				(Mathf.PerlinNoise(seed, 0.0f) * 2.0f - 1.0f) * shake,
+				(Mathf.PerlinNoise(0.0f, seed) * 2.0f - 1.0f) * shake);
 
 			_flash.color = new Color(
-				0.55f, 0.02f, 0.02f, 0.5f * (1.0f - Ease.OutQuint(t / FaceSeconds)));
+				0.55f, 0.02f, 0.02f, 0.5f * (1.0f - Ease.OutQuint(k)));
+
+			// 마지막 구간은 입 속이 화면을 삼킨다.
+			float swallow = Mathf.InverseLerp(SwallowFrom, 1.0f, k);
+			_dim.color = new Color(0, 0, 0, Ease.SmootherStep(swallow));
+
+			elapsed += Time.unscaledDeltaTime;
 			yield return null;
 		}
+
+		_dim.color = Color.black;
 	}
 
 	IEnumerator Settle()

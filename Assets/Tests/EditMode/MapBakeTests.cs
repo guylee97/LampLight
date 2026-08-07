@@ -122,6 +122,55 @@ public class MapBakeTests
 	}
 
 	[Test]
+	public void OptimalRouteLeavesRoomInsideTheLampBurn()
+	{
+		const float WalkTilesPerSecond = 4.0f;
+		const float MaxShareOfLamp = 0.4f;
+
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			MapData map = Load(level);
+			MapPoint start = Managers.Data.GetPoint("player_start");
+			MapPoint altar = Managers.Data.GetPoint(MapObjectPlacer.ExitDoorPoint);
+			List<MapPoint> remaining = Artifacts(map);
+
+			MapPoint current = start;
+			int tiles = 0;
+
+			while (remaining.Count > 0)
+			{
+				int[] field = MapPathfinder.DistanceField(current.col, current.row);
+				int bestIndex = 0;
+				int bestDistance = int.MaxValue;
+
+				for (int i = 0; i < remaining.Count; i++)
+				{
+					int distance = MapPathfinder.Sample(field, remaining[i]);
+					if (distance == MapPathfinder.Unreachable || distance >= bestDistance)
+						continue;
+
+					bestDistance = distance;
+					bestIndex = i;
+				}
+
+				Assert.AreNotEqual(int.MaxValue, bestDistance, $"L{level} 유물에 닿을 수 없다");
+				tiles += bestDistance;
+				current = remaining[bestIndex];
+				remaining.RemoveAt(bestIndex);
+			}
+
+			tiles += MapPathfinder.Distance(current, altar);
+
+			float seconds = tiles / WalkTilesPerSecond;
+			float budget = LevelTable.Get(level).LampSeconds * MaxShareOfLamp;
+
+			Assert.LessOrEqual(seconds, budget,
+				$"L{level} 최단 경로 {seconds:0.0}초가 등불의 {MaxShareOfLamp:P0}({budget:0.0}초)를 넘는다 — " +
+				"헤매고 피할 여유가 없다");
+		}
+	}
+
+	[Test]
 	public void C6_AtMostOneOverlappingSoundPair()
 	{
 		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)

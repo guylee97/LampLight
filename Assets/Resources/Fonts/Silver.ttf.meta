@@ -4,14 +4,14 @@ TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
   fontSize: 32
-  forceTextureCase: 3
+  forceTextureCase: -2
   characterSpacing: 0
   characterPadding: 2
-  includeFontData: 0
+  includeFontData: 1
   fontNames:
   - Silver
   fallbackFontReferences: []
-  customCharacters:  !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~가간개거검경고곳관구그기길꺼껐끄나남너널눕는니다닥대돌동뒤드득든들등디딘떨뜻라러레려렸로료를름리릭막만맵먼모못무문물바반밝방버번벨벽보분불붙빠상생서석성소손수순스시식실싱아알았어없었에여연열오운유으은을음이인일읽있작잔잡장재적전점정져종주중쥐지진집쪽찾체초최출충치친카캐클타탈터템트파패표프플피필하해했행헤현혔회획히
+  customCharacters: 
   fontRenderingMode: 2
   ascentCalculationMode: 1
   useLegacyBoundsCalculation: 0

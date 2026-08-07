@@ -21,8 +21,6 @@ public static class GameplaySetup
 	const int PlayerLayer = 9;
 	const int BlockLayer = 10;
 
-	const int OilCanisterCount = 6;
-
 	const string WallTilemapName = "Wall";
 
 	static readonly Color WallFlatTint = new Color(0.152f, 0.152f, 0.152f, 1.0f);
@@ -269,7 +267,6 @@ public static class GameplaySetup
 
 		WirePlayer(player);
 		WireEnemies();
-		WireOilCanisters();
 		FlattenWallLighting();
 		WireGameRoot(mapRoot, player);
 
@@ -386,45 +383,6 @@ public static class GameplaySetup
 		}
 
 		Debug.Log($"GameplaySetup: {count} enemies wired");
-	}
-
-	static void WireOilCanisters()
-	{
-		Transform dressing = FindRoot(DressedRootName) != null ? FindRoot(DressedRootName).transform : null;
-		if (dressing == null)
-		{
-			Debug.LogWarning($"GameplaySetup: {DressedRootName} not found — no oil canisters placed");
-			return;
-		}
-
-		List<Transform> lamps = new List<Transform>();
-		foreach (Transform child in dressing)
-		{
-			if (child.name.StartsWith("prop_oil_lamp"))
-				lamps.Add(child);
-		}
-
-		int stride = Mathf.Max(1, lamps.Count / Mathf.Max(1, OilCanisterCount));
-		int placed = 0;
-
-		for (int i = 0; i < lamps.Count && placed < OilCanisterCount; i += stride)
-		{
-			Transform lamp = lamps[i];
-
-			CircleCollider2D collider = Util.GetOrAddComponent<CircleCollider2D>(lamp.gameObject);
-			collider.isTrigger = true;
-			collider.radius = 0.45f;
-
-			OilCanister canister = Util.GetOrAddComponent<OilCanister>(lamp.gameObject);
-			SerializedObject so = new SerializedObject(canister);
-			so.FindProperty("_renderer").objectReferenceValue = lamp.GetComponent<SpriteRenderer>();
-			so.ApplyModifiedPropertiesWithoutUndo();
-
-			EditorUtility.SetDirty(lamp.gameObject);
-			placed++;
-		}
-
-		Debug.Log($"GameplaySetup: {placed} oil canisters of {lamps.Count} oil lamp props");
 	}
 
 	static void WireGameRoot(GameObject mapRoot, PlayerController player)

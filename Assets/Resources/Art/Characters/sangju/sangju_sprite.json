@@ -1,0 +1,52 @@
+{
+  "character": "sangju",
+  "label": "상주",
+  "frameWidth": 144,
+  "frameHeight": 144,
+  "displayScale": 1,
+  "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+  ],
+  "directionIndex": {
+    "s": 0,
+    "se": 1,
+    "e": 2,
+    "ne": 3,
+    "n": 4,
+    "nw": 5,
+    "w": 6,
+    "sw": 7
+  },
+  "footBaselineY": 134,
+  "anchor": "bottom-center",
+  "anims": {
+    "idle": {
+      "frames": 1
+    },
+    "walk": {
+      "frames": 14,
+      "fps": 8.0
+    }
+  },
+  "behavior": {
+    "speedMultiplier": 1.0,
+    "noiseDetectRadiusTiles": 5.0,
+    "searchDurationSec": 3.0
+  },
+  "collisionBox": {
+    "w": 30,
+    "h": 30,
+    "anchor": "bottom-center"
+  },
+  "render": {
+    "imageSmoothing": false,
+    "integerScaleOnly": true
+  }
+}

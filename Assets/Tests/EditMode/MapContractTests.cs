@@ -5,7 +5,6 @@ public class MapContractTests
 {
 	const int SeedSweep = 60;
 	const int FirstSeed = 20260801;
-	const int MinPairDistance = 14;
 
 	[SetUp]
 	public void SetUp()
@@ -38,39 +37,6 @@ public class MapContractTests
 		}
 
 		Assert.IsEmpty(failures, $"생성 실패 {failures.Count}건: " + string.Join(", ", failures));
-	}
-
-	[Test]
-	public void EverySeedYieldsAMapWithAValidSpawnPair()
-	{
-		List<string> failures = new List<string>();
-
-		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
-		{
-			for (int i = 0; i < SeedSweep; i++)
-			{
-				int used;
-				MapData map = MapGenerator.Generate(level, FirstSeed + i * 7919, out used);
-
-				if (map == null)
-				{
-					failures.Add($"L{level} seed {FirstSeed + i * 7919}: 생성 실패");
-					continue;
-				}
-
-				Managers.Data.UseMap(map);
-
-				MapPoint start;
-				MapPoint exit;
-				bool ok = SpawnSelector.TryPickPair(map.spawns, MinPairDistance, 256,
-					new System.Random(used), out start, out exit);
-
-				if (ok == false)
-					failures.Add($"L{level} seed {used}: 거리 {MinPairDistance} 이상인 스폰 쌍 없음");
-			}
-		}
-
-		Assert.IsEmpty(failures, string.Join("\n", failures));
 	}
 
 	[Test]

@@ -31,6 +31,53 @@ WALL_DECOR = [
     ("prop_bowl", "Art/Objects/prop/obj_prop_bowl"),
 ]
 
+MANIFEST = os.path.join(DATA, "objects_manifest_merged.json")
+
+# 프롭은 전부 제 캔버스를 꽉 채우게 그려져 있어서 크기 위계가 없다 — 자갈이 사람의
+# 43%로 렌더된다. 실제 물건 크기에 맞춰 줄이되, 배율은 픽셀이 뭉개지지 않는 분수로만
+# 고른다 (1/6, 1/4, 1/3, 1/2, 3/4, 1, 5/2 …). 플레이어 렌더 높이는 42px 이다.
+PROP_SCALE = {
+    "prop_pebbles": 1 / 8,
+    "prop_candle_stub": 1 / 6,
+    "prop_bowl": 1 / 6,
+    "debris_gravel_a": 1 / 6,
+    "debris_gravel_b": 1 / 6,
+    "prop_skull": 1 / 4,
+    "debris_stones": 1 / 4,
+    "debris_stone": 1 / 4,
+    "prop_bones_pile": 1 / 3,
+    "prop_bones_long": 1 / 3,
+    "large_steps": 1 / 3,
+    "large_benches_pair": 1 / 3,
+    "prop_candle_short": 1 / 2,
+    "prop_basin": 1 / 2,
+    "container_chest": 3 / 4,
+    "large_statue_kneeling": 3 / 4,
+    "prop_candle_tall": 1.0,
+    "prop_railing": 1.0,
+    "prop_gravestone": 1.0,
+    "debris_shelf": 1.0,
+    "prop_pillar_intact": 5 / 2,
+}
+
+# 방마다 하나씩 박는 랜드마크. 화면에 20x11 타일밖에 안 보이는 게임에서
+# 방이 서로 구분되지 않으면 길을 잃는다. (col, row) 는 방 좌상단 기준 오프셋.
+LANDMARKS = {
+    "entry": [("large_benches_pair", 0, 0), ("prop_candle_tall", 2, 0),
+              ("prop_candle_tall", 2, 1)],
+    "hall": [("large_statue_kneeling", 0, 0), ("prop_candle_tall", 2, 1),
+             ("prop_bowl", 2, 0)],
+    "crypt": [("prop_gravestone", 0, 0), ("prop_gravestone", 1, 1),
+              ("prop_gravestone", 2, 0)],
+    "ossuary": [("prop_bones_pile", 0, 0), ("prop_skull", 1, 0),
+                ("prop_bones_pile", 1, 1), ("prop_skull", 0, 1)],
+    "vault": [("container_chest", 0, 0), ("debris_shelf", 2, 0)],
+    "gallery": [("prop_pillar_intact", 0, 0), ("prop_pillar_intact", 2, 0),
+                ("prop_pillar_intact", 0, 2), ("prop_pillar_intact", 2, 2)],
+    "stair": [("large_steps", 0, 0), ("prop_railing", 2, 1)],
+    "sanctum": [("prop_pillar_intact", 0, 0), ("prop_pillar_intact", 2, 0)],
+}
+
 
 class Room:
     def __init__(self, name, col, row, width, height):
@@ -289,7 +336,110 @@ def pick_spawns(free, width, height, start, artifacts, reach):
     return [point(f"spawn_{i}", c, r, height) for i, (c, r) in enumerate(picked)]
 
 
+def load_objects():
+    with open(MANIFEST, encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    return {o["key"]: o for o in data["objects"]}
+
+
+def footprint(entry):
+    cols, rows = entry.get("footprint", "1x1").split("x")
+    return int(cols), int(rows)
+
+
+def as_decoration(entry, col, row):
+    """타일 바닥선에 세우고 가로만 가운데 맞춘다. 바닥선을 유지해야 Y 정렬이 안 틀어진다."""
+
+    cols, rows = footprint(entry)
+    collision = entry.get("collision", {})
+    scale = PROP_SCALE.get(entry["key"], 1.0)
+
+    draw_w = cols * scale
+    draw_h = rows * scale
+
+    return {
+        "key": entry["key"],
+        "resource": entry["resource"],
+        "x": float(col) + (cols - draw_w) * 0.5,
+        "y": float(row + rows),
+        "width": draw_w,
+        "height": draw_h,
+        "flipHorizontal": False,
+        "flipVertical": False,
+        "flipDiagonal": False,
+        "collisionEnabled": bool(collision.get("enabled", False)),
+        "colliderWidth": float(collision.get("width", 0.0)) * scale,
+        "colliderHeight": float(collision.get("height", 0.0)) * scale,
+        "colliderOffsetX": float(collision.get("offsetX", 0.0)) * scale,
+        "colliderOffsetY": float(collision.get("offsetY", 0.0)) * scale,
+        "sortingOffset": 0,
+    }
+
+
+def place_landmarks(free, width, height, spine, layout, keep_clear):
+    """방마다 고정 랜드마크를 하나씩 놓는다. 척추와 목표 지점은 비껴간다."""
+
+    catalog = load_objects()
+    decorations = []
+    skipped = []
+    placed_rooms = 0
+
+    for room in layout["rooms"]:
+        recipe = LANDMARKS.get(room.name)
+        if not recipe:
+            continue
+
+        span_c = max(c for _, c, _ in recipe)
+        span_r = max(r for _, _, r in recipe)
+
+        # 방 안을 전부 훑되 벽에 붙는 자리를 먼저 본다 — 랜드마크가 통로 한복판에
+        # 서면 길을 막고, 방 가장자리에 서야 방의 성격으로 읽힌다.
+        cx, cy = room.center
+        anchors = sorted(
+            (
+                (c, r)
+                for r in range(room.row, room.row + room.height - span_r)
+                for c in range(room.col, room.col + room.width - span_c)
+            ),
+            key=lambda t: (-((t[0] - cx) ** 2 + (t[1] - cy) ** 2), t[1], t[0]),
+        )
+
+        placed = None
+        for base_c, base_r in anchors:
+            tiles = [(base_c + dc, base_r + dr) for _, dc, dr in recipe]
+
+            if any(not (0 <= c < width and 0 <= r < height) for c, r in tiles):
+                continue
+            if any(not free[index(width, c, r)] for c, r in tiles):
+                continue
+            if any((c, r) in spine for c, r in tiles):
+                continue
+            if any((c, r) in keep_clear for c, r in tiles):
+                continue
+
+            placed = (base_c, base_r)
+            break
+
+        if placed is None:
+            skipped.append(room.name)
+            continue
+
+        base_c, base_r = placed
+        for key, dc, dr in recipe:
+            entry = catalog.get(key)
+            if entry is None:
+                raise SystemExit(f"매니페스트에 '{key}' 가 없다")
+
+            decorations.append(as_decoration(entry, base_c + dc, base_r + dr))
+
+        placed_rooms += 1
+
+    return decorations, skipped, placed_rooms
+
+
 def place_decor(free, width, height, spine, layout):
+    catalog = load_objects()
     decorations = []
     slot = 0
 
@@ -321,25 +471,18 @@ def place_decor(free, width, height, spine, layout):
             if i % 4 != 0:
                 continue
 
-            key, resource = WALL_DECOR[slot % len(WALL_DECOR)]
+            key, _ = WALL_DECOR[slot % len(WALL_DECOR)]
             slot += 1
-            decorations.append({
-                "key": key,
-                "resource": resource,
-                "x": float(c),
-                "y": float(r + 1),
-                "width": 1.0,
-                "height": 1.0,
-                "flipHorizontal": False,
-                "flipVertical": False,
-                "flipDiagonal": False,
-                "collisionEnabled": False,
-                "colliderWidth": 0.0,
-                "colliderHeight": 0.0,
-                "colliderOffsetX": 0.0,
-                "colliderOffsetY": 0.0,
-                "sortingOffset": 0,
-            })
+
+            entry = catalog.get(key)
+            if entry is None:
+                raise SystemExit(f"매니페스트에 '{key}' 가 없다")
+
+            piece = as_decoration(entry, c, r)
+            piece["collisionEnabled"] = False
+            piece["colliderWidth"] = 0.0
+            piece["colliderHeight"] = 0.0
+            decorations.append(piece)
 
     return decorations
 
@@ -383,7 +526,23 @@ def build(level, template):
 
     spawns = pick_spawns(free, width, height, start_room.center, spread, reach)
 
-    decorations = place_decor(free, width, height, spine, layout)
+    keep_clear = set()
+    for o in objects:
+        for dr in (-1, 0, 1):
+            for dc in (-1, 0, 1):
+                keep_clear.add((o["col"] + dc, o["row"] + dr))
+
+    landmarks, skipped, landmark_rooms = place_landmarks(free, width, height, spine, layout, keep_clear)
+
+    taken = {(int(d["x"]) + dc, int(d["y"] - d["height"]) + dr)
+             for d in landmarks
+             for dc in range(int(d["width"]))
+             for dr in range(int(d["height"]))}
+
+    decorations = landmarks + [
+        d for d in place_decor(free, width, height, spine, layout)
+        if (int(d["x"]), int(d["y"] - d["height"])) not in taken
+    ]
 
     data = dict(template)
     data.update({
@@ -412,11 +571,13 @@ def build(level, template):
     print(
         f"L{level} {width}x{height}  통과 {sum(1 for v in free if v)}"
         f"  3x3여유 {len(wides)} ({ratio:.0f}%)  장식 {len(decorations)}"
+        f"  랜드마크 {landmark_rooms}/{len(layout['rooms'])}방"
         f"  소리겹침 {overlaps}쌍"
         + ("  전 목표 연결됨" if not missing else f"  미연결 {missing}")
+        + (f"  랜드마크실패 {skipped}" if skipped else "")
     )
 
-    return data, (not missing) and overlaps <= 1
+    return data, (not missing) and overlaps <= 1 and not skipped
 
 
 def main():

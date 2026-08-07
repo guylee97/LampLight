@@ -15,7 +15,15 @@ public class GameManagerEx
     public bool IsGameOver { get; private set; }
     public Define.StageResult Result { get; private set; }
     public bool IsPaused { get; private set; }
-    public bool IsPlaying { get { return Result == Define.StageResult.None && IsPaused == false; } }
+    public bool IsPlaying
+    {
+        get
+        {
+            return Result == Define.StageResult.None
+                && IsPaused == false
+                && UI_Dialogue.IsShowing == false;
+        }
+    }
 
     public int CurrentLevel { get; private set; } = LevelTable.MinLevel;
     public int MaxUnlockedLevel { get; private set; } = LevelTable.MinLevel;
