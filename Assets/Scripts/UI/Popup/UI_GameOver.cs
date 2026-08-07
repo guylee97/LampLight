@@ -30,7 +30,6 @@ public class UI_GameOver : UI_Popup
 	const int FlickerCount = 3;
 	const float FlickerOnSeconds = 0.03f;
 	const float FlickerOffSeconds = 0.03f;
-	const float FlickerDim = 0.88f;
 
 	const float HitstopScale = 0.02f;
 	const float JitterPixels = 0.014f;
@@ -210,16 +209,25 @@ public class UI_GameOver : UI_Popup
 	IEnumerator Flicker()
 	{
 		Time.timeScale = 0.0f;
-		_face.enabled = false;
+		_dim.color = Color.black;
+
+		if (_face.sprite == null)
+		{
+			_face.enabled = false;
+			yield return new WaitForSecondsRealtime(FlickerSpan);
+			yield break;
+		}
 
 		for (int i = 0; i < FlickerCount; i++)
 		{
-			_dim.color = new Color(0, 0, 0, FlickerDim);
+			_face.enabled = false;
 			yield return new WaitForSecondsRealtime(FlickerOffSeconds);
 
-			_dim.color = new Color(0, 0, 0, 0.0f);
+			_face.enabled = true;
 			yield return new WaitForSecondsRealtime(FlickerOnSeconds);
 		}
+
+		_face.enabled = false;
 	}
 
 	IEnumerator Face()
