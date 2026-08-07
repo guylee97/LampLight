@@ -27,7 +27,7 @@ public static class CharacterAnimationBuilder
 	[InitializeOnLoadMethod]
 	static void BuildWhenNewSpritesAreImported()
 	{
-		if (AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(WalkerControllerPath) != null)
+		if (AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(PlayerControllerPath) != null)
 			return;
 
 		EditorApplication.delayCall += () => Build(false);
