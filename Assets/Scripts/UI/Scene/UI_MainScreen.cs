@@ -30,7 +30,8 @@ public class UI_MainScreen : UI_Scene
 		Button start = GetButton((int)Buttons.StartButton);
 		start.gameObject.BindEvent(OnStartButtonClicked);
 		ApplyArtwork(start);
-		_prompt = PressAnyKeyPrompt.Attach(transform, "PRESS ANY KEY", 0.135f, 38);
+		_prompt = PressAnyKeyPrompt.Attach(
+			transform, PressAnyKeyPrompt.PressAnyKeyArt, 0.135f, 560.0f);
 		_prompt.gameObject.SetActive(false);
 		Managers.Sound.PlayOptional(
 			"Title_Background_Music/👍Title_Background_Mixing",

@@ -14,7 +14,10 @@ public static class YokaiFactory
 		go.transform.SetParent(parent, false);
 		go.layer = (int)Define.Layer.Enemy;
 
-		SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
+		GameObject art = new GameObject("Art");
+		art.transform.SetParent(go.transform, false);
+
+		SpriteRenderer renderer = art.AddComponent<SpriteRenderer>();
 		renderer.sortingOrder = 0;
 
 		Rigidbody2D body = go.AddComponent<Rigidbody2D>();
@@ -29,6 +32,7 @@ public static class YokaiFactory
 		collider.offset = Vector2.zero;
 
 		DirectionalSpriteAnimator animator = go.AddComponent<DirectionalSpriteAnimator>();
+		animator.UseRenderer(renderer);
 		animator.SetCharacter(characterKey);
 		animator.SetStutter(0.45f, 1.0f);
 

@@ -63,6 +63,15 @@ public class DirectionalSpriteAnimator : MonoBehaviour
 		SetState(StateIdle);
 	}
 
+	public void UseRenderer(SpriteRenderer renderer)
+	{
+		if (renderer == null)
+			return;
+
+		_renderer = renderer;
+		_restCaptured = false;
+	}
+
 	public void SetCharacter(string key)
 	{
 		_characterKey = key;
@@ -185,6 +194,9 @@ public class DirectionalSpriteAnimator : MonoBehaviour
 			return;
 
 		Transform art = _renderer.transform;
+
+		if (art == transform)
+			return;
 
 		if (_restCaptured == false)
 		{

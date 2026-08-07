@@ -5,12 +5,13 @@ using UnityEngine.UI;
 public class UI_GameOver : UI_Popup
 {
 	const string ArtDir = "Art/UI/Game_Over_Screen/";
-	const string FaceSprite = "jumpscare_mask";
+	const string FaceSprite = "jumpscare_face";
 
 	public const string ScreamClip = "jumpscare_scream";
 	public const string ScreamFallbackClip = "moster growl (4)";
 
 	const float SilenceSeconds = 0.10f;
+	const float LungeSeconds = 0.16f;
 	const float FaceSeconds = 0.34f;
 	const float SettleSeconds = 0.28f;
 	const float SheetFadeSeconds = 0.22f;
@@ -24,6 +25,7 @@ public class UI_GameOver : UI_Popup
 	const float JitterPixels = 0.014f;
 
 	Image _face;
+	Image _lunge;
 	Image _flash;
 	Image _dim;
 	CanvasGroup _sheet;
@@ -53,6 +55,7 @@ public class UI_GameOver : UI_Popup
 		_dim.color = new Color(0, 0, 0, 0);
 		_dim.raycastTarget = false;
 
+		BuildLunge();
 		BuildFace();
 
 		_flash = Stretch("Flash").gameObject.AddComponent<Image>();
@@ -80,6 +83,72 @@ public class UI_GameOver : UI_Popup
 		return rect;
 	}
 
+	void BuildLunge()
+	{
+		Transform catcher = Managers.Game.Catcher;
+		if (catcher == null)
+			return;
+
+		SpriteRenderer source = catcher.GetComponentInChildren<SpriteRenderer>();
+		if (source == null || source.sprite == null)
+			return;
+
+		GameObject go = new GameObject("Lunge", typeof(RectTransform), typeof(Image));
+		go.transform.SetParent(transform, false);
+
+		RectTransform rect = go.GetComponent<RectTransform>();
+		rect.anchorMin = new Vector2(0.5f, 0.5f);
+		rect.anchorMax = new Vector2(0.5f, 0.5f);
+		rect.pivot = new Vector2(0.5f, 0.5f);
+
+		Sprite sprite = source.sprite;
+		float aspect = sprite.rect.width / Mathf.Max(1.0f, sprite.rect.height);
+		rect.sizeDelta = new Vector2(1080.0f * aspect, 1080.0f);
+
+		_lunge = go.GetComponent<Image>();
+		_lunge.sprite = sprite;
+		_lunge.preserveAspect = true;
+		_lunge.raycastTarget = false;
+		_lunge.color = new Color(0.72f, 0.72f, 0.78f, 1.0f);
+		_lunge.enabled = false;
+	}
+
+	IEnumerator Lunge()
+	{
+		if (_lunge == null)
+			yield break;
+
+		Camera camera = Camera.main;
+		Transform catcher = Managers.Game.Catcher;
+		RectTransform root = GetComponent<RectTransform>();
+		RectTransform rect = _lunge.rectTransform;
+
+		Vector2 from = Vector2.zero;
+
+		if (camera != null && catcher != null)
+		{
+			Vector3 viewport = camera.WorldToViewportPoint(catcher.position);
+			from = new Vector2(
+				(viewport.x - 0.5f) * root.rect.width,
+				(viewport.y - 0.5f) * root.rect.height);
+		}
+
+		_lunge.enabled = true;
+
+		for (float t = 0.0f; t < LungeSeconds; t += Time.unscaledDeltaTime)
+		{
+			float k = Ease.OutQuint(t / LungeSeconds);
+			float scale = Mathf.Lerp(0.22f, 2.4f, k);
+
+			rect.localScale = new Vector3(scale, scale, 1.0f);
+			rect.anchoredPosition = Vector2.Lerp(from, Vector2.zero, k);
+			_lunge.color = new Color(0.72f, 0.72f, 0.78f, Mathf.Lerp(0.55f, 1.0f, k));
+			yield return null;
+		}
+
+		_lunge.enabled = false;
+	}
+
 	void BuildFace()
 	{
 		RectTransform rect = Stretch("Jumpscare");
@@ -100,8 +169,10 @@ public class UI_GameOver : UI_Popup
 		_sheet.blocksRaycasts = false;
 
 		Picture(sheet, "Your Dead Title", new Vector2(0.5f, 0.668f), 1434.0f);
-		_prompt = PressAnyKeyPrompt.Attach(sheet, "PRESS ANY KEY \uB2E4\uC2DC", 0.30f, 40);
-		PressAnyKeyPrompt.Attach(sheet, "ESC \uD0C0\uC774\uD2C0\uB85C", 0.225f, 26);
+		_prompt = PressAnyKeyPrompt.Attach(
+			sheet, PressAnyKeyPrompt.PressAnyKeyArt, 0.30f, 520.0f);
+		PressAnyKeyPrompt.Attach(
+			sheet, PressAnyKeyPrompt.EscTitleArt, 0.215f, 250.0f);
 	}
 
 	Image Picture(RectTransform parent, string file, Vector2 anchor, float width)
@@ -130,8 +201,9 @@ public class UI_GameOver : UI_Popup
 	IEnumerator Play()
 	{
 		yield return Hitstop();
-		yield return Flicker();
+		yield return Lunge();
 		yield return Face();
+		yield return Flicker();
 		yield return Settle();
 		yield return RevealSheet();
 	}
@@ -142,7 +214,7 @@ public class UI_GameOver : UI_Popup
 		AudioListener.volume = 0.0f;
 
 		if (_camera != null)
-			_camera.Shake(0.28f, SilenceSeconds + FlickerSpan + FaceSeconds);
+			_camera.Shake(0.28f, SilenceSeconds + LungeSeconds + FaceSeconds);
 
 		yield return new WaitForSecondsRealtime(SilenceSeconds);
 	}
@@ -155,6 +227,7 @@ public class UI_GameOver : UI_Popup
 	IEnumerator Flicker()
 	{
 		Time.timeScale = 0.0f;
+		_face.enabled = false;
 
 		for (int i = 0; i < FlickerCount; i++)
 		{
@@ -205,6 +278,7 @@ public class UI_GameOver : UI_Popup
 
 	IEnumerator Settle()
 	{
+		Time.timeScale = 1.0f;
 		_face.enabled = false;
 		_flash.color = new Color(0.55f, 0.02f, 0.02f, 0.0f);
 		_dim.color = Color.black;

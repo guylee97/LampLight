@@ -3,18 +3,21 @@ using UnityEngine.UI;
 
 public class PressAnyKeyPrompt : MonoBehaviour
 {
-	const float BlinkSeconds = 1.1f;
+	public const string PressAnyKeyArt = "Art/UI/Common/press_any_key";
+	public const string EscTitleArt = "Art/UI/Common/esc_title";
 
-	Text _label;
-	float _minAlpha = 0.25f;
+	const float BlinkSeconds = 1.15f;
+	const float MinAlpha = 0.22f;
+
+	Graphic _graphic;
 
 	public static PressAnyKeyPrompt Attach(
 		Transform parent,
-		string message,
+		string resource,
 		float anchorY,
-		int fontSize = 34)
+		float width)
 	{
-		GameObject go = new GameObject("PressAnyKey", typeof(RectTransform), typeof(Text));
+		GameObject go = new GameObject("Prompt", typeof(RectTransform), typeof(Image));
 		go.transform.SetParent(parent, false);
 
 		RectTransform rect = go.GetComponent<RectTransform>();
@@ -22,37 +25,38 @@ public class PressAnyKeyPrompt : MonoBehaviour
 		rect.anchorMax = new Vector2(0.5f, anchorY);
 		rect.pivot = new Vector2(0.5f, 0.5f);
 		rect.anchoredPosition = Vector2.zero;
-		rect.sizeDelta = new Vector2(900.0f, 70.0f);
 
-		Text text = go.GetComponent<Text>();
-		text.font = KoreanFont.Font;
-		text.fontSize = fontSize;
-		text.alignment = TextAnchor.MiddleCenter;
-		text.color = new Color(0.93f, 0.86f, 0.68f, 1.0f);
-		text.raycastTarget = false;
-		text.text = message;
+		Image image = go.GetComponent<Image>();
+		image.sprite = Resources.Load<Sprite>(resource);
+		image.raycastTarget = false;
+		image.preserveAspect = true;
+
+		if (image.sprite == null)
+		{
+			Debug.LogWarning($"PressAnyKeyPrompt: Resources/{resource} 로드 실패");
+			rect.sizeDelta = new Vector2(width, width * 0.125f);
+		}
+		else
+		{
+			float aspect = image.sprite.rect.height / Mathf.Max(1.0f, image.sprite.rect.width);
+			rect.sizeDelta = new Vector2(width, width * aspect);
+		}
 
 		PressAnyKeyPrompt prompt = go.AddComponent<PressAnyKeyPrompt>();
-		prompt._label = text;
+		prompt._graphic = image;
 		return prompt;
-	}
-
-	public void SetMessage(string message)
-	{
-		if (_label != null)
-			_label.text = message;
 	}
 
 	void Update()
 	{
-		if (_label == null)
+		if (_graphic == null)
 			return;
 
 		float phase = Mathf.Repeat(Time.unscaledTime, BlinkSeconds) / BlinkSeconds;
-		float alpha = Mathf.Lerp(_minAlpha, 1.0f, Ease.SmootherStep(Mathf.PingPong(phase * 2.0f, 1.0f)));
+		float alpha = Mathf.Lerp(MinAlpha, 1.0f, Ease.SmootherStep(Mathf.PingPong(phase * 2.0f, 1.0f)));
 
-		Color color = _label.color;
+		Color color = _graphic.color;
 		color.a = alpha;
-		_label.color = color;
+		_graphic.color = color;
 	}
 }

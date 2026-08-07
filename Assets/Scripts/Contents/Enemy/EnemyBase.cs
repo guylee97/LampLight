@@ -133,6 +133,9 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 
 	void Update()
 	{
+		if (Managers.Game.IsPlaying == false && State != Define.EnemyState.Caught)
+			return;
+
 		switch (State)
 		{
 			case Define.EnemyState.Idle:
