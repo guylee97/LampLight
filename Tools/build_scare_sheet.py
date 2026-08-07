@@ -125,9 +125,53 @@ TextureImporter:
 """
 
 
+WHITE_THRESHOLD = 242
+VIGNETTE_INSET = 0.26
+
+
 def frame_ids(name):
     digest = hashlib.md5(name.encode()).hexdigest()
     return digest[:32], int(digest[:15], 16) % (2 ** 62)
+
+
+def smoothstep(t):
+    t = max(0.0, min(1.0, t))
+    return t * t * (3.0 - 2.0 * t)
+
+
+def blacken_border_white(frame):
+    width, height = frame.size
+    px = frame.load()
+    seen = [[False] * height for _ in range(width)]
+    stack = [(x, y) for x in range(width) for y in (0, height - 1)]
+    stack += [(x, y) for y in range(height) for x in (0, width - 1)]
+
+    while stack:
+        x, y = stack.pop()
+        if x < 0 or y < 0 or x >= width or y >= height or seen[x][y]:
+            continue
+        pixel = px[x, y]
+        if min(pixel[:3]) < WHITE_THRESHOLD:
+            continue
+        seen[x][y] = True
+        px[x, y] = (0, 0, 0, pixel[3])
+        stack += [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]
+
+
+def fade_edges_to_black(frame):
+    width, height = frame.size
+    px = frame.load()
+
+    for y in range(height):
+        fy = smoothstep(min(y, height - 1 - y) / (height * VIGNETTE_INSET))
+        for x in range(width):
+            fx = smoothstep(min(x, width - 1 - x) / (width * VIGNETTE_INSET))
+            factor = fx * fy
+            if factor >= 1.0:
+                continue
+            pixel = px[x, y]
+            px[x, y] = (int(pixel[0] * factor), int(pixel[1] * factor),
+                        int(pixel[2] * factor), pixel[3])
 
 
 def natural(path):
@@ -147,6 +191,8 @@ def build(key, frame_paths, columns):
     sheet = Image.new("RGBA", (columns * width, rows * height), (0, 0, 0, 0))
 
     for i, frame in enumerate(frames):
+        blacken_border_white(frame)
+        fade_edges_to_black(frame)
         sheet.paste(frame, ((i % columns) * width, (i // columns) * height))
 
     png = os.path.join(OUT_DIR, f"{key}.png")

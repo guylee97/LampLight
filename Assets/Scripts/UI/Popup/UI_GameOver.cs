@@ -14,7 +14,6 @@ public class UI_GameOver : UI_Popup
 	const float ScareFps = 24.0f;
 	const float RushStartScale = 0.85f;
 	const float RushEndScale = 2.6f;
-	const float SwallowFrom = 0.72f;
 
 	// 입이 화면 어디쯤 있는지. 확대는 이 점을 중심으로 일어난다.
 	const float MouthPivotY = 0.36f;
@@ -242,7 +241,7 @@ public class UI_GameOver : UI_Popup
 			yield break;
 		}
 
-		_dim.color = new Color(0, 0, 0, 0.0f);
+		_dim.color = Color.black;
 		_face.enabled = true;
 		_flash.color = new Color(0.55f, 0.02f, 0.02f, 0.5f);
 
@@ -287,10 +286,6 @@ public class UI_GameOver : UI_Popup
 			_flash.color = new Color(
 				0.55f, 0.02f, 0.02f, 0.5f * (1.0f - Ease.OutQuint(k)));
 
-			// 마지막 구간은 입 속이 화면을 삼킨다.
-			float swallow = Mathf.InverseLerp(SwallowFrom, 1.0f, k);
-			_dim.color = new Color(0, 0, 0, Ease.SmootherStep(swallow));
-
 			elapsed += Time.unscaledDeltaTime;
 			yield return null;
 		}
@@ -310,7 +305,7 @@ public class UI_GameOver : UI_Popup
 
 	IEnumerator RevealSheet()
 	{
-		_dim.color = new Color(0, 0, 0, 0.82f);
+		_dim.color = Color.black;
 		_sheet.interactable = true;
 		_sheet.blocksRaycasts = true;
 
