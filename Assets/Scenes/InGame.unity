@@ -11194,9 +11194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17400c0aa7b2f4cd79dbb8b624f4ffb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: LampLight::EnemySpawner
-  _walkerPath: WalkerZombie
-  _wandererPath: WandererZombie
-  _runnerPath: RunnerZombie
   _root: {fileID: 0}
   _minDistanceFromStart: 14
   _hookDistanceMin: 14

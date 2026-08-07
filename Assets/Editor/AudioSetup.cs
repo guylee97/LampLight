@@ -17,9 +17,6 @@ public static class AudioSetup
 	};
 
 	const string PlayerPrefab = "Assets/Resources/Prefabs/Player.prefab";
-	const string WalkerPrefab = "Assets/Resources/Prefabs/WalkerZombie.prefab";
-	const string WandererPrefab = "Assets/Resources/Prefabs/WandererZombie.prefab";
-	const string RunnerPrefab = "Assets/Resources/Prefabs/RunnerZombie.prefab";
 	const string InGameScenePath = "Assets/Scenes/InGame.unity";
 
 	[MenuItem("LampLight/Audio/Setup All")]
@@ -106,11 +103,6 @@ public static class AudioSetup
 	public static void WireGameplayClips()
 	{
 		WirePlayer();
-		WireEnemyFootstep(WalkerPrefab, "walker_step", 0.90f, 0.0f, 8.0f, "walker_breath", 6.0f);
-		WireEnemyFootstep(WandererPrefab, "wanderer_step", 0.55f, 0.15f, 9.0f, "wanderer_alert", 6.0f);
-		WireEnemyFootstep(RunnerPrefab, "runner_hit", 0.40f, 0.10f, 10.0f, "runner_pass", 7.0f);
-		WireStateSounds(WalkerPrefab, "walker_breath", "walker_breath", "wanderer_alert");
-		WireStateSounds(WandererPrefab, "wanderer_step", "wanderer_step", "wanderer_alert");
 		WireAmbience();
 		WireDrone(ArtifactPrefab, "artifact_drone", 6.0f);
 		WireDrone(ExitDoorPrefab, "exit_hum", 7.0f);

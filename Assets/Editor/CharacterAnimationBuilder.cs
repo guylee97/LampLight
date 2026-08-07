@@ -10,9 +10,6 @@ public static class CharacterAnimationBuilder
 	const string GeneratedRoot = "Assets/Resources/Animations/Active";
 	const string ControllerRoot = GeneratedRoot + "/Controllers";
 	const string PlayerControllerPath = ControllerRoot + "/PlayerAnimator.controller";
-	const string WalkerControllerPath = ControllerRoot + "/WalkerZombieAnimator.controller";
-	const string WandererControllerPath = ControllerRoot + "/WandererZombieAnimator.controller";
-	const string RunnerControllerPath = ControllerRoot + "/RunnerZombieAnimator.controller";
 
 	static readonly string[] Directions = { "s", "sw", "w", "nw", "n", "ne", "e", "se" };
 	static readonly Vector2[] DirectionVectors =
@@ -62,51 +59,14 @@ public static class CharacterAnimationBuilder
 			new StateSpec("Walk", "walk", 2, 6, true)
 		);
 
-		CharacterSpec walker = new CharacterSpec(
-			"WalkerZombie",
-			"Assets/Resources/Art/CharacterFrames/Enemies/zombie_walker_sprites/frames",
-			"zombie_walker",
-			WalkerControllerPath,
-			new StateSpec("Idle", "idle", 1, 1, false),
-			new StateSpec("Walk", "walk", 2, 4, true),
-			new StateSpec("Chase", "chase", 1, 1, false)
-		);
-
-		CharacterSpec wanderer = new CharacterSpec(
-			"WandererZombie",
-			"Assets/Resources/Art/CharacterFrames/Enemies/zombie_wanderer_sprites/frames",
-			"zombie_wanderer",
-			WandererControllerPath,
-			new StateSpec("Idle", "idle", 1, 1, false),
-			new StateSpec("Walk", "walk", 2, 5, true),
-			new StateSpec("Chase", "chase", 1, 1, false)
-		);
-
-		CharacterSpec runner = new CharacterSpec(
-			"RunnerZombie",
-			"Assets/Resources/Art/CharacterFrames/Enemies/zombie_runner_sprites/frames",
-			"zombie_runner",
-			RunnerControllerPath,
-			new StateSpec("Idle", "idle", 1, 1, false),
-			new StateSpec("Walk", "walk", 2, 5, true),
-			new StateSpec("Chase", "run", 1, 1, false)
-		);
-
-		CharacterSpec[] specs = { player, walker, wanderer, runner };
-		foreach (CharacterSpec spec in specs)
-		{
-			ConfigureSpriteImports(spec);
-			BuildController(spec);
-		}
+		ConfigureSpriteImports(player);
+		BuildController(player);
 
 		ConnectPrefab("Assets/Resources/Prefabs/Player.prefab", player);
-		ConnectPrefab("Assets/Resources/Prefabs/WalkerZombie.prefab", walker);
-		ConnectPrefab("Assets/Resources/Prefabs/WandererZombie.prefab", wanderer);
-		ConnectRunnerPrefab(runner);
 
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
-		Debug.Log("Character animations rebuilt: Player, Walker, Wanderer, Runner.");
+		Debug.Log("Character animations rebuilt: Player.");
 	}
 
 	static void ConfigureSpriteImports(CharacterSpec spec)
@@ -121,7 +81,7 @@ public static class CharacterAnimationBuilder
 
 			importer.textureType = TextureImporterType.Sprite;
 			importer.spriteImportMode = SpriteImportMode.Single;
-			importer.spritePixelsPerUnit = 64;
+			importer.spritePixelsPerUnit = 32;
 			importer.spritePivot = new Vector2(0.5f, 0.25f);
 			importer.filterMode = FilterMode.Point;
 			importer.textureCompression = TextureImporterCompression.Uncompressed;
@@ -261,29 +221,6 @@ public static class CharacterAnimationBuilder
 		EditorUtility.SetDirty(animator);
 		EditorUtility.SetDirty(renderer);
 		PrefabUtility.SavePrefabAsset(prefab);
-	}
-
-	static void ConnectRunnerPrefab(CharacterSpec spec)
-	{
-		const string prefabPath = "Assets/Resources/Prefabs/RunnerZombie.prefab";
-		GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-
-		if (prefab == null)
-		{
-			GameObject instance = new GameObject("RunnerZombie");
-			instance.layer = (int)Define.Layer.Enemy;
-			instance.AddComponent<SpriteRenderer>();
-			Rigidbody2D body = instance.AddComponent<Rigidbody2D>();
-			body.gravityScale = 0;
-			body.constraints = RigidbodyConstraints2D.FreezeRotation;
-			instance.AddComponent<CircleCollider2D>();
-			instance.AddComponent<RunnerZombie>();
-			instance.AddComponent<Animator>();
-			PrefabUtility.SaveAsPrefabAsset(instance, prefabPath);
-			UnityEngine.Object.DestroyImmediate(instance);
-		}
-
-		ConnectPrefab(prefabPath, spec);
 	}
 
 	static void EnsureFolder(string path)
