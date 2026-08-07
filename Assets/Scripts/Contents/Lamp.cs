@@ -51,11 +51,6 @@ public class Lamp : MonoBehaviour
 	[SerializeField]
 	Light2D _light;
 
-	[SerializeField, Range(0.1f, 1.0f)]
-	float _glowIntensityScale = 0.55f;
-
-	Light2D _glow;
-
 
 	[SerializeField]
 	LayerMask _obstacleMask;
@@ -225,57 +220,24 @@ public class Lamp : MonoBehaviour
 		ApplyLightSettings();
 	}
 
-	void EnsureGlow()
-	{
-		if (_glow != null)
-			return;
-
-		GameObject go = new GameObject("LampGlow");
-		go.transform.SetParent(transform, false);
-		go.transform.localRotation = Quaternion.identity;
-
-		_glow = go.AddComponent<Light2D>();
-		_glow.lightType = Light2D.LightType.Point;
-		_glow.pointLightOuterAngle = 360.0f;
-		_glow.pointLightInnerAngle = 360.0f;
-		_glow.shadowsEnabled = false;
-	}
-
 	void ApplyLightSettings()
 	{
 		if (_light == null)
 			return;
 
-		EnsureGlow();
-
-		bool lit = IsOn && _snuffScale > 0.0f;
+		float radius = _listening ? _orbRadius * _listenRangeRatio : _orbRadius;
 		float flicker = Flicker();
-		float wobble = 1.0f + flicker * _flickerRadiusAmount;
-		float brightness = _intensity * (1.0f + flicker * _flickerAmount) * _snuffScale;
 
-		float beamRange = EffectiveRange * wobble * _snuffScale;
-		float beamAngle = EffectiveAngle;
-
-		_light.enabled = lit;
+		_light.enabled = IsOn && _snuffScale > 0.0f;
 		_light.lightType = Light2D.LightType.Point;
 		_light.color = _warmColor;
-		_light.intensity = brightness;
+		_light.intensity = _intensity * (1.0f + flicker * _flickerAmount) * _snuffScale;
 		_light.shadowsEnabled = true;
 		_light.shadowIntensity = _shadowIntensity;
-		_light.pointLightOuterRadius = beamRange;
-		_light.pointLightInnerRadius = beamRange * _innerRangeRatio;
-		_light.pointLightOuterAngle = beamAngle;
-		_light.pointLightInnerAngle = beamAngle * _innerAngleRatio;
-
-		float glowRadius = (_listening ? _orbRadius * _listenRangeRatio : _orbRadius)
-			* wobble * _snuffScale;
-
-		_glow.transform.localRotation = Quaternion.identity;
-		_glow.enabled = lit;
-		_glow.color = _warmColor;
-		_glow.intensity = brightness * _glowIntensityScale;
-		_glow.pointLightOuterRadius = glowRadius;
-		_glow.pointLightInnerRadius = glowRadius * _innerRangeRatio;
+		_light.pointLightOuterRadius = radius * (1.0f + flicker * _flickerRadiusAmount) * _snuffScale;
+		_light.pointLightInnerRadius = radius * _innerRangeRatio * _snuffScale;
+		_light.pointLightOuterAngle = 360.0f;
+		_light.pointLightInnerAngle = 360.0f;
 	}
 
 	float Flicker()
@@ -292,20 +254,7 @@ public class Lamp : MonoBehaviour
 		if (IsOn == false)
 			return false;
 
-		Vector2 toTarget = (Vector2)position - (Vector2)transform.position;
-		float distance = toTarget.magnitude;
-
-		if (distance <= Range)
-			return true;
-
-		if (distance > EffectiveRange)
-			return false;
-
-		float half = EffectiveAngle * 0.5f;
-		if (Vector2.Angle(transform.up, toTarget) > half)
-			return false;
-
-		return IsBlocked(position) == false;
+		return Vector2.Distance(transform.position, position) <= Range;
 	}
 
 	bool IsBlocked(Vector3 targetPosition)
