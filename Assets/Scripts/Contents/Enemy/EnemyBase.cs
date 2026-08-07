@@ -16,9 +16,6 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 	AudioClip _chaseSound;
 
 	[SerializeField]
-	float _chaseSignalInterval = 0.65f;
-
-	[SerializeField]
 	float _chaseSoundInterval = 2.0f;
 
 	[SerializeField, Range(0.0f, 1.0f)]
@@ -34,7 +31,6 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 	DirectionalSpriteAnimator _directional;
 	Coroutine _slowCoroutine;
 	float _speedMultiplier = 1.0f;
-	float _nextChaseSignalTime;
 	float _nextChaseSoundTime;
 	float _searchUntil;
 	bool _countedAsChasing;
@@ -50,17 +46,6 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 	protected float SpeedMultiplier { get { return _speedMultiplier; } }
 	protected float SearchSeconds { get { return _searchSeconds; } }
 	protected bool SearchExpired { get { return Time.time >= _searchUntil; } }
-
-	public float SearchRatio
-	{
-		get
-		{
-			if (_searchSeconds <= 0.0f)
-				return 0.0f;
-
-			return Mathf.Clamp01((_searchUntil - Time.time) / _searchSeconds);
-		}
-	}
 
 	public Define.Awareness Awareness
 	{
@@ -126,7 +111,6 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 		Util.GetOrAddComponent<WorldYSort>(gameObject);
 
 		Init();
-		AwarenessMeter.Attach(this);
 		UpdateStateSound();
 		UpdateAnimatorState();
 	}
@@ -158,7 +142,6 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 				break;
 		}
 
-		UpdateChaseSoundSignal();
 		UpdateChaseSound();
 	}
 
@@ -367,18 +350,7 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 		if (State != Define.EnemyState.Chasing)
 			return;
 
-		Managers.Sound.EmitSoundSignal(transform.position, Define.Sound.Threat, 0.85f);
-		_nextChaseSignalTime = Time.time + _chaseSignalInterval;
 		PlayChaseSound();
-	}
-
-	void UpdateChaseSoundSignal()
-	{
-		if (State != Define.EnemyState.Chasing || Time.time < _nextChaseSignalTime)
-			return;
-
-		Managers.Sound.EmitSoundSignal(transform.position, Define.Sound.Threat, 0.85f);
-		_nextChaseSignalTime = Time.time + _chaseSignalInterval;
 	}
 
 	void UpdateChaseSound()

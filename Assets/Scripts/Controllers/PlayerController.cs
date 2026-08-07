@@ -277,7 +277,7 @@ public class PlayerController : BaseController
 
 			FacingDirection = _moveDir;
 			UpdateAnimatorDirection();
-			PlayFootstep(footstepInterval, footstepClips, noiseRadius / 9.0f);
+			PlayFootstep(footstepInterval, footstepClips);
 			State = Define.State.Moving;
 			UpdateAnimatorMovement(true);
 		}
@@ -348,16 +348,12 @@ public class PlayerController : BaseController
 		return value;
 	}
 
-	void PlayFootstep(float interval, AudioClip[] footstepClips, float intensity)
+	void PlayFootstep(float interval, AudioClip[] footstepClips)
 	{
 		if (Time.time < _nextFootstepTime)
 			return;
 
-		if (footstepClips == null || footstepClips.Length == 0)
-		{
-			Managers.Sound.EmitSoundSignal(transform.position, Define.Sound.Self, intensity);
-		}
-		else
+		if (footstepClips != null && footstepClips.Length > 0)
 		{
 			AudioClip clip = footstepClips[_footstepClipIndex % footstepClips.Length];
 			_footstepClipIndex++;

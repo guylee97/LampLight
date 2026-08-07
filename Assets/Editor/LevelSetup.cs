@@ -105,14 +105,6 @@ public static class LevelSetup
 			Debug.LogError("LevelSetup: no InGameScene in scene");
 		}
 
-		SoundRing ring = Object.FindFirstObjectByType<SoundRing>();
-		if (ring == null)
-		{
-			GameObject go = new GameObject("@SoundRing");
-			Util.GetOrAddComponent<SoundRing>(go);
-			Debug.Log("LevelSetup: added @SoundRing");
-		}
-
 		MapTilemapRenderer tilemap = Object.FindFirstObjectByType<MapTilemapRenderer>();
 		if (tilemap == null)
 		{
