@@ -11,14 +11,11 @@ public class TutorialController : MonoBehaviour
 
 	static readonly string[] IntroLines =
 	{
-		"그들은 너를 눕히고, 손에 등불을 쥐여주었다.",
-		"길을 밝히라는 뜻이 아니었다.",
-		"어디 있는지 알아보라는 표식이었다.",
-		"불이 꺼지기 전에, 이곳을 빠져나가라.",
+		"불이 꺼지기 전에, 봉인을 마쳐라.",
 	};
 
 	[SerializeField]
-	float _lineSeconds = 2.2f;
+	float _lineSeconds = 2.4f;
 
 	[SerializeField]
 	float _hintSeconds = 4.0f;
@@ -130,7 +127,7 @@ public class TutorialController : MonoBehaviour
 		Managers.Game.SetPaused(false);
 		MarkDone();
 
-		yield return Hint("들리는 쪽으로 가라");
+		yield return Hint("WASD 이동   ·   F 등불   ·   E 상호작용");
 	}
 
 	void HideCurtain()

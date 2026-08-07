@@ -11,9 +11,6 @@ public class PlayerController : BaseController
 	float _runSpeed = 6.5f;
 
 	[SerializeField]
-	float _sneakSpeed = 2.0f;
-
-	[SerializeField]
 	Lamp _lamp;
 
 	[SerializeField]
@@ -23,16 +20,10 @@ public class PlayerController : BaseController
 	float _runFootstepInterval = 0.32f;
 
 	[SerializeField]
-	float _sneakFootstepInterval = 0.75f;
-
-	[SerializeField]
 	float _walkNoiseRadius = 5.0f;
 
 	[SerializeField]
 	float _runNoiseRadius = 9.0f;
-
-	[SerializeField]
-	float _sneakNoiseRadius = 2.0f;
 
 	[SerializeField]
 	float _noisyFloorNoiseScale = 1.8f;
@@ -44,25 +35,16 @@ public class PlayerController : BaseController
 	float _lampVisibilityBonus = 0.65f;
 
 	[SerializeField]
-	float _sneakVisibilityScale = 0.7f;
-
-	[SerializeField]
 	AudioClip[] _walkFootstepClips;
 
 	[SerializeField]
 	AudioClip[] _runFootstepClips;
 
 	[SerializeField]
-	AudioClip[] _sneakFootstepClips;
-
-	[SerializeField]
 	AudioClip[] _noisyWalkFootstepClips;
 
 	[SerializeField]
 	AudioClip[] _noisyRunFootstepClips;
-
-	[SerializeField]
-	AudioClip[] _noisySneakFootstepClips;
 
 	Rigidbody2D _rigidbody;
 	PlayerStatus _status;
@@ -72,7 +54,6 @@ public class PlayerController : BaseController
 	float _moveSpeed;
 	Vector2 _moveDir;
 	bool _initialized;
-	bool _sneaking;
 	bool _onNoisyFloor;
 	bool _onMuffledFloor;
 	bool _lampKeyWasPressed;
@@ -85,7 +66,7 @@ public class PlayerController : BaseController
 
 	public Lamp Lamp { get { return _lamp; } }
 
-	public bool IsSneaking { get { return _sneaking; } }
+	public bool IsSneaking { get { return false; } }
 
 	public bool IsOnNoisyFloor { get { return _onNoisyFloor; } }
 	public bool IsOnMuffledFloor { get { return _onMuffledFloor; } }
@@ -102,9 +83,6 @@ public class PlayerController : BaseController
 
 			if (_lamp != null && _lamp.IsOn)
 				scale += _lampVisibilityBonus;
-
-			if (_sneaking)
-				scale *= _sneakVisibilityScale;
 
 			return scale;
 		}
@@ -255,10 +233,8 @@ public class PlayerController : BaseController
 		bool isMoving = _moveDir.sqrMagnitude > 0.01f;
 
 		bool wantsToRun = keyboard.leftShiftKey.isPressed && (_status == null || _status.CanRun);
-		bool wantsToSneak = keyboard.leftCtrlKey.isPressed || keyboard.cKey.isPressed;
-		bool isRunning = isMoving && wantsToRun && !wantsToSneak;
+		bool isRunning = isMoving && wantsToRun;
 
-		_sneaking = wantsToSneak;
 		Managers.Sound.SetRunning(isRunning);
 
 		_moveSpeed = _walkSpeed;
@@ -278,19 +254,9 @@ public class PlayerController : BaseController
 			if (_status != null)
 				_status.ConsumeRunStamina(Time.deltaTime);
 		}
-		else
+		else if (_status != null)
 		{
-			if (isMoving && wantsToSneak)
-			{
-				_moveSpeed = _sneakSpeed;
-				footstepInterval = _sneakFootstepInterval;
-				footstepClips = _sneakFootstepClips;
-				noisyFloorClips = _noisySneakFootstepClips;
-				noiseRadius = _sneakNoiseRadius;
-			}
-
-			if (_status != null)
-				_status.RecoverStamina(Time.deltaTime);
+			_status.RecoverStamina(Time.deltaTime);
 		}
 
 		_onNoisyFloor = MapCoord.IsNoisy(transform.position);

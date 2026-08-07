@@ -69,20 +69,22 @@ public class StageCompletionTests
 		}
 
 		Assert.GreaterOrEqual(progress.Collected, progress.Required, "유물을 다 모으지 못했다");
-		Assert.IsTrue(placer.ExitDoor.IsOpen, "유물을 다 모았는데 출구가 열리지 않았다");
+		Altar altar = placer.Altar;
+		Assert.IsNotNull(altar, "제단이 배치되지 않았다");
+		Assert.IsTrue(altar.CanInteract, "유물을 다 모았는데 제단에 올릴 수 없다");
 
-		yield return Travel(bot, player, placer.ExitDoor.transform.position, TargetRadius);
-		Assert.IsNull(bot.Failure, $"출구로 가는 길: {bot.Failure}");
+		yield return Travel(bot, player, altar.transform.position, TargetRadius);
+		Assert.IsNull(bot.Failure, $"제단으로 가는 길: {bot.Failure}");
 
-		if (Managers.Game.Result == Define.StageResult.None)
+		while (Managers.Game.Result == Define.StageResult.None && altar.IsSealed == false)
 		{
-			yield return bot.Tap(Key.E);
+			yield return bot.HoldKey(Key.E, altar.HoldSeconds + 0.2f);
 			yield return null;
 		}
 
 		bot.Dispose();
 
-		Assert.AreEqual(Define.StageResult.Cleared, Managers.Game.Result, "출구에서 탈출 처리가 되지 않았다");
+		Assert.AreEqual(Define.StageResult.Cleared, Managers.Game.Result, "제단에서 봉인 처리가 되지 않았다");
 	}
 
 	IEnumerator Travel(PlayBot bot, PlayerController player, Vector3 target, float arriveRadius)

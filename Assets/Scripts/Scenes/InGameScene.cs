@@ -47,12 +47,8 @@ public class InGameScene : MonoBehaviour
 
 		Managers.Game.BeginStage();
 		Managers.Game.SetPlayer(_player.gameObject);
-		Managers.Sound.PlayOptional(
-			"ambient_temple",
-			"Background horror laughter sound",
-			Define.Sound.Ambient,
-			loop: true
-		);
+		Altar.ResetProgress();
+		HorrorMix.ResetState();
 
 		LevelConfig config = Managers.Game.Level;
 
@@ -86,6 +82,9 @@ public class InGameScene : MonoBehaviour
 			config.Level,
 			rng);
 
+		if (_placer.Altar != null)
+			_placer.Altar.SetChannelSeconds(config.RitualSeconds);
+
 		if (_selector.Select(rng))
 			ApplySpawnPair(config, rng);
 
@@ -110,8 +109,7 @@ public class InGameScene : MonoBehaviour
 
 	void ApplyLevelConfig(LevelConfig config)
 	{
-		config.ArtifactsRequired = config.ArtifactsPlaced;
-		_progress.SetRequired(config.ArtifactsPlaced);
+		_progress.SetRequired(config.ArtifactsRequired);
 		ApplyOilCanisters(config.OilCanisters);
 		NoiseLure.ClearAll();
 

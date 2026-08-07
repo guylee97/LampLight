@@ -49,7 +49,7 @@ public class ItemSpecTests
 	{
 		(int placed, int required, float radius)[] want =
 		{
-			(2, 0, 12.0f),
+			(2, 1, 12.0f),
 			(3, 2, 9.0f),
 			(4, 3, 7.0f),
 		};

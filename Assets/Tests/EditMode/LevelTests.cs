@@ -4,7 +4,7 @@ using UnityEngine;
 public class LevelTests
 {
 	[Test]
-	public void OptionalLevelIsCompleteFromTheStart()
+	public void FirstLevelNeedsAtLeastOneArtifactBeforeTheRitual()
 	{
 		GameObject host = new GameObject("Progress");
 
@@ -14,7 +14,10 @@ public class LevelTests
 			progress.SetRequired(LevelTable.Get(1).ArtifactsRequired);
 			progress.ResetProgress();
 
-			Assert.IsTrue(progress.IsComplete, "L1은 필요 유물 0개라 시작부터 탈출 가능해야 한다");
+			Assert.IsFalse(progress.IsComplete, "의식을 치르려면 유물이 최소 하나는 필요하다");
+
+			progress.ReportCollected();
+			Assert.IsTrue(progress.IsComplete, "L1은 유물 하나면 의식을 시작할 수 있어야 한다");
 		}
 		finally
 		{
@@ -90,9 +93,9 @@ public class LevelTests
 	}
 
 	[Test]
-	public void FirstLevelIsOptionalCollection()
+	public void FirstLevelAsksForOneArtifact()
 	{
-		Assert.AreEqual(0, LevelTable.Get(1).ArtifactsRequired);
+		Assert.AreEqual(1, LevelTable.Get(1).ArtifactsRequired);
 	}
 
 	[Test]
@@ -101,6 +104,39 @@ public class LevelTests
 		Assert.AreEqual(0, LevelTable.Get(1).RunnerCount);
 		Assert.AreEqual(0, LevelTable.Get(2).RunnerCount);
 		Assert.AreEqual(1, LevelTable.Get(3).RunnerCount);
+	}
+
+	[Test]
+	public void EveryLevelHasAYokai()
+	{
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			Assert.GreaterOrEqual(LevelTable.Get(level).YokaiCount, 1,
+				$"L{level}: 요괴가 없으면 퇴치할 대상이 없다");
+		}
+	}
+
+	[Test]
+	public void RitualSecondsGrowPerLevel()
+	{
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			Assert.Greater(LevelTable.Get(level).RitualSeconds, 0.0f,
+				$"L{level}: 의식 채널링 시간이 0이면 클라이맥스가 없다");
+		}
+
+		Assert.Less(LevelTable.Get(1).RitualSeconds, LevelTable.Get(3).RitualSeconds,
+			"뒤 레벨일수록 제단 앞에 더 오래 묶여 있어야 한다");
+	}
+
+	[Test]
+	public void FirstLevelFitsInsideOneLampBurn()
+	{
+		LevelConfig config = LevelTable.Get(1);
+		float ritualCost = config.ArtifactsRequired * config.RitualSeconds;
+
+		Assert.LessOrEqual(ritualCost, config.LampSeconds * 0.5f,
+			"L1은 의식에 등불의 절반 이상을 쓰면 안 된다 — 찾을 시간이 남지 않는다");
 	}
 
 	[Test]

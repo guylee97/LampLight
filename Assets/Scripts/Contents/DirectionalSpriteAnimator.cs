@@ -37,6 +37,9 @@ public class DirectionalSpriteAnimator : MonoBehaviour
 		if (_renderer == null)
 			_renderer = GetComponent<SpriteRenderer>();
 
+		if (string.IsNullOrEmpty(_characterKey))
+			return;
+
 		_spec = CharacterCatalog.Get(_characterKey);
 
 		if (_spec == null)

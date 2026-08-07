@@ -226,17 +226,17 @@ public class SpawnPlacementTests
 	}
 
 	[UnityTest]
-	public IEnumerator ExitDoorSitsOnAWalkableTile()
+	public IEnumerator AltarSitsOnAWalkableTile()
 	{
 		yield return QaScene.Load();
 
 		MapObjectPlacer placer = Object.FindFirstObjectByType<MapObjectPlacer>();
 		Assert.IsNotNull(placer);
-		Assert.IsNotNull(placer.ExitDoor, "출구가 배치되지 않았다");
+		Assert.IsNotNull(placer.Altar, "제단이 배치되지 않았다");
 
-		Vector2Int tile = MapCoord.WorldToTile(placer.ExitDoor.transform.position);
+		Vector2Int tile = MapCoord.WorldToTile(placer.Altar.transform.position);
 
 		Assert.IsTrue(MapCoord.IsWalkable(tile.x, tile.y),
-			$"출구가 벽 위에 있다 tile={tile}");
+			$"제단이 벽 위에 있다 tile={tile}");
 	}
 }

@@ -66,6 +66,7 @@ public class GameManagerEx
     public void BeginStage()
     {
         IsGameOver = false;
+        Catcher = null;
         Result = Define.StageResult.None;
         UsedRun = false;
         RunnerEvasions = 0;
@@ -75,7 +76,14 @@ public class GameManagerEx
         Time.timeScale = 1.0f;
     }
 
+    public Transform Catcher { get; private set; }
+
     public void GameOver()
+    {
+        GameOver(null);
+    }
+
+    public void GameOver(Transform catcher)
     {
         if (IsGameOver)
             return;
@@ -83,6 +91,7 @@ public class GameManagerEx
         if (DebugOverlay.Invulnerable)
             return;
 
+        Catcher = catcher;
         IsGameOver = true;
         ConsecutiveFailures++;
 
@@ -211,6 +220,7 @@ public class GameManagerEx
         IsGameOver = false;
         Result = Define.StageResult.None;
         IsPaused = false;
+        Catcher = null;
         _player = null;
         _monsters.Clear();
         Time.timeScale = 1.0f;

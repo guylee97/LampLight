@@ -1,0 +1,1794 @@
+fileFormatVersion: 2
+guid: f958166d40f66d045f5e1180864e88c7
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1138192837
+    second: tal_walk_s_00
+  - first:
+      213: -489274730
+    second: tal_walk_s_01
+  - first:
+      213: -1650554426
+    second: tal_walk_s_02
+  - first:
+      213: -948682388
+    second: tal_walk_s_03
+  - first:
+      213: -1018178036
+    second: tal_walk_s_04
+  - first:
+      213: -593956557
+    second: tal_walk_s_05
+  - first:
+      213: 542532487
+    second: tal_walk_s_06
+  - first:
+      213: 1655904227
+    second: tal_walk_s_07
+  - first:
+      213: 661648993
+    second: tal_walk_se_00
+  - first:
+      213: 570065614
+    second: tal_walk_se_01
+  - first:
+      213: -676710958
+    second: tal_walk_se_02
+  - first:
+      213: 1373478349
+    second: tal_walk_se_03
+  - first:
+      213: 319348646
+    second: tal_walk_se_04
+  - first:
+      213: -618964578
+    second: tal_walk_se_05
+  - first:
+      213: 44376511
+    second: tal_walk_se_06
+  - first:
+      213: -388381
+    second: tal_walk_se_07
+  - first:
+      213: 985295176
+    second: tal_walk_e_00
+  - first:
+      213: -1902024330
+    second: tal_walk_e_01
+  - first:
+      213: -322626203
+    second: tal_walk_e_02
+  - first:
+      213: -35720225
+    second: tal_walk_e_03
+  - first:
+      213: 1124134673
+    second: tal_walk_e_04
+  - first:
+      213: -798084402
+    second: tal_walk_e_05
+  - first:
+      213: 695836710
+    second: tal_walk_e_06
+  - first:
+      213: 216725514
+    second: tal_walk_e_07
+  - first:
+      213: 157351815
+    second: tal_walk_ne_00
+  - first:
+      213: 1035253974
+    second: tal_walk_ne_01
+  - first:
+      213: -1731340582
+    second: tal_walk_ne_02
+  - first:
+      213: -1894799949
+    second: tal_walk_ne_03
+  - first:
+      213: 1126187452
+    second: tal_walk_ne_04
+  - first:
+      213: 2054837881
+    second: tal_walk_ne_05
+  - first:
+      213: 1840807246
+    second: tal_walk_ne_06
+  - first:
+      213: -644759915
+    second: tal_walk_ne_07
+  - first:
+      213: 278553166
+    second: tal_walk_n_00
+  - first:
+      213: 1585603614
+    second: tal_walk_n_01
+  - first:
+      213: -1247791506
+    second: tal_walk_n_02
+  - first:
+      213: 929762015
+    second: tal_walk_n_03
+  - first:
+      213: -2112843290
+    second: tal_walk_n_04
+  - first:
+      213: 1805840870
+    second: tal_walk_n_05
+  - first:
+      213: 1016294904
+    second: tal_walk_n_06
+  - first:
+      213: -132951235
+    second: tal_walk_n_07
+  - first:
+      213: 1413298273
+    second: tal_walk_nw_00
+  - first:
+      213: -1161468297
+    second: tal_walk_nw_01
+  - first:
+      213: -775610339
+    second: tal_walk_nw_02
+  - first:
+      213: 1470409992
+    second: tal_walk_nw_03
+  - first:
+      213: 767105435
+    second: tal_walk_nw_04
+  - first:
+      213: -1285926044
+    second: tal_walk_nw_05
+  - first:
+      213: 288018751
+    second: tal_walk_nw_06
+  - first:
+      213: -1500878900
+    second: tal_walk_nw_07
+  - first:
+      213: -1329247779
+    second: tal_walk_w_00
+  - first:
+      213: 535216968
+    second: tal_walk_w_01
+  - first:
+      213: -993230487
+    second: tal_walk_w_02
+  - first:
+      213: -994739716
+    second: tal_walk_w_03
+  - first:
+      213: -2139658764
+    second: tal_walk_w_04
+  - first:
+      213: -1518874568
+    second: tal_walk_w_05
+  - first:
+      213: -862327219
+    second: tal_walk_w_06
+  - first:
+      213: -412472701
+    second: tal_walk_w_07
+  - first:
+      213: 331137524
+    second: tal_walk_sw_00
+  - first:
+      213: -1077847495
+    second: tal_walk_sw_01
+  - first:
+      213: -1683783841
+    second: tal_walk_sw_02
+  - first:
+      213: 900642589
+    second: tal_walk_sw_03
+  - first:
+      213: 839225449
+    second: tal_walk_sw_04
+  - first:
+      213: 1729338423
+    second: tal_walk_sw_05
+  - first:
+      213: 1199682128
+    second: tal_walk_sw_06
+  - first:
+      213: 1396045208
+    second: tal_walk_sw_07
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tal_walk_s_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1036
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0879956fbf33ec90aec5b9ca5698561d
+      internalID: -1138192837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_s_01
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 1036
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f92691db687f4f79cfd817210d7bd10
+      internalID: -489274730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_s_02
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 1036
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b0f47c6c5b7fd68bc4e63b560f1b430
+      internalID: -1650554426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_s_03
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 1036
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4b009e804f3fa8b137eeaee01dba279
+      internalID: -948682388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_s_04
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 1036
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd2fb2d089acfe7aadc784b79227a9b1
+      internalID: -1018178036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_s_05
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 1036
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95f72181daafd57d289cd5c7123651fc
+      internalID: -593956557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_s_06
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 1036
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bd28485ebd9eba544e29bc4f0678695
+      internalID: 542532487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_s_07
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 1036
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68fcd826f0bd7f3dbf22d31784a5d7ec
+      internalID: 1655904227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_se_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 888
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 352b0c009e800e25a2cfe913caac7a66
+      internalID: 661648993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_se_01
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 888
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce0fffec9e0b82dfb9a8a99da8402cba
+      internalID: 570065614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_se_02
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 888
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 813cd93a43dc99330b2e4092bd93bc8f
+      internalID: -676710958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_se_03
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 888
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad840d7c7d7ec240c730725120c481e5
+      internalID: 1373478349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_se_04
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 888
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e846d577116c2482330c4a3e404ebb5a
+      internalID: 319348646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_se_05
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 888
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03df366c765e8183684e0b6e00b46349
+      internalID: -618964578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_se_06
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 888
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d651652c9d68648cd01964ccb7fdfe28
+      internalID: 44376511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_se_07
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 888
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7825d534df9d5c07751a4039c254e0d
+      internalID: -388381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_e_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 740
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25e2f6d538b15a0f4e87cba5e4c3c02e
+      internalID: 985295176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_e_01
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 740
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64742133d393030f0d5398e6eeb5dde2
+      internalID: -1902024330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_e_02
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 740
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 768f7b14db0c4a66b21896abae05fc1e
+      internalID: -322626203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_e_03
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 740
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20d8fe0aafcda1bf5211f784923f78d8
+      internalID: -35720225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_e_04
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 740
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb3b423352d7f46c06d6ad29c3e037a1
+      internalID: 1124134673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_e_05
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 740
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d02decb01c78a369fe547aa99d642597
+      internalID: -798084402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_e_06
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 740
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b57309aa60924db98b364c9a9e690484
+      internalID: 695836710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_e_07
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 740
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06649c4ead3a896d01081ea62ff5d41e
+      internalID: 216725514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_ne_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 592
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb37aac612520901ce14bb7a3fa51a31
+      internalID: 157351815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_ne_01
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 592
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7f6bb3c6d3d79e4884492b4bbe7a50c
+      internalID: 1035253974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_ne_02
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 592
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0004e6b1e760c1645a591eef39f1702c
+      internalID: -1731340582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_ne_03
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 592
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e3c19080bd7822326cd4f487c1da0a4
+      internalID: -1894799949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_ne_04
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 592
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb07a2fbc1ef6d040d9c1e75a35f0777
+      internalID: 1126187452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_ne_05
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 592
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c85fb03fefb5780abfcc2c989feb2ad9
+      internalID: 2054837881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_ne_06
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 592
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5d5eb1a0e37210fe75dd80b6aee8259
+      internalID: 1840807246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_ne_07
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 592
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83d3db61b9135c69be9b5c66fecfc39e
+      internalID: -644759915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_n_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 444
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1213cdcf24a86fcafbd1e0d0970b2cd9
+      internalID: 278553166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_n_01
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 444
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9ea582697de5084eb5fbbf96fc98f15
+      internalID: 1585603614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_n_02
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 444
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23636c44efb2bba70800e63c1e1f0a2f
+      internalID: -1247791506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_n_03
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 444
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 000ca9ea158757cdb581beff47f00872
+      internalID: 929762015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_n_04
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 444
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3788e90dfd8d473b6d19fc7b4c4f8c0e
+      internalID: -2112843290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_n_05
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 444
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0f690b4f2d82d66cc3cb9d108b376d3
+      internalID: 1805840870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_n_06
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 444
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c42a67a03dcdf292d7f3ad93fbc9a19
+      internalID: 1016294904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_n_07
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 444
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8400a0f0cff957c4d60daa5b6d311111
+      internalID: -132951235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_nw_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 296
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18fd87b9d415d9a288d4b787ecbdeaf1
+      internalID: 1413298273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_nw_01
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 296
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 721b646e93490e09612ffdac5841ad96
+      internalID: -1161468297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_nw_02
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 296
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1bc1b66f88595b20cf9271db89ca5336
+      internalID: -775610339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_nw_03
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 296
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66fc5f12d2f7dd045ff828120601b95e
+      internalID: 1470409992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_nw_04
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 296
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a03de5b7c419b78932a8c54efde9489
+      internalID: 767105435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_nw_05
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 296
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66230374bd864e578c946e5c826bfa84
+      internalID: -1285926044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_nw_06
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 296
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b01dec7e172e7e0391d138e32c29d34c
+      internalID: 288018751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_nw_07
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 296
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83165654eabf9ee2c66c3126b3223c32
+      internalID: -1500878900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_w_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 148
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1e8b58ee6193166ff2a773d5f6f4da2
+      internalID: -1329247779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_w_01
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 148
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3dbfd2ee8f53dbd88ce7bb969764897
+      internalID: 535216968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_w_02
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 148
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c73fc721b7acd40aea48496325f9db03
+      internalID: -993230487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_w_03
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 148
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43b71a3b1abffc5451c7a4e5c3a7b34d
+      internalID: -994739716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_w_04
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 148
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9eac6a754a5bbbce53b41f6bb9b439fe
+      internalID: -2139658764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_w_05
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 148
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d1209de75ed2f0cb2eb079074ce6b66
+      internalID: -1518874568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_w_06
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 148
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86db47afb4a424c1d2afd021a8ae8551
+      internalID: -862327219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_w_07
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 148
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ba60114aa2863044cd13c5d2a6f9ba4
+      internalID: -412472701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_sw_00
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca1473f139216efbd7c03b46040cfe99
+      internalID: 331137524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_sw_01
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 0
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 653d6a458f0f4b09cd78276341e9c40a
+      internalID: -1077847495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_sw_02
+      rect:
+        serializedVersion: 2
+        x: 296
+        y: 0
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d6c7598102f4780ccba91b3f2b52dab
+      internalID: -1683783841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_sw_03
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 0
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52501fff2d3e76b303491483bbf53b6c
+      internalID: 900642589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_sw_04
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 0
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3f3c7626b54014c4ae94343126e4027
+      internalID: 839225449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_sw_05
+      rect:
+        serializedVersion: 2
+        x: 740
+        y: 0
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4852712e0837d6ec42cebceec1e8aa4
+      internalID: 1729338423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_sw_06
+      rect:
+        serializedVersion: 2
+        x: 888
+        y: 0
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6c64f3b0ad062e89068a2d1b4e179c4
+      internalID: 1199682128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tal_walk_sw_07
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 0
+        width: 148
+        height: 148
+      alignment: 9
+      pivot: {x: 0.5, y: 0.067568}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37fcc4edb849cd0b34785a44b063476d
+      internalID: 1396045208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1883c8ed764ec25a4dbec3fd62cbeb86
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      tal_walk_e_00: 985295176
+      tal_walk_e_01: -1902024330
+      tal_walk_e_02: -322626203
+      tal_walk_e_03: -35720225
+      tal_walk_e_04: 1124134673
+      tal_walk_e_05: -798084402
+      tal_walk_e_06: 695836710
+      tal_walk_e_07: 216725514
+      tal_walk_n_00: 278553166
+      tal_walk_n_01: 1585603614
+      tal_walk_n_02: -1247791506
+      tal_walk_n_03: 929762015
+      tal_walk_n_04: -2112843290
+      tal_walk_n_05: 1805840870
+      tal_walk_n_06: 1016294904
+      tal_walk_n_07: -132951235
+      tal_walk_ne_00: 157351815
+      tal_walk_ne_01: 1035253974
+      tal_walk_ne_02: -1731340582
+      tal_walk_ne_03: -1894799949
+      tal_walk_ne_04: 1126187452
+      tal_walk_ne_05: 2054837881
+      tal_walk_ne_06: 1840807246
+      tal_walk_ne_07: -644759915
+      tal_walk_nw_00: 1413298273
+      tal_walk_nw_01: -1161468297
+      tal_walk_nw_02: -775610339
+      tal_walk_nw_03: 1470409992
+      tal_walk_nw_04: 767105435
+      tal_walk_nw_05: -1285926044
+      tal_walk_nw_06: 288018751
+      tal_walk_nw_07: -1500878900
+      tal_walk_s_00: -1138192837
+      tal_walk_s_01: -489274730
+      tal_walk_s_02: -1650554426
+      tal_walk_s_03: -948682388
+      tal_walk_s_04: -1018178036
+      tal_walk_s_05: -593956557
+      tal_walk_s_06: 542532487
+      tal_walk_s_07: 1655904227
+      tal_walk_se_00: 661648993
+      tal_walk_se_01: 570065614
+      tal_walk_se_02: -676710958
+      tal_walk_se_03: 1373478349
+      tal_walk_se_04: 319348646
+      tal_walk_se_05: -618964578
+      tal_walk_se_06: 44376511
+      tal_walk_se_07: -388381
+      tal_walk_sw_00: 331137524
+      tal_walk_sw_01: -1077847495
+      tal_walk_sw_02: -1683783841
+      tal_walk_sw_03: 900642589
+      tal_walk_sw_04: 839225449
+      tal_walk_sw_05: 1729338423
+      tal_walk_sw_06: 1199682128
+      tal_walk_sw_07: 1396045208
+      tal_walk_w_00: -1329247779
+      tal_walk_w_01: 535216968
+      tal_walk_w_02: -993230487
+      tal_walk_w_03: -994739716
+      tal_walk_w_04: -2139658764
+      tal_walk_w_05: -1518874568
+      tal_walk_w_06: -862327219
+      tal_walk_w_07: -412472701
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

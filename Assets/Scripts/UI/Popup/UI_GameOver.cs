@@ -5,18 +5,33 @@ using UnityEngine.UI;
 public class UI_GameOver : UI_Popup
 {
 	const string ArtDir = "Art/UI/Game_Over_Screen/";
+	const string FaceSprite = "jumpscare_mask";
 
-	const float HoldSeconds = 0.3f;
-	const float SnuffSeconds = 0.5f;
-	const int FlickerCount = 5;
-	const float FlickerStep = 0.06f;
+	public const string ScreamClip = "jumpscare_scream";
+	public const string ScreamFallbackClip = "moster growl (4)";
+
+	const float SilenceSeconds = 0.15f;
+	const float SlamSeconds = 0.10f;
+	const float HoldSeconds = 0.55f;
+	const float BlackoutSeconds = 0.30f;
+	const float SheetDelaySeconds = 0.35f;
 	const float SheetFadeSeconds = 0.25f;
 
-	const float SnuffedDim = 0.2f;
-	const float SettledDim = 0.62f;
+	const int FlickerCount = 6;
+	const float FlickerOnSeconds = 0.045f;
+	const float FlickerOffSeconds = 0.075f;
+	const float FlickerDim = 0.86f;
 
+	const float HitstopScale = 0.03f;
+	const float SlamStartScale = 1.9f;
+	const float FocusZoom = 0.55f;
+
+	Image _face;
+	Image _flash;
 	Image _dim;
 	CanvasGroup _sheet;
+	CameraController _camera;
+	float _listenerVolume = 1.0f;
 
 	public override void Init()
 	{
@@ -39,15 +54,23 @@ public class UI_GameOver : UI_Popup
 		_dim.color = new Color(0, 0, 0, 0);
 		_dim.raycastTarget = false;
 
+		BuildFace();
+
+		_flash = Stretch("Flash").gameObject.AddComponent<Image>();
+		_flash.color = new Color(0.55f, 0.02f, 0.02f, 0.0f);
+		_flash.raycastTarget = false;
+
 		BuildSheet();
 
-		Time.timeScale = 0;
+		_camera = FindFirstObjectByType<CameraController>();
+		_listenerVolume = AudioListener.volume;
+
 		StartCoroutine(Play());
 	}
 
-	RectTransform Stretch(string name)
+	RectTransform Stretch(string childName)
 	{
-		GameObject go = new GameObject(name, typeof(RectTransform));
+		GameObject go = new GameObject(childName, typeof(RectTransform));
 		go.transform.SetParent(transform, false);
 
 		RectTransform rect = go.GetComponent<RectTransform>();
@@ -56,6 +79,17 @@ public class UI_GameOver : UI_Popup
 		rect.offsetMin = Vector2.zero;
 		rect.offsetMax = Vector2.zero;
 		return rect;
+	}
+
+	void BuildFace()
+	{
+		RectTransform rect = Stretch("Jumpscare");
+		_face = rect.gameObject.AddComponent<Image>();
+		_face.sprite = Resources.Load<Sprite>(ArtDir + FaceSprite);
+		_face.preserveAspect = false;
+		_face.raycastTarget = false;
+		_face.color = new Color(1, 1, 1, 0);
+		_face.enabled = _face.sprite != null;
 	}
 
 	void BuildSheet()
@@ -142,33 +176,111 @@ public class UI_GameOver : UI_Popup
 
 	IEnumerator Play()
 	{
-		yield return new WaitForSecondsRealtime(HoldSeconds);
+		yield return Hitstop();
+		yield return Slam();
+		yield return Flicker();
+		yield return Blackout();
+		yield return RevealSheet();
+	}
 
-		Lamp lamp = FindFirstObjectByType<Lamp>();
-
-		for (float t = 0.0f; t < SnuffSeconds; t += Time.unscaledDeltaTime)
-		{
-			float k = t / SnuffSeconds;
-
-			if (lamp != null)
-				lamp.SnuffTo(1.0f - k);
-
-			_dim.color = new Color(0, 0, 0, SnuffedDim * k);
-			yield return null;
-		}
-
-		if (lamp != null)
-			lamp.SnuffTo(0.0f);
+	IEnumerator Flicker()
+	{
+		if (_face.sprite != null)
+			_face.enabled = false;
 
 		for (int i = 0; i < FlickerCount; i++)
 		{
-			_dim.color = new Color(0, 0, 0, SnuffedDim);
-			yield return new WaitForSecondsRealtime(FlickerStep * 0.4f);
-			_dim.color = new Color(0, 0, 0, SettledDim);
-			yield return new WaitForSecondsRealtime(FlickerStep * 0.6f);
+			_dim.color = new Color(0, 0, 0, FlickerDim);
+			yield return new WaitForSecondsRealtime(FlickerOffSeconds);
+
+			_dim.color = new Color(0, 0, 0, 0.0f);
+			yield return new WaitForSecondsRealtime(FlickerOnSeconds);
 		}
 
-		_dim.color = new Color(0, 0, 0, SettledDim);
+		_dim.color = new Color(0, 0, 0, FlickerDim);
+	}
+
+	IEnumerator Hitstop()
+	{
+		Time.timeScale = HitstopScale;
+		AudioListener.volume = 0.0f;
+
+		Transform catcher = Managers.Game.Catcher;
+
+		if (_camera != null)
+		{
+			if (catcher != null)
+				_camera.FocusOn(catcher, 0.85f, 26.0f);
+
+			_camera.ZoomTo(FocusZoom, 4.5f);
+			_camera.Shake(0.32f, SilenceSeconds + SlamSeconds + HoldSeconds);
+		}
+
+		yield return new WaitForSecondsRealtime(SilenceSeconds);
+	}
+
+	IEnumerator Slam()
+	{
+		Time.timeScale = 0.0f;
+		AudioListener.volume = _listenerVolume;
+
+		Managers.Sound.PlayOptional(ScreamClip, ScreamFallbackClip, Define.Sound.Threat);
+
+		Lamp lamp = FindFirstObjectByType<Lamp>();
+		if (lamp != null)
+			lamp.SnuffTo(0.0f);
+
+		if (_face.sprite == null)
+		{
+			_dim.color = new Color(0, 0, 0, 0.85f);
+			yield break;
+		}
+
+		RectTransform faceRect = _face.rectTransform;
+
+		for (float t = 0.0f; t < SlamSeconds; t += Time.unscaledDeltaTime)
+		{
+			float k = Mathf.Clamp01(t / SlamSeconds);
+			float scale = Mathf.Lerp(SlamStartScale, 1.0f, k * k);
+
+			faceRect.localScale = new Vector3(scale, scale, 1.0f);
+			_face.color = new Color(1, 1, 1, Mathf.Clamp01(k * 2.5f));
+			_flash.color = new Color(0.55f, 0.02f, 0.02f, 0.55f * (1.0f - k));
+			yield return null;
+		}
+
+		faceRect.localScale = Vector3.one;
+		_face.color = Color.white;
+		_flash.color = new Color(0.55f, 0.02f, 0.02f, 0.0f);
+
+		for (float t = 0.0f; t < HoldSeconds; t += Time.unscaledDeltaTime)
+		{
+			float jitter = 1.0f + 0.012f * Mathf.Sin(Time.unscaledTime * 60.0f);
+			faceRect.localScale = new Vector3(jitter, jitter, 1.0f);
+			yield return null;
+		}
+	}
+
+	IEnumerator Blackout()
+	{
+		float from = _dim.color.a;
+
+		for (float t = 0.0f; t < BlackoutSeconds; t += Time.unscaledDeltaTime)
+		{
+			float k = Mathf.Clamp01(t / BlackoutSeconds);
+			_dim.color = new Color(0, 0, 0, Mathf.Lerp(from, 1.0f, k));
+			yield return null;
+		}
+
+		_dim.color = Color.black;
+		_face.enabled = false;
+
+		yield return new WaitForSecondsRealtime(SheetDelaySeconds);
+	}
+
+	IEnumerator RevealSheet()
+	{
+		_dim.color = new Color(0, 0, 0, 0.82f);
 		_sheet.interactable = true;
 		_sheet.blocksRaycasts = true;
 
@@ -181,15 +293,24 @@ public class UI_GameOver : UI_Popup
 		_sheet.alpha = 1.0f;
 	}
 
+	void Restore()
+	{
+		AudioListener.volume = _listenerVolume;
+		Time.timeScale = 1;
+
+		if (_camera != null)
+			_camera.ResetEffects();
+	}
+
 	void Retry()
 	{
-		Time.timeScale = 1;
+		Restore();
 		Managers.Scene.LoadScene(Define.Scene.InGame);
 	}
 
 	void Quit()
 	{
-		Time.timeScale = 1;
+		Restore();
 		Managers.Scene.LoadScene(Define.Scene.Title);
 	}
 }

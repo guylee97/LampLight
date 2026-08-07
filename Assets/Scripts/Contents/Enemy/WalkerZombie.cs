@@ -98,7 +98,7 @@ public class WalkerZombie : EnemyBase
 	protected override void UpdateCaught()
 	{
 		_moveDir = Vector2.zero;
-		Managers.Game.GameOver();
+		Managers.Game.GameOver(transform);
 	}
 
 	bool CanHearPlayer()

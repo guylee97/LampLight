@@ -15,6 +15,12 @@ public class EnemySpawner : MonoBehaviour
 	string _runnerPath = "RunnerZombie";
 
 	[SerializeField]
+	string _yokaiPath = "MaskYokai";
+
+	[SerializeField]
+	string _yokaiCharacterKey = YokaiFactory.TalKey;
+
+	[SerializeField]
 	Transform _root;
 
 	[SerializeField]
@@ -50,6 +56,14 @@ public class EnemySpawner : MonoBehaviour
 
 		Transform parent = _root != null ? _root : transform;
 		bool hookPlaced = false;
+
+		for (int i = 0; i < config.YokaiCount; i++)
+		{
+			bool useHook = hookPlaced == false && hook.Count > 0;
+			List<Vector2Int> pool = useHook ? hook : far;
+			SpawnYokai(pool[rng.Next(pool.Count)], parent);
+			hookPlaced |= useHook;
+		}
 
 		for (int i = 0; i < config.WalkerCount; i++)
 		{
@@ -93,6 +107,23 @@ public class EnemySpawner : MonoBehaviour
 					hook.Add(new Vector2Int(col, row));
 			}
 		}
+	}
+
+	void SpawnYokai(Vector2Int tile, Transform parent)
+	{
+		GameObject go = Managers.Resource.Instantiate(_yokaiPath, parent);
+
+		if (go == null)
+			go = YokaiFactory.Build(_yokaiCharacterKey, parent);
+
+		if (go == null)
+			return;
+
+		go.transform.position = MapCoord.TileToWorld(tile.x, tile.y);
+
+		EnemyBase enemy = go.GetComponent<EnemyBase>();
+		if (enemy != null)
+			_spawned.Add(enemy);
 	}
 
 	void SpawnOne(string path, Vector2Int tile, Transform parent)

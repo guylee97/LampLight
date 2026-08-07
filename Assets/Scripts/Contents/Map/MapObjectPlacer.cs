@@ -22,12 +22,12 @@ public class MapObjectPlacer : MonoBehaviour
 	string _exitDoorPath = "Map/ExitDoor";
 
 	readonly List<Artifact> _artifacts = new List<Artifact>();
-	ExitDoor _exitDoor;
+	Altar _altar;
 	Transform _parent;
 	System.Random _rng;
 
 	public IReadOnlyList<Artifact> Artifacts { get { return _artifacts; } }
-	public ExitDoor ExitDoor { get { return _exitDoor; } }
+	public Altar Altar { get { return _altar; } }
 
 	public void Place()
 	{
@@ -126,9 +126,9 @@ public class MapObjectPlacer : MonoBehaviour
 				ping.RadiusTiles = radiusTiles * artifact.RadiusScale;
 		}
 
-		if (_exitDoor != null)
+		if (_altar != null)
 		{
-			PingScheduler ping = _exitDoor.GetComponent<PingScheduler>();
+			PingScheduler ping = _altar.GetComponent<PingScheduler>();
 			if (ping != null)
 				ping.RadiusTiles = radiusTiles;
 		}
@@ -144,10 +144,10 @@ public class MapObjectPlacer : MonoBehaviour
 
 		_artifacts.Clear();
 
-		if (_exitDoor != null)
+		if (_altar != null)
 		{
-			Managers.Resource.Destroy(_exitDoor.gameObject);
-			_exitDoor = null;
+			Managers.Resource.Destroy(_altar.gameObject);
+			_altar = null;
 		}
 	}
 
@@ -218,14 +218,15 @@ public class MapObjectPlacer : MonoBehaviour
 
 		go.transform.position = MapCoord.ToWorld(point);
 
-		_exitDoor = go.GetComponent<ExitDoor>();
-		if (_exitDoor == null)
-		{
-			Debug.LogError($"MapObjectPlacer: {_exitDoorPath} has no ExitDoor component");
-			return;
-		}
+		ExitDoor legacy = go.GetComponent<ExitDoor>();
+		if (legacy != null)
+			Destroy(legacy);
 
-		_exitDoor.Init(_progress);
-		_exitDoor.UseStairSprite();
+		_altar = go.GetComponent<Altar>();
+		if (_altar == null)
+			_altar = go.AddComponent<Altar>();
+
+		_altar.UseCatalogSprite();
+		_altar.Init(_progress);
 	}
 }

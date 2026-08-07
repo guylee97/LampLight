@@ -75,7 +75,7 @@ public class RunnerZombie : EnemyBase
 	protected override void UpdateCaught()
 	{
 		_moveDir = Vector2.zero;
-		Managers.Game.GameOver();
+		Managers.Game.GameOver(transform);
 	}
 
 	protected override void OnCollisionEnter2D(Collision2D collision)

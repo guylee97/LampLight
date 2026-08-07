@@ -26,6 +26,15 @@ public class Define
 		Chasing,
 		Caught,
 		Die,
+		Searching,
+		Petrified,
+	}
+
+	public enum Awareness
+	{
+		Unaware,
+		Suspicious,
+		Alerted,
 	}
 
     public enum Layer

@@ -6,6 +6,7 @@ public class UISpriteImportTests
 {
 	static readonly string[] LoadedByUI =
 	{
+		"Art/UI/Game_Over_Screen/jumpscare_mask",
 		"Art/UI/Game_Over_Screen/Your Dead Title",
 		"Art/UI/Game_Over_Screen/wooden_planks",
 		"Art/UI/Game_Over_Screen/Play Again",
@@ -41,6 +42,32 @@ public class UISpriteImportTests
 		Assert.IsEmpty(bad,
 			"Multiple 로 잘린 텍스처는 Resources.Load<Sprite> 가 조각 하나만 돌려주고,"
 			+ " UI 는 그 조각을 지정 폭까지 늘려 그린다:\n"
+			+ string.Join("\n", bad));
+	}
+
+	const string GameOverDir = "Assets/Resources/Art/UI/Game_Over_Screen";
+
+	[Test]
+	public void GameOverScreenTexturesImportAsSingleSprites()
+	{
+		List<string> bad = new List<string>();
+
+		foreach (string guid in UnityEditor.AssetDatabase.FindAssets("t:Texture2D", new[] { GameOverDir }))
+		{
+			string path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+			UnityEditor.TextureImporter importer =
+				UnityEditor.AssetImporter.GetAtPath(path) as UnityEditor.TextureImporter;
+
+			if (importer == null)
+				continue;
+
+			if (importer.spriteImportMode != UnityEditor.SpriteImportMode.Single)
+				bad.Add($"{path}: spriteImportMode={importer.spriteImportMode}");
+		}
+
+		Assert.IsEmpty(bad,
+			"게임오버 화면 이미지는 통짜로 쓰는 것들이라 전부 Single 이어야 한다."
+			+ " Multiple 로 들어오면 조각 하나만 로드된다:\n"
 			+ string.Join("\n", bad));
 	}
 }

@@ -76,7 +76,7 @@ public class SceneSmokeTests
 		Assert.GreaterOrEqual(placer.Artifacts.Count + stashed, progress.Required,
 			"배치 수가 필요 수보다 적으면 클리어가 불가능하다");
 
-		Assert.IsNotNull(placer.ExitDoor, "출구가 배치되지 않았다");
+		Assert.IsNotNull(placer.Altar, "제단이 배치되지 않았다");
 
 		PlayerController player = Object.FindFirstObjectByType<PlayerController>();
 		Vector2Int start = MapCoord.WorldToTile(player.transform.position);
@@ -103,9 +103,9 @@ public class SceneSmokeTests
 				$"유물이 든 상자({box.x},{box.y}) 옆에 설 수 있는 칸이 없다");
 		}
 
-		Vector2Int exit = MapCoord.WorldToTile(placer.ExitDoor.transform.position);
-		Assert.AreNotEqual(MapPathfinder.Unreachable, MapPathfinder.Sample(field, exit.x, exit.y),
-			$"출구({exit.x},{exit.y})에 도달할 수 없다");
+		Vector2Int altar = MapCoord.WorldToTile(placer.Altar.transform.position);
+		Assert.AreNotEqual(MapPathfinder.Unreachable, MapPathfinder.Sample(field, altar.x, altar.y),
+			$"제단({altar.x},{altar.y})에 도달할 수 없다");
 	}
 
 	const int InteractTiles = 1;

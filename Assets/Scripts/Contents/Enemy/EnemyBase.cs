@@ -13,12 +13,6 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 	protected Define.EnemyState _state;
 
 	[SerializeField]
-	AudioClip _idleSound;
-
-	[SerializeField]
-	AudioClip _patrolSound;
-
-	[SerializeField]
 	AudioClip _chaseSound;
 
 	[SerializeField]
@@ -34,15 +28,16 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 	float _audibleDistance = 4.0f;
 
 	[SerializeField]
-	float _presenceSoundInterval = 5.0f;
+	float _searchSeconds = 3.0f;
 
 	Animator _animator;
-	AudioSource _stateAudioSource;
+	DirectionalSpriteAnimator _directional;
 	Coroutine _slowCoroutine;
 	float _speedMultiplier = 1.0f;
 	float _nextChaseSignalTime;
 	float _nextChaseSoundTime;
-	float _nextPresenceSoundTime;
+	float _searchUntil;
+	bool _countedAsChasing;
 
 	readonly List<Vector2Int> _path = new List<Vector2Int>();
 	int _pathIndex;
@@ -53,6 +48,36 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 
 	public Define.WorldObject WorldObjectType { get; protected set; } = Define.WorldObject.Enemy;
 	protected float SpeedMultiplier { get { return _speedMultiplier; } }
+	protected float SearchSeconds { get { return _searchSeconds; } }
+	protected bool SearchExpired { get { return Time.time >= _searchUntil; } }
+
+	public float SearchRatio
+	{
+		get
+		{
+			if (_searchSeconds <= 0.0f)
+				return 0.0f;
+
+			return Mathf.Clamp01((_searchUntil - Time.time) / _searchSeconds);
+		}
+	}
+
+	public Define.Awareness Awareness
+	{
+		get
+		{
+			switch (State)
+			{
+				case Define.EnemyState.Chasing:
+				case Define.EnemyState.Caught:
+					return Define.Awareness.Alerted;
+				case Define.EnemyState.Searching:
+					return Define.Awareness.Suspicious;
+				default:
+					return Define.Awareness.Unaware;
+			}
+		}
+	}
 
 	public Define.EnemyState State
 	{
@@ -63,9 +88,37 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 				return;
 
 			_state = value;
+			SyncChaseMix();
 			UpdateStateSound();
 			UpdateAnimatorState();
+
+			if (_state == Define.EnemyState.Searching)
+				_searchUntil = Time.time + _searchSeconds;
 		}
+	}
+
+	void SyncChaseMix()
+	{
+		bool chasing = _state == Define.EnemyState.Chasing;
+
+		if (chasing == _countedAsChasing)
+			return;
+
+		_countedAsChasing = chasing;
+
+		if (chasing)
+			HorrorMix.EnterChase();
+		else
+			HorrorMix.ExitChase();
+	}
+
+	protected virtual void OnDestroy()
+	{
+		if (_countedAsChasing == false)
+			return;
+
+		_countedAsChasing = false;
+		HorrorMix.ExitChase();
 	}
 
 	void Start()
@@ -73,6 +126,7 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 		Util.GetOrAddComponent<WorldYSort>(gameObject);
 
 		Init();
+		AwarenessMeter.Attach(this);
 		UpdateStateSound();
 		UpdateAnimatorState();
 	}
@@ -90,6 +144,12 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 			case Define.EnemyState.Chasing:
 				UpdateChasing();
 				break;
+			case Define.EnemyState.Searching:
+				UpdateSearching();
+				break;
+			case Define.EnemyState.Petrified:
+				UpdatePetrified();
+				break;
 			case Define.EnemyState.Caught:
 				UpdateCaught();
 				break;
@@ -99,7 +159,6 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 		}
 
 		UpdateChaseSoundSignal();
-		UpdatePresenceSound();
 		UpdateChaseSound();
 	}
 
@@ -108,6 +167,8 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 	protected virtual void UpdateIdle() { }
 	protected virtual void UpdatePatrol() { }
 	protected virtual void UpdateChasing() { }
+	protected virtual void UpdateSearching() { }
+	protected virtual void UpdatePetrified() { }
 	protected virtual void UpdateCaught() { }
 	protected virtual void UpdateDie() { }
 
@@ -184,10 +245,19 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 
 	protected void UpdateAnimatorDirection(Vector2 direction)
 	{
+		if (direction.sqrMagnitude <= 0.01f)
+			return;
+
+		if (_directional == null)
+			_directional = GetComponent<DirectionalSpriteAnimator>();
+
+		if (_directional != null)
+			_directional.SetHeading(direction);
+
 		if (_animator == null)
 			_animator = GetComponent<Animator>();
 
-		if (_animator == null || direction.sqrMagnitude <= 0.01f)
+		if (_animator == null)
 			return;
 
 		_animator.SetFloat("MoveX", direction.x);
@@ -196,13 +266,15 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 
 	void UpdateAnimatorState()
 	{
+		UpdateDirectionalState();
+
 		if (_animator == null)
 			_animator = GetComponent<Animator>();
 
 		if (_animator == null)
 			return;
 
-		if (State == Define.EnemyState.Caught)
+		if (State == Define.EnemyState.Petrified)
 		{
 			_animator.speed = 0.0f;
 			return;
@@ -210,10 +282,43 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 
 		_animator.speed = 1.0f;
 
+		if (State == Define.EnemyState.Caught)
+		{
+			_animator.SetBool("IsMoving", true);
+			_animator.SetBool("IsChasing", true);
+			return;
+		}
+
 		bool isChasing = State == Define.EnemyState.Chasing;
-		bool isMoving = State == Define.EnemyState.Patrol || isChasing;
+		bool isMoving = State == Define.EnemyState.Patrol
+			|| State == Define.EnemyState.Searching
+			|| isChasing;
 		_animator.SetBool("IsMoving", isMoving);
 		_animator.SetBool("IsChasing", isChasing);
+	}
+
+	void UpdateDirectionalState()
+	{
+		if (_directional == null)
+			_directional = GetComponent<DirectionalSpriteAnimator>();
+
+		if (_directional == null)
+			return;
+
+		switch (State)
+		{
+			case Define.EnemyState.Chasing:
+			case Define.EnemyState.Caught:
+				_directional.SetState(DirectionalSpriteAnimator.StateWalk);
+				break;
+			case Define.EnemyState.Patrol:
+			case Define.EnemyState.Searching:
+				_directional.SetState(DirectionalSpriteAnimator.StateWalk);
+				break;
+			default:
+				_directional.SetState(DirectionalSpriteAnimator.StateIdle);
+				break;
+		}
 	}
 
 	public virtual void OnLampEnter()
@@ -256,62 +361,12 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 
 	void UpdateStateSound()
 	{
-		AudioClip clip = null;
-
-		if (State == Define.EnemyState.Chasing)
-		{
-			Managers.Sound.EmitSoundSignal(transform.position, Define.Sound.Threat, 0.85f);
-			_nextChaseSignalTime = Time.time + _chaseSignalInterval;
-			PlayChaseSound();
-		}
-
-		switch (State)
-		{
-			case Define.EnemyState.Idle:
-				clip = _idleSound;
-				break;
-			case Define.EnemyState.Patrol:
-				clip = _patrolSound;
-				break;
-		}
-
-		if (clip == null)
-		{
-			if (_stateAudioSource != null)
-				_stateAudioSource.Stop();
-			return;
-		}
-
-		if (_stateAudioSource == null)
-		{
-			_stateAudioSource = GetComponent<AudioSource>();
-			if (_stateAudioSource == null)
-				_stateAudioSource = gameObject.AddComponent<AudioSource>();
-
-			_stateAudioSource.loop = false;
-			Managers.Sound.ConfigureSource(_stateAudioSource, Define.Sound.Threat, true);
-		}
-
-		_stateAudioSource.clip = clip;
-		_stateAudioSource.maxDistance = _audibleDistance;
-		_stateAudioSource.Play();
-		_nextPresenceSoundTime = Time.time + Mathf.Max(clip.length, _presenceSoundInterval);
-	}
-
-	void UpdatePresenceSound()
-	{
-		if (State != Define.EnemyState.Idle && State != Define.EnemyState.Patrol)
+		if (State != Define.EnemyState.Chasing)
 			return;
 
-		if (_stateAudioSource == null || _stateAudioSource.clip == null)
-			return;
-
-		if (_stateAudioSource.isPlaying || Time.time < _nextPresenceSoundTime)
-			return;
-
-		_stateAudioSource.Play();
-		_nextPresenceSoundTime = Time.time
-			+ Mathf.Max(_stateAudioSource.clip.length, _presenceSoundInterval);
+		Managers.Sound.EmitSoundSignal(transform.position, Define.Sound.Threat, 0.85f);
+		_nextChaseSignalTime = Time.time + _chaseSignalInterval;
+		PlayChaseSound();
 	}
 
 	void UpdateChaseSoundSignal()

@@ -49,6 +49,9 @@ public class UI_InGame : UI_Scene
 	Coroutine _noticeRoutine;
 	GameObject _holdProgressRoot;
 	Text _holdProgressText;
+	Altar _altar;
+	Image _arrow;
+	Sprite _arrowSprite;
 
 	public void Setup(StageProgress progress, PlayerController player, float deadlineSeconds = 0.0f)
 	{
@@ -89,10 +92,10 @@ public class UI_InGame : UI_Scene
 		HideStatusBars();
 		CreateNoticeText();
 		CreateHoldProgress();
+		CreateObjectiveArrow();
 
-		// ?뚮━ 諛⑺뼢 HUD 湲곕뒫 ?쒓굅.
-		// CreateSoundRingPool();
-		// Managers.Sound.OnSpatialSoundPlayed += OnSpatialSoundPlayed;
+		CreateSoundRingPool();
+		Managers.Sound.OnSpatialSoundPlayed += OnSpatialSoundPlayed;
 	}
 
 	void OnDestroy()
@@ -103,8 +106,8 @@ public class UI_InGame : UI_Scene
 			_progress.OnAllArtifactsCollected -= OnAllArtifactsCollected;
 		}
 
-		// if (Managers.TryGetSound(out SoundManager sound))
-		// 	sound.OnSpatialSoundPlayed -= OnSpatialSoundPlayed;
+		if (Managers.TryGetSound(out SoundManager sound))
+			sound.OnSpatialSoundPlayed -= OnSpatialSoundPlayed;
 	}
 
 	void OnArtifactCollected(int collected, int required)
@@ -124,7 +127,7 @@ public class UI_InGame : UI_Scene
 		if (_noticeText == null)
 			yield break;
 
-		_noticeText.text = "어딘가 문이 열렸다";
+		_noticeText.text = "제단으로 가라";
 		yield return new WaitForSecondsRealtime(2.5f);
 		_noticeText.text = string.Empty;
 		_noticeRoutine = null;
@@ -141,8 +144,44 @@ public class UI_InGame : UI_Scene
 			return;
 
 		Text text = GetText((int)Texts.ArtifactText);
-		if (text != null)
-			text.text = $"유물  {_progress.Collected} / {_progress.Required}";
+		if (text == null)
+			return;
+
+		RectTransform rect = text.rectTransform;
+		rect.anchorMin = new Vector2(0.5f, 1.0f);
+		rect.anchorMax = new Vector2(0.5f, 1.0f);
+		rect.pivot = new Vector2(0.5f, 1.0f);
+		rect.anchoredPosition = new Vector2(0.0f, -84.0f);
+		rect.sizeDelta = new Vector2(720.0f, 48.0f);
+		text.alignment = TextAnchor.MiddleCenter;
+		text.text = ObjectiveLine();
+	}
+
+	string ObjectiveLine()
+	{
+		if (_progress == null)
+			return string.Empty;
+
+		ResolveAltar();
+
+		if (_altar != null && _altar.IsSealed)
+			return "봉인 완료";
+
+		if (_altar != null && _altar.Carried > 0)
+			return $"제단에서 의식을 치러라   ·   봉인 {_altar.Placed} / {_altar.Required}";
+
+		int missing = Mathf.Max(0, _progress.Required - _progress.Collected);
+
+		if (missing > 0)
+			return $"유물을 찾아라   ·   {_progress.Collected} / {_progress.Required}";
+
+		return "제단으로 가라";
+	}
+
+	void ResolveAltar()
+	{
+		if (_altar == null)
+			_altar = FindFirstObjectByType<Altar>();
 	}
 
 	void Update()
@@ -150,7 +189,9 @@ public class UI_InGame : UI_Scene
 		if (_ready == false)
 			return;
 
-		// UpdateSoundRings();
+		UpdateSoundRings();
+		RefreshArtifacts();
+		UpdateObjectiveArrow();
 
 		Text fuelText = GetText((int)Texts.FuelText);
 		if (fuelText != null)
@@ -233,6 +274,152 @@ public class UI_InGame : UI_Scene
 			if (image != null)
 				image.transform.parent.gameObject.SetActive(false);
 		}
+	}
+
+	void CreateObjectiveArrow()
+	{
+		if (_arrow != null)
+			return;
+
+		GameObject go = new GameObject("ObjectiveArrow", typeof(RectTransform), typeof(Image));
+		go.transform.SetParent(transform, false);
+
+		RectTransform rect = go.GetComponent<RectTransform>();
+		rect.anchorMin = new Vector2(0.5f, 0.5f);
+		rect.anchorMax = new Vector2(0.5f, 0.5f);
+		rect.pivot = new Vector2(0.5f, 0.5f);
+		rect.sizeDelta = new Vector2(44.0f, 44.0f);
+
+		_arrow = go.GetComponent<Image>();
+		_arrow.sprite = ArrowSprite();
+		_arrow.raycastTarget = false;
+		_arrow.color = new Color(1.0f, 0.72f, 0.32f, 0.9f);
+		_arrow.enabled = false;
+	}
+
+	Sprite ArrowSprite()
+	{
+		if (_arrowSprite != null)
+			return _arrowSprite;
+
+		const int size = 32;
+		Texture2D texture = new Texture2D(size, size, TextureFormat.RGBA32, false);
+		texture.filterMode = FilterMode.Point;
+		texture.wrapMode = TextureWrapMode.Clamp;
+
+		for (int y = 0; y < size; y++)
+		{
+			for (int x = 0; x < size; x++)
+			{
+				float half = (size - 1 - y) * 0.5f;
+				float dx = Mathf.Abs(x - (size - 1) * 0.5f);
+				bool inside = y >= 4 && dx <= half;
+				texture.SetPixel(x, y, inside ? Color.white : new Color(1, 1, 1, 0));
+			}
+		}
+
+		texture.Apply();
+		_arrowSprite = Sprite.Create(
+			texture,
+			new Rect(0, 0, size, size),
+			new Vector2(0.5f, 0.5f),
+			32.0f);
+
+		return _arrowSprite;
+	}
+
+	void UpdateObjectiveArrow()
+	{
+		if (_arrow == null)
+			return;
+
+		Vector3 target;
+		if (TryResolveObjectiveTarget(out target) == false)
+		{
+			_arrow.enabled = false;
+			return;
+		}
+
+		Camera camera = Camera.main;
+		if (camera == null || _player == null)
+		{
+			_arrow.enabled = false;
+			return;
+		}
+
+		Vector3 viewport = camera.WorldToViewportPoint(target);
+		bool onScreen = viewport.z > 0.0f
+			&& viewport.x > 0.08f && viewport.x < 0.92f
+			&& viewport.y > 0.08f && viewport.y < 0.92f;
+
+		if (onScreen)
+		{
+			_arrow.enabled = false;
+			return;
+		}
+
+		Vector2 direction = new Vector2(viewport.x - 0.5f, viewport.y - 0.5f);
+
+		if (viewport.z < 0.0f)
+			direction = -direction;
+
+		if (direction.sqrMagnitude <= 0.000001f)
+		{
+			_arrow.enabled = false;
+			return;
+		}
+
+		direction.Normalize();
+
+		RectTransform root = GetComponent<RectTransform>();
+		float radius = Mathf.Min(root.rect.width, root.rect.height) * 0.34f;
+
+		_arrow.enabled = true;
+		_arrow.rectTransform.anchoredPosition = direction * radius;
+
+		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90.0f;
+		_arrow.rectTransform.localRotation = Quaternion.Euler(0, 0, angle);
+	}
+
+	bool TryResolveObjectiveTarget(out Vector3 target)
+	{
+		target = Vector3.zero;
+
+		if (_progress == null)
+			return false;
+
+		ResolveAltar();
+
+		if (_altar != null && _altar.IsSealed)
+			return false;
+
+		if (_altar != null && (_altar.Carried > 0 || _progress.IsComplete))
+		{
+			target = _altar.Position;
+			return true;
+		}
+
+		Artifact nearest = null;
+		float bestSqr = float.MaxValue;
+
+		foreach (Artifact artifact in FindObjectsByType<Artifact>(FindObjectsSortMode.None))
+		{
+			if (artifact.IsCollected)
+				continue;
+
+			float sqr = (artifact.transform.position - _player.transform.position).sqrMagnitude;
+			if (sqr >= bestSqr)
+				continue;
+
+			nearest = artifact;
+			bestSqr = sqr;
+		}
+
+		if (nearest == null)
+			return false;
+
+		target = nearest.transform.position;
+		return true;
 	}
 
 	void CreateNoticeText()
