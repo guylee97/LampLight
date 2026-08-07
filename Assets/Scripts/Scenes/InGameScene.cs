@@ -93,6 +93,9 @@ public class InGameScene : MonoBehaviour
 		_remainingSeconds = config.DeadlineSeconds;
 
 		Managers.Game.OnStageEnded += OnStageEnded;
+		_progress.OnArtifactCollected += OnArtifactCollected;
+
+		OpeningLines(config);
 	}
 
 	void BakeCollision()
@@ -131,8 +134,35 @@ public class InGameScene : MonoBehaviour
 		}
 	}
 
+	void OpeningLines(LevelConfig config)
+	{
+		UI_Dialogue.Clear();
+
+		if (config.Level > LevelTable.MinLevel)
+		{
+			UI_Dialogue.Say("더 깊은 곳이다. 여기 있는 것은 아까 그것이 아니다.");
+			return;
+		}
+
+		UI_Dialogue.Say(
+			"불이 꺼지면 나도 여기 남는다.",
+			$"흩어진 유물 {config.ArtifactsRequired}개를 찾아 제단에 올려야 한다.",
+			"등불은 앞만 비춘다. 등 뒤는 보이지 않는다.");
+	}
+
+	void OnArtifactCollected(int collected, int required)
+	{
+		if (collected == 1 && required > 1)
+			UI_Dialogue.Say("하나 찾았다. 아직 모자란다.");
+		else if (collected >= required)
+			UI_Dialogue.Say("이제 제단으로.");
+	}
+
 	void OnDestroy()
 	{
+		if (_progress != null)
+			_progress.OnArtifactCollected -= OnArtifactCollected;
+
 		if (Managers.TryGetGame(out GameManagerEx game))
 			game.OnStageEnded -= OnStageEnded;
 	}

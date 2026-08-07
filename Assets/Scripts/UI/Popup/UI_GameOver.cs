@@ -10,21 +10,18 @@ public class UI_GameOver : UI_Popup
 	public const string ScreamClip = "jumpscare_scream";
 	public const string ScreamFallbackClip = "moster growl (4)";
 
-	const float SilenceSeconds = 0.15f;
-	const float SlamSeconds = 0.10f;
-	const float HoldSeconds = 0.55f;
-	const float BlackoutSeconds = 0.30f;
-	const float SheetDelaySeconds = 0.35f;
-	const float SheetFadeSeconds = 0.25f;
+	const float SilenceSeconds = 0.10f;
+	const float FaceSeconds = 0.34f;
+	const float SettleSeconds = 0.28f;
+	const float SheetFadeSeconds = 0.22f;
 
-	const int FlickerCount = 6;
-	const float FlickerOnSeconds = 0.045f;
-	const float FlickerOffSeconds = 0.075f;
-	const float FlickerDim = 0.86f;
+	const int FlickerCount = 3;
+	const float FlickerOnSeconds = 0.03f;
+	const float FlickerOffSeconds = 0.03f;
+	const float FlickerDim = 0.88f;
 
-	const float HitstopScale = 0.03f;
-	const float SlamStartScale = 1.9f;
-	const float FocusZoom = 0.55f;
+	const float HitstopScale = 0.02f;
+	const float JitterPixels = 0.014f;
 
 	Image _face;
 	Image _flash;
@@ -101,33 +98,9 @@ public class UI_GameOver : UI_Popup
 		_sheet.blocksRaycasts = false;
 
 		Picture(sheet, "Your Dead Title", new Vector2(0.5f, 0.668f), 1434.0f);
-		BuildScore(sheet);
 		Picture(sheet, "Play Again", new Vector2(0.5f, 0.278f), 212.0f);
 		Choice(sheet, "Yes button", new Vector2(0.4208f, 0.2046f), 184.0f, Retry);
 		Choice(sheet, "No button", new Vector2(0.5898f, 0.2046f), 143.0f, Quit);
-	}
-
-	void BuildScore(RectTransform sheet)
-	{
-		Image plank = Picture(sheet, "wooden_planks", new Vector2(0.5f, 0.419f), 386.0f);
-
-		GameObject go = new GameObject("Score", typeof(RectTransform), typeof(Text));
-		go.transform.SetParent(plank != null ? plank.rectTransform : sheet, false);
-
-		RectTransform rect = go.GetComponent<RectTransform>();
-		rect.anchorMin = plank != null ? Vector2.zero : new Vector2(0.5f, 0.5f);
-		rect.anchorMax = plank != null ? Vector2.one : new Vector2(0.5f, 0.5f);
-		rect.offsetMin = Vector2.zero;
-		rect.offsetMax = Vector2.zero;
-		if (plank == null)
-			rect.sizeDelta = new Vector2(400, 100);
-
-		Text score = go.GetComponent<Text>();
-		score.text = Managers.Game.LastScore.ToString();
-		score.font = KoreanFont.Font;
-		score.fontSize = 48;
-		score.alignment = TextAnchor.MiddleCenter;
-		score.color = new Color(0.24f, 0.16f, 0.09f);
 	}
 
 	Image Picture(RectTransform parent, string file, Vector2 anchor, float width)
@@ -177,16 +150,31 @@ public class UI_GameOver : UI_Popup
 	IEnumerator Play()
 	{
 		yield return Hitstop();
-		yield return Slam();
 		yield return Flicker();
-		yield return Blackout();
+		yield return Face();
+		yield return Settle();
 		yield return RevealSheet();
+	}
+
+	IEnumerator Hitstop()
+	{
+		Time.timeScale = HitstopScale;
+		AudioListener.volume = 0.0f;
+
+		if (_camera != null)
+			_camera.Shake(0.28f, SilenceSeconds + FlickerSpan + FaceSeconds);
+
+		yield return new WaitForSecondsRealtime(SilenceSeconds);
+	}
+
+	static float FlickerSpan
+	{
+		get { return FlickerCount * (FlickerOnSeconds + FlickerOffSeconds); }
 	}
 
 	IEnumerator Flicker()
 	{
-		if (_face.sprite != null)
-			_face.enabled = false;
+		Time.timeScale = 0.0f;
 
 		for (int i = 0; i < FlickerCount; i++)
 		{
@@ -196,34 +184,11 @@ public class UI_GameOver : UI_Popup
 			_dim.color = new Color(0, 0, 0, 0.0f);
 			yield return new WaitForSecondsRealtime(FlickerOnSeconds);
 		}
-
-		_dim.color = new Color(0, 0, 0, FlickerDim);
 	}
 
-	IEnumerator Hitstop()
+	IEnumerator Face()
 	{
-		Time.timeScale = HitstopScale;
-		AudioListener.volume = 0.0f;
-
-		Transform catcher = Managers.Game.Catcher;
-
-		if (_camera != null)
-		{
-			if (catcher != null)
-				_camera.FocusOn(catcher, 0.85f, 26.0f);
-
-			_camera.ZoomTo(FocusZoom, 4.5f);
-			_camera.Shake(0.32f, SilenceSeconds + SlamSeconds + HoldSeconds);
-		}
-
-		yield return new WaitForSecondsRealtime(SilenceSeconds);
-	}
-
-	IEnumerator Slam()
-	{
-		Time.timeScale = 0.0f;
 		AudioListener.volume = _listenerVolume;
-
 		Managers.Sound.PlayOptional(ScreamClip, ScreamFallbackClip, Define.Sound.Threat);
 
 		Lamp lamp = FindFirstObjectByType<Lamp>();
@@ -232,50 +197,39 @@ public class UI_GameOver : UI_Popup
 
 		if (_face.sprite == null)
 		{
-			_dim.color = new Color(0, 0, 0, 0.85f);
+			_dim.color = new Color(0, 0, 0, 0.92f);
+			yield return new WaitForSecondsRealtime(FaceSeconds);
 			yield break;
 		}
 
-		RectTransform faceRect = _face.rectTransform;
-
-		for (float t = 0.0f; t < SlamSeconds; t += Time.unscaledDeltaTime)
-		{
-			float k = Mathf.Clamp01(t / SlamSeconds);
-			float scale = Mathf.Lerp(SlamStartScale, 1.0f, k * k);
-
-			faceRect.localScale = new Vector3(scale, scale, 1.0f);
-			_face.color = new Color(1, 1, 1, Mathf.Clamp01(k * 2.5f));
-			_flash.color = new Color(0.55f, 0.02f, 0.02f, 0.55f * (1.0f - k));
-			yield return null;
-		}
-
-		faceRect.localScale = Vector3.one;
+		_dim.color = new Color(0, 0, 0, 0.0f);
 		_face.color = Color.white;
-		_flash.color = new Color(0.55f, 0.02f, 0.02f, 0.0f);
+		_flash.color = new Color(0.55f, 0.02f, 0.02f, 0.5f);
 
-		for (float t = 0.0f; t < HoldSeconds; t += Time.unscaledDeltaTime)
+		RectTransform faceRect = _face.rectTransform;
+		RectTransform root = GetComponent<RectTransform>();
+		float amplitude = root.rect.height * JitterPixels;
+
+		for (float t = 0.0f; t < FaceSeconds; t += Time.unscaledDeltaTime)
 		{
-			float jitter = 1.0f + 0.012f * Mathf.Sin(Time.unscaledTime * 60.0f);
-			faceRect.localScale = new Vector3(jitter, jitter, 1.0f);
+			float seed = Time.unscaledTime * 90.0f;
+			faceRect.anchoredPosition = new Vector2(
+				(Mathf.PerlinNoise(seed, 0.0f) * 2.0f - 1.0f) * amplitude,
+				(Mathf.PerlinNoise(0.0f, seed) * 2.0f - 1.0f) * amplitude);
+
+			_flash.color = new Color(
+				0.55f, 0.02f, 0.02f, 0.5f * (1.0f - Mathf.Clamp01(t / FaceSeconds)));
 			yield return null;
 		}
 	}
 
-	IEnumerator Blackout()
+	IEnumerator Settle()
 	{
-		float from = _dim.color.a;
-
-		for (float t = 0.0f; t < BlackoutSeconds; t += Time.unscaledDeltaTime)
-		{
-			float k = Mathf.Clamp01(t / BlackoutSeconds);
-			_dim.color = new Color(0, 0, 0, Mathf.Lerp(from, 1.0f, k));
-			yield return null;
-		}
-
-		_dim.color = Color.black;
 		_face.enabled = false;
+		_flash.color = new Color(0.55f, 0.02f, 0.02f, 0.0f);
+		_dim.color = Color.black;
 
-		yield return new WaitForSecondsRealtime(SheetDelaySeconds);
+		yield return new WaitForSecondsRealtime(SettleSeconds);
 	}
 
 	IEnumerator RevealSheet()

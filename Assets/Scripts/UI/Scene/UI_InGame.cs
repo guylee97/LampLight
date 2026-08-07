@@ -127,9 +127,8 @@ public class UI_InGame : UI_Scene
 		if (_noticeText == null)
 			yield break;
 
-		_noticeText.text = "제단으로 가라";
-		yield return new WaitForSecondsRealtime(2.5f);
 		_noticeText.text = string.Empty;
+		yield return null;
 		_noticeRoutine = null;
 	}
 
@@ -140,42 +139,12 @@ public class UI_InGame : UI_Scene
 
 	void RefreshArtifacts()
 	{
-		if (_ready == false || _progress == null)
+		if (_ready == false)
 			return;
 
 		Text text = GetText((int)Texts.ArtifactText);
-		if (text == null)
-			return;
-
-		RectTransform rect = text.rectTransform;
-		rect.anchorMin = new Vector2(0.5f, 1.0f);
-		rect.anchorMax = new Vector2(0.5f, 1.0f);
-		rect.pivot = new Vector2(0.5f, 1.0f);
-		rect.anchoredPosition = new Vector2(0.0f, -84.0f);
-		rect.sizeDelta = new Vector2(720.0f, 48.0f);
-		text.alignment = TextAnchor.MiddleCenter;
-		text.text = ObjectiveLine();
-	}
-
-	string ObjectiveLine()
-	{
-		if (_progress == null)
-			return string.Empty;
-
-		ResolveAltar();
-
-		if (_altar != null && _altar.IsSealed)
-			return "봉인 완료";
-
-		if (_altar != null && _altar.Carried > 0)
-			return $"제단에서 의식을 치러라   ·   봉인 {_altar.Placed} / {_altar.Required}";
-
-		int missing = Mathf.Max(0, _progress.Required - _progress.Collected);
-
-		if (missing > 0)
-			return $"유물을 찾아라   ·   {_progress.Collected} / {_progress.Required}";
-
-		return "제단으로 가라";
+		if (text != null && text.enabled)
+			text.enabled = false;
 	}
 
 	void ResolveAltar()
@@ -190,7 +159,6 @@ public class UI_InGame : UI_Scene
 			return;
 
 		UpdateSoundRings();
-		RefreshArtifacts();
 		UpdateObjectiveArrow();
 
 		Text fuelText = GetText((int)Texts.FuelText);
