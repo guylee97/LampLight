@@ -28,7 +28,7 @@ public class Lamp : MonoBehaviour
 	float _innerRangeRatio = 0.15f;
 
 	[SerializeField]
-	float _orbRadius = 2.3f;
+	float _orbRadius = 2.9f;
 
 	// 빛은 스프라이트가 실제로 그려지는 한가운데에 붙인다. 피벗이 발밑이든
 	// 어디든 렌더 경계에서 직접 구하므로 어긋날 여지가 없다. 바라보는 쪽으로

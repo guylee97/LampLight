@@ -8,7 +8,7 @@ public class InGameScene : MonoBehaviour
 	const string DistantCueClip = "Monster/평상시/capaholiczsfx-creature-growl-deep-bass-403153";
 	const string DistantCueFallback = "zombie_idle_3";
 	const float DistantCueSeconds = 9.0f;
-	const float SpawnGraceSeconds = 3.5f;
+	const float SpawnGraceSeconds = 6.0f;
 	const int DistantCueMinTiles = 12;
 	const int DistantCueMaxTiles = 20;
 
@@ -29,8 +29,6 @@ public class InGameScene : MonoBehaviour
 
 	[SerializeField]
 	EnemySpawner _spawner;
-	LevelConfig _pendingSpawnConfig;
-	System.Random _pendingSpawnRng;
 	bool _saidLostInDark;
 
 	[SerializeField]
@@ -114,9 +112,6 @@ public class InGameScene : MonoBehaviour
 	IEnumerator DistantCue()
 	{
 		yield return new WaitForSeconds(DistantCueSeconds);
-
-		if (_pendingSpawnConfig == null)
-			yield break;
 
 		Vector3 where;
 		if (TryFarPoint(out where) == false)
@@ -219,8 +214,6 @@ public class InGameScene : MonoBehaviour
 
 	void OnArtifactCollected(int collected, int required)
 	{
-		SpawnYokai();
-
 		if (_player != null)
 			FallingDust.Burst(_player.transform.position + Vector3.up * 1.4f, 7, 1.1f, collected * 977);
 
@@ -300,31 +293,19 @@ public class InGameScene : MonoBehaviour
 
 		if (_spawner != null)
 		{
-			_pendingSpawnConfig = config;
-			_pendingSpawnRng = rng;
+			_spawner.Spawn(config, _selector.PlayerStart, rng);
+
+			foreach (EnemyBase enemy in _spawner.Spawned)
+			{
+				MaskYokai yokai = enemy as MaskYokai;
+				if (yokai != null)
+					yokai.HoldSensesFor(SpawnGraceSeconds);
+			}
 		}
 		else
 		{
 			PushEnemiesAwayFrom(_selector.PlayerStart);
 		}
-	}
-
-	void SpawnYokai()
-	{
-		if (_pendingSpawnConfig == null || _spawner == null || _selector == null)
-			return;
-
-		_spawner.Spawn(_pendingSpawnConfig, _selector.PlayerStart, _pendingSpawnRng);
-		_pendingSpawnConfig = null;
-		_pendingSpawnRng = null;
-
-		foreach (EnemyBase enemy in _spawner.Spawned)
-		{
-			MaskYokai yokai = enemy as MaskYokai;
-			if (yokai != null)
-				yokai.HoldSensesFor(SpawnGraceSeconds);
-		}
-
 	}
 
 	void PushEnemiesAwayFrom(MapPoint start)

@@ -137,7 +137,7 @@ MonoBehaviour:
   _shadowIntensity: 1
   _innerRangeRatio: 0.15
   _innerAngleRatio: 0.8
-  _orbRadius: 2.3
+  _orbRadius: 2.9
   _forwardOffset: 0.25
   _light: {fileID: 0}
   _obstacleMask:

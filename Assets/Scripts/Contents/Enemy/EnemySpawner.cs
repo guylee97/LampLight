@@ -12,13 +12,13 @@ public class EnemySpawner : MonoBehaviour
 	Transform _root;
 
 	[SerializeField]
-	int _minDistanceFromStart = 14;
+	int _minDistanceFromStart = 12;
 
 	[SerializeField]
-	int _hookDistanceMin = 14;
+	int _hookDistanceMin = 12;
 
 	[SerializeField]
-	int _hookDistanceMax = 18;
+	int _hookDistanceMax = 15;
 
 	readonly List<EnemyBase> _spawned = new List<EnemyBase>();
 
