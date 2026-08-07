@@ -256,6 +256,11 @@ public class UI_GameOver : UI_Popup
 			_camera.ResetEffects();
 	}
 
+	void OnDestroy()
+	{
+		Restore();
+	}
+
 	void Retry()
 	{
 		Restore();

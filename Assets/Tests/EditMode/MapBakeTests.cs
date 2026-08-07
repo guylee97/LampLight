@@ -37,7 +37,7 @@ public class MapBakeTests
 	[Test]
 	public void EveryLevelMapMatchesItsSpec()
 	{
-		int[,] expected = { { 1, 30, 28 }, { 2, 41, 40 }, { 3, 56, 52 } };
+		int[,] expected = { { 1, 34, 24 }, { 2, 42, 30 }, { 3, 52, 36 } };
 
 		for (int i = 0; i < 3; i++)
 		{

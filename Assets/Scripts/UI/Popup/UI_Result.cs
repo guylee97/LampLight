@@ -88,20 +88,13 @@ public class UI_Result : UI_Popup
 		}
 
 		if (_badge != null)
-		{
-			_badge.gameObject.SetActive(cleared);
+			_badge.gameObject.SetActive(false);
 
-			if (cleared)
-			{
-				_badge.sprite = RankBadge.Get(Managers.Game.LastGrade);
-				Managers.Sound.PlayOptional(StampClip, Define.Sound.UI);
-			}
-		}
 		GameManagerEx game = Managers.Game;
 
 		Text title = GetText((int)Texts.ResultTitleText);
 		if (title != null)
-			title.text = cleared ? $"LEVEL {game.CurrentLevel} 탈출  ·  {game.LastGrade}" : "붙잡혔다";
+			title.text = cleared ? $"{game.CurrentLevel}층 봉인 완료" : "붙잡혔다";
 
 		Text detail = GetText((int)Texts.ResultDetailText);
 		if (detail == null)
@@ -113,13 +106,9 @@ public class UI_Result : UI_Popup
 			return;
 		}
 
-		string next = game.HasNextLevel ? "\n[다시하기]로 다음 레벨" : "\n최종 레벨 클리어";
-		string silent = game.UsedRun ? "" : $"\n무소음 보너스  +{ScoreRules.SilentBonus}";
-		string evasion = game.RunnerEvasions > 0
-			? $"\n회피 보너스  +{ScoreRules.EvasionBonus * game.RunnerEvasions}"
-			: "";
-
-		detail.text = $"유물  {_collected} / {_required}\n점수  {game.LastScore}{silent}{evasion}{next}";
+		detail.text = game.HasNextLevel
+			? "더 깊은 곳이 남아 있다"
+			: "이 절의 모든 봉인을 마쳤다";
 	}
 
 	void OnRetry(PointerEventData data)

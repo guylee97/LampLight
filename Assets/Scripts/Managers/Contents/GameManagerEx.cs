@@ -23,9 +23,7 @@ public class GameManagerEx
 
     public bool UsedRun { get; private set; }
     public int RunnerEvasions { get; private set; }
-    public int LastScore { get; private set; }
     public int LastArtifacts { get; private set; }
-    public string LastGrade { get; private set; } = "C";
     public int ConsecutiveFailures { get; private set; }
 
     public Action<int> OnLevelChanged;
@@ -70,8 +68,6 @@ public class GameManagerEx
         Result = Define.StageResult.None;
         UsedRun = false;
         RunnerEvasions = 0;
-        LastScore = 0;
-        LastGrade = "C";
         SetPaused(false);
         Time.timeScale = 1.0f;
     }
@@ -117,8 +113,6 @@ public class GameManagerEx
     public void ReportEscaped(int artifacts, float weightedArtifacts, float lampRemaining)
     {
         LastArtifacts = artifacts;
-        LastScore = ScoreRules.Total(CurrentLevel, weightedArtifacts, lampRemaining, UsedRun, RunnerEvasions);
-        LastGrade = LevelTable.Grade(CurrentLevel, LastScore);
         ConsecutiveFailures = 0;
 
         EndStage(Define.StageResult.Cleared);

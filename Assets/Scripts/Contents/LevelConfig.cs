@@ -13,9 +13,6 @@ public class LevelConfig
 	public int RunnerCount;
 	public int OilCanisters;
 	public int Stones;
-	public int GradeS;
-	public int GradeA;
-	public int GradeB;
 
 	public int EnemyCount
 	{
@@ -45,9 +42,6 @@ public static class LevelTable
 			RunnerCount = 0,
 			OilCanisters = 0,
 			Stones = 0,
-			GradeS = 1800,
-			GradeA = 1300,
-			GradeB = 900,
 		},
 		new LevelConfig
 		{
@@ -64,9 +58,6 @@ public static class LevelTable
 			RunnerCount = 0,
 			OilCanisters = 0,
 			Stones = 0,
-			GradeS = 2900,
-			GradeA = 2200,
-			GradeB = 1600,
 		},
 		new LevelConfig
 		{
@@ -83,9 +74,6 @@ public static class LevelTable
 			RunnerCount = 1,
 			OilCanisters = 1,
 			Stones = 2,
-			GradeS = 4200,
-			GradeA = 3300,
-			GradeB = 2500,
 		},
 	};
 
@@ -100,42 +88,5 @@ public static class LevelTable
 	public static LevelConfig Get(int level)
 	{
 		return Levels[Clamp(level) - MinLevel];
-	}
-
-	public static string Grade(int level, int score)
-	{
-		LevelConfig config = Get(level);
-
-		if (score >= config.GradeS)
-			return "S";
-		if (score >= config.GradeA)
-			return "A";
-		if (score >= config.GradeB)
-			return "B";
-
-		return "C";
-	}
-}
-
-public static class ScoreRules
-{
-	public const int BasePerLevel = 500;
-	public const int PerArtifact = 300;
-	public const int PerLampSecond = 10;
-	public const int SilentBonus = 400;
-	public const int EvasionBonus = 250;
-
-	public static int Total(int level, float weightedArtifacts, float lampRemaining, bool usedRun,
-		int evasions)
-	{
-		int score = BasePerLevel * LevelTable.Clamp(level);
-		score += UnityEngine.Mathf.RoundToInt(PerArtifact * UnityEngine.Mathf.Max(0.0f, weightedArtifacts));
-		score += PerLampSecond * UnityEngine.Mathf.FloorToInt(UnityEngine.Mathf.Max(0.0f, lampRemaining));
-
-		if (usedRun == false)
-			score += SilentBonus;
-
-		score += EvasionBonus * UnityEngine.Mathf.Max(0, evasions);
-		return score;
 	}
 }

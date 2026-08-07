@@ -49,6 +49,7 @@ public class InGameScene : MonoBehaviour
 		Managers.Game.SetPlayer(_player.gameObject);
 		Altar.ResetProgress();
 		HorrorMix.ResetState();
+		ChaseTension.Ensure();
 
 		LevelConfig config = Managers.Game.Level;
 

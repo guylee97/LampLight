@@ -39,7 +39,7 @@ public class LevelTests
 			progress.ReportCollected();
 			progress.ReportCollected();
 
-			Assert.AreEqual(2, progress.Collected, "필요 수가 0이어도 점수용 집계는 계속되어야 한다");
+			Assert.AreEqual(2, progress.Collected, "필요 수가 0이어도 집계는 계속되어야 한다");
 		}
 		finally
 		{
@@ -156,31 +156,6 @@ public class LevelTests
 	}
 
 	[Test]
-	public void SilentRunOutscoresFastRun()
-	{
-		int silent = ScoreRules.Total(1, 2.0f, 20.0f, false, 0);
-		int noisy = ScoreRules.Total(1, 2.0f, 30.0f, true, 0);
-
-		Assert.Greater(silent, noisy, "조용히 간 사람이 이겨야 한다");
-	}
-
-	[Test]
-	public void ScoreMatchesFormula()
-	{
-		int score = ScoreRules.Total(2, 2.0f, 30.0f, true, 1);
-		Assert.AreEqual(500 * 2 + 300 * 2 + 10 * 30 + 250, score);
-	}
-
-	[Test]
-	public void ConcealedArtifactsScoreMore()
-	{
-		int plain = ScoreRules.Total(3, 3.0f, 0.0f, true, 0);
-		int hidden = ScoreRules.Total(3, ConcealmentRules.ScoreWeight(1) * 3.0f, 0.0f, true, 0);
-
-		Assert.Greater(hidden, plain, "은닉도가 높을수록 점수가 커야 한다");
-	}
-
-	[Test]
 	public void ConcealmentTradesSoundForNoise()
 	{
 		for (int level = 0; level < ConcealmentRules.Max; level++)
@@ -190,26 +165,6 @@ public class LevelTests
 			Assert.Less(ConcealmentRules.NoiseRadius(level), ConcealmentRules.NoiseRadius(level + 1),
 				"은닉도가 오르면 획득 소음은 커야 한다");
 		}
-	}
-
-	[Test]
-	public void GradeCutsAreOrdered()
-	{
-		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
-		{
-			LevelConfig config = LevelTable.Get(level);
-			Assert.Greater(config.GradeS, config.GradeA);
-			Assert.Greater(config.GradeA, config.GradeB);
-		}
-	}
-
-	[Test]
-	public void GradeResolvesFromScore()
-	{
-		Assert.AreEqual("S", LevelTable.Grade(1, 1800));
-		Assert.AreEqual("A", LevelTable.Grade(1, 1300));
-		Assert.AreEqual("B", LevelTable.Grade(1, 900));
-		Assert.AreEqual("C", LevelTable.Grade(1, 899));
 	}
 
 	[Test]
