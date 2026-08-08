@@ -272,6 +272,130 @@ def collider_tiles(decorations, width, height):
     return blocked
 
 
+def collision_for(data, rules, cache):
+    """bake_collision 과 같은 규칙으로, 파일이 아니라 주어진 데이터에 대해 판정한다."""
+
+    import bake_collision as bc
+
+    assets, block_t, noise_t, alpha_min = rules
+    width, height = data["width"], data["height"]
+    walls = data["walls"]
+    collision = [BLOCK if walls[i] != 0 else WALK for i in range(width * height)]
+
+    for deco in data["decorations"]:
+        entry = bc.find_asset(assets, deco["key"])
+        if entry is None or entry["passability"] not in bc.CODE:
+            continue
+
+        verdict = bc.CODE[entry["passability"]]
+        if verdict == WALK:
+            continue
+
+        trim = bc.DEBRIS_DISPLAY_SCALE if deco["key"].startswith("debris_") else 1.0
+        span_x = deco["width"] * trim
+        span_y = deco["height"] * trim
+        left = deco["x"] + deco["width"] * 0.5 - span_x * 0.5
+        bottom = height - deco["y"] + deco["height"] * 0.5 - span_y * 0.5
+
+        tiles = bc.tile_coverage(
+            deco["resource"], left, bottom, span_x, span_y, alpha_min, cache)
+        if tiles is None:
+            continue
+
+        threshold = block_t if verdict == BLOCK else noise_t
+
+        for (col, world_row), covered in tiles.items():
+            if covered < threshold:
+                continue
+
+            row = height - 1 - world_row
+            if not (0 <= col < width and 0 <= row < height):
+                continue
+
+            index = row * width + col
+            if bc.RANK[verdict] > bc.RANK[collision[index]]:
+                collision[index] = verdict
+
+    for col, row in collider_tiles(data["decorations"], width, height):
+        collision[row * width + col] = BLOCK
+
+    return collision
+
+
+def components(collision, width, height):
+    walk = {(c, r) for r in range(height) for c in range(width)
+            if collision[r * width + c] != BLOCK}
+    seen, found = set(), []
+
+    for cell in walk:
+        if cell in seen:
+            continue
+
+        blob, q = [], deque([cell])
+        seen.add(cell)
+        while q:
+            c, r = q.popleft()
+            blob.append((c, r))
+            for dc, dr in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                n = (c + dc, r + dr)
+                if n in walk and n not in seen:
+                    seen.add(n)
+                    q.append(n)
+
+        found.append(blob)
+
+    found.sort(key=len, reverse=True)
+    return found
+
+
+def open_severed_passages(data, rules, cache):
+    """통행 영역이 하나로 이어질 때까지, 길을 끊은 장식을 걷어낸다.
+
+    막는 장식 하나가 복도를 잘라 놓으면 플레이어는 보이는데 못 가는 바닥을 만난다.
+    콜라이더와 판정이 같이 움직여야 하므로 장식 자체를 뺀 뒤 다시 굽는다.
+    """
+
+    width, height = data["width"], data["height"]
+    dropped = []
+
+    for _ in range(40):
+        comps = components(data["collision"], width, height)
+        if len(comps) <= 1:
+            break
+
+        blocking = [d for d in data["decorations"] if d["collisionEnabled"]]
+        best = None
+
+        for deco in blocking:
+            trial = [d for d in data["decorations"] if d is not deco]
+            probe = dict(data)
+            probe["decorations"] = trial
+            rebaked = collision_for(probe, rules, cache)
+            merged = components(rebaked, width, height)
+
+            if len(merged) < len(comps):
+                gain = len(merged[0]) - len(comps[0])
+                if best is None or gain > best[0]:
+                    best = (gain, deco, trial, rebaked)
+
+        if best is None:
+            break
+
+        _, deco, trial, rebaked = best
+        dropped.append(deco["key"])
+        data["decorations"] = trial
+        data["collision"] = rebaked
+
+    comps = components(data["collision"], width, height)
+    stranded = 0
+    for blob in comps[1:]:
+        for col, row in blob:
+            data["collision"][row * width + col] = BLOCK
+            stranded += 1
+
+    return dropped, stranded
+
+
 def build_terrain(level, template):
     """1패스 — 바닥·벽·저작 장식만. 충돌은 베이커가 굽는다."""
 
@@ -381,6 +505,7 @@ def main():
 
     rules = bake_collision.load_rules(os.path.join(ROOT, "docs", "collision_map.json"))
     cache = {}
+    repairs = {}
     for level in (1, 2, 3):
         _, unknown = bake_collision.bake(level, *rules, cache)
         if unknown:
@@ -390,9 +515,9 @@ def main():
         with open(path, encoding="utf-8") as handle:
             data = json.load(handle)
 
-        width, height = data["width"], data["height"]
-        for col, row in collider_tiles(data["decorations"], width, height):
-            data["collision"][row * width + col] = BLOCK
+        data["collision"] = collision_for(data, rules, cache)
+        opened, stranded = open_severed_passages(data, rules, cache)
+        repairs[level] = (opened, stranded)
 
         with open(path, "w", encoding="utf-8") as handle:
             json.dump(data, handle, ensure_ascii=False, separators=(",", ":"))
@@ -416,6 +541,15 @@ def main():
               f"(바닥 {sum(1 for v in free if v)})  장식 {len(data['decorations'])}/{authored_n}"
               f"  소리겹침 {overlaps}쌍"
               + ("  전 목표 연결됨" if not missing else f"  미연결 {missing}"))
+
+        if len(components(data["collision"], data["width"], data["height"])) != 1:
+            raise SystemExit(f"L{level}: 통행 영역이 하나로 안 이어진다")
+
+        opened, stranded = repairs[level]
+        if opened:
+            print(f"     길을 끊던 장식 {len(opened)}개 제거: {sorted(set(opened))}")
+        if stranded:
+            print(f"     닿을 수 없어 막은 바닥 {stranded}칸")
 
     if not ok:
         raise SystemExit("목표 지점이 이어지지 않는다")

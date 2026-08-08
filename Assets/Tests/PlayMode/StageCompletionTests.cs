@@ -80,15 +80,23 @@ public class StageCompletionTests
 		yield return Travel(bot, player, altar.transform.position, TargetRadius);
 		Assert.IsNull(bot.Failure, $"제단으로 가는 길: {bot.Failure}");
 
-		while (Managers.Game.Result == Define.StageResult.None && altar.IsSealed == false)
+		// 클리어하면 다음 전각을 바로 불러오면서 BeginStage 가 Result 를 None 으로 되돌린다.
+		// 지나간 값을 나중에 읽으면 안 되므로 그 순간을 붙잡는다.
+		Define.StageResult outcome = Define.StageResult.None;
+		System.Action<Define.StageResult> capture = r => outcome = r;
+		Managers.Game.OnStageEnded += capture;
+
+		float sealDeadline = Time.unscaledTime + 30.0f;
+		while (outcome == Define.StageResult.None && Time.unscaledTime < sealDeadline)
 		{
 			yield return bot.HoldKey(Key.E, altar.HoldSeconds + 0.2f);
 			yield return null;
 		}
 
+		Managers.Game.OnStageEnded -= capture;
 		bot.Dispose();
 
-		Assert.AreEqual(Define.StageResult.Cleared, Managers.Game.Result, "제단에서 봉인 처리가 되지 않았다");
+		Assert.AreEqual(Define.StageResult.Cleared, outcome, "제단에서 봉인 처리가 되지 않았다");
 
 		float elapsed = Time.time - startedAt;
 		Assert.Less(elapsed, lampBudget * BotSlowdown,

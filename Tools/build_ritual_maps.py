@@ -60,7 +60,7 @@ PROP_SCALE = {
     "large_shelf_fallen": 3 / 5,
     "large_firepit": 3 / 5,
     "large_sacrificial_slab": 2 / 3,
-    "prop_pillar_intact": 3 / 2,
+    "prop_pillar_intact": 1.0,
 }
 
 # 방마다 하나씩 박는 랜드마크. 화면에 20x11 타일밖에 안 보이는 게임에서
