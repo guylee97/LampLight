@@ -4,20 +4,25 @@ using UnityEngine;
 public class LevelTests
 {
 	[Test]
-	public void FirstLevelNeedsAtLeastOneArtifactBeforeTheRitual()
+	public void FirstLevelNeedsEveryArtifactBeforeTheRitual()
 	{
 		GameObject host = new GameObject("Progress");
 
 		try
 		{
+			int required = LevelTable.Get(1).ArtifactsRequired;
+
 			StageProgress progress = host.AddComponent<StageProgress>();
-			progress.SetRequired(LevelTable.Get(1).ArtifactsRequired);
+			progress.SetRequired(required);
 			progress.ResetProgress();
 
-			Assert.IsFalse(progress.IsComplete, "의식을 치르려면 유물이 최소 하나는 필요하다");
+			for (int i = 0; i < required; i++)
+			{
+				Assert.IsFalse(progress.IsComplete, $"{i}개만 모은 상태로는 의식을 치를 수 없다");
+				progress.ReportCollected();
+			}
 
-			progress.ReportCollected();
-			Assert.IsTrue(progress.IsComplete, "L1은 유물 하나면 의식을 시작할 수 있어야 한다");
+			Assert.IsTrue(progress.IsComplete, "L1도 놓인 공양물을 전부 모아야 의식이 열린다");
 		}
 		finally
 		{
@@ -82,20 +87,21 @@ public class LevelTests
 	}
 
 	[Test]
-	public void ArtifactsPlacedAlwaysExceedRequired()
+	public void EveryPlacedArtifactIsRequired()
 	{
 		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
 		{
 			LevelConfig config = LevelTable.Get(level);
-			Assert.Greater(config.ArtifactsPlaced, config.ArtifactsRequired,
-				$"L{level}: 배치 수가 필요 수보다 많아야 선택 여지가 생긴다");
+			Assert.AreEqual(config.ArtifactsPlaced, config.ArtifactsRequired,
+				$"L{level}: 놓인 공양물은 전부 모아야 의식을 치른다");
 		}
 	}
 
 	[Test]
-	public void FirstLevelAsksForOneArtifact()
+	public void FirstLevelAsksForEveryArtifactItPlaces()
 	{
-		Assert.AreEqual(1, LevelTable.Get(1).ArtifactsRequired);
+		LevelConfig config = LevelTable.Get(1);
+		Assert.AreEqual(config.ArtifactsPlaced, config.ArtifactsRequired);
 	}
 
 	[Test]

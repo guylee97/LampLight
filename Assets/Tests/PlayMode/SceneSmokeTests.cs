@@ -63,18 +63,11 @@ public class SceneSmokeTests
 
 		LevelConfig config = Managers.Game.Level;
 
-		int stashed = 0;
-		foreach (Container container in Object.FindObjectsByType<Container>(FindObjectsSortMode.None))
-		{
-			if (container.HoldsArtifact)
-				stashed++;
-		}
+		Assert.AreEqual(config.ArtifactsPlaced, placer.Artifacts.Count,
+			"배치된 공양물 수가 레벨 정의와 다르다");
 
-		Assert.AreEqual(config.ArtifactsPlaced, placer.Artifacts.Count + stashed,
-			"배치된 유물 수가 레벨 정의와 다르다 (컨테이너에 숨긴 것 포함)");
-
-		Assert.GreaterOrEqual(placer.Artifacts.Count + stashed, progress.Required,
-			"배치 수가 필요 수보다 적으면 클리어가 불가능하다");
+		Assert.AreEqual(placer.Artifacts.Count, progress.Required,
+			"놓인 공양물은 전부 모아야 의식이 열린다");
 
 		Assert.IsNotNull(placer.Altar, "제단이 배치되지 않았다");
 
@@ -93,41 +86,9 @@ public class SceneSmokeTests
 				$"유물 {artifact.PointName}({tile.x},{tile.y})에 도달할 수 없다");
 		}
 
-		foreach (Container container in Object.FindObjectsByType<Container>(FindObjectsSortMode.None))
-		{
-			if (container.HoldsArtifact == false)
-				continue;
-
-			Vector2Int box = MapCoord.WorldToTile(container.transform.position);
-			Assert.IsTrue(HasReachableSpotBeside(field, box),
-				$"유물이 든 상자({box.x},{box.y}) 옆에 설 수 있는 칸이 없다");
-		}
-
 		Vector2Int altar = MapCoord.WorldToTile(placer.Altar.transform.position);
 		Assert.AreNotEqual(MapPathfinder.Unreachable, MapPathfinder.Sample(field, altar.x, altar.y),
 			$"제단({altar.x},{altar.y})에 도달할 수 없다");
-	}
-
-	const int InteractTiles = 1;
-
-	static bool HasReachableSpotBeside(int[] field, Vector2Int tile)
-	{
-		for (int dy = -InteractTiles; dy <= InteractTiles; dy++)
-		{
-			for (int dx = -InteractTiles; dx <= InteractTiles; dx++)
-			{
-				int col = tile.x + dx;
-				int row = tile.y + dy;
-
-				if (MapCoord.IsPassable(col, row) == false)
-					continue;
-
-				if (MapPathfinder.Sample(field, col, row) != MapPathfinder.Unreachable)
-					return true;
-			}
-		}
-
-		return false;
 	}
 
 	[UnityTest]

@@ -84,9 +84,8 @@ public class InGameScene : MonoBehaviour
 		ApplyLevelConfig(config);
 
 		System.Random rng = new System.Random(configured < 0 ? Determinism.Seed : configured);
-		int containedArtifacts = ConfigureArtifactContainers(config);
 		_placer.Place(
-			config.ArtifactsPlaced - containedArtifacts,
+			config.ArtifactsPlaced,
 			config.ArtifactRadiusTiles,
 			config.Level,
 			rng);
@@ -359,16 +358,6 @@ public class InGameScene : MonoBehaviour
 			TogglePause();
 
 		_escapeWasPressed = pressed;
-	}
-
-	int ConfigureArtifactContainers(LevelConfig config)
-	{
-		Container[] containers = FindObjectsByType<Container>(FindObjectsSortMode.InstanceID);
-		if (containers.Length == 0 || config.ArtifactsPlaced <= 1)
-			return 0;
-
-		containers[Managers.Game.CurrentLevel % containers.Length].SetArtifact(_progress);
-		return 1;
 	}
 
 	void TogglePause()

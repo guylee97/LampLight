@@ -49,9 +49,9 @@ public class ItemSpecTests
 	{
 		(int placed, int required, float radius)[] want =
 		{
-			(2, 1, 12.0f),
-			(3, 2, 9.0f),
-			(4, 3, 7.0f),
+			(2, 2, 12.0f),
+			(3, 3, 9.0f),
+			(4, 4, 7.0f),
 		};
 
 		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)

@@ -20,7 +20,7 @@ public static class LevelTable
 		{
 			Level = 1,
 			ArtifactsPlaced = 2,
-			ArtifactsRequired = 1,
+			ArtifactsRequired = 2,
 			ArtifactRadiusTiles = 12.0f,
 			LampSeconds = 60.0f,
 			RitualSeconds = 6.0f,
@@ -30,9 +30,9 @@ public static class LevelTable
 		{
 			Level = 2,
 			ArtifactsPlaced = 3,
-			ArtifactsRequired = 2,
+			ArtifactsRequired = 3,
 			ArtifactRadiusTiles = 9.0f,
-			LampSeconds = 70.0f,
+			LampSeconds = 90.0f,
 			RitualSeconds = 7.0f,
 			YokaiCount = 1,
 		},
@@ -40,9 +40,9 @@ public static class LevelTable
 		{
 			Level = 3,
 			ArtifactsPlaced = 4,
-			ArtifactsRequired = 3,
+			ArtifactsRequired = 4,
 			ArtifactRadiusTiles = 7.0f,
-			LampSeconds = 100.0f,
+			LampSeconds = 125.0f,
 			RitualSeconds = 8.0f,
 			YokaiCount = 1,
 		},

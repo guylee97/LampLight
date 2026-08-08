@@ -36,6 +36,9 @@ SOURCE = os.path.join(ROOT, "MapSource", "FullMap", "Map")
 ARTIFACTS = {1: 2, 2: 3, 3: 4}
 NEAR_START = {1: (5, 9)}
 
+# 공양물이 제단 코앞에 놓이면 모으러 다닐 이유가 없다.
+ALTAR_CLEARANCE = 8
+
 # 게임이 실제 오브젝트로 스폰하는 것들. 저작본이 그려놨어도 장식으로 깔지 않는다.
 GAMEPLAY_CATEGORIES = ("artifact", "exit", "door")
 GID_MASK = 0x1FFFFFFF
@@ -166,7 +169,10 @@ def nearest_free(free, width, height, reach, target):
 
 
 def place_artifacts(free, width, height, reach, rooms, start, altar, want, gap,
-                    from_start, near_band):
+                    from_start, near_band, from_altar=None):
+    if from_altar:
+        reach = {t for t in reach if from_altar.get(t, 0) >= ALTAR_CLEARANCE} or reach
+
     picked = []
 
     if near_band:
@@ -529,7 +535,8 @@ def place_objects(level, data, authored, free):
                              start_room, altar_room, ARTIFACTS[level],
                              RADIUS[level] + 1.0,
                              path_field(walk, width, height, start_tile),
-                             NEAR_START.get(level))
+                             NEAR_START.get(level),
+                             path_field(walk, width, height, altar_tile))
     for i, (col, row) in enumerate(spread, start=1):
         objects.append(point(f"artifact_{i}", col, row, height))
 

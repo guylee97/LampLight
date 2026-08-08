@@ -52,26 +52,6 @@ public class StageCompletionTests
 			Assert.IsTrue(artifact.IsCollected, $"유물 {artifact.PointName} 앞에서 수집에 실패했다");
 		}
 
-		foreach (Container container in Object.FindObjectsByType<Container>(FindObjectsSortMode.None))
-		{
-			if (container.HoldsArtifact == false)
-				continue;
-
-			Vector3 spot = ApproachSpot(container.transform.position);
-			yield return Travel(bot, player, spot, TargetRadius);
-			Assert.IsNull(bot.Failure, $"유물이 든 상자로 가는 길: {bot.Failure}");
-
-			if (container.HoldSeconds > 0.0f)
-				yield return bot.HoldKey(Key.E, container.HoldSeconds);
-			else
-				yield return bot.Tap(Key.E);
-
-			yield return null;
-
-			Assert.IsFalse(container.HoldsArtifact,
-				"상자를 열었는데 안에 있던 유물이 그대로다");
-		}
-
 		Assert.GreaterOrEqual(progress.Collected, progress.Required, "유물을 다 모으지 못했다");
 		Altar altar = placer.Altar;
 		Assert.IsNotNull(altar, "제단이 배치되지 않았다");
@@ -155,30 +135,6 @@ public class StageCompletionTests
 		}
 
 		bot.Failure = $"{TravelBudget:0}초 안에 {target}에 도달하지 못했다 (마지막 위치 {player.transform.position})";
-	}
-
-	static Vector3 ApproachSpot(Vector3 world)
-	{
-		Vector2Int tile = MapCoord.WorldToTile(world);
-		if (MapCoord.IsPassable(tile.x, tile.y))
-			return world;
-
-		for (int radius = 1; radius <= 3; radius++)
-		{
-			for (int dy = -radius; dy <= radius; dy++)
-			{
-				for (int dx = -radius; dx <= radius; dx++)
-				{
-					if (Mathf.Max(Mathf.Abs(dx), Mathf.Abs(dy)) != radius)
-						continue;
-
-					if (MapCoord.IsPassable(tile.x + dx, tile.y + dy))
-						return MapCoord.TileToWorld(tile.x + dx, tile.y + dy);
-				}
-			}
-		}
-
-		return world;
 	}
 
 	static void DisableEnemies()

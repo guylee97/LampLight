@@ -25,10 +25,6 @@ public class Container : MonoBehaviour, IInteractable
 	SpriteRenderer _renderer;
 
 	bool _opened;
-	bool _containsArtifact;
-
-	public bool HoldsArtifact { get { return _containsArtifact; } }
-	StageProgress _progress;
 
 	public Action<Container> OnOpened;
 
@@ -54,12 +50,6 @@ public class Container : MonoBehaviour, IInteractable
 	{
 		_closedKey = closedKey;
 		_renderer = renderer;
-	}
-
-	public void SetArtifact(StageProgress progress)
-	{
-		_progress = progress;
-		_containsArtifact = true;
 	}
 
 	public void Interact(PlayerController player)
@@ -96,17 +86,6 @@ public class Container : MonoBehaviour, IInteractable
 			transform.position,
 			Define.Sound.Self);
 		player.EmitNoise(_noiseRadius, _noiseDuration);
-
-		if (_containsArtifact && _progress != null)
-		{
-			_containsArtifact = false;
-			_progress.ReportCollected();
-			Managers.Sound.PlayAtPointOptional(
-				"유물 획득 소리/👍litupsubway-key-collect-sfx-522219",
-				"artifact_pickup",
-				transform.position,
-				Define.Sound.Guide);
-		}
 
 		if (OnOpened != null)
 			OnOpened.Invoke(this);
