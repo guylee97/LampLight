@@ -66,6 +66,20 @@ public class SceneSmokeTests
 		Assert.AreEqual(config.ArtifactsPlaced, placer.Artifacts.Count,
 			"배치된 공양물 수가 레벨 정의와 다르다");
 
+		// 굽는 쪽이 제단과의 거리와 소품을 피하는 자리를 정해둔다. 여기서 다시 뽑으면
+		// 테스트가 재는 맵과 실제로 노는 맵이 갈라진다.
+		foreach (Artifact artifact in placer.Artifacts)
+		{
+			MapPoint baked = Managers.Data.GetPoint(artifact.PointName);
+			Assert.IsNotNull(baked, $"{artifact.PointName}: 구운 좌표가 없다");
+
+			Vector2Int actual = MapCoord.WorldToTile(artifact.transform.position);
+			Assert.AreEqual(baked.col, actual.x,
+				$"{artifact.PointName}: 구운 자리가 아닌 곳에 놓였다");
+			Assert.AreEqual(baked.row, actual.y,
+				$"{artifact.PointName}: 구운 자리가 아닌 곳에 놓였다");
+		}
+
 		Assert.AreEqual(placer.Artifacts.Count, progress.Required,
 			"놓인 공양물은 전부 모아야 의식이 열린다");
 

@@ -6,6 +6,7 @@ build_ritual_maps 의 규칙으로 얹는다. 저작본에는 그 지점들이 �
 
 import argparse
 import json
+import math
 import os
 import re
 import sys
@@ -38,6 +39,11 @@ NEAR_START = {1: (5, 9)}
 
 # 공양물이 제단 코앞에 놓이면 모으러 다닐 이유가 없다.
 ALTAR_CLEARANCE = 8
+
+# 공양물은 소품에 깔리면 안 된다. 소품은 y 정렬상 공양물보다 앞에 그려질 수 있고,
+# 큰 소품(무덤, 구덩이 뚜껑, 석관) 옆에 붙으면 그 소품의 일부처럼 읽힌다.
+PROP_CLEARANCE = 1
+LARGE_CLEARANCE = 2
 
 # 게임이 실제 오브젝트로 스폰하는 것들. 저작본이 그려놨어도 장식으로 깔지 않는다.
 GAMEPLAY_CATEGORIES = ("artifact", "exit", "door")
@@ -206,6 +212,31 @@ def place_artifacts(free, width, height, reach, rooms, start, altar, want, gap,
             picked.append(cell)
 
     return picked[:want]
+
+
+def prop_shadow(data):
+    """소품이 덮는 타일과 그 둘레. 공양물을 여기에 놓으면 보이지 않거나 소품에 붙는다."""
+
+    height = data["height"]
+    blocked = set()
+
+    for deco in data.get("decorations", []):
+        if deco["key"].startswith(("prop_floor", "walldeco", "cobweb")):
+            continue
+
+        margin = LARGE_CLEARANCE if deco["key"].startswith("large_") else PROP_CLEARANCE
+
+        left = math.floor(deco["x"])
+        right = math.ceil(deco["x"] + deco["width"])
+        # 저작본 y 는 위에서 잰 값이고 타일 행도 위에서 세므로 그대로 쓴다.
+        top = math.floor(deco["y"] - deco["height"])
+        bottom = math.ceil(deco["y"])
+
+        for row in range(top - margin, bottom + margin):
+            for col in range(left - margin, right + margin):
+                blocked.add((col, row))
+
+    return blocked
 
 
 def named_altar(rooms, authored):
@@ -531,7 +562,15 @@ def place_objects(level, data, authored, free):
     objects = [point("player_start", *start_tile, height=height),
                point("exit_door", *altar_tile, height=height)]
 
-    spread = place_artifacts(walk, width, height, reach & wide or reach, rooms,
+    # 후보를 단계적으로 완화한다. 소품을 피하는 쪽이 넓은 칸보다 우선한다 —
+    # 좁은 데 놓인 공양물은 찾기 어렵지만, 소품에 깔린 공양물은 아예 안 보인다.
+    shadow = prop_shadow(data)
+    clear = ((reach & wide) - shadow
+             or reach - shadow
+             or reach & wide
+             or reach)
+
+    spread = place_artifacts(walk, width, height, clear, rooms,
                              start_room, altar_room, ARTIFACTS[level],
                              RADIUS[level] + 1.0,
                              path_field(walk, width, height, start_tile),

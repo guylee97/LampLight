@@ -125,6 +125,10 @@ public class Altar : MonoBehaviour, IInteractable
 
 		EnsureGlow();
 		EnsureOfferings();
+
+		// 제단도 같은 이유로 소품에 가린다. 공양물과 같은 규칙에 태운다.
+		if (GetComponent<WorldYSort>() == null)
+			gameObject.AddComponent<WorldYSort>();
 	}
 
 	void EnsureOfferings()

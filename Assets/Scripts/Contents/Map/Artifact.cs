@@ -93,6 +93,14 @@ public class Artifact : MonoBehaviour, IInteractable
 		_concealment = Mathf.Clamp(level, 0, 2);
 	}
 
+	// 프리팹은 sortingOrder 10 으로 고정돼 있었다. 장식은 WorldYSort 로 800~1000 대를
+	// 쓰기 때문에, 공양물 위에 소품이 하나라도 겹치면 그대로 가려져 안 보인다.
+	void Awake()
+	{
+		if (GetComponent<WorldYSort>() == null)
+			gameObject.AddComponent<WorldYSort>();
+	}
+
 	void Update()
 	{
 		if (_collected)

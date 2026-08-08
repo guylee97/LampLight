@@ -24,7 +24,6 @@ public class MapObjectPlacer : MonoBehaviour
 	readonly List<Artifact> _artifacts = new List<Artifact>();
 	Altar _altar;
 	Transform _parent;
-	System.Random _rng;
 
 	public IReadOnlyList<Artifact> Artifacts { get { return _artifacts; } }
 	public Altar Altar { get { return _altar; } }
@@ -41,11 +40,6 @@ public class MapObjectPlacer : MonoBehaviour
 
 	public void Place(int maxArtifacts, float artifactRadiusTiles, int level)
 	{
-		Place(maxArtifacts, artifactRadiusTiles, level, Determinism.Stream(level));
-	}
-
-	public void Place(int maxArtifacts, float artifactRadiusTiles, int level, System.Random rng)
-	{
 		MapData map = Managers.Data.Map;
 		if (map == null)
 		{
@@ -60,22 +54,21 @@ public class MapObjectPlacer : MonoBehaviour
 
 		Transform parent = _root != null ? _root : transform;
 		_parent = parent;
-		_rng = rng ?? Determinism.Stream(level);
 
-		List<MapPoint> artifactPoints = new List<MapPoint>();
+		// 맵을 구울 때 정한 자리를 그대로 쓴다. 굽는 쪽이 제단과의 거리, 공양물 사이
+		// 간격, 소품에 가리지 않을 것을 전부 보장해 두는데, 여기서 다시 뽑으면
+		// 그 보장이 전부 버려지고 테스트가 재는 맵과 실제로 노는 맵이 갈라진다.
+		int placed = 0;
 		foreach (MapPoint point in map.objects)
 		{
-			if (point.name.StartsWith(ArtifactPrefix) && artifactPoints.Count < maxArtifacts)
-				artifactPoints.Add(point);
-		}
+			if (point.name.StartsWith(ArtifactPrefix) == false)
+				continue;
 
-		List<Vector2Int> candidates = CollectWalkableTiles(map);
-		for (int i = 0; i < artifactPoints.Count && candidates.Count > 0; i++)
-		{
-			int index = _rng.Next(candidates.Count);
-			Vector2Int tile = candidates[index];
-			candidates.RemoveAt(index);
-			PlaceArtifactAt(artifactPoints[i], tile, parent);
+			if (placed >= maxArtifacts)
+				break;
+
+			PlaceArtifact(point, parent);
+			placed++;
 		}
 
 		PlaceExitDoorFromMap(map, parent);
@@ -172,21 +165,6 @@ public class MapObjectPlacer : MonoBehaviour
 		PlaceExitDoor(point, parent);
 	}
 
-	static List<Vector2Int> CollectWalkableTiles(MapData map)
-	{
-		List<Vector2Int> candidates = new List<Vector2Int>();
-		for (int row = 0; row < map.height; row++)
-		{
-			for (int col = 0; col < map.width; col++)
-			{
-				if (MapCoord.IsPassable(col, row))
-					candidates.Add(new Vector2Int(col, row));
-			}
-		}
-
-		return candidates;
-	}
-
 	void PlaceArtifact(MapPoint point, Transform parent)
 	{
 		GameObject go = Managers.Resource.Instantiate(_artifactPath, parent);
@@ -204,19 +182,6 @@ public class MapObjectPlacer : MonoBehaviour
 
 		artifact.Init(_progress, point.name);
 		_artifacts.Add(artifact);
-	}
-
-	void PlaceArtifactAt(MapPoint source, Vector2Int tile, Transform parent)
-	{
-		MapPoint randomized = new MapPoint
-		{
-			name = source.name,
-			col = tile.x,
-			row = tile.y,
-			x = tile.x + 0.5f,
-			y = Managers.Data.Map.height - tile.y - 0.5f,
-		};
-		PlaceArtifact(randomized, parent);
 	}
 
 	void PlaceExitDoor(MapPoint point, Transform parent)

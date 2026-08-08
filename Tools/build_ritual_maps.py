@@ -54,6 +54,11 @@ PROP_SCALE = {
     "container_chest": 3 / 4,
     "large_statue_kneeling": 3 / 4,
     "prop_candle_tall": 2 / 5,
+    # 아래 넷은 배율이 없어 1.0 으로 그려지고 있었다. 촛대가 사람 키의 절반이었다.
+    "prop_candle_holder": 0.45,
+    "prop_candle_leaning": 0.42,
+    "prop_candle_melted": 0.55,
+    "prop_candle_fallen": 0.80,
     "prop_railing": 1.0,
     "prop_gravestone": 5 / 8,
     "debris_shelf": 1.0,

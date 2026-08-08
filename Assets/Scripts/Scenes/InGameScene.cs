@@ -83,18 +83,17 @@ public class InGameScene : MonoBehaviour
 
 		ApplyLevelConfig(config);
 
-		System.Random rng = new System.Random(configured < 0 ? Determinism.Seed : configured);
 		_placer.Place(
 			config.ArtifactsPlaced,
 			config.ArtifactRadiusTiles,
-			config.Level,
-			rng);
+			config.Level);
 
 		if (_placer.Altar != null)
 			_placer.Altar.SetChannelSeconds(config.RitualSeconds);
 
+		// 공양물 자리는 구운 값을 그대로 쓰지만 요괴 스폰은 후보 중에서 뽑는다.
 		if (_selector.Select())
-			ApplySpawnPair(config, rng);
+			ApplySpawnPair(config, new System.Random(configured < 0 ? Determinism.Seed : configured));
 
 		_hud = Managers.UI.ShowSceneUI<UI_InGame>();
 		_hud.Setup(_progress, _player);
