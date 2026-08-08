@@ -11,7 +11,7 @@ public class StageCompletionTests
 	const float TargetRadius = 0.7f;
 	const float SecondsPerTile = 0.9f;
 	const float LegSlack = 4.0f;
-	const float TravelBudget = 120.0f;
+	const float TravelBudget = 40.0f;
 	const float BotSlowdown = 3.0f;
 
 	[UnityTest]
@@ -30,7 +30,7 @@ public class StageCompletionTests
 
 		DisableEnemies();
 		float lampBudget = HoldTheLamp(player);
-		float startedAt = Time.time;
+		float startedAt = Time.unscaledTime;
 
 		PlayBot bot = new PlayBot(player.transform);
 
@@ -99,9 +99,9 @@ public class StageCompletionTests
 	IEnumerator Travel(PlayBot bot, PlayerController player, Vector3 target, float arriveRadius)
 	{
 		List<Vector2Int> path = new List<Vector2Int>();
-		float deadline = Time.time + TravelBudget;
+		float deadline = Time.unscaledTime + TravelBudget;
 
-		while (Time.time < deadline)
+		while (Time.unscaledTime < deadline)
 		{
 			// 유물을 줍거나 전각이 바뀌면 대사가 떠서 게임이 멈춘다. 사람이 넘기듯 치운다.
 			if (UI_Dialogue.IsShowing)

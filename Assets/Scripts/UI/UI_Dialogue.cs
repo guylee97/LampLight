@@ -55,7 +55,7 @@ public class UI_Dialogue : MonoBehaviour
 		}
 
 		s_instance._group.alpha = 0.0f;
-		Release();
+		ReleaseAll();
 	}
 
 	static UI_Dialogue Resolve()
@@ -80,13 +80,17 @@ public class UI_Dialogue : MonoBehaviour
 		}
 
 		s_instance = this;
+		ReleaseAll();
 		Build();
 	}
 
 	void OnDestroy()
 	{
-		if (s_instance == this)
-			s_instance = null;
+		if (s_instance != this)
+			return;
+
+		s_instance = null;
+		ReleaseAll();
 	}
 
 	void Build()
@@ -205,6 +209,15 @@ public class UI_Dialogue : MonoBehaviour
 
 		if (s_holds == 1)
 			Time.timeScale = 0.0f;
+	}
+
+	static void ReleaseAll()
+	{
+		if (s_holds == 0)
+			return;
+
+		s_holds = 0;
+		Time.timeScale = 1.0f;
 	}
 
 	static void Release()
