@@ -85,7 +85,7 @@ public class UI_Result : UI_Popup
 
 		detail.text = game.HasNextLevel
 			? "더 깊은 곳이 남아 있다"
-			: "이 절의 모든 봉인을 마쳤다";
+			: "이 신전의 모든 봉인을 마쳤다";
 	}
 
 	void OnRetry(PointerEventData data)

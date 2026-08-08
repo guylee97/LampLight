@@ -207,7 +207,7 @@ public class InGameScene : MonoBehaviour
 		}
 
 		UI_Dialogue.Say(
-			"눈을 떠보니 버려진 절이야. 등불 하나 남았고.",
+			"눈을 떠보니 버려진 신전이야. 등불 하나 남았고.",
 			"제단이 비어 있어. 이 불 꺼지기 전에 채워야겠지.");
 	}
 
