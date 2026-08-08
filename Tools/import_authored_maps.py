@@ -241,6 +241,20 @@ def pick_spawns(free, width, height, start, reach, map_height):
 
 ACTOR_HALF_W, ACTOR_HALF_H, ACTOR_FOOT = 0.31, 0.16, -0.317
 
+_PASSABILITY = {}
+
+
+def passability(key):
+    if not _PASSABILITY:
+        with open(os.path.join(ROOT, "docs", "collision_map.json"),
+                  encoding="utf-8") as handle:
+            for name, entry in json.load(handle)["assets"].items():
+                verdict = entry["passability"] if isinstance(entry, dict) else entry
+                base = os.path.splitext(name)[0]
+                _PASSABILITY[base[4:] if base.startswith("obj_") else base] = verdict
+
+    return _PASSABILITY.get(key)
+
 
 def collider_tiles(decorations, width, height):
     """장식 콜라이더가 덮는 칸. MapCoord.BuildBlockedTiles 와 같은 식이어야 한다.
@@ -348,6 +362,46 @@ def components(collision, width, height):
     return found
 
 
+def clear_tight_spots(data, rules, cache):
+    """좁은 자리를 막는 장식을 걷어낸다.
+
+    방 한가운데를 막는 건 지형이지만, 3x3 여유가 없는 칸을 막으면 문이나 복도를
+    닫는 것이다. 플레이어는 돌아갈 길이 있어도 막힌 것으로 읽는다.
+    """
+
+    width, height = data["width"], data["height"]
+    walls = data["walls"]
+    free = [walls[i] == 0 for i in range(width * height)]
+
+    # 2x2 가 잡히면 통로가 아니라 방이다. 3x3 을 쓰면 벽에 붙은 정상 소품까지 날아간다.
+    roomy = set()
+    for r in range(height - 1):
+        for c in range(width - 1):
+            if all(free[(r + dr) * width + c + dc]
+                   for dr in (0, 1) for dc in (0, 1)):
+                for dr in (0, 1):
+                    for dc in (0, 1):
+                        roomy.add((c + dc, r + dr))
+
+    dropped = []
+    for deco in list(data["decorations"]):
+        if not deco["collisionEnabled"]:
+            continue
+
+        tiles = collider_tiles([deco], width, height)
+        if not tiles:
+            continue
+
+        if any(t not in roomy for t in tiles if free[t[1] * width + t[0]]):
+            data["decorations"].remove(deco)
+            dropped.append(deco["key"])
+
+    if dropped:
+        data["collision"] = collision_for(data, rules, cache)
+
+    return dropped
+
+
 def open_severed_passages(data, rules, cache):
     """통행 영역이 하나로 이어질 때까지, 길을 끊은 장식을 걷어낸다.
 
@@ -420,7 +474,13 @@ def build_terrain(level, template):
         if not wall_mounted and (not (0 <= base < height) or not free[base * width + col]):
             continue
 
-        decorations.append(as_decoration(entry, col, row))
+        piece = as_decoration(entry, col, row)
+
+        # 판정표가 권위다. 매니페스트가 콜라이더를 달아도 표가 통과라면 통과다.
+        if passability(entry["key"]) == "walk":
+            piece["collisionEnabled"] = False
+
+        decorations.append(piece)
 
     data = dict(template)
     data.update({
@@ -516,8 +576,9 @@ def main():
             data = json.load(handle)
 
         data["collision"] = collision_for(data, rules, cache)
+        tight = clear_tight_spots(data, rules, cache)
         opened, stranded = open_severed_passages(data, rules, cache)
-        repairs[level] = (opened, stranded)
+        repairs[level] = (tight, opened, stranded)
 
         with open(path, "w", encoding="utf-8") as handle:
             json.dump(data, handle, ensure_ascii=False, separators=(",", ":"))
@@ -545,7 +606,9 @@ def main():
         if len(components(data["collision"], data["width"], data["height"])) != 1:
             raise SystemExit(f"L{level}: 통행 영역이 하나로 안 이어진다")
 
-        opened, stranded = repairs[level]
+        tight, opened, stranded = repairs[level]
+        if tight:
+            print(f"     좁은 자리를 막던 장식 {len(tight)}개 제거")
         if opened:
             print(f"     길을 끊던 장식 {len(opened)}개 제거: {sorted(set(opened))}")
         if stranded:
