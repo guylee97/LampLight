@@ -4,6 +4,10 @@ using UnityEngine;
 
 // 올린 공양물을 제단 앞에 실제로 늘어놓는다. 숫자 프롬프트만으로는
 // 무엇을 몇 개 바쳤는지 화면에서 읽히지 않는다.
+//
+// 여기서 만드는 것은 스프라이트뿐이다 — 콜라이더도 IInteractable 도 붙이지 않는다.
+// 하나라도 붙으면 PlayerInteractor 의 OverlapCircle 에 걸려서 바친 것을
+// 제단 앞에서 도로 주울 수 있게 된다.
 public class AltarOfferings : MonoBehaviour
 {
 	public const string LitMaterialResource = "Image/M_SpriteLit";

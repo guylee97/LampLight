@@ -83,6 +83,22 @@ public class StageCompletionTests
 		Assert.AreEqual(progress.Required, laid.Count,
 			"올린 공양물이 제단 앞에 그만큼 놓여 있어야 한다 — 숫자만 오르면 화면에서 안 읽힌다");
 
+		// 올린 공양물은 눈에만 남는다. 콜라이더가 붙는 순간 PlayerInteractor 의
+		// OverlapCircle 에 걸려 제단 앞에서 도로 주울 수 있게 된다.
+		foreach (Collider2D body in laid.GetComponentsInChildren<Collider2D>(true))
+		{
+			Assert.AreSame(altar.gameObject, body.gameObject,
+				$"{body.gameObject.name}: 올린 공양물에 콜라이더가 붙었다 — 다시 주울 수 있게 된다");
+		}
+
+		foreach (Artifact artifact in placer.Artifacts)
+		{
+			Assert.IsFalse(artifact.CanInteract,
+				$"{artifact.PointName}: 이미 바친 공양물을 다시 주울 수 있다");
+			Assert.IsFalse(artifact.gameObject.activeInHierarchy,
+				$"{artifact.PointName}: 바친 공양물이 아직 맵에 남아 있다");
+		}
+
 		float elapsed = Time.time - startedAt;
 		Assert.Less(elapsed, lampBudget * BotSlowdown,
 			$"봇이 한 바퀴 도는 데 {elapsed:0.0}초 걸렸다 — 등불 {lampBudget:0}초의 "
