@@ -126,7 +126,7 @@ public class SceneSmokeTests
 	}
 
 	[UnityTest]
-	public IEnumerator EnemiesStartAwayFromThePlayer()
+	public IEnumerator EnemiesWakeAwayFromThePlayer()
 	{
 		yield return QaScene.Load();
 
@@ -134,10 +134,20 @@ public class SceneSmokeTests
 		Vector2Int start = MapCoord.WorldToTile(player.transform.position);
 		int[] field = MapPathfinder.DistanceField(start.x, start.y);
 
+		Assert.IsEmpty(Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None),
+			"씬이 열릴 때는 신전이 비어 있어야 한다");
+
+		EnemySpawner spawner = Object.FindFirstObjectByType<EnemySpawner>();
+		SpawnSelector selector = Object.FindFirstObjectByType<SpawnSelector>();
+		Assert.IsNotNull(spawner, "씬에 EnemySpawner가 없다");
+		Assert.IsNotNull(selector, "씬에 SpawnSelector가 없다");
+
+		LevelConfig config = LevelTable.Get(Managers.Game.CurrentLevel);
+		spawner.Spawn(config, selector.PlayerStart, new System.Random(9137));
+
 		List<string> tooClose = new List<string>();
 
 		EnemyBase[] enemies = Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
-		LevelConfig config = LevelTable.Get(Managers.Game.CurrentLevel);
 		int expected = config.YokaiCount;
 
 		Assert.AreEqual(expected, enemies.Length,

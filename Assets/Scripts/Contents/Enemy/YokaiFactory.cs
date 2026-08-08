@@ -2,10 +2,7 @@ using UnityEngine;
 
 public static class YokaiFactory
 {
-	public const int PixelsPerUnit = 32;
 	public const string LitMaterialResource = "Image/M_SpriteLit";
-
-	const float FallbackColliderTiles = 1.25f;
 
 	public static GameObject Build(YokaiSpec spec, Transform parent)
 	{
@@ -31,9 +28,12 @@ public static class YokaiFactory
 		body.constraints = RigidbodyConstraints2D.FreezeRotation;
 		body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
+		// 통행 가능 여부는 플레이어 발치 상자(0.62 x 0.32)로 굽는다. 요괴 몸통이
+		// 그보다 크면 길찾기는 갈 수 있다고 하고 물리는 막아서 좁은 데서 낀다.
+		// 어느 방향으로든 그 상자에 들어가는 가장 큰 원이 곧 이 반지름이다.
 		CircleCollider2D collider = go.AddComponent<CircleCollider2D>();
-		collider.radius = ColliderRadius(characterKey);
-		collider.offset = Vector2.zero;
+		collider.radius = MapCoord.ActorHalfHeight;
+		collider.offset = new Vector2(0.0f, MapCoord.ActorFootOffset);
 
 		DirectionalSpriteAnimator animator = go.AddComponent<DirectionalSpriteAnimator>();
 		animator.UseRenderer(renderer);
@@ -57,15 +57,5 @@ public static class YokaiFactory
 			$"YokaiFactory: '{characterKey}' 스프라이트가 아직 없어 '{fallback}' 로 대체한다");
 
 		return fallback;
-	}
-
-	static float ColliderRadius(string characterKey)
-	{
-		CharacterSpec spec = CharacterCatalog.Get(characterKey);
-
-		if (spec == null || spec.colliderW <= 0.0f)
-			return FallbackColliderTiles * 0.5f;
-
-		return spec.colliderW / PixelsPerUnit * 0.5f;
 	}
 }

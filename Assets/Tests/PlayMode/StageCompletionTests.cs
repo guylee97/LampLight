@@ -13,6 +13,7 @@ public class StageCompletionTests
 	const float LegSlack = 4.0f;
 	const float TravelBudget = 40.0f;
 	const float BotSlowdown = 3.0f;
+	const float EnemySweepSeconds = 0.3f;
 
 	[UnityTest]
 	[Timeout(600000)]
@@ -69,6 +70,7 @@ public class StageCompletionTests
 		float sealDeadline = Time.unscaledTime + 30.0f;
 		while (outcome == Define.StageResult.None && Time.unscaledTime < sealDeadline)
 		{
+			DisableEnemies();
 			yield return bot.HoldKey(Key.E, altar.HoldSeconds + 0.2f);
 			yield return null;
 		}
@@ -107,11 +109,23 @@ public class StageCompletionTests
 
 	IEnumerator Travel(PlayBot bot, PlayerController player, Vector3 target, float arriveRadius)
 	{
+		// 요괴는 첫 공양물 뒤에 스스로 깨어난다. 이 시험이 보는 것은 한 바퀴 도는
+		// 동선이지 생존이 아니고, 봇은 사람보다 세 배 느려서 붙으면 반드시 잡힌다.
+		// 깨어나자마자 다시 재운다 — 감각 유예 6초보다 훨씬 촘촘히 훑는다.
+		DisableEnemies();
+		float nextSweep = Time.unscaledTime + EnemySweepSeconds;
+
 		List<Vector2Int> path = new List<Vector2Int>();
 		float deadline = Time.unscaledTime + TravelBudget;
 
 		while (Time.unscaledTime < deadline)
 		{
+			if (Time.unscaledTime >= nextSweep)
+			{
+				DisableEnemies();
+				nextSweep = Time.unscaledTime + EnemySweepSeconds;
+			}
+
 			// 유물을 줍거나 전각이 바뀌면 대사가 떠서 게임이 멈춘다. 사람이 넘기듯 치운다.
 			if (UI_Dialogue.IsShowing)
 				UI_Dialogue.Clear();

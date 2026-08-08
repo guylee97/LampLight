@@ -9,6 +9,13 @@ public class InGameScene : MonoBehaviour
 	const string DistantCueFallback = "zombie_idle_3";
 	const float DistantCueSeconds = 9.0f;
 	const float SpawnGraceSeconds = 6.0f;
+
+	// 요괴는 처음부터 있지 않다. 신전은 조용하고, 공양물을 건드려서 깨어난다.
+	// 한 박자 두고 나타나야 원인과 결과로 읽힌다 — 집는 즉시 나오면 우연처럼 보인다.
+	const float WakeAfterOfferingSeconds = 3.0f;
+
+	// 아무것도 줍지 않아도 언젠가는 깨어난다. 빈 신전을 끝까지 걷게 두지 않는다.
+	const float WakeCeilingShare = 0.25f;
 	const int DistantCueMinTiles = 12;
 	const int DistantCueMaxTiles = 20;
 
@@ -91,9 +98,8 @@ public class InGameScene : MonoBehaviour
 		if (_placer.Altar != null)
 			_placer.Altar.SetChannelSeconds(config.RitualSeconds);
 
-		// 공양물 자리는 구운 값을 그대로 쓰지만 요괴 스폰은 후보 중에서 뽑는다.
 		if (_selector.Select())
-			ApplySpawnPair(config, new System.Random(configured < 0 ? Determinism.Seed : configured));
+			PlacePlayer();
 
 		_hud = Managers.UI.ShowSceneUI<UI_InGame>();
 		_hud.Setup(_progress, _player);
@@ -105,6 +111,56 @@ public class InGameScene : MonoBehaviour
 		OpeningLines(config);
 
 		StartCoroutine(DistantCue());
+		StartCoroutine(WakeYokai(config, configured));
+	}
+
+	/// 정적 → 기척 → 사냥. 등불이 2.9타일만 밝히니 먼 목격은 성립하지 않는다.
+	/// 등장은 소리로 알리고, 눈으로 보는 순간은 등불 안에 들어올 때다.
+	IEnumerator WakeYokai(LevelConfig config, int seed)
+	{
+		float ceiling = config.LampSeconds * WakeCeilingShare;
+		float started = Time.time;
+
+		while (_progress.Collected == 0 && Time.time - started < ceiling)
+			yield return null;
+
+		if (_progress.Collected > 0)
+			yield return new WaitForSeconds(WakeAfterOfferingSeconds);
+
+		// 먼 곳의 기척(9초)이 먼저 깔린 뒤에 깨어나야 순서가 맞는다.
+		while (Time.time - started < DistantCueSeconds + 1.0f)
+			yield return null;
+
+		Wake(config, seed);
+	}
+
+	void Wake(LevelConfig config, int seed)
+	{
+		if (_spawner == null)
+		{
+			PushEnemiesAwayFrom(_selector.PlayerStart);
+			return;
+		}
+
+		// 시작점이 아니라 지금 서 있는 자리에서 거리를 잰다.
+		Vector2Int tile = MapCoord.WorldToTile(_player.transform.position);
+		MapPoint here = new MapPoint { name = "player_now", col = tile.x, row = tile.y };
+
+		_spawner.Spawn(config, here, new System.Random(seed < 0 ? Determinism.Seed : seed));
+
+		foreach (EnemyBase enemy in _spawner.Spawned)
+		{
+			MaskYokai yokai = enemy as MaskYokai;
+			if (yokai == null)
+				continue;
+
+			yokai.HoldSensesFor(SpawnGraceSeconds);
+
+			// 어디서 깨어났는지 소리로만 알린다. 그 자리는 등불 밖이라 보이지 않는다.
+			Managers.Sound.PlayAtPointOptional(
+				DistantCueClip, DistantCueFallback,
+				yokai.transform.position, Define.Sound.Threat, 0.85f);
+		}
 	}
 
 	IEnumerator DistantCue()
@@ -276,34 +332,17 @@ public class InGameScene : MonoBehaviour
 		return false;
 	}
 
-	void ApplySpawnPair(LevelConfig config, System.Random rng)
+	void PlacePlayer()
 	{
-		Vector3 start = _selector.PlayerStartWorld();
-		_player.Teleport(start);
+		_player.Teleport(_selector.PlayerStartWorld());
 
-		if (_camera != null)
-		{
-			if (_camera.Target == null)
-				_camera.Target = _player.transform;
+		if (_camera == null)
+			return;
 
-			_camera.SnapToTarget();
-		}
+		if (_camera.Target == null)
+			_camera.Target = _player.transform;
 
-		if (_spawner != null)
-		{
-			_spawner.Spawn(config, _selector.PlayerStart, rng);
-
-			foreach (EnemyBase enemy in _spawner.Spawned)
-			{
-				MaskYokai yokai = enemy as MaskYokai;
-				if (yokai != null)
-					yokai.HoldSensesFor(SpawnGraceSeconds);
-			}
-		}
-		else
-		{
-			PushEnemiesAwayFrom(_selector.PlayerStart);
-		}
+		_camera.SnapToTarget();
 	}
 
 	void PushEnemiesAwayFrom(MapPoint start)

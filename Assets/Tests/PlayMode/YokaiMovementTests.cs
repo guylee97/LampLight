@@ -9,13 +9,55 @@ public class YokaiMovementTests
 	const float WatchSeconds = 4.0f;
 	const float MinTravel = 1.0f;
 
+	/// 요괴는 씬이 열릴 때 없다. 움직임을 보려면 먼저 깨워야 한다.
+	static MaskYokai Wake()
+	{
+		EnemySpawner spawner = Object.FindFirstObjectByType<EnemySpawner>();
+		Assert.IsNotNull(spawner, "씬에 EnemySpawner가 없다");
+
+		SpawnSelector selector = Object.FindFirstObjectByType<SpawnSelector>();
+		Assert.IsNotNull(selector, "씬에 SpawnSelector가 없다");
+
+		spawner.Spawn(Managers.Game.Level, selector.PlayerStart, new System.Random(4231));
+
+		MaskYokai yokai = Object.FindFirstObjectByType<MaskYokai>();
+		Assert.IsNotNull(yokai, "요괴가 스폰되지 않았다");
+		return yokai;
+	}
+
+	[UnityTest]
+	public IEnumerator NoYokaiStandsInTheTempleAtOpening()
+	{
+		yield return QaScene.Load();
+
+		Assert.IsNull(Object.FindFirstObjectByType<MaskYokai>(),
+			"신전은 조용해야 한다 — 요괴는 공양물을 건드린 뒤에 깨어난다");
+	}
+
+	[UnityTest]
+	public IEnumerator YokaiFitsWhereverThePlayerFits()
+	{
+		yield return QaScene.Load();
+
+		MaskYokai yokai = Wake();
+
+		CircleCollider2D body = yokai.GetComponent<CircleCollider2D>();
+		Assert.IsNotNull(body, "요괴에 몸통 콜라이더가 없다");
+
+		// 통행 판정은 플레이어 발치 상자로 굽는다. 요괴가 그보다 크면
+		// 길찾기는 통과한다고 하고 물리는 막아서 좁은 데서 낀다.
+		Assert.LessOrEqual(body.radius, MapCoord.ActorHalfHeight + 0.001f,
+			$"요괴 반지름 {body.radius}가 액터 발자국({MapCoord.ActorHalfHeight})보다 크다");
+		Assert.AreEqual(MapCoord.ActorFootOffset, body.offset.y, 0.001f,
+			"요괴 충돌이 발이 아니라 몸통 한가운데에 있다");
+	}
+
 	[UnityTest]
 	public IEnumerator YokaiSpawnsAndActuallyMoves()
 	{
 		yield return QaScene.Load();
 
-		MaskYokai yokai = Object.FindFirstObjectByType<MaskYokai>();
-		Assert.IsNotNull(yokai, "요괴가 스폰되지 않았다");
+		MaskYokai yokai = Wake();
 
 		Vector2 start = yokai.transform.position;
 		Vector2Int tile = MapCoord.WorldToTile(start);
@@ -53,8 +95,7 @@ public class YokaiMovementTests
 	{
 		yield return QaScene.Load();
 
-		MaskYokai yokai = Object.FindFirstObjectByType<MaskYokai>();
-		Assert.IsNotNull(yokai);
+		MaskYokai yokai = Wake();
 
 		Vector2 start = yokai.transform.position;
 		float farthest = 0.0f;
