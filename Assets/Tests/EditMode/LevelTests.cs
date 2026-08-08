@@ -128,13 +128,36 @@ public class LevelTests
 	}
 
 	[Test]
-	public void FirstLevelFitsInsideOneLampBurn()
+	public void StandingStillNeverEatsTheLamp()
 	{
-		LevelConfig config = LevelTable.Get(1);
-		float ritualCost = config.ArtifactsRequired * config.RitualSeconds;
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			LevelConfig config = LevelTable.Get(level);
 
-		Assert.LessOrEqual(ritualCost, config.LampSeconds * 0.5f,
-			"L1은 의식에 등불의 절반 이상을 쓰면 안 된다 — 찾을 시간이 남지 않는다");
+			// 앞의 것들은 내려놓기만 하고 마지막 하나가 의식을 연다.
+			float standing = (config.ArtifactsRequired - 1) * Altar.PlaceSeconds + config.RitualSeconds;
+
+			Assert.LessOrEqual(standing, config.LampSeconds * 0.2f,
+				$"L{level}: 제단 앞에 서 있는 {standing:0.0}초가 등불의 20%를 넘는다 — "
+				+ "어둠 속에 못 박혀 있는 시간이 너무 길다");
+		}
+	}
+
+	[Test]
+	public void NoYokaiOutrunsThePlayer()
+	{
+		const float PlayerRunSpeed = 4.0f;
+
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			YokaiSpec spec = YokaiTable.ForLevel(level);
+
+			// 추격 속도가 달리기보다 빠르면 들킨 순간 대응할 방법이 없다.
+			// 집요함은 속도가 아니라 포기하지 않는 것으로 만든다.
+			Assert.Less(spec.ChaseSpeed, PlayerRunSpeed,
+				$"L{level} {spec.Label}: 추격 {spec.ChaseSpeed}가 달리기 {PlayerRunSpeed} 이상이라 "
+				+ "발각되면 반드시 잡힌다");
+		}
 	}
 
 	[Test]

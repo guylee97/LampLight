@@ -88,13 +88,17 @@ public class LampTests
 	}
 
 	[Test]
-	public void LightConeRejectsTargetsBehindAndOutOfRange()
+	public void LightReachesEveryDirectionAndStopsAtTheRange()
 	{
 		_host.transform.position = Vector3.zero;
 		_host.transform.rotation = Quaternion.identity;
 
-		Assert.IsFalse(_lamp.IsInLightCone(new Vector3(0, -3, 0)));
+		// 등불은 부채꼴이 아니라 원형이다. 바라보는 쪽이 없으니 뒤도 없다.
+		Assert.IsTrue(_lamp.IsInLightCone(new Vector3(0, -(_lamp.Range - 0.5f), 0)));
+		Assert.IsTrue(_lamp.IsInLightCone(new Vector3(-(_lamp.Range - 0.5f), 0, 0)));
+
 		Assert.IsFalse(_lamp.IsInLightCone(new Vector3(0, _lamp.Range + 5, 0)));
+		Assert.IsFalse(_lamp.IsInLightCone(new Vector3(_lamp.Range + 5, 0, 0)));
 	}
 
 	[Test]

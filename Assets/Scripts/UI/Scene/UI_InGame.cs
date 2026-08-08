@@ -14,7 +14,6 @@ public class UI_InGame : UI_Scene
 	enum Images
 	{
 		FuelFill,
-		StaminaFill,
 	}
 
 	[SerializeField]
@@ -22,7 +21,6 @@ public class UI_InGame : UI_Scene
 
 	StageProgress _progress;
 	PlayerController _player;
-	PlayerStatus _status;
 	PlayerInteractor _interactor;
 	Lamp _lamp;
 	bool _ready;
@@ -41,7 +39,6 @@ public class UI_InGame : UI_Scene
 
 		if (_player != null)
 		{
-			_status = _player.Status;
 			_lamp = _player.Lamp;
 			_interactor = _player.GetComponent<PlayerInteractor>();
 		}
@@ -262,7 +259,14 @@ public class UI_InGame : UI_Scene
 
 		_holdProgressRoot.SetActive(visible);
 		if (visible)
-			_holdProgressText.text = $"뒤지는 중  {_interactor.HoldRemainingSeconds:0.0}초";
+		{
+			// 무엇을 하는 중인지는 대상만 안다. 공양물을 올릴 때 '뒤지는 중'이 뜨면 안 된다.
+			string doing = _interactor.Current.HoldingLabel;
+			if (string.IsNullOrEmpty(doing))
+				doing = "하는 중";
+
+			_holdProgressText.text = $"{doing}  {_interactor.HoldRemainingSeconds:0.0}초";
+		}
 	}
 
 	void HideStatusBars()

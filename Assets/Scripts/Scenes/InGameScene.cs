@@ -16,6 +16,11 @@ public class InGameScene : MonoBehaviour
 
 	// 아무것도 줍지 않아도 언젠가는 깨어난다. 빈 신전을 끝까지 걷게 두지 않는다.
 	const float WakeCeilingShare = 0.25f;
+
+	// 봉인 직후 다음 맵이 바로 튀어나오면 방금 무슨 일이 있었는지 앉을 자리가 없다.
+	const float FadeOutSeconds = 0.6f;
+	const float BlackSeconds = 0.5f;
+	const float FadeInSeconds = 0.7f;
 	const int DistantCueMinTiles = 12;
 	const int DistantCueMaxTiles = 20;
 
@@ -108,10 +113,47 @@ public class InGameScene : MonoBehaviour
 		_progress.OnArtifactCollected += OnArtifactCollected;
 		MaskYokai.OnLostInDark += OnLostInDark;
 
+		DialogueDirector.Ensure().Build(config.Level, _progress, _player.transform, _deco);
+
+		StartCoroutine(EnterStage(config, configured));
+	}
+
+	/// 앞 전각에서 검게 덮고 넘어왔으면 걷어내고 시작한다.
+	/// 대사는 화면이 보인 뒤에 띄운다 — 검은 화면에 글만 뜨면 어디인지 알 수 없다.
+	IEnumerator EnterStage(LevelConfig config, int seed)
+	{
+		if (ScreenFade.IsBlack)
+			yield return ScreenFade.To(0.0f, FadeInSeconds);
+
 		OpeningLines(config);
 
 		StartCoroutine(DistantCue());
-		StartCoroutine(WakeYokai(config, configured));
+		StartCoroutine(WakeYokai(config, seed));
+		StartCoroutine(WatchFirstRun());
+	}
+
+	/// 처음 달린 직후에만 말한다. 발소리가 방금 크게 울린 참이라
+	/// 규칙을 설명하는 게 아니라 방금 겪은 걸 확인해주는 문장이 된다.
+	IEnumerator WatchFirstRun()
+	{
+		DialogueBeat beat = DialogueTable.Book.firstRun;
+		if (beat == null || beat.lines == null || beat.lines.Length == 0)
+			yield break;
+
+		if (DialogueMemory.HasSeen(beat.id))
+			yield break;
+
+		while (_player != null && _player.IsRunning == false)
+			yield return null;
+
+		if (_player == null)
+			yield break;
+
+		// 한 걸음은 뛰어보고 나서 말한다.
+		yield return new WaitForSeconds(0.8f);
+
+		DialogueMemory.MarkSeen(beat.id);
+		UI_Dialogue.Say(DialogueTable.Speaker(beat.voice), beat.lines);
 	}
 
 	/// 정적 → 기척 → 사냥. 등불이 2.9타일만 밝히니 먼 목격은 성립하지 않는다.
@@ -249,21 +291,19 @@ public class InGameScene : MonoBehaviour
 			Managers.Game.GameOver();
 	}
 
+	bool _openingSaid;
+
 	void OpeningLines(LevelConfig config)
 	{
+		if (_openingSaid)
+			return;
+
+		_openingSaid = true;
 		UI_Dialogue.Clear();
 
-		if (config.Level > LevelTable.MinLevel)
-		{
-			UI_Dialogue.Say(
-				"안쪽으로 더 들어왔어.",
-				"아까 그게 끝이 아니었나 봐.");
-			return;
-		}
-
-		UI_Dialogue.Say(
-			"눈을 떠보니 버려진 신전이야. 등불 하나 남았고.",
-			"제단이 비어 있어. 이 불 꺼지기 전에 채워야겠지.");
+		DialogueOpening opening = DialogueTable.OpeningEntry(config.Level);
+		if (opening != null && opening.lines != null && opening.lines.Length > 0)
+			UI_Dialogue.Say(DialogueTable.Speaker(opening.voice), opening.lines);
 	}
 
 	void OnArtifactCollected(int collected, int required)
@@ -271,8 +311,11 @@ public class InGameScene : MonoBehaviour
 		if (_player != null)
 			FallingDust.Burst(_player.transform.position + Vector3.up * 1.4f, 7, 1.1f, collected * 977);
 
-		string count = collected >= required ? "다 모았어. 제단으로." : "하나 찾았어. 아직 모자라.";
+		string count = DialogueTable.PickupLine(collected, required);
 		string sense = OfferingLine(collected);
+
+		if (string.IsNullOrEmpty(count))
+			return;
 
 		if (sense == null)
 			UI_Dialogue.Say(count);
@@ -418,12 +461,22 @@ public class InGameScene : MonoBehaviour
 
 		if (Managers.Game.HasNextLevel)
 		{
-			Managers.Game.AdvanceLevel();
-			Managers.Scene.LoadScene(Define.Scene.InGame);
+			StartCoroutine(AdvanceWithFade());
 			return;
 		}
 
 		UI_Result popup = Managers.UI.ShowPopupUI<UI_Result>();
 		popup.Setup(result, _progress.Collected, _progress.Required);
+	}
+
+	IEnumerator AdvanceWithFade()
+	{
+		UI_Dialogue.Clear();
+
+		yield return ScreenFade.To(1.0f, FadeOutSeconds);
+		yield return ScreenFade.HoldBlack(BlackSeconds);
+
+		Managers.Game.AdvanceLevel();
+		Managers.Scene.LoadScene(Define.Scene.InGame);
 	}
 }

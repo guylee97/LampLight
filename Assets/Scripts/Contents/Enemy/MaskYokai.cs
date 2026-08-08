@@ -29,7 +29,7 @@ public class MaskYokai : EnemyBase
 	float _patrolRetargetSeconds = 5.0f;
 
 	[SerializeField]
-	float _ritualSpeedBonusPerStep = 0.35f;
+	float _ritualSpeedBonusPerStep = 0.12f;
 
 	[SerializeField]
 	float _ritualNoticeRange = 1.6f;
@@ -39,7 +39,7 @@ public class MaskYokai : EnemyBase
 	YokaiSpec _spec = YokaiTable.ForLevel(LevelTable.MinLevel);
 	float _sensesResumeTime;
 	Rigidbody2D _rigidbody;
-	CircleCollider2D _body;
+	Collider2D _body;
 	PlayerController _player;
 	Vector2 _moveDir;
 	Vector2 _lastKnownPosition;
@@ -50,6 +50,17 @@ public class MaskYokai : EnemyBase
 	int _routeIndex;
 
 	public YokaiSpec Spec { get { return _spec; } }
+
+	public IReadOnlyList<Vector2> PatrolRoute
+	{
+		get
+		{
+			if (_route == null && MapCoord.IsReady && Managers.Data.Map != null)
+				BuildRoute(Managers.Data.Map);
+
+			return _route ?? new List<Vector2>();
+		}
+	}
 
 	public void UseSpec(YokaiSpec spec)
 	{
@@ -77,8 +88,8 @@ public class MaskYokai : EnemyBase
 		_rigidbody.interpolation = RigidbodyInterpolation2D.Interpolate;
 		_rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-		_body = GetComponent<CircleCollider2D>();
-		if (_body == null && GetComponent<Collider2D>() == null)
+		_body = GetComponent<Collider2D>();
+		if (_body == null)
 			_body = gameObject.AddComponent<CircleCollider2D>();
 
 		State = Define.EnemyState.Patrol;
@@ -86,6 +97,14 @@ public class MaskYokai : EnemyBase
 
 	void FixedUpdate()
 	{
+		// 봉인된 순간 그 자리에 선다. 페이드가 도는 1초 남짓 동안 계속 달려오면
+		// 성공한 것 같지 않다.
+		if (Managers.Game.Result == Define.StageResult.Cleared)
+		{
+			_moveDir = Vector2.zero;
+			return;
+		}
+
 		if (_moveDir.sqrMagnitude <= 0.01f)
 			return;
 
@@ -137,6 +156,10 @@ public class MaskYokai : EnemyBase
 		}
 
 		Steer(_patrolTarget);
+
+		// 못 가는 곳을 잡았으면 붙잡고 있지 않는다. 5초를 벽에 붙어 서 있게 된다.
+		if (PathFailed)
+			ChoosePatrolTarget();
 	}
 
 	protected override void UpdateChasing()
@@ -298,16 +321,50 @@ public class MaskYokai : EnemyBase
 
 		foreach (MapRoom room in map.rooms)
 		{
-			Vector3 center = MapCoord.TileToWorld(
-				room.col + room.width / 2,
-				room.row + room.height / 2);
+			Vector2Int spot;
+			if (TryStandableSpot(room, out spot) == false)
+				continue;
 
-			_route.Add(center);
+			_route.Add(MapCoord.TileToWorld(spot.x, spot.y));
 		}
 
 		Vector2 here = transform.position;
 		_route.Sort((a, b) => (a - here).sqrMagnitude.CompareTo((b - here).sqrMagnitude));
 		_routeIndex = -1;
+	}
+
+	/// 방 중심이 소품으로 막혀 있는 경우가 흔하다. 그 자리를 순찰 목표로 잡으면
+	/// 길찾기가 실패하고 요괴는 그쪽 벽에 붙어 선다. 설 수 있는 칸으로 옮긴다.
+	static bool TryStandableSpot(MapRoom room, out Vector2Int spot)
+	{
+		int centerCol = room.col + room.width / 2;
+		int centerRow = room.row + room.height / 2;
+		spot = new Vector2Int(centerCol, centerRow);
+
+		if (MapCoord.IsPassable(centerCol, centerRow))
+			return true;
+
+		int reach = Mathf.Max(room.width, room.height);
+
+		for (int radius = 1; radius <= reach; radius++)
+		{
+			for (int row = centerRow - radius; row <= centerRow + radius; row++)
+			{
+				for (int col = centerCol - radius; col <= centerCol + radius; col++)
+				{
+					if (Mathf.Max(Mathf.Abs(col - centerCol), Mathf.Abs(row - centerRow)) != radius)
+						continue;
+
+					if (MapCoord.IsPassable(col, row) == false)
+						continue;
+
+					spot = new Vector2Int(col, row);
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	void Steer(Vector2 destination)
@@ -324,7 +381,7 @@ public class MaskYokai : EnemyBase
 	{
 		Vector2 self = transform.position;
 		Vector2 wanted = (destination - self).normalized;
-		float radius = _body != null ? _body.radius : 0.45f;
+		float radius = YokaiFactory.ActorFootSize.y * 0.5f;
 
 		for (int i = 1; i <= 6; i++)
 		{

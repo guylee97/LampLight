@@ -22,8 +22,11 @@ public class DebugOverlay : MonoBehaviour
 		Physics2D.IgnoreLayerCollision((int)Define.Layer.Player, (int)Define.Layer.Enemy, value);
 	}
 
-	[SerializeField]
-	bool _enabledInBuild = true;
+	// 배포판에 디버그 UI 가 남으면 안 된다. 에디터와 개발 빌드에서만 존재하고,
+	// 그 안에서도 기본은 숨김이다 — F12 로 부른다.
+	public const string ToggleHint = "F12";
+
+	static bool s_shown;
 
 	[SerializeField]
 	float _panelWidth = 520.0f;
@@ -78,14 +81,25 @@ public class DebugOverlay : MonoBehaviour
 	{
 		_instance = this;
 
-		if (_enabledInBuild == false && Debug.isDebugBuild == false && Application.isEditor == false)
-			enabled = false;
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+		enabled = true;
+#else
+		// 최종 배포판에는 존재 자체를 남기지 않는다.
+		SetInvulnerable(false);
+		Destroy(gameObject);
+#endif
 	}
 
 	void Update()
 	{
 		Keyboard keyboard = Keyboard.current;
 		if (keyboard == null)
+			return;
+
+		if (keyboard.f12Key.wasPressedThisFrame)
+			s_shown = !s_shown;
+
+		if (s_shown == false)
 			return;
 
 		if (Pressed(keyboard.digit1Key, keyboard.numpad1Key))
@@ -194,6 +208,9 @@ public class DebugOverlay : MonoBehaviour
 
 	void OnGUI()
 	{
+		if (s_shown == false)
+			return;
+
 		EnsureStyles();
 		DrawKeyLegend();
 		DrawRoundButtons();

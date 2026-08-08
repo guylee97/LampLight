@@ -117,6 +117,14 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 
 	void Update()
 	{
+		// 의식이 끝나면 사냥도 끝난다. Caught 예외까지 열어두면 봉인한 순간
+		// 물려 있던 요괴가 계속 물어서 클리어 직후에 사망 처리가 난다.
+		if (Managers.Game.Result == Define.StageResult.Cleared)
+		{
+			State = Define.EnemyState.Idle;
+			return;
+		}
+
 		if (Managers.Game.IsPlaying == false && State != Define.EnemyState.Caught)
 			return;
 
@@ -180,6 +188,19 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 		Vector2Int goal = MapCoord.WorldToTile(destination);
 		Vector2Int self = MapCoord.WorldToTile(transform.position);
 
+		// 판정은 실제 콜라이더보다 넉넉하게 굽는다(0.62x0.32 대 0.34x0.18).
+		// 그래서 어떤 액터든 '막힘' 칸 위에 설 수 있고, 그 자리에서는
+		// TryFindPath 가 시작점부터 거부해서 영영 못 움직인다. 먼저 걸어나온다.
+		if (MapCoord.IsPassable(self.x, self.y) == false)
+		{
+			Vector2Int refuge;
+			if (TryNearestPassable(self, out refuge))
+			{
+				Vector3 out0 = MapCoord.TileToWorld(refuge.x, refuge.y);
+				return ((Vector2)out0 - (Vector2)transform.position).normalized;
+			}
+		}
+
 		if (self == goal)
 			return toDestination.normalized;
 
@@ -190,10 +211,44 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 			_pathIndex++;
 
 		if (_pathIndex >= _path.Count)
-			return toDestination.normalized;
+		{
+			// 길이 없는데 직선으로 밀면 벽이나 난간에 얼굴을 대고 선다.
+			// 멈춰서 호출한 쪽이 목표를 다시 잡게 한다.
+			return PathFailed ? Vector2.zero : toDestination.normalized;
+		}
 
 		Vector3 waypoint = MapCoord.TileToWorld(_path[_pathIndex].x, _path[_pathIndex].y);
 		return ((Vector2)waypoint - (Vector2)transform.position).normalized;
+	}
+
+	/// 마지막으로 계산한 경로가 목표에 닿지 못했다.
+	protected bool PathFailed { get; private set; }
+
+	const int RefugeSearchTiles = 6;
+
+	static bool TryNearestPassable(Vector2Int from, out Vector2Int found)
+	{
+		found = from;
+
+		for (int radius = 1; radius <= RefugeSearchTiles; radius++)
+		{
+			for (int row = from.y - radius; row <= from.y + radius; row++)
+			{
+				for (int col = from.x - radius; col <= from.x + radius; col++)
+				{
+					if (Mathf.Max(Mathf.Abs(col - from.x), Mathf.Abs(row - from.y)) != radius)
+						continue;
+
+					if (MapCoord.IsPassable(col, row) == false)
+						continue;
+
+					found = new Vector2Int(col, row);
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	void Repath(Vector2Int self, Vector2Int goal)
@@ -201,7 +256,9 @@ public abstract class EnemyBase : MonoBehaviour, ILampReactive
 		_pathGoal = goal;
 		_nextPathTime = Time.time + PathRefreshInterval;
 
-		_pathIndex = MapPathfinder.TryFindPath(self, goal, _path) ? 1 : 0;
+		bool found = MapPathfinder.TryFindPath(self, goal, _path);
+		_pathIndex = found ? 1 : 0;
+		PathFailed = found == false;
 	}
 
 	bool ReachedWaypoint(Vector2Int tile)

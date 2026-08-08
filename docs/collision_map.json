@@ -363,11 +363,11 @@
       "basis": "기획 확정(나머지=차단)"
     },
     "obj_large_statue_fallen.png": {
-      "passability": "block",
+      "passability": "walk",
       "noise_type": null,
       "instances": 1,
-      "note": "",
-      "basis": "기획 확정(나머지=차단)"
+      "note": "바닥에 누운 상 — 넘어간다. 기획안 §10이 이 방을 열라고 지정했고, 여기 r3_fallen 대사가 붙는다",
+      "basis": "기획안 v3 §10"
     },
     "obj_large_statue_kneeling.png": {
       "passability": "block",

@@ -32,6 +32,7 @@ public class Container : MonoBehaviour, IInteractable
 
 	public bool CanInteract { get { return _opened == false && OpenKey != null; } }
 	public string Prompt { get { return "[E] 열기"; } }
+	public string HoldingLabel { get { return "여는 중"; } }
 	public Vector3 Position { get { return transform.position; } }
 	public float HoldSeconds { get { return _holdSeconds; } }
 

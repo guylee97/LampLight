@@ -86,6 +86,11 @@ public class Artifact : MonoBehaviour, IInteractable
 		}
 	}
 
+	public string HoldingLabel
+	{
+		get { return _concealment == 1 ? "헤치는 중" : "여는 중"; }
+	}
+
 	public Vector3 Position { get { return transform.position; } }
 
 	public void SetConcealment(int level)

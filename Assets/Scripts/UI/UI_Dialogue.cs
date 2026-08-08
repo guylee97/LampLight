@@ -16,9 +16,33 @@ public class UI_Dialogue : MonoBehaviour
 
 	static UI_Dialogue s_instance;
 
-	readonly Queue<string> _pending = new Queue<string>();
+	public enum Voice
+	{
+		Player,
+		Thing,
+	}
+
+	struct Line
+	{
+		public string Text;
+		public Voice From;
+	}
+
+	// 주인공 혼잣말은 등불 색, 사물의 말은 차가운 뼛빛. 이름표를 달지 않기로 했으니
+	// 누가 말하는지 알려주는 건 색뿐이다.
+	static readonly Color PlayerEdge = new Color(0.75f, 0.62f, 0.36f, 0.85f);
+	static readonly Color PlayerInk = new Color(0.94f, 0.90f, 0.80f, 1.0f);
+	static readonly Color PlayerBack = new Color(0.03f, 0.03f, 0.04f, 0.90f);
+
+	static readonly Color ThingEdge = new Color(0.52f, 0.64f, 0.62f, 0.85f);
+	static readonly Color ThingInk = new Color(0.80f, 0.87f, 0.85f, 1.0f);
+	static readonly Color ThingBack = new Color(0.02f, 0.05f, 0.05f, 0.92f);
+
+	readonly Queue<Line> _pending = new Queue<Line>();
+	readonly List<Image> _edges = new List<Image>();
 
 	CanvasGroup _group;
+	Image _backdrop;
 	Text _body;
 	Text _hint;
 	Coroutine _routine;
@@ -27,18 +51,30 @@ public class UI_Dialogue : MonoBehaviour
 
 	public static void Say(params string[] lines)
 	{
+		Say(Voice.Player, lines);
+	}
+
+	public static void Say(Voice from, params string[] lines)
+	{
 		UI_Dialogue box = Resolve();
-		if (box == null)
+		if (box == null || lines == null)
 			return;
 
 		foreach (string line in lines)
 		{
 			if (string.IsNullOrWhiteSpace(line) == false)
-				box._pending.Enqueue(line);
+				box._pending.Enqueue(new Line { Text = line, From = from });
 		}
 
 		if (box._routine == null)
 			box._routine = box.StartCoroutine(box.Run());
+	}
+
+	public static Voice VoiceOf(string name)
+	{
+		return string.Equals(name, "thing", System.StringComparison.OrdinalIgnoreCase)
+			? Voice.Thing
+			: Voice.Player;
 	}
 
 	public static void Clear()
@@ -122,11 +158,11 @@ public class UI_Dialogue : MonoBehaviour
 		_group.interactable = false;
 		_group.blocksRaycasts = false;
 
-		Image backdrop = root.AddComponent<Image>();
-		backdrop.color = new Color(0.03f, 0.03f, 0.04f, 0.90f);
-		backdrop.raycastTarget = false;
+		_backdrop = root.AddComponent<Image>();
+		_backdrop.color = PlayerBack;
+		_backdrop.raycastTarget = false;
 
-		Border(rect, new Color(0.75f, 0.62f, 0.36f, 0.85f));
+		Border(rect, PlayerEdge);
 
 		_body = Label(rect, 38, TextAnchor.UpperLeft,
 			new Color(0.94f, 0.90f, 0.80f, 1.0f));
@@ -164,6 +200,24 @@ public class UI_Dialogue : MonoBehaviour
 		Image image = go.GetComponent<Image>();
 		image.color = color;
 		image.raycastTarget = false;
+		_edges.Add(image);
+	}
+
+	void Wear(Voice from)
+	{
+		bool thing = from == Voice.Thing;
+
+		if (_backdrop != null)
+			_backdrop.color = thing ? ThingBack : PlayerBack;
+
+		foreach (Image edge in _edges)
+		{
+			if (edge != null)
+				edge.color = thing ? ThingEdge : PlayerEdge;
+		}
+
+		if (_body != null)
+			_body.color = thing ? ThingInk : PlayerInk;
 	}
 
 	Text Label(RectTransform parent, int size, TextAnchor anchor, Color color)
@@ -193,8 +247,9 @@ public class UI_Dialogue : MonoBehaviour
 
 		while (_pending.Count > 0)
 		{
-			string line = _pending.Dequeue();
-			yield return Type(line);
+			Line line = _pending.Dequeue();
+			Wear(line.From);
+			yield return Type(line.Text);
 			yield return WaitForAdvance();
 		}
 

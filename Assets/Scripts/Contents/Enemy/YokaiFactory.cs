@@ -4,6 +4,9 @@ public static class YokaiFactory
 {
 	public const string LitMaterialResource = "Image/M_SpriteLit";
 
+	/// Player.prefab 의 발치 캡슐과 같은 값이다.
+	public static readonly Vector2 ActorFootSize = new Vector2(0.34f, 0.18f);
+
 	public static GameObject Build(YokaiSpec spec, Transform parent)
 	{
 		string characterKey = ResolveCharacter(spec.CharacterKey);
@@ -28,11 +31,12 @@ public static class YokaiFactory
 		body.constraints = RigidbodyConstraints2D.FreezeRotation;
 		body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
-		// 통행 가능 여부는 플레이어 발치 상자(0.62 x 0.32)로 굽는다. 요괴 몸통이
-		// 그보다 크면 길찾기는 갈 수 있다고 하고 물리는 막아서 좁은 데서 낀다.
-		// 어느 방향으로든 그 상자에 들어가는 가장 큰 원이 곧 이 반지름이다.
-		CircleCollider2D collider = go.AddComponent<CircleCollider2D>();
-		collider.radius = MapCoord.ActorHalfHeight;
+		// 플레이어 발치 캡슐과 똑같이 준다. 크면 플레이어가 지나는 틈에 끼고,
+		// 작으면 판정이 막힘이라 부르는 칸에 몸이 들어가 길찾기가 성립하지 않는다.
+		// 같은 모양이면 요괴는 정확히 플레이어가 가는 곳까지 간다.
+		CapsuleCollider2D collider = go.AddComponent<CapsuleCollider2D>();
+		collider.direction = CapsuleDirection2D.Horizontal;
+		collider.size = ActorFootSize;
 		collider.offset = new Vector2(0.0f, MapCoord.ActorFootOffset);
 
 		DirectionalSpriteAnimator animator = go.AddComponent<DirectionalSpriteAnimator>();

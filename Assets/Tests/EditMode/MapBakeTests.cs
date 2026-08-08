@@ -124,8 +124,11 @@ public class MapBakeTests
 	[Test]
 	public void OptimalRouteLeavesRoomInsideTheLampBurn()
 	{
-		const float WalkTilesPerSecond = 4.0f;
-		const float MaxShareOfLamp = 0.4f;
+		// 달리기(4.0)가 아니라 걷기(2.0)로 잰다. 달리면 소음이 5칸에서 9칸으로 뛰어
+		// 요괴가 붙으므로, 전 구간 질주는 정직한 플레이가 아니다. 질주 기준으로 재던
+		// 동안 2·3전각은 걸어서 끝낼 수 없는 상태로 통과하고 있었다.
+		const float WalkTilesPerSecond = 2.0f;
+		const float MaxShareOfLamp = 0.8f;
 
 		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
 		{
@@ -162,12 +165,22 @@ public class MapBakeTests
 
 			tiles += MapPathfinder.Distance(current, altar);
 
-			float seconds = tiles / WalkTilesPerSecond;
-			float budget = LevelTable.Get(level).LampSeconds * MaxShareOfLamp;
+			LevelConfig config = LevelTable.Get(level);
+
+			// 걷는 시간만이 아니라 실제로 서 있어야 하는 시간까지 넣는다.
+			// 파묻힌 공양물을 헤치고, 앞의 것들을 내려놓고, 마지막에 의식을 친다.
+			float holds = 0.0f;
+			for (int i = 0; i < config.ArtifactsRequired; i++)
+				holds += ConcealmentRules.HoldSeconds(ConcealmentRules.ForLevel(level, i));
+
+			float placing = (config.ArtifactsRequired - 1) * Altar.PlaceSeconds + config.RitualSeconds;
+			float seconds = tiles / WalkTilesPerSecond + holds + placing;
+			float budget = config.LampSeconds * MaxShareOfLamp;
 
 			Assert.LessOrEqual(seconds, budget,
-				$"L{level} 최단 경로 {seconds:0.0}초가 등불의 {MaxShareOfLamp:P0}({budget:0.0}초)를 넘는다 — " +
-				"헤매고 피할 여유가 없다");
+				$"L{level} 정직한 동선 {seconds:0.0}초(걷기 {tiles / WalkTilesPerSecond:0.0} + 집기 {holds:0.0} "
+				+ $"+ 올리기·의식 {placing:0.0})가 등불의 {MaxShareOfLamp:P0}({budget:0.0}초)를 넘는다 — "
+				+ "헤매고 피할 여유가 없다");
 		}
 	}
 

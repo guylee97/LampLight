@@ -1,0 +1,202 @@
+{
+  "note": "기획안 v3 §4 대사 전문. 코드에 문자열을 박지 않는다. anchor 는 장식 키, radius 는 타일.",
+  "seenKey": "onelantern.dialogue.seen.v3",
+  "opening": [
+    {
+      "id": "op_first",
+      "level": 1,
+      "lines": [
+        "...머리가 깨질 것 같아. 여긴 어디지?",
+        "손에 등불이 쥐어져 있어. 내가 챙긴 기억은 없는데.",
+        "...나가는 길을 찾아보자."
+      ],
+      "voice": "player"
+    },
+    {
+      "id": "op_deeper",
+      "level": 0,
+      "lines": [
+        "안쪽으로 더 들어왔어.",
+        "아까 그게 끝이 아니었나 봐."
+      ],
+      "voice": "player"
+    }
+  ],
+  "pickup": {
+    "more": "이런 걸 모아 공양을 해야 나갈 수 있겠어.",
+    "done": "다 모았다. 제단으로 가서 공양 준비를 하자."
+  },
+  "ending": {
+    "id": "ending",
+    "lines": [
+      "…내 등불, 언제부터 꺼져 있었지."
+    ],
+    "voice": "player"
+  },
+  "lampOut": {
+    "id": "death_lamp",
+    "lines": [
+      "이제 안 보이지. 우리도 그랬어."
+    ],
+    "voice": "thing"
+  },
+  "triggers": [
+    {
+      "id": "r1_firepit",
+      "level": 1,
+      "anchor": "large_firepit",
+      "radius": 2.0,
+      "once": true,
+      "requireCollected": 0,
+      "requireAll": false,
+      "lines": [
+        "뛰지 마.",
+        "여기선 소리가 너보다 멀리 가.",
+        "발소리 한 번이면 저쪽에서 먼저 도착해 있어."
+      ],
+      "voice": "thing"
+    },
+    {
+      "id": "r1_slab",
+      "level": 1,
+      "anchor": "large_sacrificial_slab",
+      "radius": 2.0,
+      "once": true,
+      "requireCollected": 0,
+      "requireAll": false,
+      "lines": [
+        "그 등불, 절대 꺼뜨리지 마.",
+        "불이 꺼진 순간부터는 걸어도 소용없어.",
+        "…걷는 게 너인지도 모르게 되니까."
+      ],
+      "voice": "thing"
+    },
+    {
+      "id": "r1_wall",
+      "level": 1,
+      "anchor": "large_wall_collapse",
+      "radius": 2.0,
+      "once": true,
+      "requireCollected": 0,
+      "requireAll": false,
+      "lines": [
+        "딸깍거리는 소리, 들리지.",
+        "가까워질수록 빨라져. 멀어지면 느려지고.",
+        "그거 하나면 찾을 수 있어. 눈은 필요 없어."
+      ],
+      "voice": "thing"
+    },
+    {
+      "id": "r2_sarco",
+      "level": 2,
+      "anchor": "container_sarcophagus_open",
+      "radius": 2.0,
+      "once": true,
+      "requireCollected": 0,
+      "requireAll": false,
+      "lines": [
+        "뚜껑이 전부 안쪽에서 밀려 있어.",
+        "눕힌 사람은 있는데, 덮어준 사람은 없었나 봐."
+      ],
+      "voice": "thing"
+    },
+    {
+      "id": "r2_grave",
+      "level": 2,
+      "anchor": "prop_gravestone",
+      "radius": 2.0,
+      "once": true,
+      "requireCollected": 0,
+      "requireAll": false,
+      "lines": [
+        "여기 새겨진 사람들, 전부 등불을 들고 들어왔어.",
+        "한 명도 안 나갔고.",
+        "지금 복도에서 뛰어다니는 게 걔들이야."
+      ],
+      "voice": "thing"
+    },
+    {
+      "id": "r2_statue",
+      "level": 2,
+      "anchor": "large_statue_kneeling",
+      "radius": 2.0,
+      "once": true,
+      "requireCollected": 0,
+      "requireAll": false,
+      "lines": [
+        "놓인 걸 전부 제단에 올려야 문이 열려.",
+        "하나라도 남기면 안 돼.",
+        "하나는 벌써 들고 있잖아."
+      ],
+      "voice": "thing"
+    },
+    {
+      "id": "r3_fallen",
+      "level": 3,
+      "anchor": "large_statue_fallen",
+      "radius": 2.0,
+      "once": true,
+      "requireCollected": 0,
+      "requireAll": false,
+      "lines": [
+        "머리는 원래부터 없었어.",
+        "만들다 만 게 아니라, 아무도 못 봤거든.",
+        "그런 걸 신이라고 부르고 제물을 바쳤어. 백 년 동안."
+      ],
+      "voice": "thing"
+    },
+    {
+      "id": "r3_bench",
+      "level": 3,
+      "anchor": "large_benches_pair",
+      "radius": 2.0,
+      "once": true,
+      "requireCollected": 0,
+      "requireAll": false,
+      "lines": [
+        "여기 앉아서 차례를 기다렸어.",
+        "한 명씩 앞으로 나갔고, 뒷사람은 박수를 쳤지.",
+        "박수 소리가 멈춘 날은 없었어."
+      ],
+      "voice": "thing"
+    },
+    {
+      "id": "r3_tablet",
+      "level": 3,
+      "anchor": "prop_tablet_c",
+      "radius": 2.0,
+      "once": true,
+      "requireCollected": 2,
+      "requireAll": false,
+      "lines": [
+        "제단 앞에 서서 손을 대.",
+        "불이 다 탈 때까지 떼지 마. 움직여도 안 돼.",
+        "중간에 놓으면 처음부터 다시야."
+      ],
+      "voice": "thing"
+    },
+    {
+      "id": "r3_altar",
+      "level": 3,
+      "anchor": "large_altar_low",
+      "radius": 2.5,
+      "once": true,
+      "requireCollected": 0,
+      "requireAll": true,
+      "lines": [
+        "다 모았네.",
+        "올려놓고 손을 대. 뒤는 돌아보지 말고.",
+        "한 번 열리면 다시는 못 닫아."
+      ],
+      "voice": "thing"
+    }
+  ],
+  "firstRun": {
+    "id": "first_run",
+    "voice": "player",
+    "lines": [
+      "발소리가 생각보다 크게 울렸어.",
+      "최대한 조용히 움직여야 할 것만 같다."
+    ]
+  }
+}

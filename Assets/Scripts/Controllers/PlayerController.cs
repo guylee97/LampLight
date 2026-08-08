@@ -47,7 +47,6 @@ public class PlayerController : BaseController
 	AudioClip[] _noisyRunFootstepClips;
 
 	Rigidbody2D _rigidbody;
-	PlayerStatus _status;
 	Animator _animator;
 	float _nextFootstepTime;
 	int _footstepClipIndex;
@@ -73,7 +72,7 @@ public class PlayerController : BaseController
 
 	public bool IsListening { get { return _isListening; } }
 
-	public PlayerStatus Status { get { return _status; } }
+	public bool IsRunning { get; private set; }
 
 	public float VisibilityScale
 	{
@@ -126,7 +125,6 @@ public class PlayerController : BaseController
 
 		_initialized = true;
 		WorldObjectType = Define.WorldObject.Player;
-		_status = GetComponent<PlayerStatus>();
 		_rigidbody = GetComponent<Rigidbody2D>();
 		_animator = GetComponent<Animator>();
 
@@ -160,6 +158,7 @@ public class PlayerController : BaseController
 		{
 			_moveDir = Vector2.zero;
 			_moveSpeed = 0;
+			IsRunning = false;
 			CurrentNoiseRadius = 0;
 			SetListening(false);
 			Managers.Sound.SetRunning(false);
@@ -235,8 +234,9 @@ public class PlayerController : BaseController
 		_moveDir = new Vector2(horizontal, vertical).normalized;
 		bool isMoving = _moveDir.sqrMagnitude > 0.01f;
 
-		bool wantsToRun = keyboard.leftShiftKey.isPressed && (_status == null || _status.CanRun);
-		bool isRunning = isMoving && wantsToRun;
+		// 달리기에 눈금을 두지 않는다. 대가는 소리다 — 걷기 5타일, 달리기 9타일.
+		bool isRunning = isMoving && keyboard.leftShiftKey.isPressed;
+		IsRunning = isRunning;
 
 		Managers.Sound.SetRunning(isRunning);
 
@@ -253,13 +253,6 @@ public class PlayerController : BaseController
 			footstepClips = _runFootstepClips;
 			noisyFloorClips = _noisyRunFootstepClips;
 			noiseRadius = _runNoiseRadius;
-
-			if (_status != null)
-				_status.ConsumeRunStamina(Time.deltaTime);
-		}
-		else if (_status != null)
-		{
-			_status.RecoverStamina(Time.deltaTime);
 		}
 
 		_onNoisyFloor = MapCoord.IsNoisy(transform.position);

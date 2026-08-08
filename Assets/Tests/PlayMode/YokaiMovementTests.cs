@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
 using UnityEngine;
@@ -35,19 +36,48 @@ public class YokaiMovementTests
 	}
 
 	[UnityTest]
+	public IEnumerator EveryPatrolTargetCanActuallyBeReached()
+	{
+		yield return QaScene.Load();
+
+		MaskYokai yokai = Wake();
+		Vector2Int from = MapCoord.WorldToTile(yokai.transform.position);
+		int[] field = MapPathfinder.DistanceField(from.x, from.y);
+
+		MapData map = Managers.Data.Map;
+		Assert.IsNotNull(map);
+
+		List<string> unreachable = new List<string>();
+
+		foreach (Vector2 target in yokai.PatrolRoute)
+		{
+			Vector2Int tile = MapCoord.WorldToTile(target);
+
+			if (MapPathfinder.Sample(field, tile.x, tile.y) == MapPathfinder.Unreachable)
+				unreachable.Add($"({tile.x},{tile.y})");
+		}
+
+		// 못 가는 곳을 목표로 잡으면 길찾기가 실패하고 그쪽 벽에 붙어 선다.
+		Assert.IsEmpty(unreachable,
+			$"순찰 목표에 닿을 수 없다: {string.Join(", ", unreachable)}");
+	}
+
+	[UnityTest]
 	public IEnumerator YokaiFitsWhereverThePlayerFits()
 	{
 		yield return QaScene.Load();
 
 		MaskYokai yokai = Wake();
 
-		CircleCollider2D body = yokai.GetComponent<CircleCollider2D>();
-		Assert.IsNotNull(body, "요괴에 몸통 콜라이더가 없다");
+		CapsuleCollider2D body = yokai.GetComponent<CapsuleCollider2D>();
+		Assert.IsNotNull(body, "요괴에 발치 콜라이더가 없다");
 
-		// 통행 판정은 플레이어 발치 상자로 굽는다. 요괴가 그보다 크면
-		// 길찾기는 통과한다고 하고 물리는 막아서 좁은 데서 낀다.
-		Assert.LessOrEqual(body.radius, MapCoord.ActorHalfHeight + 0.001f,
-			$"요괴 반지름 {body.radius}가 액터 발자국({MapCoord.ActorHalfHeight})보다 크다");
+		// 플레이어와 같은 발자국이어야 한다. 크면 플레이어가 지나는 틈에 끼고,
+		// 작으면 판정이 막힘이라 부르는 칸에 들어가 길찾기가 성립하지 않는다.
+		Assert.AreEqual(YokaiFactory.ActorFootSize.x, body.size.x, 0.001f,
+			"요괴 발자국 너비가 플레이어와 다르다");
+		Assert.AreEqual(YokaiFactory.ActorFootSize.y, body.size.y, 0.001f,
+			"요괴 발자국 높이가 플레이어와 다르다");
 		Assert.AreEqual(MapCoord.ActorFootOffset, body.offset.y, 0.001f,
 			"요괴 충돌이 발이 아니라 몸통 한가운데에 있다");
 	}

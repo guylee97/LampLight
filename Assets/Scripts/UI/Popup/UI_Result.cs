@@ -83,8 +83,17 @@ public class UI_Result : UI_Popup
 			return;
 		}
 
-		detail.text = game.HasNextLevel
-			? "더 깊은 곳이 남아 있다"
+		if (game.HasNextLevel)
+		{
+			detail.text = "더 깊은 곳이 남아 있다";
+			return;
+		}
+
+		// 마지막 전각을 닫은 뒤에만 나오는 한 줄. 앞의 두 대사를 회수한다 —
+		// "불이 꺼지면 걷는 게 너인지도 모르게 된다", "복도에서 뛰어다니는 게 걔들이다".
+		DialogueBeat ending = DialogueTable.Book.ending;
+		detail.text = ending != null && ending.lines != null && ending.lines.Length > 0
+			? ending.lines[0]
 			: "이 신전의 모든 봉인을 마쳤다";
 	}
 

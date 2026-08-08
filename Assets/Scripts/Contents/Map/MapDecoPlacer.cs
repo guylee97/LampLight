@@ -241,6 +241,65 @@ public class MapDecoPlacer : MonoBehaviour
 		return _lit;
 	}
 
+	/// 같은 에셋이 맵에 여럿이면 플레이어가 실제로 지나갈 자리에 대사를 건다.
+	/// 최적 동선(시작 → 가까운 공양물부터 → 제단)에 가장 가까운 인스턴스를 고른다.
+	public bool TryClosestToRoute(string key, out Vector3 world)
+	{
+		world = Vector3.zero;
+
+		List<GameObject> matches = new List<GameObject>();
+		foreach (GameObject go in _spawned)
+		{
+			if (go != null && go.name == key)
+				matches.Add(go);
+		}
+
+		if (matches.Count == 0)
+			return false;
+
+		if (matches.Count == 1)
+		{
+			world = matches[0].transform.position;
+			return true;
+		}
+
+		List<Vector3> route = RouteWaypoints();
+		float best = float.MaxValue;
+
+		foreach (GameObject go in matches)
+		{
+			foreach (Vector3 stop in route)
+			{
+				float sqr = (go.transform.position - stop).sqrMagnitude;
+				if (sqr >= best)
+					continue;
+
+				best = sqr;
+				world = go.transform.position;
+			}
+		}
+
+		if (best < float.MaxValue)
+			return true;
+
+		world = matches[0].transform.position;
+		return true;
+	}
+
+	static List<Vector3> RouteWaypoints()
+	{
+		List<Vector3> stops = new List<Vector3>();
+		MapData map = Managers.Data.Map;
+
+		if (map == null || map.objects == null)
+			return stops;
+
+		foreach (MapPoint point in map.objects)
+			stops.Add(MapCoord.ToWorld(point));
+
+		return stops;
+	}
+
 	public void Clear()
 	{
 		foreach (GameObject go in _spawned)

@@ -71,7 +71,14 @@ public class Altar : MonoBehaviour, IInteractable
 
 	public bool CanInteract { get { return _finished == false && Carried > 0; } }
 
-	public float HoldSeconds { get { return _channelSeconds; } }
+	/// 앞의 공양물은 그냥 내려놓는다. 마지막 하나가 의식을 연다.
+	/// 넷 다 8초씩 잡으면 절정이 잡일과 구분되지 않고, 등불의 4분의 1을
+	/// 어둠 속에 선 채로 쓰게 된다.
+	public const float PlaceSeconds = 1.2f;
+
+	public bool IsFinalOffering { get { return _placed + 1 >= Required; } }
+
+	public float HoldSeconds { get { return IsFinalOffering ? _channelSeconds : PlaceSeconds; } }
 
 	public Vector3 Position { get { return transform.position; } }
 
@@ -89,6 +96,8 @@ public class Altar : MonoBehaviour, IInteractable
 			return $"공양물 {missing}개가 더 필요하다";
 		}
 	}
+
+	public string HoldingLabel { get { return "올리는 중"; } }
 
 	public void SetChannelSeconds(float seconds)
 	{
@@ -179,6 +188,10 @@ public class Altar : MonoBehaviour, IInteractable
 	bool ResolveChanneling()
 	{
 		if (_finished)
+			return false;
+
+		// 등불이 꺼지고 요괴가 끌려오는 건 마지막 하나를 올릴 때뿐이다.
+		if (IsFinalOffering == false)
 			return false;
 
 		if (_interactor == null)

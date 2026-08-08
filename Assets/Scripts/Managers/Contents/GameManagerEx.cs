@@ -92,6 +92,11 @@ public class GameManagerEx
         if (IsGameOver)
             return;
 
+        // 봉인이 끝난 판은 이미 결말이 정해졌다. 여기서 점프스케어가 뜨면
+        // 죽는 연출을 보고 다음 전각으로 넘어가는 앞뒤 안 맞는 장면이 된다.
+        if (Result != Define.StageResult.None)
+            return;
+
         if (DebugOverlay.Invulnerable)
             return;
 

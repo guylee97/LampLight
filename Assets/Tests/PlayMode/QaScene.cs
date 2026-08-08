@@ -28,9 +28,29 @@ public static class QaScene
 		return Load(DefaultSeed);
 	}
 
+	/// 대사 자체를 보는 시험만 쓴다. 사물이 말을 걸면 게임이 멈추므로
+	/// 나머지 시험에서는 켜두면 안 된다.
+	public static IEnumerator LoadWithDialogue()
+	{
+		DialogueMemory.Forget();
+		return Load(DefaultSeed, true);
+	}
+
 	public static IEnumerator Load(int seed)
 	{
+		return Load(seed, false);
+	}
+
+	public static IEnumerator Load(int seed, bool withDialogue)
+	{
 		AllowHeadlessInput();
+
+		// 사물 대사는 다가가는 즉시 발동하고 timeScale 을 0 으로 잡는다.
+		// 봇이 지나가다 걸리면 WaitForSeconds 를 쓰는 시험이 영영 안 깨어난다.
+		// 기본은 전부 읽은 것으로 표시해 재워둔다.
+		if (withDialogue == false)
+			SilenceDialogue();
+
 		InGameScene.SeedOverride = seed;
 		SceneManager.LoadScene(InGame, LoadSceneMode.Single);
 
@@ -44,6 +64,20 @@ public static class QaScene
 
 		yield return new WaitForFixedUpdate();
 		Physics2D.SyncTransforms();
+	}
+
+	static void SilenceDialogue()
+	{
+		DialogueTrigger[] triggers = DialogueTable.Book.triggers;
+		if (triggers == null)
+			return;
+
+		foreach (DialogueTrigger trigger in triggers)
+			DialogueMemory.MarkSeen(trigger.id);
+
+		DialogueBeat firstRun = DialogueTable.Book.firstRun;
+		if (firstRun != null)
+			DialogueMemory.MarkSeen(firstRun.id);
 	}
 
 	public static string WriteReport(string name, string body)

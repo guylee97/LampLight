@@ -60,14 +60,6 @@ public static class LevelSetup
 			EditorUtility.SetDirty(inGame);
 		}
 
-		TutorialController tutorial = Object.FindFirstObjectByType<TutorialController>();
-		if (tutorial == null)
-		{
-			GameObject go = new GameObject("@Tutorial");
-			Util.GetOrAddComponent<TutorialController>(go);
-			Debug.Log("LevelSetup: added @Tutorial");
-		}
-
 		AmbienceController ambience = Object.FindFirstObjectByType<AmbienceController>();
 		if (ambience == null)
 		{
