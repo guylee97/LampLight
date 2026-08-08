@@ -1,52 +1,52 @@
 fileFormatVersion: 2
-guid: 704dc38f0142c49ed4da5521b9afd1e1
+guid: 1f23da28be1f36e6a8d537ab68a44301
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 715787851104865463
-    second: scare_banshin_sheet_00
+      213: 961484033862944204
+    second: scare_seoksin_sheet_00
   - first:
-      213: 176902687163858181
-    second: scare_banshin_sheet_01
+      213: 994843037140660293
+    second: scare_seoksin_sheet_01
   - first:
-      213: 433286321893591533
-    second: scare_banshin_sheet_02
+      213: 988092885685020056
+    second: scare_seoksin_sheet_02
   - first:
-      213: 358034225156690080
-    second: scare_banshin_sheet_03
+      213: 536787108581819677
+    second: scare_seoksin_sheet_03
   - first:
-      213: 409370113975360497
-    second: scare_banshin_sheet_04
+      213: 535451911023022551
+    second: scare_seoksin_sheet_04
   - first:
-      213: 99154118242364407
-    second: scare_banshin_sheet_05
+      213: 156939084411688552
+    second: scare_seoksin_sheet_05
   - first:
-      213: 956276049975588766
-    second: scare_banshin_sheet_06
+      213: 414859350825740583
+    second: scare_seoksin_sheet_06
   - first:
-      213: 485153279911725267
-    second: scare_banshin_sheet_07
+      213: 279261572616719721
+    second: scare_seoksin_sheet_07
   - first:
-      213: 869866805527815682
-    second: scare_banshin_sheet_08
+      213: 1113824377226554468
+    second: scare_seoksin_sheet_08
   - first:
-      213: 626800598899474033
-    second: scare_banshin_sheet_09
+      213: 794450419814241134
+    second: scare_seoksin_sheet_09
   - first:
-      213: 281392007181488462
-    second: scare_banshin_sheet_10
+      213: 1016750395178032714
+    second: scare_seoksin_sheet_10
   - first:
-      213: 596438069256161181
-    second: scare_banshin_sheet_11
+      213: 209968459458823424
+    second: scare_seoksin_sheet_11
   - first:
-      213: 472912268400993610
-    second: scare_banshin_sheet_12
+      213: 623320106114336706
+    second: scare_seoksin_sheet_12
   - first:
-      213: 980806294187741293
-    second: scare_banshin_sheet_13
+      213: 567721698207642618
+    second: scare_seoksin_sheet_13
   - first:
-      213: 1033029427410116895
-    second: scare_banshin_sheet_14
+      213: 803697227053620021
+    second: scare_seoksin_sheet_14
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -129,7 +129,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: scare_banshin_sheet_00
+      name: scare_seoksin_sheet_00
       rect:
         serializedVersion: 2
         x: 0
@@ -144,14 +144,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9eefd4217a54cb755b9b00fc52b84f00
-      internalID: 715787851104865463
+      spriteID: d57e0a2779c45cc8ba25e92ced45f1f4
+      internalID: 961484033862944204
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_01
+      name: scare_seoksin_sheet_01
       rect:
         serializedVersion: 2
         x: 256
@@ -166,14 +166,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2747c0e8436bd054b4b7f095fa29d8f4
-      internalID: 176902687163858181
+      spriteID: dce6478ac0a3045981ec94e070cf3472
+      internalID: 994843037140660293
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_02
+      name: scare_seoksin_sheet_02
       rect:
         serializedVersion: 2
         x: 512
@@ -188,14 +188,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 603579d3680c9ed9399be202fb58d49e
-      internalID: 433286321893591533
+      spriteID: db6693e9058a598aa8aef7a1d7d2c539
+      internalID: 988092885685020056
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_03
+      name: scare_seoksin_sheet_03
       rect:
         serializedVersion: 2
         x: 768
@@ -210,14 +210,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4f7fe3b17e590a0ee09709b59da1c8ff
-      internalID: 358034225156690080
+      spriteID: 7730d07ff07451def73e15a56aeffad4
+      internalID: 536787108581819677
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_04
+      name: scare_seoksin_sheet_04
       rect:
         serializedVersion: 2
         x: 1024
@@ -232,14 +232,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5ae5ff321299bf1bb15e64810c0e16aa
-      internalID: 409370113975360497
+      spriteID: 76e4ead16d4d1d7cf156c2db0f7ae807
+      internalID: 535451911023022551
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_05
+      name: scare_seoksin_sheet_05
       rect:
         serializedVersion: 2
         x: 0
@@ -254,14 +254,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 16044252bda6bf766d97e540a439b171
-      internalID: 99154118242364407
+      spriteID: 22d8f4409bbd6680c5976a6bedfdc1f6
+      internalID: 156939084411688552
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_06
+      name: scare_seoksin_sheet_06
       rect:
         serializedVersion: 2
         x: 256
@@ -276,14 +276,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d4560003a02379e28c1c93cfb535a156
-      internalID: 956276049975588766
+      spriteID: 5c1e061adb7a927ccb4093846b00d044
+      internalID: 414859350825740583
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_07
+      name: scare_seoksin_sheet_07
       rect:
         serializedVersion: 2
         x: 512
@@ -298,14 +298,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6bb9c566ec108d36116c4ca13385dfac
-      internalID: 485153279911725267
+      spriteID: 3e022ebb33c8d6950877644fac106759
+      internalID: 279261572616719721
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_08
+      name: scare_seoksin_sheet_08
       rect:
         serializedVersion: 2
         x: 768
@@ -320,14 +320,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c1263403963a6025f336705be27c1e43
-      internalID: 869866805527815682
+      spriteID: f75195eaac26c6496cab1b6cb29cfb64
+      internalID: 1113824377226554468
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_09
+      name: scare_seoksin_sheet_09
       rect:
         serializedVersion: 2
         x: 1024
@@ -342,14 +342,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8b2d7d2e267be7161828a2e493fa1649
-      internalID: 626800598899474033
+      spriteID: b06747298b0136eb0fd48be022f2e3bc
+      internalID: 794450419814241134
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_10
+      name: scare_seoksin_sheet_10
       rect:
         serializedVersion: 2
         x: 0
@@ -364,14 +364,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3e7b48a26afd14e85a20dd22b8c2ccd2
-      internalID: 281392007181488462
+      spriteID: e1c3918f1d31e4a064d47d6e9f162674
+      internalID: 1016750395178032714
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_11
+      name: scare_seoksin_sheet_11
       rect:
         serializedVersion: 2
         x: 256
@@ -386,14 +386,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 846f9439088879d66b98a10351b0bc9c
-      internalID: 596438069256161181
+      spriteID: 2e9f53390144500eedf63f61d597b66d
+      internalID: 209968459458823424
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_12
+      name: scare_seoksin_sheet_12
       rect:
         serializedVersion: 2
         x: 512
@@ -408,14 +408,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6901f33d7f7254a424ddde1ddc1452c7
-      internalID: 472912268400993610
+      spriteID: 8a67a55824dc7c2479f4f029bb51538d
+      internalID: 623320106114336706
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_13
+      name: scare_seoksin_sheet_13
       rect:
         serializedVersion: 2
         x: 768
@@ -430,14 +430,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d9c8620c687106d62f4365136aee8ef3
-      internalID: 980806294187741293
+      spriteID: 7e0f3e068f2b3faaec4ab322d8edef8d
+      internalID: 567721698207642618
       vertices: []
       indices:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: scare_banshin_sheet_14
+      name: scare_seoksin_sheet_14
       rect:
         serializedVersion: 2
         x: 1024
@@ -452,8 +452,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e560eca7f4e211f69f798327246098f5
-      internalID: 1033029427410116895
+      spriteID: b274e5ead7f5b352f4efb68a0e321e61
+      internalID: 803697227053620021
       vertices: []
       indices:
       edges: []
@@ -472,21 +472,21 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      scare_banshin_sheet_00: 715787851104865463
-      scare_banshin_sheet_01: 176902687163858181
-      scare_banshin_sheet_02: 433286321893591533
-      scare_banshin_sheet_03: 358034225156690080
-      scare_banshin_sheet_04: 409370113975360497
-      scare_banshin_sheet_05: 99154118242364407
-      scare_banshin_sheet_06: 956276049975588766
-      scare_banshin_sheet_07: 485153279911725267
-      scare_banshin_sheet_08: 869866805527815682
-      scare_banshin_sheet_09: 626800598899474033
-      scare_banshin_sheet_10: 281392007181488462
-      scare_banshin_sheet_11: 596438069256161181
-      scare_banshin_sheet_12: 472912268400993610
-      scare_banshin_sheet_13: 980806294187741293
-      scare_banshin_sheet_14: 1033029427410116895
+      scare_seoksin_sheet_00: 961484033862944204
+      scare_seoksin_sheet_01: 994843037140660293
+      scare_seoksin_sheet_02: 988092885685020056
+      scare_seoksin_sheet_03: 536787108581819677
+      scare_seoksin_sheet_04: 535451911023022551
+      scare_seoksin_sheet_05: 156939084411688552
+      scare_seoksin_sheet_06: 414859350825740583
+      scare_seoksin_sheet_07: 279261572616719721
+      scare_seoksin_sheet_08: 1113824377226554468
+      scare_seoksin_sheet_09: 794450419814241134
+      scare_seoksin_sheet_10: 1016750395178032714
+      scare_seoksin_sheet_11: 209968459458823424
+      scare_seoksin_sheet_12: 623320106114336706
+      scare_seoksin_sheet_13: 567721698207642618
+      scare_seoksin_sheet_14: 803697227053620021
   mipmapLimitGroupName:
   pSDRemoveMatte: 0
   userData:

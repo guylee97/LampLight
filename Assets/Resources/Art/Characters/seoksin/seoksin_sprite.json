@@ -1,8 +1,8 @@
 {
-  "character": "agwi",
-  "label": "아귀",
-  "frameWidth": 100,
-  "frameHeight": 100,
+  "character": "seoksin",
+  "label": "석신",
+  "frameWidth": 160,
+  "frameHeight": 160,
   "displayScale": 1,
   "directions": [
     "s",
@@ -24,15 +24,15 @@
     "w": 6,
     "sw": 7
   },
-  "footBaselineY": 90,
+  "footBaselineY": 150,
   "anchor": "bottom-center",
   "anims": {
     "idle": {
       "frames": 1
     },
     "walk": {
-      "frames": 17,
-      "fps": 12.0
+      "frames": 8,
+      "fps": 6.0
     }
   },
   "behavior": {
@@ -41,8 +41,8 @@
     "searchDurationSec": 3.0
   },
   "collisionBox": {
-    "w": 28,
-    "h": 28,
+    "w": 34,
+    "h": 34,
     "anchor": "bottom-center"
   },
   "render": {

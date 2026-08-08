@@ -24,41 +24,18 @@ public static class YokaiTable
 {
 	static readonly YokaiSpec[] Specs =
 	{
-		// 1전각 — 허리 아래가 연기로 흩어진 상반신. 낮아서 늦게 보인다.
-		new YokaiSpec
-		{
-			Key = "banshin",
-			CharacterKey = "banshin",
-			Label = "반신",
-			PatrolSpeed = 1.2f,
-			ChaseSpeed = 3.2f,
-			SearchSpeed = 2.0f,
-			SightRange = 9.0f,
-			HearingScale = 0.5f,
-			FaceArt = "jumpscare_banshin",
-			ScareSheet = "scare_banshin_sheet",
-			ScreamClip = "Monster/깜짝놀라게/freesound_community-growl-2-84549",
-			ChaseClip = "chase_stinger",
-			FaceHoldSeconds = 0.34f,
-			Tint = new UnityEngine.Color(0.86f, 0.86f, 0.90f, 1.0f),
-			OfferingLines = new[]
-			{
-				"뭔가 바닥에 끌리는 소리가 났어.",
-				"머리카락 같은 게 문틈에 걸려 있어.",
-				"아까부터 자꾸 바닥만 쳐다보게 돼.",
-			},
-		},
-		// 2전각 — 관절이 거꾸로 꺾여 기는 몸. 빠른데 소리가 크다.
+		// 1전각 — 관절이 거꾸로 꺾여 기는 몸. 빠른데 눈과 귀가 어둡다.
+		// 보이면 위험하다는 것만 가르치는 첫 요괴다.
 		new YokaiSpec
 		{
 			Key = "yeokgol",
 			CharacterKey = "yeokgol",
 			Label = "역골",
-			PatrolSpeed = 1.8f,
-			ChaseSpeed = 4.0f,
-			SearchSpeed = 2.6f,
-			SightRange = 7.5f,
-			HearingScale = 0.8f,
+			PatrolSpeed = 1.6f,
+			ChaseSpeed = 3.6f,
+			SearchSpeed = 2.2f,
+			SightRange = 7.0f,
+			HearingScale = 0.5f,
 			FaceArt = "jumpscare_yeokgol",
 			ScareSheet = "scare_yeokgol_sheet",
 			ScreamClip = "Monster/깜짝놀라게/dragon-studio-beast-growl-494304",
@@ -67,22 +44,21 @@ public static class YokaiTable
 			Tint = new UnityEngine.Color(0.70f, 0.76f, 0.74f, 1.0f),
 			OfferingLines = new[]
 			{
-				"관절 꺾이는 소리 같은 게 들렸어.",
-				"뭔가 벽을 타고 지나갔어.",
-				"가까워지고 있어. 소리가 커.",
+				"뚝, 하고 뭐가 꺾이는 소리가 났어.",
+				"방금 뭔가 벽을 타고 지나갔어.",
 			},
 		},
-		// 3전각 — 검은 상복의 키 큰 것. 느린데 절대 안 멈춘다.
+		// 2전각 — 검은 상복의 키 큰 것. 멀리서 보고, 한번 붙으면 안 놓는다.
 		new YokaiSpec
 		{
 			Key = "sangju",
 			CharacterKey = "sangju",
 			Label = "상주",
 			PatrolSpeed = 1.5f,
-			ChaseSpeed = 4.6f,
-			SearchSpeed = 3.0f,
-			SightRange = 6.5f,
-			HearingScale = 0.95f,
+			ChaseSpeed = 4.2f,
+			SearchSpeed = 2.8f,
+			SightRange = 8.5f,
+			HearingScale = 0.75f,
 			FaceArt = "jumpscare_sangju",
 			ScareSheet = "scare_sangju_sheet",
 			ScreamClip = "Monster/깜짝놀라게/dragon-studio-monster-growl-390285",
@@ -92,8 +68,34 @@ public static class YokaiTable
 			OfferingLines = new[]
 			{
 				"천 스치는 소리가 계속 따라와.",
-				"아까 그 자리에 뭔가 서 있었던 것 같은데.",
-				"멈추질 않아.",
+				"아까 저기에 뭐가 서 있었던 것 같은데.",
+				"멈추질 않아. 계속 따라와.",
+			},
+		},
+		// 3전각 — 다리 대신 뿌리로 바닥을 끌고 오는 돌덩이. 거의 못 보는 대신
+		// 발밑 울림을 전부 읽는다. 가슴에 박힌 불이 등불처럼 보인다.
+		new YokaiSpec
+		{
+			Key = "seoksin",
+			CharacterKey = "seoksin",
+			Label = "석신",
+			PatrolSpeed = 1.1f,
+			ChaseSpeed = 4.8f,
+			SearchSpeed = 3.2f,
+			SightRange = 6.0f,
+			HearingScale = 1.0f,
+			FaceArt = "jumpscare_seoksin",
+			ScareSheet = "scare_seoksin_sheet",
+			ScreamClip = "Monster/깜짝놀라게/freesound_community-growl-2-84549",
+			ChaseClip = "chase_stinger",
+			FaceHoldSeconds = 0.40f,
+			Tint = new UnityEngine.Color(0.96f, 0.87f, 0.80f, 1.0f),
+			OfferingLines = new[]
+			{
+				"바닥이 조금 울렸어.",
+				"아까 그 석상, 저기 있었나?",
+				"돌 긁히는 소리가 뒤에서 나.",
+				"불빛이 하나 더 있어. 내 등불 말고.",
 			},
 		},
 	};

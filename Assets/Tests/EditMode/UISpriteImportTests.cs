@@ -8,7 +8,7 @@ public class UISpriteImportTests
 	{
 		"Art/UI/Game_Over_Screen/jumpscare_sangju",
 		"Art/UI/Game_Over_Screen/jumpscare_yeokgol",
-		"Art/UI/Game_Over_Screen/jumpscare_banshin",
+		"Art/UI/Game_Over_Screen/jumpscare_seoksin",
 		"Art/UI/Common/press_any_key",
 		"Art/UI/Common/esc_title",
 		"Art/UI/Game_Over_Screen/Your Dead Title",

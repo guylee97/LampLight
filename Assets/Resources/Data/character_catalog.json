@@ -50,61 +50,12 @@
    ]
   },
   {
-   "key": "tal",
-   "frameWidth": 148,
-   "frameHeight": 148,
-   "footBaselineY": 138,
+   "key": "sangju",
+   "frameWidth": 144,
+   "frameHeight": 144,
+   "footBaselineY": 134,
    "pivotX": 0.5,
-   "pivotY": 0.06756756756756757,
-   "colliderW": 44.0,
-   "colliderH": 44.0,
-   "speedMultiplier": 1.0,
-   "noiseDetectRadiusTiles": 5.0,
-   "searchDurationSec": 3.0,
-   "directions": [
-    "s",
-    "se",
-    "e",
-    "ne",
-    "n",
-    "nw",
-    "w",
-    "sw"
-   ],
-   "states": [
-    {
-     "name": "idle",
-     "resource": "Art/Characters/tal/tal_idle_sheet",
-     "cols": 1,
-     "rows": 8,
-     "frames": 1,
-     "directionAxis": "row",
-     "fps": 0.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    },
-    {
-     "name": "walk",
-     "resource": "Art/Characters/tal/tal_walk_sheet",
-     "cols": 8,
-     "rows": 8,
-     "frames": 8,
-     "directionAxis": "row",
-     "fps": 5.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    }
-   ]
-  },
-  {
-   "key": "banshin",
-   "frameWidth": 100,
-   "frameHeight": 100,
-   "footBaselineY": 83,
-   "pivotX": 0.5,
-   "pivotY": 0.17,
+   "pivotY": 0.06944444444444445,
    "colliderW": 30.0,
    "colliderH": 30.0,
    "speedMultiplier": 1.0,
@@ -123,7 +74,7 @@
    "states": [
     {
      "name": "idle",
-     "resource": "Art/Characters/banshin/banshin_idle_sheet",
+     "resource": "Art/Characters/sangju/sangju_idle_sheet",
      "cols": 1,
      "rows": 8,
      "frames": 1,
@@ -135,12 +86,61 @@
     },
     {
      "name": "walk",
-     "resource": "Art/Characters/banshin/banshin_walk_sheet",
-     "cols": 16,
+     "resource": "Art/Characters/sangju/sangju_walk_sheet",
+     "cols": 14,
      "rows": 8,
-     "frames": 16,
+     "frames": 14,
      "directionAxis": "row",
-     "fps": 10.0,
+     "fps": 8.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    }
+   ]
+  },
+  {
+   "key": "seoksin",
+   "frameWidth": 160,
+   "frameHeight": 160,
+   "footBaselineY": 150,
+   "pivotX": 0.5,
+   "pivotY": 0.0625,
+   "colliderW": 34.0,
+   "colliderH": 34.0,
+   "speedMultiplier": 1.0,
+   "noiseDetectRadiusTiles": 5.0,
+   "searchDurationSec": 3.0,
+   "directions": [
+    "s",
+    "se",
+    "e",
+    "ne",
+    "n",
+    "nw",
+    "w",
+    "sw"
+   ],
+   "states": [
+    {
+     "name": "idle",
+     "resource": "Art/Characters/seoksin/seoksin_idle_sheet",
+     "cols": 1,
+     "rows": 8,
+     "frames": 1,
+     "directionAxis": "row",
+     "fps": 0.0,
+     "fpsSneak": 0.0,
+     "fpsWalk": 0.0,
+     "fpsRun": 0.0
+    },
+    {
+     "name": "walk",
+     "resource": "Art/Characters/seoksin/seoksin_walk_sheet",
+     "cols": 8,
+     "rows": 8,
+     "frames": 8,
+     "directionAxis": "row",
+     "fps": 6.0,
      "fpsSneak": 0.0,
      "fpsWalk": 0.0,
      "fpsRun": 0.0
@@ -190,55 +190,6 @@
      "frames": 16,
      "directionAxis": "row",
      "fps": 14.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    }
-   ]
-  },
-  {
-   "key": "sangju",
-   "frameWidth": 144,
-   "frameHeight": 144,
-   "footBaselineY": 134,
-   "pivotX": 0.5,
-   "pivotY": 0.069444,
-   "colliderW": 30.0,
-   "colliderH": 30.0,
-   "speedMultiplier": 1.0,
-   "noiseDetectRadiusTiles": 5.0,
-   "searchDurationSec": 3.0,
-   "directions": [
-    "s",
-    "se",
-    "e",
-    "ne",
-    "n",
-    "nw",
-    "w",
-    "sw"
-   ],
-   "states": [
-    {
-     "name": "idle",
-     "resource": "Art/Characters/sangju/sangju_idle_sheet",
-     "cols": 1,
-     "rows": 8,
-     "frames": 1,
-     "directionAxis": "row",
-     "fps": 0.0,
-     "fpsSneak": 0.0,
-     "fpsWalk": 0.0,
-     "fpsRun": 0.0
-    },
-    {
-     "name": "walk",
-     "resource": "Art/Characters/sangju/sangju_walk_sheet",
-     "cols": 14,
-     "rows": 8,
-     "frames": 14,
-     "directionAxis": "row",
-     "fps": 8.0,
      "fpsSneak": 0.0,
      "fpsWalk": 0.0,
      "fpsRun": 0.0
