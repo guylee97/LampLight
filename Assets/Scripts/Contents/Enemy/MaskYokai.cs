@@ -31,6 +31,9 @@ public class MaskYokai : EnemyBase
 	[SerializeField]
 	float _ritualSpeedBonusPerStep = 0.35f;
 
+	[SerializeField]
+	float _ritualNoticeRange = 1.6f;
+
 	public static System.Action OnLostInDark;
 
 	YokaiSpec _spec = YokaiTable.ForLevel(LevelTable.MinLevel);
@@ -120,11 +123,9 @@ public class MaskYokai : EnemyBase
 		if (TryDetectPlayer())
 			return;
 
-		Altar channeling = Altar.Channeling;
-		if (channeling != null)
+		if (DrawnToRitual())
 		{
-			Steer(channeling.Position);
-			_hasPatrolTarget = false;
+			State = Define.EnemyState.Searching;
 			return;
 		}
 
@@ -173,6 +174,9 @@ public class MaskYokai : EnemyBase
 		if (TryDetectPlayer())
 			return;
 
+		if (DrawnToRitual())
+			return;
+
 		if (Vector2.Distance(transform.position, _lastKnownPosition) > _arrivalRange)
 		{
 			Steer(_lastKnownPosition);
@@ -201,6 +205,26 @@ public class MaskYokai : EnemyBase
 
 		_lastKnownPosition = _player.transform.position;
 		State = Define.EnemyState.Chasing;
+		return true;
+	}
+
+	bool DrawnToRitual()
+	{
+		Altar channeling = Altar.Channeling;
+		if (channeling == null)
+			return false;
+
+		_hasPatrolTarget = false;
+		_lastKnownPosition = channeling.Position;
+
+		if (ResolvePlayer()
+			&& Vector2.Distance(transform.position, _player.transform.position) <= _ritualNoticeRange)
+		{
+			State = Define.EnemyState.Chasing;
+			return true;
+		}
+
+		Steer(_lastKnownPosition);
 		return true;
 	}
 

@@ -175,8 +175,15 @@ public class LevelTests
 	[Test]
 	public void LampSecondsCoverRecalculatedRoute()
 	{
-		Assert.AreEqual(60.0f, LevelTable.Get(1).LampSeconds);
-		Assert.AreEqual(70.0f, LevelTable.Get(2).LampSeconds);
-		Assert.AreEqual(90.0f, LevelTable.Get(3).LampSeconds);
+		for (int level = LevelTable.MinLevel; level < LevelTable.MaxLevel; level++)
+		{
+			Assert.Less(
+				LevelTable.Get(level).LampSeconds,
+				LevelTable.Get(level + 1).LampSeconds,
+				$"{level + 1}전각은 {level}전각보다 넓으니 등불도 더 길어야 한다");
+		}
+
+		Assert.GreaterOrEqual(LevelTable.Get(LevelTable.MinLevel).LampSeconds, 45.0f,
+			"1전각 등불이 45초 아래면 초행에 헤맬 여유가 없다");
 	}
 }

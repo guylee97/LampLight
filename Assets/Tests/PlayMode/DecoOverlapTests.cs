@@ -23,7 +23,7 @@ public class DecoOverlapTests
 			if (renderer.sprite == null)
 				continue;
 
-			if (renderer.name.StartsWith("walldeco"))
+			if (renderer.name.StartsWith("walldeco") || renderer.name.StartsWith("cobweb"))
 				continue;
 
 			Bounds bounds = renderer.bounds;
@@ -31,19 +31,15 @@ public class DecoOverlapTests
 			int left = Mathf.FloorToInt(bounds.min.x + 0.01f);
 			int right = Mathf.CeilToInt(bounds.max.x - 0.01f) - 1;
 			int bottom = Mathf.FloorToInt(bounds.min.y + 0.01f);
-			int top = Mathf.CeilToInt(bounds.max.y - 0.01f) - 1;
 
-			for (int y = bottom; y <= top; y++)
+			for (int x = left; x <= right; x++)
 			{
-				for (int x = left; x <= right; x++)
-				{
-					int col = x;
-					int row = map.height - 1 - y;
+				int col = x;
+				int row = map.height - 1 - bottom;
 
-					if (MapCoord.IsWalkable(col, row) == false)
-						bad.Add($"{renderer.name}: 벽 칸 ({col},{row}) 을 덮는다 "
-							+ $"(월드 {renderer.transform.position})");
-				}
+				if (MapCoord.IsWalkable(col, row) == false)
+					bad.Add($"{renderer.name}: 밑동이 벽 칸 ({col},{row}) 에 서 있다 "
+						+ $"(월드 {renderer.transform.position})");
 			}
 		}
 

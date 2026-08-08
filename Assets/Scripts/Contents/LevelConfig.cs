@@ -42,7 +42,7 @@ public static class LevelTable
 			ArtifactsPlaced = 4,
 			ArtifactsRequired = 3,
 			ArtifactRadiusTiles = 7.0f,
-			LampSeconds = 90.0f,
+			LampSeconds = 100.0f,
 			RitualSeconds = 8.0f,
 			YokaiCount = 1,
 		},

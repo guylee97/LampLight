@@ -9,7 +9,7 @@ public static class ActorPhysicsSetup
 
 	static readonly (string Path, Define.Layer Layer, Vector2 Body, float FootOffset)[] ActorPrefabs =
 	{
-		("Assets/Resources/Prefabs/Player.prefab", Define.Layer.Player, new Vector2(0.34f, 0.18f), -0.238f),
+		("Assets/Resources/Prefabs/Player.prefab", Define.Layer.Player, new Vector2(0.34f, 0.18f), -0.317f),
 	};
 
 	[MenuItem("LampLight/Setup Actor Physics")]

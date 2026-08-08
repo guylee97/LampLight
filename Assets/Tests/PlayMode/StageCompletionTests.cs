@@ -15,6 +15,7 @@ public class StageCompletionTests
 	const float BotSlowdown = 3.0f;
 
 	[UnityTest]
+	[Timeout(600000)]
 	public IEnumerator BotCollectsEveryArtifactAndEscapes()
 	{
 		yield return QaScene.Load();

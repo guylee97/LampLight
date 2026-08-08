@@ -34,6 +34,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SOURCE = os.path.join(ROOT, "MapSource", "FullMap", "Map")
 
 ARTIFACTS = {1: 2, 2: 3, 3: 4}
+NEAR_START = {1: (5, 9)}
+
+# 게임이 실제 오브젝트로 스폰하는 것들. 저작본이 그려놨어도 장식으로 깔지 않는다.
+GAMEPLAY_CATEGORIES = ("artifact", "exit", "door")
 GID_MASK = 0x1FFFFFFF
 
 # 저작본에만 있는 이름들. 게임 매니페스트의 같은 물건으로 보낸다.
@@ -129,19 +133,27 @@ def rooms_from_clearance(free, width, height):
     return rooms
 
 
-def farthest(free, width, height, origin, candidates):
-    field = {origin: 0}
-    q = deque([origin])
-    while q:
-        c, r = q.popleft()
-        for dc, dr in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-            n = (c + dc, r + dr)
-            if (0 <= n[0] < width and 0 <= n[1] < height
-                    and free[n[1] * width + n[0]] and n not in field):
-                field[n] = field[(c, r)] + 1
-                q.append(n)
+def farthest(free, width, height, origin, candidates, wide):
+    """제단에서 가장 먼 방 칸을 시작점으로 쓴다. 방 중심으로 재면 통로 낀 방이 손해다."""
 
-    return max(candidates, key=lambda room: field.get(room["center"], -1))
+    field = path_field(free, width, height, origin)
+
+    best_room, best_tile, best_d = None, None, -1
+    for room in candidates:
+        for r in range(room["row"], room["row"] + room["height"]):
+            for c in range(room["col"], room["col"] + room["width"]):
+                if (c, r) not in wide:
+                    continue
+
+                d = field.get((c, r), -1)
+                if d > best_d:
+                    best_room, best_tile, best_d = room, (c, r), d
+
+    if best_room is None:
+        best_room = candidates[0]
+        best_tile = best_room["center"]
+
+    return best_room, best_tile
 
 
 def nearest_free(free, width, height, reach, target):
@@ -153,8 +165,16 @@ def nearest_free(free, width, height, reach, target):
     return best
 
 
-def place_artifacts(free, width, height, reach, rooms, start, altar, want, gap):
+def place_artifacts(free, width, height, reach, rooms, start, altar, want, gap,
+                    from_start, near_band):
     picked = []
+
+    if near_band:
+        lo, hi = near_band
+        band = sorted(t for t in reach if lo <= from_start.get(t, -1) <= hi)
+        if band:
+            picked.append(band[len(band) // 2])
+
     pool = [r for r in rooms if r is not start and r is not altar]
     pool.sort(key=lambda r: -r["area"])
 
@@ -219,93 +239,124 @@ def pick_spawns(free, width, height, start, reach, map_height):
     return [point(f"spawn_{i}", c, r, map_height) for i, (c, r) in enumerate(picked)]
 
 
-def build(level, template):
+ACTOR_HALF_W, ACTOR_HALF_H, ACTOR_FOOT = 0.31, 0.16, -0.317
+
+
+def collider_tiles(decorations, width, height):
+    """장식 콜라이더가 덮는 칸. MapCoord.BuildBlockedTiles 와 같은 식이어야 한다.
+
+    베이크는 스프라이트 픽셀로, 콜라이더는 매니페스트 박스로 만들어진다. 어긋나면
+    통행 표시는 됐는데 몸이 못 들어가는 칸이 생긴다.
+    """
+
+    blocked = set()
+    for d in decorations:
+        if (not d["collisionEnabled"]
+                or d["colliderWidth"] <= 0.0 or d["colliderHeight"] <= 0.0):
+            continue
+
+        cx = d["x"] + d["width"] * 0.5 + d["colliderOffsetX"]
+        cy = height - d["y"] + d["colliderOffsetY"]
+        hw = d["colliderWidth"] * 0.5 + ACTOR_HALF_W
+        hh = d["colliderHeight"] * 0.5 + ACTOR_HALF_H
+
+        for row in range(height):
+            ty = height - 1 - row + 0.5 + ACTOR_FOOT
+            if abs(ty - cy) >= hh:
+                continue
+
+            for col in range(width):
+                if abs(col + 0.5 - cx) < hw:
+                    blocked.add((col, row))
+
+    return blocked
+
+
+def build_terrain(level, template):
+    """1패스 — 바닥·벽·저작 장식만. 충돌은 베이커가 굽는다."""
+
     tmx = os.path.join(SOURCE, f"Level{level}", "Map.tmx")
     width, height, free, authored = parse_tmx(tmx)
 
-    walls = autotile(free, width, height)
-    floor = [FLOOR_GID if free[i] else 0 for i in range(width * height)]
-    collision = [WALK if free[i] else BLOCK for i in range(width * height)]
-
-    rooms = rooms_from_clearance(free, width, height)
-    if len(rooms) < 3:
-        raise SystemExit(f"L{level}: 방을 3개 이상 못 찾았다 ({len(rooms)}개)")
-
-    altar_room = named_altar(rooms, authored) or rooms[0]
-    start_room = farthest(free, width, height, altar_room["center"],
-                          [r for r in rooms if r is not altar_room])
-
-    # 도달성은 게임과 같은 기준으로 본다. 3x3 여유 그래프는 좁은 복도에서 끊긴다.
-    reach = set(path_field(free, width, height, start_room["center"]))
-    wide = wide_tiles(free, width, height)
-
-    objects = [point("player_start", *start_room["center"], height=height)]
-    objects.append(point("exit_door", *altar_room["center"], height=height))
-
-    spread = place_artifacts(free, width, height, reach & wide or reach, rooms,
-                             start_room, altar_room, ARTIFACTS[level],
-                             RADIUS[level] + 1.0)
-    for i, (col, row) in enumerate(spread, start=1):
-        objects.append(point(f"artifact_{i}", col, row, height))
-
-    spawns = pick_spawns(free, width, height, start_room["center"],
-                         reach & wide or reach, height)
-
-    keep_clear = set()
-    for o in objects:
-        for dr in (-1, 0, 1):
-            for dc in (-1, 0, 1):
-                keep_clear.add((o["col"] + dc, o["row"] + dr))
-
     catalog = load_objects()
-    decorations, dropped = [], 0
+    decorations = []
     for a in authored:
         entry = catalog.get(ALIASES.get(a["key"], a["key"]))
-        if entry is None:
-            dropped += 1
+        if entry is None or entry.get("category") in GAMEPLAY_CATEGORIES:
             continue
 
         col = int(round(a["col"]))
         row = int(round(a["bottom"] - a["rows"]))
-
         if not (0 <= col < width and 0 <= row < height):
-            dropped += 1
             continue
 
-        if (col, row) in keep_clear:
-            dropped += 1
+        # 밑동은 바닥에 서야 한다. 벽에 붙는 것은 walldeco/cobweb 만.
+        base = int(round(a["bottom"])) - 1
+        wall_mounted = entry["key"].startswith(("walldeco_", "cobweb_"))
+        if not wall_mounted and (not (0 <= base < height) or not free[base * width + col]):
             continue
 
         decorations.append(as_decoration(entry, col, row))
 
     data = dict(template)
     data.update({
-        "width": width,
-        "height": height,
+        "width": width, "height": height,
         "tileSize": TILE_SIZE,
-        "pixelWidth": width * TILE_SIZE,
-        "pixelHeight": height * TILE_SIZE,
-        "floor": floor,
-        "walls": walls,
+        "pixelWidth": width * TILE_SIZE, "pixelHeight": height * TILE_SIZE,
+        "floor": [FLOOR_GID if free[i] else 0 for i in range(width * height)],
+        "walls": autotile(free, width, height),
         "deco": [0] * (width * height),
-        "collision": collision,
-        "objects": objects,
-        "spawns": spawns,
-        "rooms": [{"col": r["col"], "row": r["row"],
-                   "width": r["width"], "height": r["height"]} for r in rooms],
+        "collision": [WALK if free[i] else BLOCK for i in range(width * height)],
         "decorations": decorations,
     })
+    return data, authored, free, len(authored)
+
+
+def place_objects(level, data, authored, free):
+    """2패스 — 구워진 충돌 위에 시작·공양물·제단을 놓는다."""
+
+    width, height = data["width"], data["height"]
+    collision = data["collision"]
+    walk = [c != BLOCK for c in collision]
+
+    # 방은 건축(바닥)에서 읽고, 통행은 구워진 충돌에서 읽는다.
+    rooms = rooms_from_clearance(free, width, height)
+    if len(rooms) < 3:
+        raise SystemExit(f"L{level}: 방을 3개 이상 못 찾았다 ({len(rooms)}개)")
+
+    altar_room = named_altar(rooms, authored) or rooms[0]
+    wide = wide_tiles(walk, width, height)
+    start_room, start_tile = farthest(walk, width, height, altar_room["center"],
+                                      [r for r in rooms if r is not altar_room], wide)
+
+    reach = set(path_field(walk, width, height, start_tile))
+    if not reach:
+        raise SystemExit(f"L{level}: 시작점이 막혔다")
+
+    altar_tile = altar_room["center"]
+    if altar_tile not in reach:
+        altar_tile = min(reach, key=lambda t: (t[0] - altar_room["center"][0]) ** 2
+                         + (t[1] - altar_room["center"][1]) ** 2)
+
+    objects = [point("player_start", *start_tile, height=height),
+               point("exit_door", *altar_tile, height=height)]
+
+    spread = place_artifacts(walk, width, height, reach & wide or reach, rooms,
+                             start_room, altar_room, ARTIFACTS[level],
+                             RADIUS[level] + 1.0,
+                             path_field(walk, width, height, start_tile),
+                             NEAR_START.get(level))
+    for i, (col, row) in enumerate(spread, start=1):
+        objects.append(point(f"artifact_{i}", col, row, height))
+
+    data["objects"] = objects
+    data["spawns"] = pick_spawns(walk, width, height, start_tile,
+                                 reach & wide or reach, height)
+    data["rooms"] = [{"col": r["col"], "row": r["row"],
+                      "width": r["width"], "height": r["height"]} for r in rooms]
 
     missing = [o["name"] for o in objects if (o["col"], o["row"]) not in reach]
-    overlaps = overlap_pairs(spread, RADIUS[level])
-    walkable = sum(1 for v in free if v)
-
-    print(f"L{level} {width}x{height}  통과 {walkable}  방 {len(rooms)}"
-          f"  장식 {len(decorations)}/{len(authored)} (버림 {dropped})"
-          f"  소리겹침 {overlaps}쌍"
-          + ("  전 목표 연결됨" if not missing else f"  미연결 {missing}"))
-
-    return data, (not missing) and overlaps <= 1
+    return spread, missing, len(reach)
 
 
 def main():
@@ -314,21 +365,57 @@ def main():
     parser.add_argument("--out", default=DATA)
     args = parser.parse_args()
 
-    ok = True
+    import bake_collision
+
+    stash = {}
     for level in (1, 2, 3):
         path = os.path.join(DATA, f"map_l{level}.json")
         with open(path, encoding="utf-8") as handle:
             template = json.load(handle)
 
-        data, good = build(level, template)
-        ok &= good
+        data, authored, free, authored_n = build_terrain(level, template)
+        stash[level] = (authored, free, authored_n)
 
-        if args.dry_run:
-            continue
+        with open(path, "w", encoding="utf-8") as handle:
+            json.dump(data, handle, ensure_ascii=False, separators=(",", ":"))
+
+    rules = bake_collision.load_rules(os.path.join(ROOT, "docs", "collision_map.json"))
+    cache = {}
+    for level in (1, 2, 3):
+        _, unknown = bake_collision.bake(level, *rules, cache)
+        if unknown:
+            raise SystemExit(f"L{level}: 판정표에 없는 키 {sorted(unknown)}")
+
+        path = os.path.join(DATA, f"map_l{level}.json")
+        with open(path, encoding="utf-8") as handle:
+            data = json.load(handle)
+
+        width, height = data["width"], data["height"]
+        for col, row in collider_tiles(data["decorations"], width, height):
+            data["collision"][row * width + col] = BLOCK
+
+        with open(path, "w", encoding="utf-8") as handle:
+            json.dump(data, handle, ensure_ascii=False, separators=(",", ":"))
+
+    ok = True
+    for level in (1, 2, 3):
+        path = os.path.join(DATA, f"map_l{level}.json")
+        with open(path, encoding="utf-8") as handle:
+            data = json.load(handle)
+
+        authored, free, authored_n = stash[level]
+        spread, missing, walkable = place_objects(level, data, authored, free)
+        overlaps = overlap_pairs(spread, RADIUS[level])
+        ok &= (not missing) and overlaps <= 1
 
         with open(os.path.join(args.out, f"map_l{level}.json"), "w",
                   encoding="utf-8") as handle:
             json.dump(data, handle, ensure_ascii=False, separators=(",", ":"))
+
+        print(f"L{level} {data['width']}x{data['height']}  통행 {walkable}"
+              f"(바닥 {sum(1 for v in free if v)})  장식 {len(data['decorations'])}/{authored_n}"
+              f"  소리겹침 {overlaps}쌍"
+              + ("  전 목표 연결됨" if not missing else f"  미연결 {missing}"))
 
     if not ok:
         raise SystemExit("목표 지점이 이어지지 않는다")

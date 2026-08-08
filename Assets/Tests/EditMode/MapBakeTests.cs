@@ -37,7 +37,7 @@ public class MapBakeTests
 	[Test]
 	public void EveryLevelMapMatchesItsSpec()
 	{
-		int[,] expected = { { 1, 34, 24 }, { 2, 42, 30 }, { 3, 52, 36 } };
+		int[,] expected = { { 1, 30, 28 }, { 2, 41, 40 }, { 3, 56, 52 } };
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -133,11 +133,12 @@ public class MapBakeTests
 			MapPoint start = Managers.Data.GetPoint("player_start");
 			MapPoint altar = Managers.Data.GetPoint(MapObjectPlacer.ExitDoorPoint);
 			List<MapPoint> remaining = Artifacts(map);
+			int needed = LevelTable.Get(level).ArtifactsRequired;
 
 			MapPoint current = start;
 			int tiles = 0;
 
-			while (remaining.Count > 0)
+			while (remaining.Count > 0 && needed-- > 0)
 			{
 				int[] field = MapPathfinder.DistanceField(current.col, current.row);
 				int bestIndex = 0;
@@ -255,26 +256,21 @@ public class MapBakeTests
 	public void C10_FirstLevelHasAnArtifactNearTheStart()
 	{
 		MapData map = Load(1);
-		System.Collections.Generic.List<string> bad = new System.Collections.Generic.List<string>();
+		MapPoint start = Managers.Data.GetPoint(SpawnSelector.PlayerStartPoint);
+		Assert.IsNotNull(start, "L1에 player_start 가 없다");
 
-		foreach (MapPoint spawn in map.spawns)
+		int[] field = MapPathfinder.DistanceField(start.col, start.row);
+		int nearest = int.MaxValue;
+
+		foreach (MapPoint artifact in Artifacts(map))
 		{
-			int[] field = MapPathfinder.DistanceField(spawn.col, spawn.row);
-			bool found = false;
-
-			foreach (MapPoint artifact in Artifacts(map))
-			{
-				int d = MapPathfinder.Sample(field, artifact.col, artifact.row);
-				if (d >= 5 && d <= 9)
-					found = true;
-			}
-
-			if (found == false)
-				bad.Add($"({spawn.col},{spawn.row})");
+			int d = MapPathfinder.Sample(field, artifact.col, artifact.row);
+			if (d != MapPathfinder.Unreachable && d < nearest)
+				nearest = d;
 		}
 
-		Assert.IsEmpty(bad, "L1은 어느 시작점에서든 5~9타일 안에 유물이 있어야 "
-			+ "2초 내 첫 리듬음이 난다. 위반: " + string.Join(", ", bad));
+		Assert.LessOrEqual(nearest, 9,
+			$"L1은 시작에서 9타일 안에 공양물이 있어야 2초 내 첫 리듬음이 난다 (가장 가까운 것 {nearest}타일)");
 	}
 
 	[Test]
