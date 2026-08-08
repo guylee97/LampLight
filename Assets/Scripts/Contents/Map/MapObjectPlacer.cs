@@ -102,6 +102,15 @@ public class MapObjectPlacer : MonoBehaviour
 
 			if (sprite != null)
 				_artifacts[i].SetSprite(sprite);
+
+			Sprite exposed = LoadObjectSprite(DecoSpec.ArtifactKey(i, 0));
+			_artifacts[i].SetMarkSprite(exposed != null ? exposed : sprite);
+
+			if (_altar != null)
+			{
+				Artifact carried = _artifacts[i];
+				carried.OnCollected += a => _altar.Carry(a.MarkSprite);
+			}
 		}
 	}
 

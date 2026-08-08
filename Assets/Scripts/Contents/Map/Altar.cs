@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -30,6 +31,11 @@ public class Altar : MonoBehaviour, IInteractable
 	PlayerInteractor _interactor;
 	Lamp _lamp;
 	Light2D _glow;
+	AltarOfferings _offerings;
+
+	// 주운 순서대로 쌓아두고 올릴 때 하나씩 꺼낸다.
+	readonly Queue<Sprite> _carried = new Queue<Sprite>();
+
 	int _placed;
 	bool _finished;
 	bool _channeling;
@@ -96,8 +102,17 @@ public class Altar : MonoBehaviour, IInteractable
 		_placed = 0;
 		_finished = false;
 		_channeling = false;
+		_carried.Clear();
+		EnsureOfferings();
+		_offerings.Clear();
 		ResetProgress();
 		ApplyPing();
+	}
+
+	public void Carry(Sprite mark)
+	{
+		if (mark != null)
+			_carried.Enqueue(mark);
 	}
 
 	void Awake()
@@ -109,6 +124,13 @@ public class Altar : MonoBehaviour, IInteractable
 			_ping = GetComponent<PingScheduler>();
 
 		EnsureGlow();
+		EnsureOfferings();
+	}
+
+	void EnsureOfferings()
+	{
+		if (_offerings == null)
+			_offerings = GetComponent<AltarOfferings>() ?? gameObject.AddComponent<AltarOfferings>();
 	}
 
 	void EnsureGlow()
@@ -227,6 +249,9 @@ public class Altar : MonoBehaviour, IInteractable
 
 		_placed++;
 		s_completedSteps = _placed;
+
+		EnsureOfferings();
+		_offerings.Lay(_carried.Count > 0 ? _carried.Dequeue() : null);
 
 		_channeling = false;
 		Channeling = null;

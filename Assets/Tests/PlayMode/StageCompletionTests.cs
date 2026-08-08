@@ -78,6 +78,11 @@ public class StageCompletionTests
 
 		Assert.AreEqual(Define.StageResult.Cleared, outcome, "제단에서 봉인 처리가 되지 않았다");
 
+		AltarOfferings laid = altar.GetComponent<AltarOfferings>();
+		Assert.IsNotNull(laid, "제단에 AltarOfferings가 없다");
+		Assert.AreEqual(progress.Required, laid.Count,
+			"올린 공양물이 제단 앞에 그만큼 놓여 있어야 한다 — 숫자만 오르면 화면에서 안 읽힌다");
+
 		float elapsed = Time.time - startedAt;
 		Assert.Less(elapsed, lampBudget * BotSlowdown,
 			$"봇이 한 바퀴 도는 데 {elapsed:0.0}초 걸렸다 — 등불 {lampBudget:0}초의 "

@@ -40,6 +40,29 @@ public class Artifact : MonoBehaviour, IInteractable
 
 	public Action<Artifact> OnCollected;
 
+	// 매몰형은 화면에 잔해로 보이지만, 제단에 올릴 때는 물건 자체가 보여야 한다.
+	[SerializeField]
+	Sprite _markSprite;
+
+	public Sprite MarkSprite { get { return _markSprite != null ? _markSprite : Renderer; } }
+
+	Sprite Renderer
+	{
+		get
+		{
+			if (_renderer == null)
+				_renderer = GetComponent<SpriteRenderer>();
+
+			return _renderer != null ? _renderer.sprite : null;
+		}
+	}
+
+	public void SetMarkSprite(Sprite sprite)
+	{
+		if (sprite != null)
+			_markSprite = sprite;
+	}
+
 	public string PointName { get { return _pointName; } }
 	public bool IsCollected { get { return _collected; } }
 	public float CollectNoiseRadius { get { return _collectNoiseRadius; } }
