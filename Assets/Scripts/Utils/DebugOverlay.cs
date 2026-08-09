@@ -16,6 +16,12 @@ public class DebugOverlay : MonoBehaviour
 		SetInvulnerable(value);
 	}
 
+	public static bool ToggleInvulnerability()
+	{
+		SetInvulnerable(Invulnerable == false);
+		return Invulnerable;
+	}
+
 	static void SetInvulnerable(bool value)
 	{
 		Invulnerable = value;

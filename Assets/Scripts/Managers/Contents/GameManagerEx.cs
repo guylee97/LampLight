@@ -105,7 +105,7 @@ public class GameManagerEx
         ConsecutiveFailures++;
 
         GameObject player = GetPlayer();
-        if (player != null)
+        if (catcher != null && player != null)
         {
             Managers.Sound.PlayAtPointOptional(
                 "death_contact",

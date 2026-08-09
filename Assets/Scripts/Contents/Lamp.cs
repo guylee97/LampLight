@@ -71,6 +71,7 @@ public class Lamp : MonoBehaviour
 
 	float _remainingDuration;
 	float _snuffScale = 1.0f;
+	bool _burnoutVisual;
 	float _fuelScale = 1.0f;
 	bool _listening;
 
@@ -200,6 +201,13 @@ public class Lamp : MonoBehaviour
 		ApplyLightSettings();
 	}
 
+	public void SetBurnoutVisual(float scale)
+	{
+		_snuffScale = Mathf.Clamp01(scale);
+		_burnoutVisual = _snuffScale > 0.0f;
+		ApplyLightSettings();
+	}
+
 	public void Toggle()
 	{
 		if (_isOn)
@@ -231,7 +239,7 @@ public class Lamp : MonoBehaviour
 		float radius = _listening ? _orbRadius * _listenRangeRatio : _orbRadius;
 		float flicker = Flicker();
 
-		_light.enabled = IsOn && _snuffScale > 0.0f;
+		_light.enabled = (IsOn || _burnoutVisual) && _snuffScale > 0.0f;
 		_light.lightType = Light2D.LightType.Point;
 		_light.color = _warmColor;
 		_light.intensity = _intensity * (1.0f + flicker * _flickerAmount) * _snuffScale;

@@ -29,9 +29,6 @@ public class MaskYokai : EnemyBase
 	float _patrolRetargetSeconds = 5.0f;
 
 	[SerializeField]
-	float _ritualSpeedBonusPerStep = 0.12f;
-
-	[SerializeField]
 	float _ritualNoticeRange = 1.6f;
 
 	public static System.Action OnLostInDark;
@@ -116,14 +113,12 @@ public class MaskYokai : EnemyBase
 	{
 		get
 		{
-			float ritualBonus = 1.0f + Altar.CompletedSteps * _ritualSpeedBonusPerStep;
-
 			switch (State)
 			{
 				case Define.EnemyState.Chasing:
-					return _chaseSpeed * ritualBonus;
+					return _chaseSpeed;
 				case Define.EnemyState.Searching:
-					return _searchSpeed * ritualBonus;
+					return _searchSpeed;
 				case Define.EnemyState.Patrol:
 					return _patrolSpeed;
 				default:

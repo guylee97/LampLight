@@ -103,6 +103,25 @@ public class UI_InGame : UI_Scene
 		_noticeRoutine = null;
 	}
 
+	public void ShowTemporaryNotice(string message, float seconds)
+	{
+		if (_noticeText == null)
+			return;
+
+		if (_noticeRoutine != null)
+			StopCoroutine(_noticeRoutine);
+
+		_noticeRoutine = StartCoroutine(ShowTemporaryNoticeRoutine(message, seconds));
+	}
+
+	IEnumerator ShowTemporaryNoticeRoutine(string message, float seconds)
+	{
+		_noticeText.text = message;
+		yield return new WaitForSecondsRealtime(Mathf.Max(0.0f, seconds));
+		_noticeText.text = string.Empty;
+		_noticeRoutine = null;
+	}
+
 	const string WickSprite = "Art/UI/Play_screen_UI/Lantern_Remaining_Wick";
 	const string FlameSprite = "Art/UI/Play_screen_UI/firelight";
 	const float WickHeight = 206.0f;

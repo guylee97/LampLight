@@ -11,6 +11,9 @@ public class PlayerController : BaseController
 	float _runSpeed = 6.5f;
 
 	[SerializeField]
+	float _sneakSpeed = 1.0f;
+
+	[SerializeField]
 	Lamp _lamp;
 
 	[SerializeField]
@@ -20,10 +23,16 @@ public class PlayerController : BaseController
 	float _runFootstepInterval = 0.32f;
 
 	[SerializeField]
+	float _sneakFootstepInterval = 0.75f;
+
+	[SerializeField]
 	float _walkNoiseRadius = 5.0f;
 
 	[SerializeField]
 	float _runNoiseRadius = 9.0f;
+
+	[SerializeField]
+	float _sneakNoiseRadius = 2.0f;
 
 	[SerializeField]
 	float _noisyFloorNoiseScale = 1.8f;
@@ -35,16 +44,25 @@ public class PlayerController : BaseController
 	float _lampVisibilityBonus = 0.65f;
 
 	[SerializeField]
+	float _sneakVisibilityScale = 0.7f;
+
+	[SerializeField]
 	AudioClip[] _walkFootstepClips;
 
 	[SerializeField]
 	AudioClip[] _runFootstepClips;
 
 	[SerializeField]
+	AudioClip[] _sneakFootstepClips;
+
+	[SerializeField]
 	AudioClip[] _noisyWalkFootstepClips;
 
 	[SerializeField]
 	AudioClip[] _noisyRunFootstepClips;
+
+	[SerializeField]
+	AudioClip[] _noisySneakFootstepClips;
 
 	Rigidbody2D _rigidbody;
 	Animator _animator;
@@ -65,7 +83,7 @@ public class PlayerController : BaseController
 
 	public Lamp Lamp { get { return _lamp; } }
 
-	public bool IsSneaking { get { return false; } }
+	public bool IsSneaking { get; private set; }
 
 	public bool IsOnNoisyFloor { get { return _onNoisyFloor; } }
 	public bool IsOnMuffledFloor { get { return _onMuffledFloor; } }
@@ -82,6 +100,9 @@ public class PlayerController : BaseController
 
 			if (_lamp != null && _lamp.IsOn)
 				scale += _lampVisibilityBonus;
+
+			if (IsSneaking)
+				scale *= _sneakVisibilityScale;
 
 			return scale;
 		}
@@ -159,6 +180,7 @@ public class PlayerController : BaseController
 			_moveDir = Vector2.zero;
 			_moveSpeed = 0;
 			IsRunning = false;
+			IsSneaking = false;
 			CurrentNoiseRadius = 0;
 			SetListening(false);
 			Managers.Sound.SetRunning(false);
@@ -235,7 +257,11 @@ public class PlayerController : BaseController
 		bool isMoving = _moveDir.sqrMagnitude > 0.01f;
 
 		// 달리기에 눈금을 두지 않는다. 대가는 소리다 — 걷기 5타일, 달리기 9타일.
-		bool isRunning = isMoving && keyboard.leftShiftKey.isPressed;
+		bool isSneaking = isMoving
+			&& (keyboard.leftCtrlKey.isPressed || keyboard.rightCtrlKey.isPressed);
+		bool isRunning = isMoving && isSneaking == false
+			&& (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed);
+		IsSneaking = isSneaking;
 		IsRunning = isRunning;
 
 		Managers.Sound.SetRunning(isRunning);
@@ -253,6 +279,14 @@ public class PlayerController : BaseController
 			footstepClips = _runFootstepClips;
 			noisyFloorClips = _noisyRunFootstepClips;
 			noiseRadius = _runNoiseRadius;
+		}
+		else if (isSneaking)
+		{
+			_moveSpeed = _sneakSpeed;
+			footstepInterval = _sneakFootstepInterval;
+			footstepClips = _sneakFootstepClips;
+			noisyFloorClips = _noisySneakFootstepClips;
+			noiseRadius = _sneakNoiseRadius;
 		}
 
 		_onNoisyFloor = MapCoord.IsNoisy(transform.position);

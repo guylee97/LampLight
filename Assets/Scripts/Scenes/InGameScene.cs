@@ -21,6 +21,7 @@ public class InGameScene : MonoBehaviour
 	const float FadeOutSeconds = 0.6f;
 	const float BlackSeconds = 0.5f;
 	const float FadeInSeconds = 0.7f;
+	const float InvulnerabilityKeyInterval = 1.0f;
 	const int DistantCueMinTiles = 12;
 	const int DistantCueMaxTiles = 20;
 
@@ -59,6 +60,8 @@ public class InGameScene : MonoBehaviour
 
 	UI_InGame _hud;
 	bool _escapeWasPressed;
+	int _invulnerabilityKeyPresses;
+	float _lastInvulnerabilityKeyTime = float.NegativeInfinity;
 
 	void Start()
 	{
@@ -126,6 +129,16 @@ public class InGameScene : MonoBehaviour
 			yield return ScreenFade.To(0.0f, FadeInSeconds);
 
 		OpeningLines(config);
+
+		if (config.Level == LevelTable.MinLevel)
+		{
+			// 대사 코루틴이 화면을 연 다음 프레임부터 닫힐 때까지 기다린다.
+			yield return null;
+			while (UI_Dialogue.IsShowing)
+				yield return null;
+
+			yield return TutorialPopup.Show();
+		}
 
 		StartCoroutine(DistantCue());
 		StartCoroutine(WakeYokai(config, seed));
@@ -433,6 +446,28 @@ public class InGameScene : MonoBehaviour
 		Keyboard keyboard = Keyboard.current;
 		if (keyboard == null)
 			return;
+
+		if (keyboard.pKey.wasPressedThisFrame)
+		{
+			if (Time.unscaledTime - _lastInvulnerabilityKeyTime > InvulnerabilityKeyInterval)
+				_invulnerabilityKeyPresses = 0;
+
+			_lastInvulnerabilityKeyTime = Time.unscaledTime;
+			_invulnerabilityKeyPresses++;
+
+			if (_invulnerabilityKeyPresses >= 3)
+			{
+				_invulnerabilityKeyPresses = 0;
+				bool enabled = DebugOverlay.ToggleInvulnerability();
+
+				if (_hud != null)
+				{
+					_hud.ShowTemporaryNotice(
+						enabled ? "무적 모드가 활성화되었습니다." : "무적 모드가 해제되었습니다.",
+						2.0f);
+				}
+			}
+		}
 
 		bool pressed = keyboard.escapeKey.isPressed;
 		if (pressed && _escapeWasPressed == false)

@@ -183,11 +183,67 @@ public class UI_GameOver : UI_Popup
 
 	IEnumerator Play()
 	{
+		if (Managers.Game.Catcher == null)
+		{
+			yield return Burnout();
+			yield return Settle();
+			yield return RevealSheet();
+			yield break;
+		}
+
 		yield return Hitstop();
 		yield return Face();
 		yield return Flicker();
 		yield return Settle();
 		yield return RevealSheet();
+	}
+
+	IEnumerator Burnout()
+	{
+		Time.timeScale = 0.0f;
+		_face.enabled = false;
+		_flash.color = Color.clear;
+		_dim.color = Color.clear;
+
+		Lamp lamp = FindFirstObjectByType<Lamp>();
+		float[] flickerScales = { 1.0f, 0.82f, 0.64f };
+		for (int i = 0; i < flickerScales.Length; i++)
+		{
+			if (lamp != null)
+				lamp.SetBurnoutVisual(0.0f);
+
+			_dim.color = new Color(0.0f, 0.0f, 0.0f, 0.32f);
+			yield return new WaitForSecondsRealtime(0.09f);
+
+			if (lamp != null)
+				lamp.SetBurnoutVisual(flickerScales[i]);
+
+			_dim.color = Color.clear;
+			yield return new WaitForSecondsRealtime(0.13f);
+		}
+
+		Managers.Sound.PlayOptional(
+			"Player_Game_Over/dragon-studio-cinematic-dive-underwater-467471",
+			Define.Sound.Self);
+
+		const float collapseSeconds = 1.2f;
+		for (float elapsed = 0.0f; elapsed < collapseSeconds; elapsed += Time.unscaledDeltaTime)
+		{
+			float t = Mathf.Clamp01(elapsed / collapseSeconds);
+			float eased = Ease.SmootherStep(t);
+
+			if (lamp != null)
+				lamp.SetBurnoutVisual(Mathf.Lerp(0.64f, 0.0f, eased));
+
+			_dim.color = new Color(0.0f, 0.0f, 0.0f, eased);
+			yield return null;
+		}
+
+		if (lamp != null)
+			lamp.SetBurnoutVisual(0.0f);
+
+		_dim.color = Color.black;
+		yield return new WaitForSecondsRealtime(0.8f);
 	}
 
 	IEnumerator Hitstop()

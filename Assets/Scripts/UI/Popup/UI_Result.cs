@@ -68,10 +68,23 @@ public class UI_Result : UI_Popup
 		}
 
 		GameManagerEx game = Managers.Game;
+		bool finalClear = cleared && game.HasNextLevel == false;
 
 		Text title = GetText((int)Texts.ResultTitleText);
 		if (title != null)
-			title.text = cleared ? $"{game.CurrentLevel}층 봉인 완료" : "붙잡혔다";
+			title.text = finalClear ? "탈출 성공" : cleared ? $"{game.CurrentLevel}층 봉인 완료" : "붙잡혔다";
+
+		Button retry = GetButton((int)Buttons.RetryButton);
+		Button titleButton = GetButton((int)Buttons.TitleButton);
+		if (retry != null)
+			retry.gameObject.SetActive(finalClear == false);
+
+		if (finalClear && titleButton != null)
+		{
+			RectTransform rect = titleButton.GetComponent<RectTransform>();
+			if (rect != null)
+				rect.anchoredPosition = new Vector2(0.0f, rect.anchoredPosition.y);
+		}
 
 		Text detail = GetText((int)Texts.ResultDetailText);
 		if (detail == null)
@@ -93,8 +106,8 @@ public class UI_Result : UI_Popup
 		// "불이 꺼지면 걷는 게 너인지도 모르게 된다", "복도에서 뛰어다니는 게 걔들이다".
 		DialogueBeat ending = DialogueTable.Book.ending;
 		detail.text = ending != null && ending.lines != null && ending.lines.Length > 0
-			? ending.lines[0]
-			: "이 신전의 모든 봉인을 마쳤다";
+			? string.Join("\n", ending.lines)
+			: "괴물들을 모두 봉인했다.\n당신은 마침내 신전을 빠져나왔다.";
 	}
 
 	void OnRetry(PointerEventData data)
@@ -125,7 +138,11 @@ public class UI_Result : UI_Popup
 		if (AnyKey.Down)
 		{
 			_ready = false;
-			OnRetry(null);
+
+			if (_result == Define.StageResult.Cleared && Managers.Game.HasNextLevel == false)
+				OnTitle(null);
+			else
+				OnRetry(null);
 		}
 	}
 }
