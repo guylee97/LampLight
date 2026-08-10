@@ -108,6 +108,8 @@ public class InGameScene : MonoBehaviour
 
 		if (_selector.Select())
 			PlacePlayer();
+		else
+			Debug.LogError($"InGameScene: {config.Level}층 시작 지점을 찾지 못해 플레이어를 두지 못했다");
 
 		_hud = Managers.UI.ShowSceneUI<UI_InGame>();
 		_hud.Setup(_progress, _player);

@@ -135,7 +135,7 @@ public class UI_Result : UI_Popup
 			return;
 		}
 
-		if (AnyKey.Down)
+		if (AnyKey.KeyOrPadDown)
 		{
 			_ready = false;
 
