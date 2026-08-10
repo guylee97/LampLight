@@ -132,11 +132,14 @@ public class AudioTuningTests
 	}
 
 	[Test]
-	public void BreathRisesOnlyBelowThreshold()
+	public void BreathRisesWhileRunningAndSettlesWhenYouStop()
 	{
-		Assert.AreEqual(0.0f, PlayerBreath.TargetVolume(1.0f, 0.5f), 0.001f);
-		Assert.AreEqual(0.0f, PlayerBreath.TargetVolume(0.5f, 0.5f), 0.001f);
-		Assert.AreEqual(0.5f, PlayerBreath.TargetVolume(0.25f, 0.5f), 0.001f);
-		Assert.AreEqual(1.0f, PlayerBreath.TargetVolume(0.0f, 0.5f), 0.001f);
+		// 4초를 달리면 가득 찬다.
+		Assert.AreEqual(0.25f, PlayerBreath.NextEffort(0.0f, true, 1.0f, 4.0f, 3.0f), 0.001f);
+		Assert.AreEqual(1.0f, PlayerBreath.NextEffort(0.9f, true, 1.0f, 4.0f, 3.0f), 0.001f);
+
+		// 멈추면 3초에 걸쳐 가라앉는다.
+		Assert.AreEqual(0.0f, PlayerBreath.NextEffort(0.2f, false, 1.0f, 4.0f, 3.0f), 0.001f);
+		Assert.AreEqual(0.5f, PlayerBreath.NextEffort(0.8333333f, false, 1.0f, 4.0f, 3.0f), 0.001f);
 	}
 }

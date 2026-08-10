@@ -54,7 +54,7 @@ public class NoiseTile : MonoBehaviour
 		if (_variants <= 1)
 			return _clip;
 
-		int index = Random.Range(1, _variants + 1);
+		int index = Mathf.Abs(GetInstanceID()) % _variants + 1;
 		return index == 1 ? _clip : $"{_clip}_{index}";
 	}
 

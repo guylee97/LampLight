@@ -40,6 +40,29 @@ public class Artifact : MonoBehaviour, IInteractable
 
 	public Action<Artifact> OnCollected;
 
+	// 매몰형은 화면에 잔해로 보이지만, 제단에 올릴 때는 물건 자체가 보여야 한다.
+	[SerializeField]
+	Sprite _markSprite;
+
+	public Sprite MarkSprite { get { return _markSprite != null ? _markSprite : Renderer; } }
+
+	Sprite Renderer
+	{
+		get
+		{
+			if (_renderer == null)
+				_renderer = GetComponent<SpriteRenderer>();
+
+			return _renderer != null ? _renderer.sprite : null;
+		}
+	}
+
+	public void SetMarkSprite(Sprite sprite)
+	{
+		if (sprite != null)
+			_markSprite = sprite;
+	}
+
 	public string PointName { get { return _pointName; } }
 	public bool IsCollected { get { return _collected; } }
 	public float CollectNoiseRadius { get { return _collectNoiseRadius; } }
@@ -57,10 +80,15 @@ public class Artifact : MonoBehaviour, IInteractable
 		get
 		{
 			if (_concealment == 0)
-				return "[E] 유물 수집";
+				return "[E] 공양물 줍기";
 
 			return _concealment == 1 ? "[E] 잔해를 헤친다" : "[E] 석관을 연다";
 		}
+	}
+
+	public string HoldingLabel
+	{
+		get { return _concealment == 1 ? "헤치는 중" : "여는 중"; }
 	}
 
 	public Vector3 Position { get { return transform.position; } }
@@ -68,6 +96,14 @@ public class Artifact : MonoBehaviour, IInteractable
 	public void SetConcealment(int level)
 	{
 		_concealment = Mathf.Clamp(level, 0, 2);
+	}
+
+	// 프리팹은 sortingOrder 10 으로 고정돼 있었다. 장식은 WorldYSort 로 800~1000 대를
+	// 쓰기 때문에, 공양물 위에 소품이 하나라도 겹치면 그대로 가려져 안 보인다.
+	void Awake()
+	{
+		if (GetComponent<WorldYSort>() == null)
+			gameObject.AddComponent<WorldYSort>();
 	}
 
 	void Update()

@@ -10,6 +10,18 @@ public class UI_MainScreen : UI_Scene
 		StartButton
 	}
 
+	PressAnyKeyPrompt _prompt;
+	bool _ready;
+
+	void Update()
+	{
+		if (_ready == false || AnyKey.Down == false)
+			return;
+
+		_ready = false;
+		OnStartButtonClicked(null);
+	}
+
 	public override void Init()
 	{
 		base.Init();
@@ -18,6 +30,9 @@ public class UI_MainScreen : UI_Scene
 		Button start = GetButton((int)Buttons.StartButton);
 		start.gameObject.BindEvent(OnStartButtonClicked);
 		ApplyArtwork(start);
+		_prompt = PressAnyKeyPrompt.Attach(
+			transform, PressAnyKeyPrompt.PressAnyKeyArt, 0.235f, 620.0f);
+		_prompt.gameObject.SetActive(false);
 		Managers.Sound.PlayOptional(
 			"Title_Background_Music/👍Title_Background_Mixing",
 			Define.Sound.Ambient,
@@ -60,31 +75,8 @@ public class UI_MainScreen : UI_Scene
 			image.raycastTarget = false;
 		}
 
-		Sprite buttonSprite = LoadSprite("Art/UI/Title screen/Start button");
-		Image buttonImage = start == null ? null : start.GetComponent<Image>();
-		if (buttonImage != null && buttonSprite != null)
-		{
-			RectTransform rect = start.GetComponent<RectTransform>();
-			rect.anchorMin = new Vector2(0.5f, 0.24f);
-			rect.anchorMax = new Vector2(0.5f, 0.24f);
-			rect.anchoredPosition = Vector2.zero;
-			rect.sizeDelta = new Vector2(360.0f, 150.0f);
-
-			buttonImage.sprite = buttonSprite;
-			buttonImage.preserveAspect = true;
-			HideButtonLabel(start);
-		}
-	}
-
-	static void HideButtonLabel(Button start)
-	{
-		foreach (Graphic label in start.GetComponentsInChildren<Graphic>(true))
-		{
-			if (label.gameObject == start.gameObject || label is Image)
-				continue;
-
-			label.gameObject.SetActive(false);
-		}
+		if (start != null)
+			start.gameObject.SetActive(false);
 	}
 
 	IEnumerator ShowSoundNotice(Button start)
@@ -133,6 +125,11 @@ public class UI_MainScreen : UI_Scene
 
 		yield return new WaitForSecondsRealtime(2.0f);
 
+		if (_prompt != null)
+			_prompt.gameObject.SetActive(true);
+
+		_ready = true;
+
 		CanvasGroup group = splash.GetComponent<CanvasGroup>();
 		const float fadeSeconds = 0.6f;
 		float elapsed = 0.0f;
@@ -160,6 +157,9 @@ public class UI_MainScreen : UI_Scene
 
 	void OnStartButtonClicked(PointerEventData data)
 	{
+		DialogueMemory.Forget();
+		Managers.Game.NewGame();
+
 		Managers.Sound.PlayOptional(
 			"UI_Click/freesound_community-door-lock-82542",
 			Define.Sound.UI);

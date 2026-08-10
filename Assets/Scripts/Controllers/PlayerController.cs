@@ -11,7 +11,7 @@ public class PlayerController : BaseController
 	float _runSpeed = 6.5f;
 
 	[SerializeField]
-	float _sneakSpeed = 2.0f;
+	float _sneakSpeed = 1.0f;
 
 	[SerializeField]
 	Lamp _lamp;
@@ -65,14 +65,12 @@ public class PlayerController : BaseController
 	AudioClip[] _noisySneakFootstepClips;
 
 	Rigidbody2D _rigidbody;
-	PlayerStatus _status;
 	Animator _animator;
 	float _nextFootstepTime;
 	int _footstepClipIndex;
 	float _moveSpeed;
 	Vector2 _moveDir;
 	bool _initialized;
-	bool _sneaking;
 	bool _onNoisyFloor;
 	bool _onMuffledFloor;
 	bool _lampKeyWasPressed;
@@ -85,14 +83,14 @@ public class PlayerController : BaseController
 
 	public Lamp Lamp { get { return _lamp; } }
 
-	public bool IsSneaking { get { return _sneaking; } }
+	public bool IsSneaking { get; private set; }
 
 	public bool IsOnNoisyFloor { get { return _onNoisyFloor; } }
 	public bool IsOnMuffledFloor { get { return _onMuffledFloor; } }
 
 	public bool IsListening { get { return _isListening; } }
 
-	public PlayerStatus Status { get { return _status; } }
+	public bool IsRunning { get; private set; }
 
 	public float VisibilityScale
 	{
@@ -103,7 +101,7 @@ public class PlayerController : BaseController
 			if (_lamp != null && _lamp.IsOn)
 				scale += _lampVisibilityBonus;
 
-			if (_sneaking)
+			if (IsSneaking)
 				scale *= _sneakVisibilityScale;
 
 			return scale;
@@ -119,6 +117,9 @@ public class PlayerController : BaseController
 	void Awake()
 	{
 		Util.GetOrAddComponent<WorldYSort>(gameObject);
+
+		if (FindFirstObjectByType<AudioListener>() == null)
+			Util.GetOrAddComponent<AudioListener>(gameObject);
 
 		Init();
 	}
@@ -145,7 +146,6 @@ public class PlayerController : BaseController
 
 		_initialized = true;
 		WorldObjectType = Define.WorldObject.Player;
-		_status = GetComponent<PlayerStatus>();
 		_rigidbody = GetComponent<Rigidbody2D>();
 		_animator = GetComponent<Animator>();
 
@@ -179,6 +179,8 @@ public class PlayerController : BaseController
 		{
 			_moveDir = Vector2.zero;
 			_moveSpeed = 0;
+			IsRunning = false;
+			IsSneaking = false;
 			CurrentNoiseRadius = 0;
 			SetListening(false);
 			Managers.Sound.SetRunning(false);
@@ -254,11 +256,14 @@ public class PlayerController : BaseController
 		_moveDir = new Vector2(horizontal, vertical).normalized;
 		bool isMoving = _moveDir.sqrMagnitude > 0.01f;
 
-		bool wantsToRun = keyboard.leftShiftKey.isPressed && (_status == null || _status.CanRun);
-		bool wantsToSneak = keyboard.leftCtrlKey.isPressed || keyboard.cKey.isPressed;
-		bool isRunning = isMoving && wantsToRun && !wantsToSneak;
+		// 달리기에 눈금을 두지 않는다. 대가는 소리다 — 걷기 5타일, 달리기 9타일.
+		bool isSneaking = isMoving
+			&& (keyboard.leftCtrlKey.isPressed || keyboard.rightCtrlKey.isPressed);
+		bool isRunning = isMoving && isSneaking == false
+			&& (keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed);
+		IsSneaking = isSneaking;
+		IsRunning = isRunning;
 
-		_sneaking = wantsToSneak;
 		Managers.Sound.SetRunning(isRunning);
 
 		_moveSpeed = _walkSpeed;
@@ -274,23 +279,14 @@ public class PlayerController : BaseController
 			footstepClips = _runFootstepClips;
 			noisyFloorClips = _noisyRunFootstepClips;
 			noiseRadius = _runNoiseRadius;
-
-			if (_status != null)
-				_status.ConsumeRunStamina(Time.deltaTime);
 		}
-		else
+		else if (isSneaking)
 		{
-			if (isMoving && wantsToSneak)
-			{
-				_moveSpeed = _sneakSpeed;
-				footstepInterval = _sneakFootstepInterval;
-				footstepClips = _sneakFootstepClips;
-				noisyFloorClips = _noisySneakFootstepClips;
-				noiseRadius = _sneakNoiseRadius;
-			}
-
-			if (_status != null)
-				_status.RecoverStamina(Time.deltaTime);
+			_moveSpeed = _sneakSpeed;
+			footstepInterval = _sneakFootstepInterval;
+			footstepClips = _sneakFootstepClips;
+			noisyFloorClips = _noisySneakFootstepClips;
+			noiseRadius = _sneakNoiseRadius;
 		}
 
 		_onNoisyFloor = MapCoord.IsNoisy(transform.position);
@@ -311,7 +307,7 @@ public class PlayerController : BaseController
 
 			FacingDirection = _moveDir;
 			UpdateAnimatorDirection();
-			PlayFootstep(footstepInterval, footstepClips, noiseRadius / 9.0f);
+			PlayFootstep(footstepInterval, footstepClips);
 			State = Define.State.Moving;
 			UpdateAnimatorMovement(true);
 		}
@@ -382,16 +378,12 @@ public class PlayerController : BaseController
 		return value;
 	}
 
-	void PlayFootstep(float interval, AudioClip[] footstepClips, float intensity)
+	void PlayFootstep(float interval, AudioClip[] footstepClips)
 	{
 		if (Time.time < _nextFootstepTime)
 			return;
 
-		if (footstepClips == null || footstepClips.Length == 0)
-		{
-			Managers.Sound.EmitSoundSignal(transform.position, Define.Sound.Self, intensity);
-		}
-		else
+		if (footstepClips != null && footstepClips.Length > 0)
 		{
 			AudioClip clip = footstepClips[_footstepClipIndex % footstepClips.Length];
 			_footstepClipIndex++;

@@ -6,25 +6,19 @@ public class EnemySpawner : MonoBehaviour
 	const float EnemyClearance = 0.35f;
 
 	[SerializeField]
-	string _walkerPath = "WalkerZombie";
-
-	[SerializeField]
-	string _wandererPath = "WandererZombie";
-
-	[SerializeField]
-	string _runnerPath = "RunnerZombie";
+	string _yokaiPath = "MaskYokai";
 
 	[SerializeField]
 	Transform _root;
 
 	[SerializeField]
-	int _minDistanceFromStart = 7;
+	int _minDistanceFromStart = 12;
 
 	[SerializeField]
-	int _hookDistanceMin = 7;
+	int _hookDistanceMin = 12;
 
 	[SerializeField]
-	int _hookDistanceMax = 9;
+	int _hookDistanceMax = 15;
 
 	readonly List<EnemyBase> _spawned = new List<EnemyBase>();
 
@@ -51,19 +45,13 @@ public class EnemySpawner : MonoBehaviour
 		Transform parent = _root != null ? _root : transform;
 		bool hookPlaced = false;
 
-		for (int i = 0; i < config.WalkerCount; i++)
+		for (int i = 0; i < config.YokaiCount; i++)
 		{
-			bool useHook = config.Level == LevelTable.MinLevel && hookPlaced == false && hook.Count > 0;
+			bool useHook = hookPlaced == false && hook.Count > 0;
 			List<Vector2Int> pool = useHook ? hook : far;
-			SpawnOne(_walkerPath, pool[rng.Next(pool.Count)], parent);
+			SpawnYokai(pool[rng.Next(pool.Count)], parent, YokaiTable.ForLevel(config.Level));
 			hookPlaced |= useHook;
 		}
-
-		for (int i = 0; i < config.WandererCount; i++)
-			SpawnOne(_wandererPath, far[rng.Next(far.Count)], parent);
-
-		for (int i = 0; i < config.RunnerCount; i++)
-			SpawnOne(_runnerPath, far[rng.Next(far.Count)], parent);
 	}
 
 	void CollectCandidates(int[] field, List<Vector2Int> far, List<Vector2Int> hook)
@@ -95,9 +83,13 @@ public class EnemySpawner : MonoBehaviour
 		}
 	}
 
-	void SpawnOne(string path, Vector2Int tile, Transform parent)
+	void SpawnYokai(Vector2Int tile, Transform parent, YokaiSpec spec)
 	{
-		GameObject go = Managers.Resource.Instantiate(path, parent);
+		GameObject go = Managers.Resource.Instantiate(_yokaiPath, parent);
+
+		if (go == null)
+			go = YokaiFactory.Build(spec, parent);
+
 		if (go == null)
 			return;
 

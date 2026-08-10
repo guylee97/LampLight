@@ -49,6 +49,9 @@ public class CorridorTraversalTests
 
 		foreach (Corridor corridor in corridors)
 		{
+			// 시간이 지나면 요괴가 스스로 깨어난다. 복도 통과만 보는 시험이라 다시 재운다.
+			DisableEnemies();
+
 			yield return RunCorridor(bot, player, corridor, failures);
 			yield return RunCorridor(bot, player, Reverse(corridor), failures);
 		}

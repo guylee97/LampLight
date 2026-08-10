@@ -30,31 +30,11 @@ public class InteractableTests
 		return go.AddComponent<Artifact>();
 	}
 
-	static ExitDoor MakeDoor()
+	static Altar MakeAltar()
 	{
-		GameObject go = new GameObject("ExitDoor");
+		GameObject go = new GameObject("Altar");
 		go.AddComponent<BoxCollider2D>();
-		return go.AddComponent<ExitDoor>();
-	}
-
-	static OilCanister MakeCanister()
-	{
-		GameObject go = new GameObject("OilCanister");
-		go.AddComponent<BoxCollider2D>();
-		return go.AddComponent<OilCanister>();
-	}
-
-	[Test]
-	public void OilCanisterIgnoresAMissingPlayer()
-	{
-		OilCanister canister = MakeCanister();
-
-		canister.Interact(null);
-
-		Assert.IsFalse(canister.IsUsed);
-		Assert.IsTrue(canister.CanInteract);
-
-		Object.DestroyImmediate(canister.gameObject);
+		return go.AddComponent<Altar>();
 	}
 
 	[Test]
@@ -107,58 +87,66 @@ public class InteractableTests
 	}
 
 	[Test]
-	public void ExitDoorStaysShutUntilEveryArtifactIsCollected()
+	public void AltarRefusesArtifactsThatWereNeverCollected()
 	{
-		ExitDoor door = MakeDoor();
-		door.Init(_progress);
+		Altar altar = MakeAltar();
+		altar.Init(_progress);
 
-		Assert.IsFalse(door.IsOpen);
-
-		for (int i = 0; i < _progress.Required - 1; i++)
-			_progress.ReportCollected();
-
-		Assert.IsFalse(door.IsOpen);
+		Assert.IsFalse(altar.CanInteract, "들고 있는 유물이 없으면 올릴 수 없다");
 
 		_progress.ReportCollected();
 
-		Assert.IsTrue(door.IsOpen);
+		Assert.IsTrue(altar.CanInteract, "유물을 하나 주웠으면 올릴 수 있다");
 
-		Object.DestroyImmediate(door.gameObject);
+		Object.DestroyImmediate(altar.gameObject);
 	}
 
 	[Test]
-	public void ShutExitDoorDoesNotEndTheStage()
+	public void AltarSealsOnlyAfterEveryRequiredArtifact()
 	{
-		ExitDoor door = MakeDoor();
-		door.Init(_progress);
-
-		door.Interact(null);
-
-		Assert.AreEqual(Define.StageResult.None, Managers.Game.Result);
-
-		Object.DestroyImmediate(door.gameObject);
-	}
-
-	[Test]
-	public void OpenExitDoorClearsTheStageOnlyOnce()
-	{
-		ExitDoor door = MakeDoor();
-		door.Init(_progress);
-
-		int escapes = 0;
-		door.OnEscaped += () => escapes++;
+		Altar altar = MakeAltar();
+		altar.Init(_progress);
 
 		for (int i = 0; i < _progress.Required; i++)
 			_progress.ReportCollected();
 
-		door.Interact(null);
-		door.Interact(null);
+		for (int i = 0; i < _progress.Required; i++)
+		{
+			altar.Interact(null);
+			Assert.IsFalse(altar.IsSealed, $"{i + 1}개 올린 것만으로 봉인됐다 — 봉인은 따로 걸어야 한다");
+			Assert.AreEqual(Define.StageResult.None, Managers.Game.Result);
+		}
 
-		Assert.AreEqual(1, escapes);
+		Assert.IsTrue(altar.ReadyToSeal, "다 올렸으면 봉인이 열려 있어야 한다");
+		Assert.AreEqual(altar.HoldSeconds, LevelTable.Get(Managers.Game.CurrentLevel).RitualSeconds, 0.0001f,
+			"봉인 홀드는 올리기가 아니라 의식 시간이다");
+
+		altar.Interact(null);
+
+		Assert.IsTrue(altar.IsSealed);
 		Assert.AreEqual(Define.StageResult.Cleared, Managers.Game.Result);
 
-		Object.DestroyImmediate(door.gameObject);
+		Object.DestroyImmediate(altar.gameObject);
 	}
 
+	[Test]
+	public void SealedAltarClearsTheStageOnlyOnce()
+	{
+		Altar altar = MakeAltar();
+		altar.Init(_progress);
 
+		int sealed_ = 0;
+		altar.OnSealed += () => sealed_++;
+
+		for (int i = 0; i < _progress.Required; i++)
+			_progress.ReportCollected();
+
+		for (int i = 0; i < _progress.Required + 2; i++)
+			altar.Interact(null);
+
+		Assert.AreEqual(1, sealed_, "봉인 이벤트는 한 번만");
+		Assert.AreEqual(Define.StageResult.Cleared, Managers.Game.Result);
+
+		Object.DestroyImmediate(altar.gameObject);
+	}
 }

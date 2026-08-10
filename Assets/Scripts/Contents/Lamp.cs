@@ -28,13 +28,15 @@ public class Lamp : MonoBehaviour
 	float _innerRangeRatio = 0.15f;
 
 	[SerializeField]
-	float _innerAngleRatio = 0.8f;
+	float _orbRadius = 3.4f;
 
+	// 빛은 스프라이트가 실제로 그려지는 한가운데에 붙인다. 피벗이 발밑이든
+	// 어디든 렌더 경계에서 직접 구하므로 어긋날 여지가 없다. 바라보는 쪽으로
+	// 밀지도 않는다 — 방향마다 빛이 미끄러지면 캐릭터와 따로 노는 것처럼 보인다.
 	[SerializeField]
-	float _orbRadius = 1.9f;
+	Vector2 _bodyOffset = Vector2.zero;
 
-	[SerializeField]
-	float _forwardOffset = 0.25f;
+	SpriteRenderer _bodyRenderer;
 
 	[SerializeField]
 	Color _warmColor = new Color(1.0f, 0.576f, 0.161f, 1.0f);
@@ -69,6 +71,7 @@ public class Lamp : MonoBehaviour
 
 	float _remainingDuration;
 	float _snuffScale = 1.0f;
+	bool _burnoutVisual;
 	float _fuelScale = 1.0f;
 	bool _listening;
 
@@ -107,29 +110,30 @@ public class Lamp : MonoBehaviour
 
 	void Update()
 	{
-		UpdateDirection();
+		StickToBody();
 		UpdateDuration();
 		ApplyLightSettings();
 	}
 
-	void UpdateDirection()
+	void StickToBody()
 	{
+		transform.localRotation = Quaternion.identity;
+
 		if (transform.parent == null)
 			return;
 
-		PlayerController player = transform.parent.GetComponent<PlayerController>();
-		if (player == null)
+		if (_bodyRenderer == null)
+			_bodyRenderer = transform.parent.GetComponentInChildren<SpriteRenderer>();
+
+		if (_bodyRenderer == null || _bodyRenderer.sprite == null)
+		{
+			transform.localPosition = _bodyOffset;
 			return;
+		}
 
-		Vector2 direction = player.FacingDirection;
-		if (direction.sqrMagnitude <= 0.01f)
-			return;
-
-		direction.Normalize();
-		transform.localPosition = direction * _forwardOffset;
-
-		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90.0f;
-		transform.localRotation = Quaternion.Euler(0, 0, angle);
+		Vector3 center = _bodyRenderer.bounds.center;
+		transform.position = new Vector3(
+			center.x + _bodyOffset.x, center.y + _bodyOffset.y, transform.position.z);
 	}
 
 	void UpdateDuration()
@@ -197,6 +201,13 @@ public class Lamp : MonoBehaviour
 		ApplyLightSettings();
 	}
 
+	public void SetBurnoutVisual(float scale)
+	{
+		_snuffScale = Mathf.Clamp01(scale);
+		_burnoutVisual = _snuffScale > 0.0f;
+		ApplyLightSettings();
+	}
+
 	public void Toggle()
 	{
 		if (_isOn)
@@ -228,7 +239,7 @@ public class Lamp : MonoBehaviour
 		float radius = _listening ? _orbRadius * _listenRangeRatio : _orbRadius;
 		float flicker = Flicker();
 
-		_light.enabled = IsOn && _snuffScale > 0.0f;
+		_light.enabled = (IsOn || _burnoutVisual) && _snuffScale > 0.0f;
 		_light.lightType = Light2D.LightType.Point;
 		_light.color = _warmColor;
 		_light.intensity = _intensity * (1.0f + flicker * _flickerAmount) * _snuffScale;
@@ -238,16 +249,6 @@ public class Lamp : MonoBehaviour
 		_light.pointLightInnerRadius = radius * _innerRangeRatio * _snuffScale;
 		_light.pointLightOuterAngle = 360.0f;
 		_light.pointLightInnerAngle = 360.0f;
-
-		/*
-		// 기존 원뿔형 등불 설정. 필요할 때 위의 원형 설정 대신 복구한다.
-		float range = EffectiveRange;
-		float angle = EffectiveAngle;
-		_light.pointLightOuterRadius = range;
-		_light.pointLightInnerRadius = range * _innerRangeRatio;
-		_light.pointLightOuterAngle = angle;
-		_light.pointLightInnerAngle = angle * _innerAngleRatio;
-		*/
 	}
 
 	float Flicker()
@@ -261,7 +262,7 @@ public class Lamp : MonoBehaviour
 
 	public bool IsInLightCone(Vector3 position)
 	{
-		if (!IsOn)
+		if (IsOn == false)
 			return false;
 
 		return Vector2.Distance(transform.position, position) <= Range;

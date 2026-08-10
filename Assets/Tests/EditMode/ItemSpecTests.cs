@@ -49,9 +49,9 @@ public class ItemSpecTests
 	{
 		(int placed, int required, float radius)[] want =
 		{
-			(2, 0, 12.0f),
-			(3, 2, 9.0f),
-			(4, 3, 7.0f),
+			(2, 2, 12.0f),
+			(3, 3, 9.0f),
+			(4, 4, 7.0f),
 		};
 
 		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
@@ -100,19 +100,4 @@ public class ItemSpecTests
 		Assert.AreEqual(96, locked.h, "출구는 96px(3타일)이어야 한다");
 	}
 
-	[Test]
-	public void StonesAreLevelThreeOnly()
-	{
-		Assert.AreEqual(0, LevelTable.Get(1).Stones);
-		Assert.AreEqual(0, LevelTable.Get(2).Stones);
-		Assert.AreEqual(2, LevelTable.Get(3).Stones, "돌멩이는 L3 에서 2개");
-	}
-
-	[Test]
-	public void OilCanisterIsLevelThreeOnly()
-	{
-		Assert.AreEqual(0, LevelTable.Get(1).OilCanisters);
-		Assert.AreEqual(0, LevelTable.Get(2).OilCanisters);
-		Assert.AreEqual(1, LevelTable.Get(3).OilCanisters, "기름통은 L3 에만 1개");
-	}
 }

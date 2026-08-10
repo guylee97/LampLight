@@ -9,8 +9,6 @@ public static class SceneDresser
 {
 	const string ScenePath = "Assets/Scenes/InGame.unity";
 	const string PropArtDir = "Assets/Resources/Art/Objects/prop";
-	const string WalkerZombiePath = "Assets/Resources/Prefabs/WalkerZombie.prefab";
-	const string WandererZombiePath = "Assets/Resources/Prefabs/WandererZombie.prefab";
 	const string PropPrefabDir = "Assets/Resources/Prefabs/Props";
 
 	const string DressedRootName = "@Dressing";
@@ -20,9 +18,7 @@ public static class SceneDresser
 
 	const int Seed = 20260728;
 	const int PropCount = 26;
-	const int ZombieCount = 5;
 
-	const float ZombieKeepAway = 9.0f;
 
 	static readonly string[] PropNames =
 	{
@@ -34,10 +30,9 @@ public static class SceneDresser
 	{
 		Directory.CreateDirectory(PropPrefabDir);
 
-		List<GameObject> zombies = LoadZombiePrefabs();
 		List<GameObject> props = BuildPropPrefabs();
 
-		if (zombies.Count == 0 || props.Count == 0)
+		if (props.Count == 0)
 			return;
 
 		Scene scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
@@ -54,32 +49,12 @@ public static class SceneDresser
 		RemoveLegacyEnemies();
 
 		PlaceProps(map, root, props, floor, rng);
-		PlaceZombies(map, root, zombies, floor, rng);
 
 		EditorSceneManager.MarkSceneDirty(scene);
 		EditorSceneManager.SaveScene(scene);
-		Debug.Log($"SceneDresser: done — 소품 {PropCount}, 좀비 {ZombieCount}, 바닥칸 {floor.Count}");
+		Debug.Log($"SceneDresser: done — 소품 {PropCount}, 바닥칸 {floor.Count}");
 	}
 
-
-	static List<GameObject> LoadZombiePrefabs()
-	{
-		List<GameObject> loaded = new List<GameObject>();
-
-		foreach (string path in new[] { WalkerZombiePath, WandererZombiePath })
-		{
-			GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-			if (prefab == null)
-			{
-				Debug.LogError($"SceneDresser: prefab not found at {path}");
-				continue;
-			}
-
-			loaded.Add(prefab);
-		}
-
-		return loaded;
-	}
 
 	static List<GameObject> BuildPropPrefabs()
 	{
@@ -251,44 +226,6 @@ public static class SceneDresser
 		}
 
 		Debug.Log($"SceneDresser: 소품 {placed}개 배치 (벽 접한 칸 {nearWall.Count}곳 중)");
-	}
-
-	static void PlaceZombies(MapData map, Transform root, List<GameObject> prefabs,
-		List<Vector2Int> floor, System.Random rng)
-	{
-		PlayerController player = Object.FindFirstObjectByType<PlayerController>();
-		Vector3 playerPos = player != null ? player.transform.position : Vector3.zero;
-
-		List<Vector3> chosen = new List<Vector3>();
-		int guard = 0;
-
-		while (chosen.Count < ZombieCount && guard++ < ZombieCount * 200)
-		{
-			Vector3 world = ToWorld(map, floor[rng.Next(floor.Count)]);
-
-			if (player != null && Vector3.Distance(world, playerPos) < ZombieKeepAway)
-				continue;
-
-			bool tooClose = false;
-			foreach (Vector3 other in chosen)
-			{
-				if (Vector3.Distance(world, other) < 6.0f)
-				{
-					tooClose = true;
-					break;
-				}
-			}
-
-			if (tooClose)
-				continue;
-
-			chosen.Add(world);
-			GameObject prefab = prefabs[chosen.Count % prefabs.Count];
-			GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, root);
-			instance.transform.position = world;
-		}
-
-		Debug.Log($"SceneDresser: 좀비 {chosen.Count}마리 배치");
 	}
 
 	static MapData LoadMap()

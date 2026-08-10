@@ -15,7 +15,15 @@ public class GameManagerEx
     public bool IsGameOver { get; private set; }
     public Define.StageResult Result { get; private set; }
     public bool IsPaused { get; private set; }
-    public bool IsPlaying { get { return Result == Define.StageResult.None && IsPaused == false; } }
+    public bool IsPlaying
+    {
+        get
+        {
+            return Result == Define.StageResult.None
+                && IsPaused == false
+                && UI_Dialogue.IsShowing == false;
+        }
+    }
 
     public int CurrentLevel { get; private set; } = LevelTable.MinLevel;
     public int MaxUnlockedLevel { get; private set; } = LevelTable.MinLevel;
@@ -23,9 +31,7 @@ public class GameManagerEx
 
     public bool UsedRun { get; private set; }
     public int RunnerEvasions { get; private set; }
-    public int LastScore { get; private set; }
     public int LastArtifacts { get; private set; }
-    public string LastGrade { get; private set; } = "C";
     public int ConsecutiveFailures { get; private set; }
 
     public Action<int> OnLevelChanged;
@@ -47,6 +53,13 @@ public class GameManagerEx
 
     public bool HasNextLevel { get { return CurrentLevel < LevelTable.MaxLevel; } }
 
+    public void NewGame()
+    {
+        ConsecutiveFailures = 0;
+        LastArtifacts = 0;
+        SetLevel(LevelTable.MinLevel);
+    }
+
     public void AdvanceLevel()
     {
         if (HasNextLevel)
@@ -66,28 +79,40 @@ public class GameManagerEx
     public void BeginStage()
     {
         IsGameOver = false;
+        Catcher = null;
         Result = Define.StageResult.None;
         UsedRun = false;
         RunnerEvasions = 0;
-        LastScore = 0;
-        LastGrade = "C";
         SetPaused(false);
         Time.timeScale = 1.0f;
     }
 
+    public Transform Catcher { get; private set; }
+
     public void GameOver()
     {
+        GameOver(null);
+    }
+
+    public void GameOver(Transform catcher)
+    {
         if (IsGameOver)
+            return;
+
+        // 봉인이 끝난 판은 이미 결말이 정해졌다. 여기서 점프스케어가 뜨면
+        // 죽는 연출을 보고 다음 전각으로 넘어가는 앞뒤 안 맞는 장면이 된다.
+        if (Result != Define.StageResult.None)
             return;
 
         if (DebugOverlay.Invulnerable)
             return;
 
+        Catcher = catcher;
         IsGameOver = true;
         ConsecutiveFailures++;
 
         GameObject player = GetPlayer();
-        if (player != null)
+        if (catcher != null && player != null)
         {
             Managers.Sound.PlayAtPointOptional(
                 "death_contact",
@@ -108,8 +133,6 @@ public class GameManagerEx
     public void ReportEscaped(int artifacts, float weightedArtifacts, float lampRemaining)
     {
         LastArtifacts = artifacts;
-        LastScore = ScoreRules.Total(CurrentLevel, weightedArtifacts, lampRemaining, UsedRun, RunnerEvasions);
-        LastGrade = LevelTable.Grade(CurrentLevel, LastScore);
         ConsecutiveFailures = 0;
 
         EndStage(Define.StageResult.Cleared);
@@ -211,6 +234,7 @@ public class GameManagerEx
         IsGameOver = false;
         Result = Define.StageResult.None;
         IsPaused = false;
+        Catcher = null;
         _player = null;
         _monsters.Clear();
         Time.timeScale = 1.0f;

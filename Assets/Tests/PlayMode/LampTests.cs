@@ -88,13 +88,17 @@ public class LampTests
 	}
 
 	[Test]
-	public void LightConeRejectsTargetsBehindAndOutOfRange()
+	public void LightReachesEveryDirectionAndStopsAtTheRange()
 	{
 		_host.transform.position = Vector3.zero;
 		_host.transform.rotation = Quaternion.identity;
 
-		Assert.IsFalse(_lamp.IsInLightCone(new Vector3(0, -3, 0)));
+		// 등불은 부채꼴이 아니라 원형이다. 바라보는 쪽이 없으니 뒤도 없다.
+		Assert.IsTrue(_lamp.IsInLightCone(new Vector3(0, -(_lamp.Range - 0.5f), 0)));
+		Assert.IsTrue(_lamp.IsInLightCone(new Vector3(-(_lamp.Range - 0.5f), 0, 0)));
+
 		Assert.IsFalse(_lamp.IsInLightCone(new Vector3(0, _lamp.Range + 5, 0)));
+		Assert.IsFalse(_lamp.IsInLightCone(new Vector3(_lamp.Range + 5, 0, 0)));
 	}
 
 	[Test]
@@ -126,36 +130,4 @@ public class LampTests
 			"꺼 둔 램프의 연료가 줄었다");
 	}
 
-	[UnityTest]
-	public IEnumerator OilCanisterRefillsABurnedLampAndIsSpentOnce()
-	{
-		for (int i = 0; i < 10; i++)
-			yield return null;
-
-		float burned = _lamp.RemainingDuration;
-		Assert.Less(burned, _lamp.MaxDuration);
-
-		GameObject playerHost = new GameObject("Player");
-		_host.transform.SetParent(playerHost.transform);
-		PlayerController player = playerHost.AddComponent<PlayerController>();
-
-		GameObject canisterHost = new GameObject("OilCanister");
-		canisterHost.AddComponent<BoxCollider2D>();
-		OilCanister canister = canisterHost.AddComponent<OilCanister>();
-
-		int used = 0;
-		canister.OnUsed += _ => used++;
-
-		canister.Interact(player);
-		canister.Interact(player);
-
-		Assert.IsTrue(canister.IsUsed);
-		Assert.IsFalse(canister.CanInteract);
-		Assert.AreEqual(1, used);
-		Assert.Greater(_lamp.RemainingDuration, burned, "기름을 부었는데 연료가 늘지 않았다");
-
-		Object.DestroyImmediate(canisterHost);
-		Object.DestroyImmediate(playerHost);
-		_host = null;
-	}
 }

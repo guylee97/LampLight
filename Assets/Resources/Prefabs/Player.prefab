@@ -137,7 +137,7 @@ MonoBehaviour:
   _shadowIntensity: 1
   _innerRangeRatio: 0.15
   _innerAngleRatio: 0.8
-  _orbRadius: 1.9
+  _orbRadius: 3.4
   _forwardOffset: 0.25
   _light: {fileID: 0}
   _obstacleMask:
@@ -211,7 +211,6 @@ GameObject:
   - component: {fileID: 5414942656250477182}
   - component: {fileID: 4530860311462823369}
   - component: {fileID: 8720767033796841149}
-  - component: {fileID: 1942943470329868368}
   - component: {fileID: 971122649317386707}
   - component: {fileID: 3348956070674988002}
   - component: {fileID: 4899990636297471662}
@@ -370,23 +369,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1942943470329868368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7857992143608644601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a26dc7158c92d5d4ea223e41d0b4d39d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerStatus
-  _maxStamina: 5
-  _runStaminaCost: 1
-  _staminaRecoverSpeed: 0.8
-  _runRecoveryThreshold: 0.25
-  _stamina: 0
+
 --- !u!70 &971122649317386707
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -421,7 +404,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.238}
+  m_Offset: {x: 0, y: -0.317}
   m_Size: {x: 0.34, y: 0.18}
   m_Direction: 1
 --- !u!95 &3348956070674988002

@@ -1,0 +1,343 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Rendering.Universal;
+
+[RequireComponent(typeof(Collider2D))]
+public class Altar : MonoBehaviour, IInteractable
+{
+	public const string StepClip = "ritual_step";
+	public const string StepFallbackClip = "exit_unlock";
+	public const string SealClip = "ritual_seal";
+
+	static int s_completedSteps;
+
+	[SerializeField]
+	float _channelSeconds = 5.0f;
+
+	[SerializeField]
+	float _glowRadius = 3.2f;
+
+	[SerializeField]
+	Color _glowColor = new Color(1.0f, 0.62f, 0.22f, 1.0f);
+
+	[SerializeField]
+	PingScheduler _ping;
+
+	[SerializeField]
+	SpriteRenderer _renderer;
+
+	StageProgress _progress;
+	PlayerInteractor _interactor;
+	Lamp _lamp;
+	Light2D _glow;
+	AltarOfferings _offerings;
+
+	// 주운 순서대로 쌓아두고 올릴 때 하나씩 꺼낸다.
+	readonly Queue<Sprite> _carried = new Queue<Sprite>();
+
+	int _placed;
+	bool _finished;
+	bool _channeling;
+
+	public Action<int, int> OnStepPlaced;
+	public Action OnSealed;
+
+	public static int CompletedSteps { get { return s_completedSteps; } }
+
+	public static Altar Channeling { get; private set; }
+
+	public static void ResetProgress()
+	{
+		s_completedSteps = 0;
+		Channeling = null;
+	}
+
+	public int Placed { get { return _placed; } }
+	public int Required { get { return _progress == null ? 0 : _progress.Required; } }
+	public bool IsSealed { get { return _finished; } }
+	public bool IsChanneling { get { return _channeling; } }
+
+	public int Carried
+	{
+		get
+		{
+			if (_progress == null)
+				return 0;
+
+			return Mathf.Max(0, _progress.Collected - _placed);
+		}
+	}
+
+	public bool CanInteract { get { return _finished == false && (ReadyToSeal || Carried > 0); } }
+
+	/// 공양물을 올리는 것은 잡일이다. 넷 다 길게 잡으면 절정과 구분되지 않고,
+	/// 등불의 상당 부분을 어둠 속에 선 채로 쓰게 된다.
+	public const float PlaceSeconds = 1.5f;
+
+	/// 다 올린 뒤에야 봉인이 열린다. 마지막 공양물을 내려놓는 손짓과
+	/// 신전을 닫는 의식은 다른 동작이다.
+	public bool ReadyToSeal { get { return _finished == false && _placed >= Required && Required > 0; } }
+
+	public float HoldSeconds { get { return ReadyToSeal ? _channelSeconds : PlaceSeconds; } }
+
+	public Vector3 Position { get { return transform.position; } }
+
+	public string Prompt
+	{
+		get
+		{
+			if (_finished)
+				return "닫혔다";
+
+			if (ReadyToSeal)
+				return "[E] 신전을 봉인한다";
+
+			if (Carried > 0)
+				return $"[E] 공양물을 올린다  {_placed} / {Required}";
+
+			int collected = _progress == null ? 0 : _progress.Collected;
+			int missing = Mathf.Max(0, Required - collected);
+			return $"공양물 {missing}개가 더 필요하다";
+		}
+	}
+
+	public string HoldingLabel { get { return ReadyToSeal ? "봉인하는 중" : "올리는 중"; } }
+
+	public void SetChannelSeconds(float seconds)
+	{
+		if (seconds > 0.0f)
+			_channelSeconds = seconds;
+	}
+
+	public void Init(StageProgress progress)
+	{
+		_progress = progress;
+		_placed = 0;
+		_finished = false;
+		_channeling = false;
+		_carried.Clear();
+		EnsureOfferings();
+		_offerings.Clear();
+		ResetProgress();
+		ApplyPing();
+	}
+
+	public void Carry(Sprite mark)
+	{
+		if (mark != null)
+			_carried.Enqueue(mark);
+	}
+
+	void Awake()
+	{
+		if (_renderer == null)
+			_renderer = GetComponent<SpriteRenderer>();
+
+		if (_ping == null)
+			_ping = GetComponent<PingScheduler>();
+
+		EnsureGlow();
+		EnsureOfferings();
+
+		// 제단도 같은 이유로 소품에 가린다. 공양물과 같은 규칙에 태운다.
+		if (GetComponent<WorldYSort>() == null)
+			gameObject.AddComponent<WorldYSort>();
+	}
+
+	void EnsureOfferings()
+	{
+		if (_offerings == null)
+			_offerings = GetComponent<AltarOfferings>() ?? gameObject.AddComponent<AltarOfferings>();
+	}
+
+	void EnsureGlow()
+	{
+		if (_glow != null)
+			return;
+
+		GameObject go = new GameObject("AltarGlow");
+		go.transform.SetParent(transform, false);
+
+		_glow = go.AddComponent<Light2D>();
+		_glow.lightType = Light2D.LightType.Point;
+		_glow.color = _glowColor;
+		_glow.pointLightInnerRadius = 0.0f;
+		_glow.pointLightOuterRadius = _glowRadius;
+		_glow.pointLightOuterAngle = 360.0f;
+		_glow.pointLightInnerAngle = 360.0f;
+		_glow.shadowsEnabled = false;
+		_glow.intensity = 0.0f;
+	}
+
+	void ApplyPing()
+	{
+		if (_ping != null)
+			_ping.Active = _finished == false;
+	}
+
+	void Update()
+	{
+		bool channeling = ResolveChanneling();
+
+		if (channeling != _channeling)
+		{
+			_channeling = channeling;
+			Channeling = _channeling ? this : null;
+			ApplyChannelLighting();
+		}
+
+		UpdateGlow();
+	}
+
+	bool ResolveChanneling()
+	{
+		if (_finished)
+			return false;
+
+		// 등불이 꺼지고 요괴가 끌려오는 건 봉인할 때뿐이다.
+		if (ReadyToSeal == false)
+			return false;
+
+		if (_interactor == null)
+		{
+			GameObject player = Managers.Game.GetPlayer();
+			if (player != null)
+				_interactor = player.GetComponent<PlayerInteractor>();
+		}
+
+		if (_interactor == null)
+			return false;
+
+		return ReferenceEquals(_interactor.Current, this) && _interactor.HoldProgress > 0.0f;
+	}
+
+	void ApplyChannelLighting()
+	{
+		if (ResolveLamp() == false)
+			return;
+
+		_lamp.SnuffTo(_channeling ? 0.0f : 1.0f);
+	}
+
+	bool ResolveLamp()
+	{
+		if (_lamp != null)
+			return true;
+
+		GameObject player = Managers.Game.GetPlayer();
+		PlayerController controller = player != null
+			? player.GetComponent<PlayerController>()
+			: FindFirstObjectByType<PlayerController>();
+
+		_lamp = controller != null ? controller.Lamp : null;
+		return _lamp != null;
+	}
+
+	void UpdateGlow()
+	{
+		if (_glow == null)
+			return;
+
+		float baseIntensity = 0.25f + 0.55f * StepRatio;
+
+		if (_channeling)
+		{
+			float progress = _interactor == null ? 0.0f : _interactor.HoldProgress;
+			float pulse = 0.75f + 0.25f * Mathf.Sin(Time.time * 9.0f);
+			float eased = Ease.InOutCubic(progress);
+			_glow.intensity = (baseIntensity + 1.35f * eased) * pulse;
+			_glow.pointLightOuterRadius = _glowRadius * (1.0f + 0.6f * eased);
+			return;
+		}
+
+		_glow.intensity = baseIntensity * (0.85f + 0.15f * Mathf.Sin(Time.time * 2.0f));
+		_glow.pointLightOuterRadius = _glowRadius;
+	}
+
+	float StepRatio
+	{
+		get
+		{
+			int required = Required;
+			return required <= 0 ? 0.0f : Mathf.Clamp01((float)_placed / required);
+		}
+	}
+
+	public void Interact(PlayerController player)
+	{
+		if (CanInteract == false)
+			return;
+
+		if (ReadyToSeal)
+		{
+			Seal(player);
+			return;
+		}
+
+		_placed++;
+		s_completedSteps = _placed;
+
+		EnsureOfferings();
+		_offerings.Lay(_carried.Count > 0 ? _carried.Dequeue() : null);
+
+		_channeling = false;
+		Channeling = null;
+
+		if (ResolveLamp())
+			_lamp.SnuffTo(1.0f);
+
+		Managers.Sound.PlayAtPointOptional(
+			StepClip,
+			StepFallbackClip,
+			transform.position,
+			Define.Sound.Guide);
+
+		if (OnStepPlaced != null)
+			OnStepPlaced.Invoke(_placed, Required);
+	}
+
+	void Seal(PlayerController player)
+	{
+		_finished = true;
+		_channeling = false;
+		Channeling = null;
+
+		if (ResolveLamp())
+			_lamp.SnuffTo(1.0f);
+
+		ApplyPing();
+
+		Managers.Sound.PlayAtPointOptional(
+			SealClip,
+			StepFallbackClip,
+			transform.position,
+			Define.Sound.Guide);
+
+		HorrorMix.ResetState();
+
+		if (OnSealed != null)
+			OnSealed.Invoke();
+
+		float lampRemaining = 0.0f;
+
+		if (player != null && player.Lamp != null)
+			lampRemaining = player.Lamp.RemainingDuration;
+
+		int collected = _progress != null ? _progress.Collected : 0;
+		float weighted = _progress != null ? _progress.WeightedValue : 0.0f;
+
+		Managers.Game.ReportEscaped(collected, weighted, lampRemaining);
+	}
+
+	public void UseCatalogSprite()
+	{
+		Sprite sprite = Resources.Load<Sprite>("Art/Objects/large/obj_large_altar_low");
+
+		if (_renderer == null)
+			_renderer = GetComponent<SpriteRenderer>();
+
+		if (_renderer != null && sprite != null)
+			_renderer.sprite = sprite;
+	}
+}

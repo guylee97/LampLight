@@ -60,7 +60,7 @@ public class WallFaceOverlapTests
 	}
 
 	[UnityTest]
-	public IEnumerator ExitDoorStandsOnReachableFloor([Values(1, 2, 3)] int level)
+	public IEnumerator AltarStandsOnReachableFloor([Values(1, 2, 3)] int level)
 	{
 		Managers.Game.SetLevel(level);
 		yield return QaScene.Load();
@@ -69,27 +69,27 @@ public class WallFaceOverlapTests
 		MapPoint exit = map.Find(MapObjectPlacer.ExitDoorPoint);
 		MapPoint start = map.Find("player_start");
 
-		Assert.IsNotNull(exit, "출구 포인트가 없다");
+		Assert.IsNotNull(exit, "제단 포인트가 없다");
 		Assert.IsNotNull(start, "시작 포인트가 없다");
 
-		ExitDoor door = Object.FindFirstObjectByType<ExitDoor>();
-		Assert.IsNotNull(door, "출구가 씬에 없다");
+		Altar altar = Object.FindFirstObjectByType<Altar>();
+		Assert.IsNotNull(altar, "제단이 씬에 없다");
 
 		SpriteRenderer renderer = null;
-		foreach (SpriteRenderer candidate in door.GetComponentsInChildren<SpriteRenderer>())
+		foreach (SpriteRenderer candidate in altar.GetComponentsInChildren<SpriteRenderer>())
 		{
 			if (candidate.enabled && candidate.sprite != null)
 				renderer = candidate;
 		}
 
-		Assert.IsNotNull(renderer, "출구 스프라이트가 없다");
+		Assert.IsNotNull(renderer, "제단 스프라이트가 없다");
 
 		Vector3 stand = MapCoord.TileToWorld(exit.col, exit.row);
 		Bounds art = renderer.bounds;
 
 		Assert.IsTrue(art.min.x <= stand.x && stand.x <= art.max.x
 			&& art.min.y <= stand.y && stand.y <= art.max.y,
-			$"L{level} 계단 스프라이트가 출구 칸 ({exit.col},{exit.row}) 를 덮지 않는다");
+			$"L{level} 제단 스프라이트가 제단 칸 ({exit.col},{exit.row}) 를 덮지 않는다");
 
 		int reached = MapPathfinder.Distance(start, exit);
 		Assert.AreNotEqual(MapPathfinder.Unreachable, reached,

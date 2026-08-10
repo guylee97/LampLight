@@ -122,6 +122,69 @@ public class MapBakeTests
 	}
 
 	[Test]
+	public void OptimalRouteLeavesRoomInsideTheLampBurn()
+	{
+		// 달리기(4.0)가 아니라 걷기(2.0)로 잰다. 달리면 소음이 5칸에서 9칸으로 뛰어
+		// 요괴가 붙으므로, 전 구간 질주는 정직한 플레이가 아니다. 질주 기준으로 재던
+		// 동안 2·3전각은 걸어서 끝낼 수 없는 상태로 통과하고 있었다.
+		const float WalkTilesPerSecond = 2.0f;
+		const float MaxShareOfLamp = 0.8f;
+
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			MapData map = Load(level);
+			MapPoint start = Managers.Data.GetPoint("player_start");
+			MapPoint altar = Managers.Data.GetPoint(MapObjectPlacer.ExitDoorPoint);
+			List<MapPoint> remaining = Artifacts(map);
+			int needed = LevelTable.Get(level).ArtifactsRequired;
+
+			MapPoint current = start;
+			int tiles = 0;
+
+			while (remaining.Count > 0 && needed-- > 0)
+			{
+				int[] field = MapPathfinder.DistanceField(current.col, current.row);
+				int bestIndex = 0;
+				int bestDistance = int.MaxValue;
+
+				for (int i = 0; i < remaining.Count; i++)
+				{
+					int distance = MapPathfinder.Sample(field, remaining[i]);
+					if (distance == MapPathfinder.Unreachable || distance >= bestDistance)
+						continue;
+
+					bestDistance = distance;
+					bestIndex = i;
+				}
+
+				Assert.AreNotEqual(int.MaxValue, bestDistance, $"L{level} 유물에 닿을 수 없다");
+				tiles += bestDistance;
+				current = remaining[bestIndex];
+				remaining.RemoveAt(bestIndex);
+			}
+
+			tiles += MapPathfinder.Distance(current, altar);
+
+			LevelConfig config = LevelTable.Get(level);
+
+			// 걷는 시간만이 아니라 실제로 서 있어야 하는 시간까지 넣는다.
+			// 파묻힌 공양물을 헤치고, 하나씩 내려놓고, 마지막에 봉인을 건다.
+			float holds = 0.0f;
+			for (int i = 0; i < config.ArtifactsRequired; i++)
+				holds += ConcealmentRules.HoldSeconds(ConcealmentRules.ForLevel(level, i));
+
+			float placing = config.ArtifactsRequired * Altar.PlaceSeconds + config.RitualSeconds;
+			float seconds = tiles / WalkTilesPerSecond + holds + placing;
+			float budget = config.LampSeconds * MaxShareOfLamp;
+
+			Assert.LessOrEqual(seconds, budget,
+				$"L{level} 정직한 동선 {seconds:0.0}초(걷기 {tiles / WalkTilesPerSecond:0.0} + 집기 {holds:0.0} "
+				+ $"+ 올리기·의식 {placing:0.0})가 등불의 {MaxShareOfLamp:P0}({budget:0.0}초)를 넘는다 — "
+				+ "헤매고 피할 여유가 없다");
+		}
+	}
+
+	[Test]
 	public void C6_AtMostOneOverlappingSoundPair()
 	{
 		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
@@ -206,26 +269,21 @@ public class MapBakeTests
 	public void C10_FirstLevelHasAnArtifactNearTheStart()
 	{
 		MapData map = Load(1);
-		System.Collections.Generic.List<string> bad = new System.Collections.Generic.List<string>();
+		MapPoint start = Managers.Data.GetPoint(SpawnSelector.PlayerStartPoint);
+		Assert.IsNotNull(start, "L1에 player_start 가 없다");
 
-		foreach (MapPoint spawn in map.spawns)
+		int[] field = MapPathfinder.DistanceField(start.col, start.row);
+		int nearest = int.MaxValue;
+
+		foreach (MapPoint artifact in Artifacts(map))
 		{
-			int[] field = MapPathfinder.DistanceField(spawn.col, spawn.row);
-			bool found = false;
-
-			foreach (MapPoint artifact in Artifacts(map))
-			{
-				int d = MapPathfinder.Sample(field, artifact.col, artifact.row);
-				if (d >= 5 && d <= 9)
-					found = true;
-			}
-
-			if (found == false)
-				bad.Add($"({spawn.col},{spawn.row})");
+			int d = MapPathfinder.Sample(field, artifact.col, artifact.row);
+			if (d != MapPathfinder.Unreachable && d < nearest)
+				nearest = d;
 		}
 
-		Assert.IsEmpty(bad, "L1은 어느 시작점에서든 5~9타일 안에 유물이 있어야 "
-			+ "2초 내 첫 리듬음이 난다. 위반: " + string.Join(", ", bad));
+		Assert.LessOrEqual(nearest, 9,
+			$"L1은 시작에서 9타일 안에 공양물이 있어야 2초 내 첫 리듬음이 난다 (가장 가까운 것 {nearest}타일)");
 	}
 
 	[Test]

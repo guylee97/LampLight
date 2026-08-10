@@ -1,0 +1,22 @@
+language: ko-KR
+
+reviews:
+  path_filters:
+    - "!**/*.meta"
+    - "!**/*.anim"
+    - "!**/*.controller"
+    - "!**/*.png"
+    - "!**/*.jpg"
+    - "!**/*.jpeg"
+    - "!**/*.gif"
+    - "!**/*.psd"
+    - "!**/*.mp4"
+    - "!**/*.mp3"
+    - "!**/*.wav"
+    - "!**/*.ogg"
+    - "!**/*.ttf"
+    - "!**/*.docx"
+    - "!Library/**"
+    - "!Temp/**"
+    - "!Logs/**"
+    - "!docs/collision_map.json"

@@ -63,20 +63,27 @@ public class SceneSmokeTests
 
 		LevelConfig config = Managers.Game.Level;
 
-		int stashed = 0;
-		foreach (Container container in Object.FindObjectsByType<Container>(FindObjectsSortMode.None))
+		Assert.AreEqual(config.ArtifactsPlaced, placer.Artifacts.Count,
+			"배치된 공양물 수가 레벨 정의와 다르다");
+
+		// 굽는 쪽이 제단과의 거리와 소품을 피하는 자리를 정해둔다. 여기서 다시 뽑으면
+		// 테스트가 재는 맵과 실제로 노는 맵이 갈라진다.
+		foreach (Artifact artifact in placer.Artifacts)
 		{
-			if (container.HoldsArtifact)
-				stashed++;
+			MapPoint baked = Managers.Data.GetPoint(artifact.PointName);
+			Assert.IsNotNull(baked, $"{artifact.PointName}: 구운 좌표가 없다");
+
+			Vector2Int actual = MapCoord.WorldToTile(artifact.transform.position);
+			Assert.AreEqual(baked.col, actual.x,
+				$"{artifact.PointName}: 구운 자리가 아닌 곳에 놓였다");
+			Assert.AreEqual(baked.row, actual.y,
+				$"{artifact.PointName}: 구운 자리가 아닌 곳에 놓였다");
 		}
 
-		Assert.AreEqual(config.ArtifactsPlaced, placer.Artifacts.Count + stashed,
-			"배치된 유물 수가 레벨 정의와 다르다 (컨테이너에 숨긴 것 포함)");
+		Assert.AreEqual(placer.Artifacts.Count, progress.Required,
+			"놓인 공양물은 전부 모아야 의식이 열린다");
 
-		Assert.GreaterOrEqual(placer.Artifacts.Count + stashed, progress.Required,
-			"배치 수가 필요 수보다 적으면 클리어가 불가능하다");
-
-		Assert.IsNotNull(placer.ExitDoor, "출구가 배치되지 않았다");
+		Assert.IsNotNull(placer.Altar, "제단이 배치되지 않았다");
 
 		PlayerController player = Object.FindFirstObjectByType<PlayerController>();
 		Vector2Int start = MapCoord.WorldToTile(player.transform.position);
@@ -93,41 +100,9 @@ public class SceneSmokeTests
 				$"유물 {artifact.PointName}({tile.x},{tile.y})에 도달할 수 없다");
 		}
 
-		foreach (Container container in Object.FindObjectsByType<Container>(FindObjectsSortMode.None))
-		{
-			if (container.HoldsArtifact == false)
-				continue;
-
-			Vector2Int box = MapCoord.WorldToTile(container.transform.position);
-			Assert.IsTrue(HasReachableSpotBeside(field, box),
-				$"유물이 든 상자({box.x},{box.y}) 옆에 설 수 있는 칸이 없다");
-		}
-
-		Vector2Int exit = MapCoord.WorldToTile(placer.ExitDoor.transform.position);
-		Assert.AreNotEqual(MapPathfinder.Unreachable, MapPathfinder.Sample(field, exit.x, exit.y),
-			$"출구({exit.x},{exit.y})에 도달할 수 없다");
-	}
-
-	const int InteractTiles = 1;
-
-	static bool HasReachableSpotBeside(int[] field, Vector2Int tile)
-	{
-		for (int dy = -InteractTiles; dy <= InteractTiles; dy++)
-		{
-			for (int dx = -InteractTiles; dx <= InteractTiles; dx++)
-			{
-				int col = tile.x + dx;
-				int row = tile.y + dy;
-
-				if (MapCoord.IsPassable(col, row) == false)
-					continue;
-
-				if (MapPathfinder.Sample(field, col, row) != MapPathfinder.Unreachable)
-					return true;
-			}
-		}
-
-		return false;
+		Vector2Int altar = MapCoord.WorldToTile(placer.Altar.transform.position);
+		Assert.AreNotEqual(MapPathfinder.Unreachable, MapPathfinder.Sample(field, altar.x, altar.y),
+			$"제단({altar.x},{altar.y})에 도달할 수 없다");
 	}
 
 	[UnityTest]
@@ -151,7 +126,7 @@ public class SceneSmokeTests
 	}
 
 	[UnityTest]
-	public IEnumerator EnemiesStartAwayFromThePlayer()
+	public IEnumerator EnemiesWakeAwayFromThePlayer()
 	{
 		yield return QaScene.Load();
 
@@ -159,14 +134,24 @@ public class SceneSmokeTests
 		Vector2Int start = MapCoord.WorldToTile(player.transform.position);
 		int[] field = MapPathfinder.DistanceField(start.x, start.y);
 
+		Assert.IsEmpty(Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None),
+			"씬이 열릴 때는 신전이 비어 있어야 한다");
+
+		EnemySpawner spawner = Object.FindFirstObjectByType<EnemySpawner>();
+		SpawnSelector selector = Object.FindFirstObjectByType<SpawnSelector>();
+		Assert.IsNotNull(spawner, "씬에 EnemySpawner가 없다");
+		Assert.IsNotNull(selector, "씬에 SpawnSelector가 없다");
+
+		LevelConfig config = LevelTable.Get(Managers.Game.CurrentLevel);
+		spawner.Spawn(config, selector.PlayerStart, new System.Random(9137));
+
 		List<string> tooClose = new List<string>();
 
 		EnemyBase[] enemies = Object.FindObjectsByType<EnemyBase>(FindObjectsSortMode.None);
-		LevelConfig config = LevelTable.Get(Managers.Game.CurrentLevel);
-		int expected = config.EnemyCount;
+		int expected = config.YokaiCount;
 
 		Assert.AreEqual(expected, enemies.Length,
-			$"L{Managers.Game.CurrentLevel} 좀비가 {expected}마리 나와야 하는데 {enemies.Length}마리다");
+			$"L{Managers.Game.CurrentLevel} 요괴가 {expected}마리 나와야 하는데 {enemies.Length}마리다");
 
 		foreach (EnemyBase enemy in enemies)
 		{

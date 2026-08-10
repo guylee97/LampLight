@@ -28,7 +28,6 @@ public class SoundManager
 	bool _isRunning;
 
 	public bool IsListening { get { return _isListening; } }
-	public Action<Vector3, Define.Sound, float, float> OnSpatialSoundPlayed;
 
 	public void Init()
 	{
@@ -101,7 +100,6 @@ public class SoundManager
 		_audioClips.Clear();
 		_isListening = false;
 		_isRunning = false;
-		OnSpatialSoundPlayed = null;
 	}
 
 	public void PlayOptional(
@@ -197,54 +195,11 @@ public class SoundManager
 
 		_spatialVoices.Add(new SpatialVoice(source, lowPass, bus, volume));
 		source.Play();
-		EmitSoundSignal(position, bus, volume);
 
 		if (Application.isPlaying)
 			Object.Destroy(go, clip.length / Mathf.Abs(source.pitch) + 0.1f);
 		else
 			Object.DestroyImmediate(go);
-	}
-
-	public void EmitSoundSignal(Vector3 position, Define.Sound bus, float intensity = 1.0f)
-	{
-		Transform listener = GetListenerTransform();
-		if (listener == null)
-			return;
-
-		float distance = Vector2.Distance(listener.position, position);
-		if (distance > MaximumDistance)
-			return;
-
-		float uncertainty = CalculateUncertainty(listener.position, position, bus, distance);
-		if (OnSpatialSoundPlayed != null)
-			OnSpatialSoundPlayed.Invoke(
-				position,
-				bus,
-				Mathf.Clamp01(intensity),
-				uncertainty
-			);
-	}
-
-	float CalculateUncertainty(
-		Vector3 listenerPosition,
-		Vector3 soundPosition,
-		Define.Sound bus,
-		float distance)
-	{
-		float baseUncertainty = bus == Define.Sound.Self ? 0.0f : 0.08f;
-		float distanceRatio = Mathf.Clamp01(distance / MaximumDistance);
-		int wallCount = CountWalls(listenerPosition, soundPosition);
-		float wallRatio = 1.0f - Mathf.Pow(0.55f, wallCount);
-
-		float uncertainty =
-			baseUncertainty +
-			distanceRatio * 0.65f +
-			wallRatio * 0.45f;
-
-		if (_isListening)
-			uncertainty *= 0.6f;
-
-		return Mathf.Clamp01(uncertainty);
 	}
 
 	public void PlayAtPointOptional(
@@ -256,10 +211,7 @@ public class SoundManager
 	{
 		AudioClip clip = GetOptionalAudioClip(path);
 		if (clip == null)
-		{
-			EmitSoundSignal(position, bus, volume);
 			return;
-		}
 
 		PlayAtPoint(clip, position, bus, volume, pitch);
 	}
@@ -277,10 +229,7 @@ public class SoundManager
 			clip = GetOptionalAudioClip(fallbackPath);
 
 		if (clip == null)
-		{
-			EmitSoundSignal(position, bus, volume);
 			return;
-		}
 
 		PlayAtPoint(clip, position, bus, volume, pitch);
 	}

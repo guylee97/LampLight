@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,54 +14,37 @@ public class UI_InGame : UI_Scene
 	enum Images
 	{
 		FuelFill,
-		StaminaFill,
 	}
 
 	[SerializeField]
 	float _fillSpeed = 5.0f;
 
-	[SerializeField]
-	float _soundRingDuration = 0.6f;
-
-	[SerializeField]
-	float _soundRingRadius = 190.0f;
-
-	[SerializeField]
-	float _soundRingThickness = 7.0f;
-
-	[SerializeField]
-	float _soundRingArcAngle = 42.0f;
-
-	[SerializeField]
-	Sprite _soundArcSprite;
-
 	StageProgress _progress;
 	PlayerController _player;
-	PlayerStatus _status;
 	PlayerInteractor _interactor;
 	Lamp _lamp;
-	RectTransform _soundRingRoot;
-	readonly List<SoundRing> _soundRings = new List<SoundRing>();
 	bool _ready;
-	float _remainingSeconds;
 	Text _noticeText;
 	Coroutine _noticeRoutine;
 	GameObject _holdProgressRoot;
 	Text _holdProgressText;
+	Image _wickFill;
+	Image _wickFlame;
+	RectTransform _wickRoot;
+	RectTransform _artifactBar;
+	Text _artifactCount;
 
-	public void Setup(StageProgress progress, PlayerController player, float deadlineSeconds = 0.0f)
+	public void Setup(StageProgress progress, PlayerController player)
 	{
 		_progress = progress;
 		_player = player;
 
 		if (_player != null)
 		{
-			_status = _player.Status;
 			_lamp = _player.Lamp;
 			_interactor = _player.GetComponent<PlayerInteractor>();
 		}
 
-		_remainingSeconds = deadlineSeconds;
 		RefreshArtifacts();
 	}
 
@@ -74,6 +56,8 @@ public class UI_InGame : UI_Scene
 		Bind<Image>(typeof(Images));
 
 		_ready = true;
+
+		CreateArtifactBar();
 
 		if (_progress == null)
 			Setup(FindFirstObjectByType<StageProgress>(), FindFirstObjectByType<PlayerController>());
@@ -89,10 +73,7 @@ public class UI_InGame : UI_Scene
 		HideStatusBars();
 		CreateNoticeText();
 		CreateHoldProgress();
-
-		// ?뚮━ 諛⑺뼢 HUD 湲곕뒫 ?쒓굅.
-		// CreateSoundRingPool();
-		// Managers.Sound.OnSpatialSoundPlayed += OnSpatialSoundPlayed;
+		CreateWickGauge();
 	}
 
 	void OnDestroy()
@@ -102,9 +83,6 @@ public class UI_InGame : UI_Scene
 			_progress.OnArtifactCollected -= OnArtifactCollected;
 			_progress.OnAllArtifactsCollected -= OnAllArtifactsCollected;
 		}
-
-		// if (Managers.TryGetSound(out SoundManager sound))
-		// 	sound.OnSpatialSoundPlayed -= OnSpatialSoundPlayed;
 	}
 
 	void OnArtifactCollected(int collected, int required)
@@ -124,25 +102,179 @@ public class UI_InGame : UI_Scene
 		if (_noticeText == null)
 			yield break;
 
-		_noticeText.text = "어딘가 문이 열렸다";
-		yield return new WaitForSecondsRealtime(2.5f);
+		_noticeText.text = string.Empty;
+		yield return null;
+		_noticeRoutine = null;
+	}
+
+	public void ShowTemporaryNotice(string message, float seconds)
+	{
+		if (_noticeText == null)
+			return;
+
+		if (_noticeRoutine != null)
+			StopCoroutine(_noticeRoutine);
+
+		_noticeRoutine = StartCoroutine(ShowTemporaryNoticeRoutine(message, seconds));
+	}
+
+	IEnumerator ShowTemporaryNoticeRoutine(string message, float seconds)
+	{
+		_noticeText.text = message;
+		yield return new WaitForSecondsRealtime(Mathf.Max(0.0f, seconds));
 		_noticeText.text = string.Empty;
 		_noticeRoutine = null;
 	}
 
-	public void SetRemainingTime(float seconds)
+	const string WickSprite = "Art/UI/Play_screen_UI/Lantern_Remaining_Wick";
+	const string FlameSprite = "Art/UI/Play_screen_UI/firelight";
+	const float WickHeight = 206.0f;
+	const float WickWidth = 16.0f;
+
+	/// 등불은 이 게임의 유일한 시계다. 숫자 대신 아티스트가 만든 심지가 타들어간다.
+	void CreateWickGauge()
 	{
-		_remainingSeconds = seconds;
+		if (_wickRoot != null)
+			return;
+
+		Sprite wick = Resources.Load<Sprite>(WickSprite);
+		if (wick == null)
+		{
+			Debug.LogWarning($"UI_InGame: Resources/{WickSprite} 없음");
+			return;
+		}
+
+		GameObject root = new GameObject("WickGauge", typeof(RectTransform));
+		root.transform.SetParent(transform, false);
+		_wickRoot = root.GetComponent<RectTransform>();
+		_wickRoot.anchorMin = new Vector2(0.0f, 0.0f);
+		_wickRoot.anchorMax = new Vector2(0.0f, 0.0f);
+		_wickRoot.pivot = new Vector2(0.0f, 0.0f);
+		_wickRoot.anchoredPosition = new Vector2(34.0f, 34.0f);
+		_wickRoot.sizeDelta = new Vector2(WickWidth, WickHeight);
+
+		GameObject fill = new GameObject("Wick", typeof(RectTransform), typeof(Image));
+		fill.transform.SetParent(root.transform, false);
+		RectTransform fillRect = fill.GetComponent<RectTransform>();
+		fillRect.anchorMin = Vector2.zero;
+		fillRect.anchorMax = Vector2.one;
+		fillRect.offsetMin = Vector2.zero;
+		fillRect.offsetMax = Vector2.zero;
+
+		_wickFill = fill.GetComponent<Image>();
+		_wickFill.sprite = wick;
+		_wickFill.preserveAspect = false;
+		_wickFill.raycastTarget = false;
+		_wickFill.type = Image.Type.Filled;
+		_wickFill.fillMethod = Image.FillMethod.Vertical;
+		_wickFill.fillOrigin = (int)Image.OriginVertical.Bottom;
+		_wickFill.fillAmount = 1.0f;
+
+		Sprite flame = Resources.Load<Sprite>(FlameSprite);
+		if (flame == null)
+			return;
+
+		GameObject head = new GameObject("Flame", typeof(RectTransform), typeof(Image));
+		head.transform.SetParent(root.transform, false);
+		RectTransform headRect = head.GetComponent<RectTransform>();
+		headRect.anchorMin = new Vector2(0.5f, 0.0f);
+		headRect.anchorMax = new Vector2(0.5f, 0.0f);
+		headRect.pivot = new Vector2(0.5f, 0.5f);
+		headRect.sizeDelta = new Vector2(26.0f, 26.0f);
+
+		_wickFlame = head.GetComponent<Image>();
+		_wickFlame.sprite = flame;
+		_wickFlame.raycastTarget = false;
+	}
+
+	void UpdateWickGauge()
+	{
+		if (_wickFill == null)
+			return;
+
+		float ratio = _lamp == null ? 0.0f : Mathf.Clamp01(_lamp.RemainingRatio);
+		_wickFill.fillAmount = ratio;
+
+		if (_wickFlame == null)
+			return;
+
+		// 불꽃은 남은 심지 끝에 앉아 함께 내려온다. 다 타면 꺼진다.
+		_wickFlame.enabled = ratio > 0.0f;
+		_wickFlame.rectTransform.anchoredPosition = new Vector2(0.0f, WickHeight * ratio);
+
+		float flicker = 0.85f + Mathf.PingPong(Time.unscaledTime * 1.7f, 0.3f);
+		_wickFlame.rectTransform.localScale = new Vector3(flicker, flicker, 1.0f);
+	}
+
+	const string ArtifactBarSprite = "Art/UI/Play_screen_UI/Artifact_Bar_No_numbers";
+	const float ArtifactBarWidth = 625.0f;
+	const float ArtifactBarHeight = 107.0f;
+	const float ArtifactBarTopMargin = 24.0f;
+
+	const float ArtifactCountCenterX = 406.0f;
+	const float ArtifactCountCenterY = 56.0f;
+	const int ArtifactCountFontSize = 112;
+
+	void CreateArtifactBar()
+	{
+		if (_artifactBar != null)
+			return;
+
+		Sprite bar = Resources.Load<Sprite>(ArtifactBarSprite);
+		if (bar == null)
+		{
+			Debug.LogWarning($"UI_InGame: Resources/{ArtifactBarSprite} 없음");
+			return;
+		}
+
+		GameObject root = new GameObject("ArtifactBar", typeof(RectTransform), typeof(Image));
+		root.transform.SetParent(transform, false);
+
+		_artifactBar = root.GetComponent<RectTransform>();
+		_artifactBar.anchorMin = Vector2.one;
+		_artifactBar.anchorMax = Vector2.one;
+		_artifactBar.pivot = Vector2.one;
+		_artifactBar.anchoredPosition = new Vector2(0.0f, -ArtifactBarTopMargin);
+		_artifactBar.sizeDelta = new Vector2(ArtifactBarWidth, ArtifactBarHeight);
+
+		Image image = root.GetComponent<Image>();
+		image.sprite = bar;
+		image.raycastTarget = false;
+
+		_artifactCount = GetText((int)Texts.ArtifactText);
+		if (_artifactCount == null)
+			return;
+
+		_artifactCount.transform.SetParent(root.transform, false);
+
+		RectTransform rect = _artifactCount.rectTransform;
+		rect.anchorMin = new Vector2(0.0f, 1.0f);
+		rect.anchorMax = new Vector2(0.0f, 1.0f);
+		rect.pivot = new Vector2(0.5f, 0.5f);
+		rect.anchoredPosition = new Vector2(ArtifactCountCenterX, -ArtifactCountCenterY);
+		rect.sizeDelta = new Vector2(220.0f, 100.0f);
+
+		_artifactCount.font = KoreanFont.Font;
+		_artifactCount.fontSize = ArtifactCountFontSize;
+		_artifactCount.alignment = TextAnchor.MiddleCenter;
+		_artifactCount.horizontalOverflow = HorizontalWrapMode.Overflow;
+		_artifactCount.verticalOverflow = VerticalWrapMode.Overflow;
+		_artifactCount.color = new Color32(225, 206, 149, 255);
+		_artifactCount.raycastTarget = false;
+		_artifactCount.enabled = true;
+
+		RefreshArtifacts();
 	}
 
 	void RefreshArtifacts()
 	{
-		if (_ready == false || _progress == null)
+		if (_artifactCount == null)
 			return;
 
-		Text text = GetText((int)Texts.ArtifactText);
-		if (text != null)
-			text.text = $"유물  {_progress.Collected} / {_progress.Required}";
+		int collected = _progress == null ? 0 : _progress.Collected;
+		int required = _progress == null ? 0 : _progress.Required;
+
+		_artifactCount.text = $"{collected}/{required}";
 	}
 
 	void Update()
@@ -150,22 +282,11 @@ public class UI_InGame : UI_Scene
 		if (_ready == false)
 			return;
 
-		// UpdateSoundRings();
+		UpdateWickGauge();
 
 		Text fuelText = GetText((int)Texts.FuelText);
-		if (fuelText != null)
-		{
-			RectTransform fuelRect = fuelText.rectTransform;
-			fuelRect.anchorMin = new Vector2(0.5f, 1.0f);
-			fuelRect.anchorMax = new Vector2(0.5f, 1.0f);
-			fuelRect.pivot = new Vector2(0.5f, 1.0f);
-			fuelRect.anchoredPosition = new Vector2(0.0f, -28.0f);
-			fuelRect.sizeDelta = new Vector2(420.0f, 55.0f);
-			fuelText.alignment = TextAnchor.MiddleCenter;
-
-			int seconds = Mathf.CeilToInt(_remainingSeconds);
-			fuelText.text = $"남은 시간  {seconds / 60:00}:{seconds % 60:00}";
-		}
+		if (fuelText != null && fuelText.enabled)
+			fuelText.enabled = false;
 
 		Text prompt = GetText((int)Texts.PromptText);
 		if (prompt != null)
@@ -222,7 +343,14 @@ public class UI_InGame : UI_Scene
 
 		_holdProgressRoot.SetActive(visible);
 		if (visible)
-			_holdProgressText.text = $"뒤지는 중  {_interactor.HoldRemainingSeconds:0.0}초";
+		{
+			// 무엇을 하는 중인지는 대상만 안다. 공양물을 올릴 때 '뒤지는 중'이 뜨면 안 된다.
+			string doing = _interactor.Current.HoldingLabel;
+			if (string.IsNullOrEmpty(doing))
+				doing = "하는 중";
+
+			_holdProgressText.text = $"{doing}  {_interactor.HoldRemainingSeconds:0.0}초";
+		}
 	}
 
 	void HideStatusBars()
@@ -253,184 +381,11 @@ public class UI_InGame : UI_Scene
 		_noticeText.color = Color.white;
 	}
 
-	void CreateSoundRingPool()
-	{
-		if (_soundRingRoot != null)
-			return;
-
-		GameObject root = new GameObject("SoundRingRoot", typeof(RectTransform));
-		root.transform.SetParent(transform, false);
-		_soundRingRoot = root.GetComponent<RectTransform>();
-		_soundRingRoot.anchorMin = Vector2.zero;
-		_soundRingRoot.anchorMax = Vector2.one;
-		_soundRingRoot.offsetMin = Vector2.zero;
-		_soundRingRoot.offsetMax = Vector2.zero;
-		_soundRingRoot.SetAsLastSibling();
-
-		for (int i = 0; i < 8; i++)
-		{
-			GameObject go = new GameObject($"SoundRing_{i}", typeof(RectTransform), typeof(Image));
-			go.transform.SetParent(_soundRingRoot, false);
-
-			Image image = go.GetComponent<Image>();
-			image.sprite = _soundArcSprite;
-			image.raycastTarget = false;
-			image.enabled = false;
-
-			RectTransform rect = go.GetComponent<RectTransform>();
-			rect.anchorMin = new Vector2(0.5f, 0.5f);
-			rect.anchorMax = new Vector2(0.5f, 0.5f);
-			rect.pivot = new Vector2(0.5f, 0.5f);
-
-			_soundRings.Add(new SoundRing(rect, image));
-		}
-	}
-
-	void OnSpatialSoundPlayed(
-		Vector3 worldPosition,
-		Define.Sound bus,
-		float volume,
-		float uncertainty)
-	{
-		if (bus != Define.Sound.Guide &&
-			bus != Define.Sound.Threat &&
-			bus != Define.Sound.Self)
-			return;
-
-		Camera camera = Camera.main;
-		if (camera == null || _soundRingRoot == null)
-			return;
-
-		Vector3 sourceViewport = camera.WorldToViewportPoint(worldPosition);
-		Vector3 playerViewport = _player == null
-			? new Vector3(0.5f, 0.5f)
-			: camera.WorldToViewportPoint(_player.transform.position);
-		Vector2 direction = new Vector2(
-			sourceViewport.x - playerViewport.x,
-			sourceViewport.y - playerViewport.y
-		);
-
-		if (direction.sqrMagnitude <= 0.0001f)
-			direction = Vector2.down;
-
-		direction.Normalize();
-		SoundRing ring = GetAvailableSoundRing();
-		Vector2 playerScreenPoint = new Vector2(
-			playerViewport.x * Screen.width,
-			playerViewport.y * Screen.height
-		);
-		RectTransformUtility.ScreenPointToLocalPointInRectangle(
-			_soundRingRoot,
-			playerScreenPoint,
-			null,
-			out Vector2 playerLocalPoint
-		);
-		PlaceSoundRing(ring, playerLocalPoint, direction, uncertainty);
-
-		Color color = GetSoundRingColor(bus);
-		float volumeAlpha = Mathf.Lerp(0.65f, 1.0f, volume);
-		color.a = Mathf.Lerp(0.9f, 0.35f, uncertainty) * volumeAlpha;
-		ring.BaseColor = color;
-		ring.Image.color = color;
-		ring.Image.enabled = true;
-		ring.ExpiresAt = Time.unscaledTime + _soundRingDuration;
-	}
-
-	void PlaceSoundRing(
-		SoundRing ring,
-		Vector2 center,
-		Vector2 direction,
-		float uncertainty)
-	{
-		float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-		float arcAngle = Mathf.Lerp(28.0f, 105.0f, uncertainty);
-
-		if (_soundArcSprite != null)
-		{
-			ring.Rect.anchoredPosition = center;
-			float diameter = _soundRingRadius * 2.0f;
-			float widthScale = arcAngle / Mathf.Max(1.0f, _soundRingArcAngle);
-			ring.Rect.sizeDelta = new Vector2(diameter * widthScale, diameter);
-			ring.Rect.localRotation = Quaternion.Euler(0, 0, angle - 90.0f);
-			return;
-		}
-
-		float fallbackWidth = 2.0f * Mathf.PI * _soundRingRadius * arcAngle / 360.0f;
-		ring.Rect.anchoredPosition = center + direction * _soundRingRadius;
-		ring.Rect.sizeDelta = new Vector2(fallbackWidth, _soundRingThickness);
-		ring.Rect.localRotation = Quaternion.Euler(0, 0, angle + 90.0f);
-	}
-
-	void UpdateSoundRings()
-	{
-		for (int i = 0; i < _soundRings.Count; i++)
-		{
-			SoundRing ring = _soundRings[i];
-			if (ring.Image.enabled == false)
-				continue;
-
-			float remaining = ring.ExpiresAt - Time.unscaledTime;
-			if (remaining <= 0)
-			{
-				ring.Image.enabled = false;
-				continue;
-			}
-
-			Color color = ring.BaseColor;
-			color.a *= Mathf.Clamp01(remaining / _soundRingDuration);
-			ring.Image.color = color;
-		}
-	}
-
-	SoundRing GetAvailableSoundRing()
-	{
-		SoundRing oldest = _soundRings[0];
-
-		for (int i = 0; i < _soundRings.Count; i++)
-		{
-			SoundRing ring = _soundRings[i];
-			if (ring.Image.enabled == false)
-				return ring;
-
-			if (ring.ExpiresAt < oldest.ExpiresAt)
-				oldest = ring;
-		}
-
-		return oldest;
-	}
-
-	Color GetSoundRingColor(Define.Sound bus)
-	{
-		switch (bus)
-		{
-			case Define.Sound.Guide:
-				return new Color(1.0f, 0.55f, 0.12f, 1.0f);
-			case Define.Sound.Threat:
-				return new Color(0.9f, 0.12f, 0.1f, 1.0f);
-			default:
-				return new Color(0.65f, 0.68f, 0.72f, 1.0f);
-		}
-	}
-
 	void UpdateFill(Image image, float target)
 	{
 		if (image == null)
 			return;
 
 		image.fillAmount = Mathf.MoveTowards(image.fillAmount, target, _fillSpeed * Time.unscaledDeltaTime);
-	}
-
-	sealed class SoundRing
-	{
-		public readonly RectTransform Rect;
-		public readonly Image Image;
-		public Color BaseColor;
-		public float ExpiresAt;
-
-		public SoundRing(RectTransform rect, Image image)
-		{
-			Rect = rect;
-			Image = image;
-		}
 	}
 }

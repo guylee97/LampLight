@@ -4,17 +4,25 @@ using UnityEngine;
 public class LevelTests
 {
 	[Test]
-	public void OptionalLevelIsCompleteFromTheStart()
+	public void FirstLevelNeedsEveryArtifactBeforeTheRitual()
 	{
 		GameObject host = new GameObject("Progress");
 
 		try
 		{
+			int required = LevelTable.Get(1).ArtifactsRequired;
+
 			StageProgress progress = host.AddComponent<StageProgress>();
-			progress.SetRequired(LevelTable.Get(1).ArtifactsRequired);
+			progress.SetRequired(required);
 			progress.ResetProgress();
 
-			Assert.IsTrue(progress.IsComplete, "L1은 필요 유물 0개라 시작부터 탈출 가능해야 한다");
+			for (int i = 0; i < required; i++)
+			{
+				Assert.IsFalse(progress.IsComplete, $"{i}개만 모은 상태로는 의식을 치를 수 없다");
+				progress.ReportCollected();
+			}
+
+			Assert.IsTrue(progress.IsComplete, "L1도 놓인 공양물을 전부 모아야 의식이 열린다");
 		}
 		finally
 		{
@@ -36,7 +44,7 @@ public class LevelTests
 			progress.ReportCollected();
 			progress.ReportCollected();
 
-			Assert.AreEqual(2, progress.Collected, "필요 수가 0이어도 점수용 집계는 계속되어야 한다");
+			Assert.AreEqual(2, progress.Collected, "필요 수가 0이어도 집계는 계속되어야 한다");
 		}
 		finally
 		{
@@ -79,35 +87,107 @@ public class LevelTests
 	}
 
 	[Test]
-	public void ArtifactsPlacedAlwaysExceedRequired()
+	public void EveryPlacedArtifactIsRequired()
 	{
 		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
 		{
 			LevelConfig config = LevelTable.Get(level);
-			Assert.Greater(config.ArtifactsPlaced, config.ArtifactsRequired,
-				$"L{level}: 배치 수가 필요 수보다 많아야 선택 여지가 생긴다");
+			Assert.AreEqual(config.ArtifactsPlaced, config.ArtifactsRequired,
+				$"L{level}: 놓인 공양물은 전부 모아야 의식을 치른다");
 		}
 	}
 
 	[Test]
-	public void FirstLevelIsOptionalCollection()
+	public void FirstLevelAsksForEveryArtifactItPlaces()
 	{
-		Assert.AreEqual(0, LevelTable.Get(1).ArtifactsRequired);
+		LevelConfig config = LevelTable.Get(1);
+		Assert.AreEqual(config.ArtifactsPlaced, config.ArtifactsRequired);
 	}
 
 	[Test]
-	public void RunnerOnlyAppearsOnLastLevel()
+	public void EveryLevelHasAYokai()
 	{
-		Assert.AreEqual(0, LevelTable.Get(1).RunnerCount);
-		Assert.AreEqual(0, LevelTable.Get(2).RunnerCount);
-		Assert.AreEqual(1, LevelTable.Get(3).RunnerCount);
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			Assert.GreaterOrEqual(LevelTable.Get(level).YokaiCount, 1,
+				$"L{level}: 요괴가 없으면 퇴치할 대상이 없다");
+		}
 	}
 
 	[Test]
-	public void EnemyCountGrows()
+	public void RitualSecondsAreTheSameOnEveryLevel()
 	{
-		Assert.Less(LevelTable.Get(1).EnemyCount, LevelTable.Get(2).EnemyCount);
-		Assert.Less(LevelTable.Get(2).EnemyCount, LevelTable.Get(3).EnemyCount);
+		const float Unified = 5.0f;
+
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			Assert.AreEqual(Unified, LevelTable.Get(level).RitualSeconds, 0.0001f,
+				$"L{level}: 봉인 시간은 전각마다 같아야 한다 — 플레이 가이드가 시간을 알려주지 않으므로 "
+				+ "전각마다 다르면 플레이어가 매번 다시 배워야 한다");
+		}
+	}
+
+	[Test]
+	public void PlacingIsShortAndOnlySealingHoldsThePlayerDown()
+	{
+		Assert.AreEqual(1.5f, Altar.PlaceSeconds, 0.0001f,
+			"공양물을 올리는 것은 잡일이다 — 길면 절정과 구분되지 않는다");
+
+		Assert.Less(Altar.PlaceSeconds, LevelTable.Get(LevelTable.MinLevel).RitualSeconds,
+			"올리기가 봉인만큼 길면 마지막 하나가 특별해지지 않는다");
+	}
+
+	[Test]
+	public void StandingStillNeverEatsTheLamp()
+	{
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			LevelConfig config = LevelTable.Get(level);
+
+			// 공양물을 하나씩 올리고, 다 올린 다음 따로 봉인한다.
+			float standing = config.ArtifactsRequired * Altar.PlaceSeconds + config.RitualSeconds;
+
+			Assert.LessOrEqual(standing, config.LampSeconds * 0.2f,
+				$"L{level}: 제단 앞에 서 있는 {standing:0.0}초가 등불의 20%를 넘는다 — "
+				+ "어둠 속에 못 박혀 있는 시간이 너무 길다");
+		}
+	}
+
+	[Test]
+	public void NoYokaiOutrunsThePlayer()
+	{
+		const float PlayerRunSpeed = 4.0f;
+
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			YokaiSpec spec = YokaiTable.ForLevel(level);
+
+			// 추격 속도가 달리기보다 빠르면 들킨 순간 대응할 방법이 없다.
+			// 집요함은 속도가 아니라 포기하지 않는 것으로 만든다.
+			Assert.Less(spec.ChaseSpeed, PlayerRunSpeed,
+				$"L{level} {spec.Label}: 추격 {spec.ChaseSpeed}가 달리기 {PlayerRunSpeed} 이상이라 "
+				+ "발각되면 반드시 잡힌다");
+		}
+	}
+
+	[Test]
+	public void DifficultyGrowsWithoutAddingEnemies()
+	{
+		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
+		{
+			Assert.AreEqual(1, LevelTable.Get(level).YokaiCount,
+				$"L{level}: 요괴는 전각마다 하나다 — 난이도는 맵과 공양물로 올린다");
+		}
+
+		Assert.Less(LevelTable.Get(1).ArtifactsRequired, LevelTable.Get(2).ArtifactsRequired);
+		Assert.Less(LevelTable.Get(2).ArtifactsRequired, LevelTable.Get(3).ArtifactsRequired);
+	}
+
+	[Test]
+	public void LampBurnGrowsWithLevel()
+	{
+		Assert.Less(LevelTable.Get(1).LampSeconds, LevelTable.Get(2).LampSeconds);
+		Assert.Less(LevelTable.Get(2).LampSeconds, LevelTable.Get(3).LampSeconds);
 	}
 
 	[Test]
@@ -117,31 +197,6 @@ public class LevelTests
 		Assert.AreEqual(LevelTable.MinLevel, LevelTable.Clamp(-5));
 		Assert.AreEqual(LevelTable.MaxLevel, LevelTable.Clamp(99));
 		Assert.AreEqual(2, LevelTable.Clamp(2));
-	}
-
-	[Test]
-	public void SilentRunOutscoresFastRun()
-	{
-		int silent = ScoreRules.Total(1, 2.0f, 20.0f, false, 0);
-		int noisy = ScoreRules.Total(1, 2.0f, 30.0f, true, 0);
-
-		Assert.Greater(silent, noisy, "조용히 간 사람이 이겨야 한다");
-	}
-
-	[Test]
-	public void ScoreMatchesFormula()
-	{
-		int score = ScoreRules.Total(2, 2.0f, 30.0f, true, 1);
-		Assert.AreEqual(500 * 2 + 300 * 2 + 10 * 30 + 250, score);
-	}
-
-	[Test]
-	public void ConcealedArtifactsScoreMore()
-	{
-		int plain = ScoreRules.Total(3, 3.0f, 0.0f, true, 0);
-		int hidden = ScoreRules.Total(3, ConcealmentRules.ScoreWeight(1) * 3.0f, 0.0f, true, 0);
-
-		Assert.Greater(hidden, plain, "은닉도가 높을수록 점수가 커야 한다");
 	}
 
 	[Test]
@@ -157,30 +212,17 @@ public class LevelTests
 	}
 
 	[Test]
-	public void GradeCutsAreOrdered()
-	{
-		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
-		{
-			LevelConfig config = LevelTable.Get(level);
-			Assert.Greater(config.GradeS, config.GradeA);
-			Assert.Greater(config.GradeA, config.GradeB);
-		}
-	}
-
-	[Test]
-	public void GradeResolvesFromScore()
-	{
-		Assert.AreEqual("S", LevelTable.Grade(1, 1800));
-		Assert.AreEqual("A", LevelTable.Grade(1, 1300));
-		Assert.AreEqual("B", LevelTable.Grade(1, 900));
-		Assert.AreEqual("C", LevelTable.Grade(1, 899));
-	}
-
-	[Test]
 	public void LampSecondsCoverRecalculatedRoute()
 	{
-		Assert.AreEqual(60.0f, LevelTable.Get(1).LampSeconds);
-		Assert.AreEqual(70.0f, LevelTable.Get(2).LampSeconds);
-		Assert.AreEqual(90.0f, LevelTable.Get(3).LampSeconds);
+		for (int level = LevelTable.MinLevel; level < LevelTable.MaxLevel; level++)
+		{
+			Assert.Less(
+				LevelTable.Get(level).LampSeconds,
+				LevelTable.Get(level + 1).LampSeconds,
+				$"{level + 1}전각은 {level}전각보다 넓으니 등불도 더 길어야 한다");
+		}
+
+		Assert.GreaterOrEqual(LevelTable.Get(LevelTable.MinLevel).LampSeconds, 45.0f,
+			"1전각 등불이 45초 아래면 초행에 헤맬 여유가 없다");
 	}
 }

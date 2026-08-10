@@ -22,6 +22,45 @@ public class StageFlowTests
 	}
 
 	[Test]
+	public void NewGameReturnsToTheFirstLevelAfterTheLastOneWasCleared()
+	{
+		Managers.Game.SetLevel(LevelTable.MaxLevel);
+		Managers.Game.ReportEscaped();
+
+		Managers.Game.NewGame();
+
+		Assert.AreEqual(LevelTable.MinLevel, Managers.Game.CurrentLevel,
+			"마지막 전각을 깬 뒤 새로 시작하면 1전각부터여야 한다");
+	}
+
+	[Test]
+	public void NewGameClearsTheFailureStreakThatLengthensTheLamp()
+	{
+		Managers.Game.GameOver();
+		Managers.Game.BeginStage();
+		Managers.Game.GameOver();
+		Managers.Game.BeginStage();
+		Managers.Game.GameOver();
+
+		Managers.Game.NewGame();
+
+		Assert.AreEqual(0, Managers.Game.ConsecutiveFailures,
+			"새 게임이 직전 판의 연패를 물려받으면 등불이 1.2배로 늘어난 채 시작한다");
+	}
+
+	[Test]
+	public void AdvancingKeepsTheLevelAcrossASceneLoad()
+	{
+		Managers.Game.SetLevel(LevelTable.MinLevel);
+		Managers.Game.AdvanceLevel();
+
+		Managers.Game.Clear();
+
+		Assert.AreEqual(LevelTable.MinLevel + 1, Managers.Game.CurrentLevel,
+			"씬 전환마다 도는 Clear 가 레벨을 되돌리면 전각 진행이 불가능하다");
+	}
+
+	[Test]
 	public void BeginStageRestoresTimeScaleAfterGameOverFroze()
 	{
 		Time.timeScale = 0.0f;

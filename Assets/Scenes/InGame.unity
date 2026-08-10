@@ -297,52 +297,6 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
---- !u!1 &144506202
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 144506204}
-  - component: {fileID: 144506203}
-  m_Layer: 0
-  m_Name: '@Tutorial'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &144506203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 144506202}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7760891be733547d79cff96655bd74d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: LampLight::TutorialController
-  _lineSeconds: 2.2
-  _hintSeconds: 4
---- !u!4 &144506204
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 144506202}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &294307523
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -697,7 +651,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.PixelPerfectCamera
   m_ComponentVersion: 1
-  m_AssetsPPU: 64
+  m_AssetsPPU: 32
   m_RefResolutionX: 640
   m_RefResolutionY: 360
   m_CropFrame: 0
@@ -838,51 +792,6 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759733485}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &838723932
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 838723934}
-  - component: {fileID: 838723933}
-  m_Layer: 0
-  m_Name: '@SoundRing'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &838723933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 838723932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b5663a65e4f34a09a4f39ca9147eadb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: LampLight::SoundRing
-  _enabledByDefault: 1
---- !u!4 &838723934
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 838723932}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -11239,13 +11148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17400c0aa7b2f4cd79dbb8b624f4ffb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: LampLight::EnemySpawner
-  _walkerPath: WalkerZombie
-  _wandererPath: WandererZombie
-  _runnerPath: RunnerZombie
   _root: {fileID: 0}
-  _minDistanceFromStart: 7
-  _hookDistanceMin: 7
-  _hookDistanceMax: 9
+  _minDistanceFromStart: 12
+  _hookDistanceMin: 12
+  _hookDistanceMax: 15
 --- !u!4 &1482483644
 Transform:
   m_ObjectHideFlags: 0
@@ -26148,9 +26054,7 @@ SceneRoots:
   - {fileID: 759733487}
   - {fileID: 294307523}
   - {fileID: 1482483644}
-  - {fileID: 838723934}
   - {fileID: 2047015435}
   - {fileID: 983117540}
-  - {fileID: 144506204}
   - {fileID: 1302637406}
   - {fileID: 1901842213}

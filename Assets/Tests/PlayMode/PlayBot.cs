@@ -104,8 +104,8 @@ public class PlayBot
 	{
 		Press(key);
 
-		float deadline = Time.time + seconds + 0.25f;
-		while (Time.time < deadline)
+		float deadline = Time.unscaledTime + seconds + 0.25f;
+		while (Time.unscaledTime < deadline)
 			yield return null;
 
 		Release();
@@ -117,13 +117,22 @@ public class PlayBot
 		Arrived = false;
 		Failure = null;
 
-		float deadline = Time.time + timeout;
-		float nextSample = Time.time + StuckSampleInterval;
+		float deadline = Time.unscaledTime + timeout;
+		float nextSample = Time.unscaledTime + StuckSampleInterval;
 		float stuckFor = 0;
 		Vector2 lastSample = _actor.position;
 
-		while (Time.time < deadline)
+		while (Time.unscaledTime < deadline)
 		{
+			// 대사가 뜨면 시간이 멈춘다. 사람처럼 넘기고 멈춤 판정을 다시 센다.
+			if (UI_Dialogue.IsShowing)
+			{
+				UI_Dialogue.Clear();
+				stuckFor = 0;
+				lastSample = _actor.position;
+				nextSample = Time.unscaledTime + StuckSampleInterval;
+			}
+
 			Vector2 position = _actor.position;
 			StoppedAt = position;
 
@@ -138,13 +147,13 @@ public class PlayBot
 			Steer(delta);
 			yield return null;
 
-			if (Time.time < nextSample)
+			if (Time.unscaledTime < nextSample)
 				continue;
 
 			float moved = Vector2.Distance(position, lastSample);
 			stuckFor = moved < StuckMinDistance ? stuckFor + StuckSampleInterval : 0;
 			lastSample = position;
-			nextSample = Time.time + StuckSampleInterval;
+			nextSample = Time.unscaledTime + StuckSampleInterval;
 
 			if (stuckFor < StuckLimit)
 				continue;

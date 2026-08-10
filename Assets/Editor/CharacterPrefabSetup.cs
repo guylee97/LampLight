@@ -6,9 +6,6 @@ public static class CharacterPrefabSetup
 	static readonly (string Prefab, string Character)[] Mapping =
 	{
 		("Assets/Resources/Prefabs/Player.prefab", "player"),
-		("Assets/Resources/Prefabs/WalkerZombie.prefab", "zombie_walker"),
-		("Assets/Resources/Prefabs/WandererZombie.prefab", "zombie_wanderer"),
-		("Assets/Resources/Prefabs/RunnerZombie.prefab", "zombie_runner"),
 	};
 
 	[MenuItem("LampLight/Bind Character Sprites To Prefabs")]

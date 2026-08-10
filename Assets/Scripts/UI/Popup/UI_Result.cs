@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class UI_Result : UI_Popup
 {
 	public const string ClearClip = "level_clear";
-	public const string StampClip = "rank_stamp";
 	public const string DefeatClip = "death_contact";
 
 	bool _soundPlayed;
@@ -26,7 +25,6 @@ public class UI_Result : UI_Popup
 	int _collected;
 	int _required;
 	bool _ready;
-	Image _badge;
 
 	public void Setup(Define.StageResult result, int collected, int required)
 	{
@@ -47,31 +45,13 @@ public class UI_Result : UI_Popup
 		GetButton((int)Buttons.RetryButton).gameObject.BindEvent(OnRetry);
 		GetButton((int)Buttons.TitleButton).gameObject.BindEvent(OnTitle);
 
+		PressAnyKeyPrompt.Attach(
+			transform, PressAnyKeyPrompt.PressAnyKeyArt, 0.145f, 480.0f);
+		PressAnyKeyPrompt.Attach(
+			transform, PressAnyKeyPrompt.EscTitleArt, 0.075f, 230.0f);
+
 		_ready = true;
-		BuildBadge();
 		Apply();
-	}
-
-	void BuildBadge()
-	{
-		Text title = GetText((int)Texts.ResultTitleText);
-		if (title == null)
-			return;
-
-		GameObject go = new GameObject("RankBadge");
-		go.transform.SetParent(title.transform.parent, false);
-		go.transform.SetAsFirstSibling();
-
-		_badge = go.AddComponent<Image>();
-		_badge.raycastTarget = false;
-		_badge.preserveAspect = true;
-
-		RectTransform rect = _badge.rectTransform;
-		rect.anchorMin = new Vector2(0.5f, 1.0f);
-		rect.anchorMax = new Vector2(0.5f, 1.0f);
-		rect.pivot = new Vector2(0.5f, 1.0f);
-		rect.anchoredPosition = new Vector2(0.0f, -18.0f);
-		rect.sizeDelta = new Vector2(88.0f, 88.0f);
 	}
 
 	void Apply()
@@ -87,21 +67,24 @@ public class UI_Result : UI_Popup
 			Managers.Sound.PlayOptional(cleared ? ClearClip : DefeatClip, Define.Sound.UI);
 		}
 
-		if (_badge != null)
-		{
-			_badge.gameObject.SetActive(cleared);
-
-			if (cleared)
-			{
-				_badge.sprite = RankBadge.Get(Managers.Game.LastGrade);
-				Managers.Sound.PlayOptional(StampClip, Define.Sound.UI);
-			}
-		}
 		GameManagerEx game = Managers.Game;
+		bool finalClear = cleared && game.HasNextLevel == false;
 
 		Text title = GetText((int)Texts.ResultTitleText);
 		if (title != null)
-			title.text = cleared ? $"LEVEL {game.CurrentLevel} 탈출  ·  {game.LastGrade}" : "붙잡혔다";
+			title.text = finalClear ? "탈출 성공" : cleared ? $"{game.CurrentLevel}층 봉인 완료" : "붙잡혔다";
+
+		Button retry = GetButton((int)Buttons.RetryButton);
+		Button titleButton = GetButton((int)Buttons.TitleButton);
+		if (retry != null)
+			retry.gameObject.SetActive(finalClear == false);
+
+		if (finalClear && titleButton != null)
+		{
+			RectTransform rect = titleButton.GetComponent<RectTransform>();
+			if (rect != null)
+				rect.anchoredPosition = new Vector2(0.0f, rect.anchoredPosition.y);
+		}
 
 		Text detail = GetText((int)Texts.ResultDetailText);
 		if (detail == null)
@@ -109,17 +92,22 @@ public class UI_Result : UI_Popup
 
 		if (cleared == false)
 		{
-			detail.text = $"유물  {_collected} / {_required}";
+			detail.text = $"공양물  {_collected} / {_required}";
 			return;
 		}
 
-		string next = game.HasNextLevel ? "\n[다시하기]로 다음 레벨" : "\n최종 레벨 클리어";
-		string silent = game.UsedRun ? "" : $"\n무소음 보너스  +{ScoreRules.SilentBonus}";
-		string evasion = game.RunnerEvasions > 0
-			? $"\n회피 보너스  +{ScoreRules.EvasionBonus * game.RunnerEvasions}"
-			: "";
+		if (game.HasNextLevel)
+		{
+			detail.text = "더 깊은 곳이 남아 있다";
+			return;
+		}
 
-		detail.text = $"유물  {_collected} / {_required}\n점수  {game.LastScore}{silent}{evasion}{next}";
+		// 마지막 전각을 닫은 뒤에만 나오는 한 줄. 앞의 두 대사를 회수한다 —
+		// "불이 꺼지면 걷는 게 너인지도 모르게 된다", "복도에서 뛰어다니는 게 걔들이다".
+		DialogueBeat ending = DialogueTable.Book.ending;
+		detail.text = ending != null && ending.lines != null && ending.lines.Length > 0
+			? string.Join("\n", ending.lines)
+			: "괴물들을 모두 봉인했다.\n당신은 마침내 신전을 빠져나왔다.";
 	}
 
 	void OnRetry(PointerEventData data)
@@ -133,5 +121,28 @@ public class UI_Result : UI_Popup
 	void OnTitle(PointerEventData data)
 	{
 		Managers.Scene.LoadScene(Define.Scene.Title);
+	}
+
+	void Update()
+	{
+		if (_ready == false)
+			return;
+
+		if (AnyKey.EscapeDown)
+		{
+			_ready = false;
+			OnTitle(null);
+			return;
+		}
+
+		if (AnyKey.KeyOrPadDown)
+		{
+			_ready = false;
+
+			if (_result == Define.StageResult.Cleared && Managers.Game.HasNextLevel == false)
+				OnTitle(null);
+			else
+				OnRetry(null);
+		}
 	}
 }

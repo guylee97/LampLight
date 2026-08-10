@@ -6,6 +6,11 @@ public class UISpriteImportTests
 {
 	static readonly string[] LoadedByUI =
 	{
+		"Art/UI/Game_Over_Screen/jumpscare_sangju",
+		"Art/UI/Game_Over_Screen/jumpscare_yeokgol",
+		"Art/UI/Game_Over_Screen/jumpscare_seoksin",
+		"Art/UI/Common/press_any_key",
+		"Art/UI/Common/esc_title",
 		"Art/UI/Game_Over_Screen/Your Dead Title",
 		"Art/UI/Game_Over_Screen/wooden_planks",
 		"Art/UI/Game_Over_Screen/Play Again",
@@ -15,7 +20,24 @@ public class UISpriteImportTests
 		"Art/UI/Title screen/Lantern Title",
 		"Art/UI/Title screen/Start button",
 		"Art/UI/Title screen/SoundNotice",
+		"Art/UI/Play_screen_UI/Artifact_Bar_No_numbers",
 	};
+
+	const string ArtifactBar = "Art/UI/Play_screen_UI/Artifact_Bar_No_numbers";
+	const int ArtifactBarWidth = 625;
+	const int ArtifactBarHeight = 107;
+
+	[Test]
+	public void ArtifactBarKeepsTheSizeItsNumberPlacementWasMeasuredFrom()
+	{
+		Sprite sprite = Resources.Load<Sprite>(ArtifactBar);
+		Assert.IsNotNull(sprite, $"Resources/{ArtifactBar} 없음");
+
+		Assert.AreEqual(ArtifactBarWidth, (int)sprite.rect.width,
+			"UI_InGame 은 이 폭을 원본 크기로 놓고 숫자 자리를 픽셀로 박아 뒀다");
+		Assert.AreEqual(ArtifactBarHeight, (int)sprite.rect.height,
+			"UI_InGame 은 이 높이를 원본 크기로 놓고 숫자 자리를 픽셀로 박아 뒀다");
+	}
 
 	[Test]
 	public void EveryUISpriteCoversItsWholeTexture()
@@ -41,6 +63,38 @@ public class UISpriteImportTests
 		Assert.IsEmpty(bad,
 			"Multiple 로 잘린 텍스처는 Resources.Load<Sprite> 가 조각 하나만 돌려주고,"
 			+ " UI 는 그 조각을 지정 폭까지 늘려 그린다:\n"
+			+ string.Join("\n", bad));
+	}
+
+	const string GameOverDir = "Assets/Resources/Art/UI/Game_Over_Screen";
+	const string SheetSuffix = "_sheet";
+
+	[Test]
+	public void GameOverScreenTexturesImportAsTheirKindDemands()
+	{
+		List<string> bad = new List<string>();
+
+		foreach (string guid in UnityEditor.AssetDatabase.FindAssets("t:Texture2D", new[] { GameOverDir }))
+		{
+			string path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
+			UnityEditor.TextureImporter importer =
+				UnityEditor.AssetImporter.GetAtPath(path) as UnityEditor.TextureImporter;
+
+			if (importer == null)
+				continue;
+
+			bool isSheet = System.IO.Path.GetFileNameWithoutExtension(path).EndsWith(SheetSuffix);
+			UnityEditor.SpriteImportMode wanted = isSheet
+				? UnityEditor.SpriteImportMode.Multiple
+				: UnityEditor.SpriteImportMode.Single;
+
+			if (importer.spriteImportMode != wanted)
+				bad.Add($"{path}: spriteImportMode={importer.spriteImportMode}, 기대={wanted}");
+		}
+
+		Assert.IsEmpty(bad,
+			$"게임오버 화면 이미지는 통짜로 쓰니 Single 이어야 하고, '{SheetSuffix}' 로 끝나는 프레임 시트만"
+			+ " Multiple 이다. 통짜가 Multiple 로 들어오면 조각 하나만 로드된다:\n"
 			+ string.Join("\n", bad));
 	}
 }
