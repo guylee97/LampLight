@@ -115,16 +115,26 @@ public class LevelTests
 	}
 
 	[Test]
-	public void RitualSecondsGrowPerLevel()
+	public void RitualSecondsAreTheSameOnEveryLevel()
 	{
+		const float Unified = 5.0f;
+
 		for (int level = LevelTable.MinLevel; level <= LevelTable.MaxLevel; level++)
 		{
-			Assert.Greater(LevelTable.Get(level).RitualSeconds, 0.0f,
-				$"L{level}: 의식 채널링 시간이 0이면 클라이맥스가 없다");
+			Assert.AreEqual(Unified, LevelTable.Get(level).RitualSeconds, 0.0001f,
+				$"L{level}: 봉인 시간은 전각마다 같아야 한다 — 플레이 가이드가 시간을 알려주지 않으므로 "
+				+ "전각마다 다르면 플레이어가 매번 다시 배워야 한다");
 		}
+	}
 
-		Assert.Less(LevelTable.Get(1).RitualSeconds, LevelTable.Get(3).RitualSeconds,
-			"뒤 레벨일수록 제단 앞에 더 오래 묶여 있어야 한다");
+	[Test]
+	public void PlacingIsShortAndOnlySealingHoldsThePlayerDown()
+	{
+		Assert.AreEqual(1.5f, Altar.PlaceSeconds, 0.0001f,
+			"공양물을 올리는 것은 잡일이다 — 길면 절정과 구분되지 않는다");
+
+		Assert.Less(Altar.PlaceSeconds, LevelTable.Get(LevelTable.MinLevel).RitualSeconds,
+			"올리기가 봉인만큼 길면 마지막 하나가 특별해지지 않는다");
 	}
 
 	[Test]
@@ -134,8 +144,8 @@ public class LevelTests
 		{
 			LevelConfig config = LevelTable.Get(level);
 
-			// 앞의 것들은 내려놓기만 하고 마지막 하나가 의식을 연다.
-			float standing = (config.ArtifactsRequired - 1) * Altar.PlaceSeconds + config.RitualSeconds;
+			// 공양물을 하나씩 올리고, 다 올린 다음 따로 봉인한다.
+			float standing = config.ArtifactsRequired * Altar.PlaceSeconds + config.RitualSeconds;
 
 			Assert.LessOrEqual(standing, config.LampSeconds * 0.2f,
 				$"L{level}: 제단 앞에 서 있는 {standing:0.0}초가 등불의 20%를 넘는다 — "

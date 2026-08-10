@@ -168,12 +168,12 @@ public class MapBakeTests
 			LevelConfig config = LevelTable.Get(level);
 
 			// 걷는 시간만이 아니라 실제로 서 있어야 하는 시간까지 넣는다.
-			// 파묻힌 공양물을 헤치고, 앞의 것들을 내려놓고, 마지막에 의식을 친다.
+			// 파묻힌 공양물을 헤치고, 하나씩 내려놓고, 마지막에 봉인을 건다.
 			float holds = 0.0f;
 			for (int i = 0; i < config.ArtifactsRequired; i++)
 				holds += ConcealmentRules.HoldSeconds(ConcealmentRules.ForLevel(level, i));
 
-			float placing = (config.ArtifactsRequired - 1) * Altar.PlaceSeconds + config.RitualSeconds;
+			float placing = config.ArtifactsRequired * Altar.PlaceSeconds + config.RitualSeconds;
 			float seconds = tiles / WalkTilesPerSecond + holds + placing;
 			float budget = config.LampSeconds * MaxShareOfLamp;
 

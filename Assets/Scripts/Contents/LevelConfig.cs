@@ -23,7 +23,7 @@ public static class LevelTable
 			ArtifactsRequired = 2,
 			ArtifactRadiusTiles = 12.0f,
 			LampSeconds = 105.0f,
-			RitualSeconds = 6.0f,
+			RitualSeconds = 5.0f,
 			YokaiCount = 1,
 		},
 		new LevelConfig
@@ -33,7 +33,7 @@ public static class LevelTable
 			ArtifactsRequired = 3,
 			ArtifactRadiusTiles = 9.0f,
 			LampSeconds = 220.0f,
-			RitualSeconds = 7.0f,
+			RitualSeconds = 5.0f,
 			YokaiCount = 1,
 		},
 		new LevelConfig
@@ -43,7 +43,7 @@ public static class LevelTable
 			ArtifactsRequired = 4,
 			ArtifactRadiusTiles = 7.0f,
 			LampSeconds = 300.0f,
-			RitualSeconds = 8.0f,
+			RitualSeconds = 5.0f,
 			YokaiCount = 1,
 		},
 	};

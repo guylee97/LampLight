@@ -13,7 +13,7 @@ public class Altar : MonoBehaviour, IInteractable
 	static int s_completedSteps;
 
 	[SerializeField]
-	float _channelSeconds = 8.0f;
+	float _channelSeconds = 5.0f;
 
 	[SerializeField]
 	float _glowRadius = 3.2f;
@@ -69,16 +69,17 @@ public class Altar : MonoBehaviour, IInteractable
 		}
 	}
 
-	public bool CanInteract { get { return _finished == false && Carried > 0; } }
+	public bool CanInteract { get { return _finished == false && (ReadyToSeal || Carried > 0); } }
 
-	/// 앞의 공양물은 그냥 내려놓는다. 마지막 하나가 의식을 연다.
-	/// 넷 다 8초씩 잡으면 절정이 잡일과 구분되지 않고, 등불의 4분의 1을
-	/// 어둠 속에 선 채로 쓰게 된다.
-	public const float PlaceSeconds = 1.2f;
+	/// 공양물을 올리는 것은 잡일이다. 넷 다 길게 잡으면 절정과 구분되지 않고,
+	/// 등불의 상당 부분을 어둠 속에 선 채로 쓰게 된다.
+	public const float PlaceSeconds = 1.5f;
 
-	public bool IsFinalOffering { get { return _placed + 1 >= Required; } }
+	/// 다 올린 뒤에야 봉인이 열린다. 마지막 공양물을 내려놓는 손짓과
+	/// 신전을 닫는 의식은 다른 동작이다.
+	public bool ReadyToSeal { get { return _finished == false && _placed >= Required && Required > 0; } }
 
-	public float HoldSeconds { get { return IsFinalOffering ? _channelSeconds : PlaceSeconds; } }
+	public float HoldSeconds { get { return ReadyToSeal ? _channelSeconds : PlaceSeconds; } }
 
 	public Vector3 Position { get { return transform.position; } }
 
@@ -89,6 +90,9 @@ public class Altar : MonoBehaviour, IInteractable
 			if (_finished)
 				return "닫혔다";
 
+			if (ReadyToSeal)
+				return "[E] 신전을 봉인한다";
+
 			if (Carried > 0)
 				return $"[E] 공양물을 올린다  {_placed} / {Required}";
 
@@ -97,7 +101,7 @@ public class Altar : MonoBehaviour, IInteractable
 		}
 	}
 
-	public string HoldingLabel { get { return "올리는 중"; } }
+	public string HoldingLabel { get { return ReadyToSeal ? "봉인하는 중" : "올리는 중"; } }
 
 	public void SetChannelSeconds(float seconds)
 	{
@@ -190,8 +194,8 @@ public class Altar : MonoBehaviour, IInteractable
 		if (_finished)
 			return false;
 
-		// 등불이 꺼지고 요괴가 끌려오는 건 마지막 하나를 올릴 때뿐이다.
-		if (IsFinalOffering == false)
+		// 등불이 꺼지고 요괴가 끌려오는 건 봉인할 때뿐이다.
+		if (ReadyToSeal == false)
 			return false;
 
 		if (_interactor == null)
@@ -264,6 +268,12 @@ public class Altar : MonoBehaviour, IInteractable
 		if (CanInteract == false)
 			return;
 
+		if (ReadyToSeal)
+		{
+			Seal(player);
+			return;
+		}
+
 		_placed++;
 		s_completedSteps = _placed;
 
@@ -284,16 +294,17 @@ public class Altar : MonoBehaviour, IInteractable
 
 		if (OnStepPlaced != null)
 			OnStepPlaced.Invoke(_placed, Required);
-
-		if (_placed < Required)
-			return;
-
-		Seal(player);
 	}
 
 	void Seal(PlayerController player)
 	{
 		_finished = true;
+		_channeling = false;
+		Channeling = null;
+
+		if (ResolveLamp())
+			_lamp.SnuffTo(1.0f);
+
 		ApplyPing();
 
 		Managers.Sound.PlayAtPointOptional(

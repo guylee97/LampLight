@@ -110,12 +110,16 @@ public class InteractableTests
 		for (int i = 0; i < _progress.Required; i++)
 			_progress.ReportCollected();
 
-		for (int i = 0; i < _progress.Required - 1; i++)
+		for (int i = 0; i < _progress.Required; i++)
 		{
 			altar.Interact(null);
-			Assert.IsFalse(altar.IsSealed, $"{i + 1}개만 올렸는데 봉인됐다");
+			Assert.IsFalse(altar.IsSealed, $"{i + 1}개 올린 것만으로 봉인됐다 — 봉인은 따로 걸어야 한다");
 			Assert.AreEqual(Define.StageResult.None, Managers.Game.Result);
 		}
+
+		Assert.IsTrue(altar.ReadyToSeal, "다 올렸으면 봉인이 열려 있어야 한다");
+		Assert.AreEqual(altar.HoldSeconds, LevelTable.Get(Managers.Game.CurrentLevel).RitualSeconds, 0.0001f,
+			"봉인 홀드는 올리기가 아니라 의식 시간이다");
 
 		altar.Interact(null);
 
