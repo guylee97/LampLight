@@ -12,6 +12,9 @@ public class TutorialPopup : MonoBehaviour
 
 	public static IEnumerator Show()
 	{
+		if (Application.isBatchMode)
+			yield break;
+
 		GameObject go = new GameObject("@Tutorial Popup");
 		TutorialPopup popup = go.AddComponent<TutorialPopup>();
 		popup.Build();
