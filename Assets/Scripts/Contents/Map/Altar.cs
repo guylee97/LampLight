@@ -96,7 +96,8 @@ public class Altar : MonoBehaviour, IInteractable
 			if (Carried > 0)
 				return $"[E] 공양물을 올린다  {_placed} / {Required}";
 
-			int missing = Mathf.Max(0, Required - _progress.Collected);
+			int collected = _progress == null ? 0 : _progress.Collected;
+			int missing = Mathf.Max(0, Required - collected);
 			return $"공양물 {missing}개가 더 필요하다";
 		}
 	}
