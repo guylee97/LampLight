@@ -158,6 +158,7 @@ public class UI_MainScreen : UI_Scene
 	void OnStartButtonClicked(PointerEventData data)
 	{
 		DialogueMemory.Forget();
+		Managers.Game.NewGame();
 
 		Managers.Sound.PlayOptional(
 			"UI_Click/freesound_community-door-lock-82542",

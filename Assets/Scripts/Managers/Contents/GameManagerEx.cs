@@ -53,6 +53,13 @@ public class GameManagerEx
 
     public bool HasNextLevel { get { return CurrentLevel < LevelTable.MaxLevel; } }
 
+    public void NewGame()
+    {
+        ConsecutiveFailures = 0;
+        LastArtifacts = 0;
+        SetLevel(LevelTable.MinLevel);
+    }
+
     public void AdvanceLevel()
     {
         if (HasNextLevel)
