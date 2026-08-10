@@ -31,6 +31,8 @@ public class UI_InGame : UI_Scene
 	Image _wickFill;
 	Image _wickFlame;
 	RectTransform _wickRoot;
+	RectTransform _artifactBar;
+	Text _artifactCount;
 
 	public void Setup(StageProgress progress, PlayerController player)
 	{
@@ -54,6 +56,8 @@ public class UI_InGame : UI_Scene
 		Bind<Image>(typeof(Images));
 
 		_ready = true;
+
+		CreateArtifactBar();
 
 		if (_progress == null)
 			Setup(FindFirstObjectByType<StageProgress>(), FindFirstObjectByType<PlayerController>());
@@ -202,14 +206,75 @@ public class UI_InGame : UI_Scene
 		_wickFlame.rectTransform.localScale = new Vector3(flicker, flicker, 1.0f);
 	}
 
-	void RefreshArtifacts()
+	const string ArtifactBarSprite = "Art/UI/Play_screen_UI/Artifact_Bar_No_numbers";
+	const float ArtifactBarWidth = 625.0f;
+	const float ArtifactBarHeight = 107.0f;
+	const float ArtifactBarTopMargin = 24.0f;
+
+	const float ArtifactCountCenterX = 406.0f;
+	const float ArtifactCountCenterY = 56.0f;
+	const int ArtifactCountFontSize = 112;
+
+	void CreateArtifactBar()
 	{
-		if (_ready == false)
+		if (_artifactBar != null)
 			return;
 
-		Text text = GetText((int)Texts.ArtifactText);
-		if (text != null && text.enabled)
-			text.enabled = false;
+		Sprite bar = Resources.Load<Sprite>(ArtifactBarSprite);
+		if (bar == null)
+		{
+			Debug.LogWarning($"UI_InGame: Resources/{ArtifactBarSprite} 없음");
+			return;
+		}
+
+		GameObject root = new GameObject("ArtifactBar", typeof(RectTransform), typeof(Image));
+		root.transform.SetParent(transform, false);
+
+		_artifactBar = root.GetComponent<RectTransform>();
+		_artifactBar.anchorMin = Vector2.one;
+		_artifactBar.anchorMax = Vector2.one;
+		_artifactBar.pivot = Vector2.one;
+		_artifactBar.anchoredPosition = new Vector2(0.0f, -ArtifactBarTopMargin);
+		_artifactBar.sizeDelta = new Vector2(ArtifactBarWidth, ArtifactBarHeight);
+
+		Image image = root.GetComponent<Image>();
+		image.sprite = bar;
+		image.raycastTarget = false;
+
+		_artifactCount = GetText((int)Texts.ArtifactText);
+		if (_artifactCount == null)
+			return;
+
+		_artifactCount.transform.SetParent(root.transform, false);
+
+		RectTransform rect = _artifactCount.rectTransform;
+		rect.anchorMin = new Vector2(0.0f, 1.0f);
+		rect.anchorMax = new Vector2(0.0f, 1.0f);
+		rect.pivot = new Vector2(0.5f, 0.5f);
+		rect.anchoredPosition = new Vector2(ArtifactCountCenterX, -ArtifactCountCenterY);
+		rect.sizeDelta = new Vector2(220.0f, 100.0f);
+
+		_artifactCount.font = KoreanFont.Font;
+		_artifactCount.fontSize = ArtifactCountFontSize;
+		_artifactCount.alignment = TextAnchor.MiddleCenter;
+		_artifactCount.horizontalOverflow = HorizontalWrapMode.Overflow;
+		_artifactCount.verticalOverflow = VerticalWrapMode.Overflow;
+		_artifactCount.color = new Color32(225, 206, 149, 255);
+		_artifactCount.raycastTarget = false;
+		_artifactCount.enabled = true;
+
+		RefreshArtifacts();
+	}
+
+	void RefreshArtifacts()
+	{
+		if (_artifactCount == null)
+			return;
+
+		int collected = _progress == null ? 0 : _progress.Collected;
+		int required = _progress == null ? 0 : _progress.Required;
+
+		_artifactCount.text = $"{collected}/{required}";
 	}
 
 	void Update()

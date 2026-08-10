@@ -20,7 +20,24 @@ public class UISpriteImportTests
 		"Art/UI/Title screen/Lantern Title",
 		"Art/UI/Title screen/Start button",
 		"Art/UI/Title screen/SoundNotice",
+		"Art/UI/Play_screen_UI/Artifact_Bar_No_numbers",
 	};
+
+	const string ArtifactBar = "Art/UI/Play_screen_UI/Artifact_Bar_No_numbers";
+	const int ArtifactBarWidth = 625;
+	const int ArtifactBarHeight = 107;
+
+	[Test]
+	public void ArtifactBarKeepsTheSizeItsNumberPlacementWasMeasuredFrom()
+	{
+		Sprite sprite = Resources.Load<Sprite>(ArtifactBar);
+		Assert.IsNotNull(sprite, $"Resources/{ArtifactBar} 없음");
+
+		Assert.AreEqual(ArtifactBarWidth, (int)sprite.rect.width,
+			"UI_InGame 은 이 폭을 원본 크기로 놓고 숫자 자리를 픽셀로 박아 뒀다");
+		Assert.AreEqual(ArtifactBarHeight, (int)sprite.rect.height,
+			"UI_InGame 은 이 높이를 원본 크기로 놓고 숫자 자리를 픽셀로 박아 뒀다");
+	}
 
 	[Test]
 	public void EveryUISpriteCoversItsWholeTexture()
